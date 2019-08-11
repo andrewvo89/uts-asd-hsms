@@ -4,9 +4,13 @@
     Author     : Andrew
 --%>
 
+<%@page import="com.mongodb.DBCollection"%>
+<%@page import="com.mongodb.DB"%>
+<%@page import="com.mongodb.MongoClientURI"%>
+<%@page import="com.mongodb.MongoClient"%>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -19,9 +23,11 @@
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
         
         <%
-        String status = request.getParameter("status");
+            MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://admin:Admin1234@ds123196.mlab.com:23196/heroku_r0hsk6vb"));
+            DB database = mongoClient.getDB("uts-asd-hsms");
+            DBCollection collection = database.getCollection("TheCollectionName");
         %>
-    </head>
+    
     <body>
         <div class="main" role="main">
             <div class="container">
