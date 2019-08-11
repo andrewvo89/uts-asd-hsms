@@ -4,6 +4,9 @@
     Author     : Andrew
 --%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" />
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -17,17 +20,15 @@
         <title>High School Management System</title>
         
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
-        
-        <%
-        String status = request.getParameter("status");
-        %>
+
     </head>
     <body>
         <div class="main" role="main">
             <div class="container">
                 <h2 class="mb-4">High School Management System Login Page</h2>
             </div>
-        </div>    
+        </div>
+            
 
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
