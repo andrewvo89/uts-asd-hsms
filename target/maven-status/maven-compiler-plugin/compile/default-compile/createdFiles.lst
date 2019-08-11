@@ -1,2 +1,4 @@
+uts\asd\hsms\model\dao\MongoDBConnector.class
 uts\asd\hsms\resources\JavaEE8Resource.class
+uts\asd\hsms\controller\ConnServlet.class
 uts\asd\hsms\JAXRSConfiguration.class
