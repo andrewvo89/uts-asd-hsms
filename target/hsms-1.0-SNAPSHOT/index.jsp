@@ -25,9 +25,9 @@
     </head>
 
     <%
-        UserDao userDao = (UserDao)session.getAttribute("userDao");
-        User user = userDao.getUser(1);
-        userDao.addUser("Bob2", "Smith2", "Mathematics", "bob@hsms.edu.au", "bobby1234", "Teacher");
+        //UserDao userDao = (UserDao)session.getAttribute("userDao");
+        //User user = userDao.getUser(1);
+        //userDao.addUser("Bob2", "Smith2", "Mathematics", "bob@hsms.edu.au", "bobby1234", "Teacher");
     %>
     <body>
             <form class="form-signin" method="post" action="doLogin.jsp">
