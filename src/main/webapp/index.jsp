@@ -3,9 +3,9 @@
     Created on : 10/08/2019, 8:33:10 PM
     Author     : Andrew
 --%>
-
+<%@page import="uts.asd.hsms.model.*"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:include page="/ConnServlet" flush="true" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,8 +19,12 @@
         
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
-        <title>High School Management System</title>  
     </head>
+    <title>High School Management System</title>  
+    <%
+        String s1 = session.toString();
+        String status = (String)session.getAttribute("adminemail");        
+    %>
     <body>
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
         <div class="main" role="main">
@@ -30,6 +34,7 @@
                 <h2 class="mb-4">High School Management System Login Page</h2>
                 <h2 class="mb-4">High School Management System Login Page</h2>
                 <h2 class="mb-4">High School Management System Login Page</h2>
+                <%=status%>
             </div>
         </div>
             
