@@ -38,13 +38,9 @@ public class ConnServlet extends HttpServlet {
         
         mongoClient = mongoConnector.openConnection();
         userDao = new UserDao(mongoClient);
-        
-   
+
         session.setAttribute("userDao", userDao);
-          
-//        RequestDispatcher rs = request.getRequestDispatcher("index.jsp");
-//        rs.forward(request, response);
-//        
+     
     }    
   
 }

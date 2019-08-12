@@ -18,14 +18,16 @@ import com.mongodb.MongoClient;
  */
 public class UserDao {
     MongoClient mongoClient;
+    DB database;
+    DBCollection collection;
 
     public UserDao(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
+        database = mongoClient.getDB("heroku_r0hsk6vb");
+        collection = database.getCollection("teachers");
     }
     
     public User getUser(int teacherId) {
-        DB database = mongoClient.getDB("heroku_r0hsk6vb");
-        DBCollection collection = database.getCollection("teacher");
         BasicDBObject query = new BasicDBObject();
         query.put("teacherId", teacherId);
         DBCursor cursor = collection.find(query);
@@ -42,6 +44,18 @@ public class UserDao {
         User user = new User(teacherID, firstName, lastName, department, email, password, userRole);
         return user; 
         
+    }
+    
+    public void addUser(String firstName, String lastName, String department, String email, String password, String userRole) {
+        BasicDBObject newRecord = new BasicDBObject();
+        //newRecord.put("teacherId", teacherID);
+        newRecord.put("firstName", firstName);
+        newRecord.put("lastName", lastName);
+        newRecord.put("department", department);
+        newRecord.put("email", email);
+        newRecord.put("password", password);
+        newRecord.put("userRole", userRole);
+        collection.insert(newRecord);
     }
 //    
 //    public User getUser(String userId, String password) throws SQLException {

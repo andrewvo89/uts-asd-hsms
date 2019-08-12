@@ -7,10 +7,6 @@ package uts.asd.hsms.model;
 
 import java.io.Serializable;
 
-/**
- *
- * @author neko
- */
 public class User implements Serializable {
     
     private int teacherID;

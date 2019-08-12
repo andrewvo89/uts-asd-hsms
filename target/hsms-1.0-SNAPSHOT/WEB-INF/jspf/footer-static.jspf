@@ -1,0 +1,11 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<footer class="text-muted movie-dark-footer fixed-footer">
+    <div class="container">
+        <p class="float-right">
+            <a href="#">Back to top</a>
+        </p>
+        <p>High School Management System &copy; 2019</p>
+        <p>Please See <a href="">the About Page</a> for more Information.</p>
+    </div>
+</footer>
