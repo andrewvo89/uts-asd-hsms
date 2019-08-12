@@ -4,54 +4,38 @@ import java.io.Serializable;
 
 public class User  implements Serializable{
 
-    private int teacherID;
-    private String firstName;
-    private String lastName;
-    private String department;
+    private String name;
     private String email;
     private String password;
-    private String userRole;
+    private String phone;
 
-    public User(int teacherID, String firstName, String lastName, String department, String email, String password, String userRole) {
-        this.teacherID = teacherID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.department = department;
+    public User() {
+    }
+
+    public User(String name, String email, String password, String phone) {
+        this.name = name;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.phone = phone;
     }
 
-    public int getTeacherID() {
-        return teacherID;
+    public boolean match(String email){
+        return this.email.equalsIgnoreCase(email.trim());
+    }
+    
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTeacherID(int teacherID) {
-        this.teacherID = teacherID;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    public String getName() {
+        return name;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -69,15 +53,5 @@ public class User  implements Serializable{
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
-    }
-
-
 
 }
