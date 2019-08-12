@@ -3,35 +3,36 @@
     Created on : 10/08/2019, 8:33:10 PM
     Author     : Andrew
 --%>
+<%@page import="uts.asd.hsms.model.dao.*"%>
+<%@page import="uts.asd.hsms.model.*"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" />
 
-<%@page import="com.mongodb.DBCollection"%>
-<%@page import="com.mongodb.DB"%>
-<%@page import="com.mongodb.MongoClientURI"%>
-<%@page import="com.mongodb.MongoClient"%>
 <!DOCTYPE html>
 <html lang="en">
-    
+    <head>
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="css/main.css">
         <title>High School Management System</title>
         
         <%@ include file="/WEB-INF/jspf/header.jspf" %>
-        
-        <%
-            MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://admin:Admin1234@ds123196.mlab.com:23196/heroku_r0hsk6vb"));
-            DB database = mongoClient.getDB("uts-asd-hsms");
-            DBCollection collection = database.getCollection("TheCollectionName");
-        %>
-    
+    </head>
+
+    <%
+        UserDao userDao = (UserDao)session.getAttribute("userDao");
+        User user = userDao.getUser(1);
+    %>
     <body>
         <div class="main" role="main">
             <div class="container">
                 <h2 class="mb-4">High School Management System Login Page</h2>
+                <%=user.getEmail()%>
             </div>
         </div>    
 
