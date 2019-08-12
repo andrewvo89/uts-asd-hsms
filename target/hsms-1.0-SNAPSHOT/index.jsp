@@ -30,10 +30,17 @@
     %>
     <body>
         <div class="main" role="main">
-            <div class="container">
-                <h2 class="mb-4">High School Management System Login Page</h2>
-                <%=user.getEmail()%>
-            </div>
+            <form class="form-signin" method="post" action="doLogin.jsp">
+                <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
+                <label for="inputId" class="sr-only">Email address</label>
+                <input name="username" type="text" id="inputId" class="form-control" placeholder=<%=user.getEmail()%> required autofocus>
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <div class="checkbox mb-3">
+                    <p>Don't have an account? <a href="${pageContext.request.contextPath}/createProfile.jsp">Register Today</a></p>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </form>
         </div>    
 
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>
