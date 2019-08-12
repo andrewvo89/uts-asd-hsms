@@ -17,14 +17,18 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         
-        <title>High School Management System</title>
-        
-        <%@ include file="/WEB-INF/jspf/header.jspf" %>
-
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="css/main.css">
+        <title>High School Management System</title>  
     </head>
     <body>
+        <%@ include file="/WEB-INF/jspf/header.jspf" %>
         <div class="main" role="main">
             <div class="container">
+                <h2 class="mb-4">High School Management System Login Page</h2>
+                <h2 class="mb-4">High School Management System Login Page</h2>
+                <h2 class="mb-4">High School Management System Login Page</h2>
+                <h2 class="mb-4">High School Management System Login Page</h2>
                 <h2 class="mb-4">High School Management System Login Page</h2>
             </div>
         </div>
