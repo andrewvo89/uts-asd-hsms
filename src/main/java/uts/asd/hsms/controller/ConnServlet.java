@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 public class ConnServlet extends HttpServlet {
     private MongoDBConnector connector;
     private String adminemail, adminpassword;
+    private UserDao userDao;
     
     //Create and instance of DBConnector for the deployment session
     @Override 
