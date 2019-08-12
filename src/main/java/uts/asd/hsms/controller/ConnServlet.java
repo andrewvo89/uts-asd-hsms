@@ -2,9 +2,6 @@ package uts.asd.hsms.controller;
 
 import uts.asd.hsms.model.dao.MongoDBConnector;
 import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +14,7 @@ import javax.servlet.http.HttpSession;
  * @author George
  */
 public class ConnServlet extends HttpServlet {
+<<<<<<< HEAD
     private MongoDBConnector connector;
     private String adminemail, adminpassword;
     private UserDao userDao;
@@ -34,46 +32,27 @@ public class ConnServlet extends HttpServlet {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     } 
+=======
+    private MongoDBConnector connector;  
+>>>>>>> parent of e8564ce... Merge branch 'andrew' of https://github.com/andrewvo89/uts-asd-hsms into andrew
      
-    @Override 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        System.out.println("HELLO2");
-        //String adminemail = request.getParameter("adminemail");
-        //String adminpass = request.getParameter("adminpassword");
-        String adminemail = "heroku_r0hsk6vb";
-        String adminpass = "gr128qe2kcsdjbgkhbj0r5ng4p";
-        connector = new MongoDBConnector(adminemail, adminpass);
-        response.setContentType("text/html;charset=UTF-8");  
-        HttpSession session = request.getSession();              
-        String status = (connector != null) ? "Connected to mLab" : "Disconnected from mLab";        
-
-        session.setAttribute("status", status); 
-        session.setAttribute("adminemail", adminemail);
-        session.setAttribute("adminpassword", adminpass);
-          
-        RequestDispatcher rs = request.getRequestDispatcher("index.jsp");
-        rs.forward(request, response);
-    }    
-   
     @Override 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("HELLO2");
-        //String adminemail = request.getParameter("adminemail");
-        //String adminpass = request.getParameter("adminpassword");
-        String adminemail = "heroku_r0hsk6vb";
-        String adminpass = "gr128qe2kcsdjbgkhbj0r5ng4p";
-        connector = new MongoDBConnector(adminemail, adminpass);
+        String adminuser = request.getParameter("admin");
+        String adminpass = request.getParameter("Admin1234");
+        connector = new MongoDBConnector(adminuser, adminpass);        
         response.setContentType("text/html;charset=UTF-8");  
         HttpSession session = request.getSession();              
         String status = (connector != null) ? "Connected to mLab" : "Disconnected from mLab";        
-
+        
         session.setAttribute("status", status); 
-        session.setAttribute("adminemail", adminemail);
+        session.setAttribute("adminuser", adminuser);
         session.setAttribute("adminpassword", adminpass);
           
         RequestDispatcher rs = request.getRequestDispatcher("index.jsp");
         rs.forward(request, response);
+        
     }    
+  
 }

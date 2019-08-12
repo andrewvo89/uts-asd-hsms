@@ -22,12 +22,11 @@ import static com.mongodb.client.model.Filters.eq;
 public class MongoDBConnector {
 
     private List<Document> users = new ArrayList();
-    private String owner;
+    private String user;
     private String password;
 
     public MongoDatabase getMongoDB(){
-       MongoClientURI uri = new MongoClientURI("mongodb://" + this.owner + ":" + this.password + "@ds123196.mlab.com:23196/heroku_r0hsk6vb");
-       //MongoClientURI uri = new MongoClientURI("mongodb://heroku_r0hsk6vb:gr128qe2kcsdjbgkhbj0r5ng4p@ds123196.mlab.com:23196/heroku_r0hsk6vb");
+       MongoClientURI uri = new MongoClientURI("mongodb://" + this.user + ":" + this.password + "@ds123196.mlab.com:23196/heroku_r0hsk6vb");
        MongoDatabase db;
        try (MongoClient client = new MongoClient(uri)) {
             db = client.getDatabase(uri.getDatabase());
@@ -35,10 +34,11 @@ public class MongoDBConnector {
        return db;
     }
     
-    public MongoDBConnector(String owner, String password) throws UnknownHostException {
-        this.owner = owner;
+    public MongoDBConnector(String user, String password) throws UnknownHostException {
+        this.user = user;
         this.password = password;
     }
+<<<<<<< HEAD
 
     public void showall(Users users) {
         for (User u : users.getList()) {
@@ -103,4 +103,6 @@ public class MongoDBConnector {
     public int subtract(int a, int b) {
         return a - b;
     }
+=======
+>>>>>>> parent of e8564ce... Merge branch 'andrew' of https://github.com/andrewvo89/uts-asd-hsms into andrew
 }
