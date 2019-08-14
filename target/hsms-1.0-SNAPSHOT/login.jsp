@@ -1,7 +1,7 @@
 <%-- 
     Document   : login
     Created on : 14 Aug. 2019, 10:21:13 am
-    Author     : Admin
+    Author     : Andrew
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -26,7 +26,7 @@
             } else {
                 session.setAttribute("errorMessage", "Username or Password Incorrect");                               
             }  
-            response.sendRedirect("");               
+            response.sendRedirect("index.jsp");               
         %>
         
     </body>

@@ -40,7 +40,6 @@ public class ConnServlet extends HttpServlet {
         userDao = new UserDao(mongoClient);
 
         session.setAttribute("userDao", userDao);
-     
     }    
   
 }
