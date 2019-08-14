@@ -1,0 +1,10 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                <div class="container">
+                    <a class="navbar-brand" href=""><strong>High School</strong><span style="font-weight: 300; color: rgba(255,255,255,0.7);">Management System</span></a>
+                </div>
+            </nav>
+        </header>
