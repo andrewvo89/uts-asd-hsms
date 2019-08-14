@@ -77,10 +77,10 @@ String errorMessage = (String)session.getAttribute("errorMessage");
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                         <div class="box-part text-center">
                             <div class="title">
-                                <h4>Attendance Rolls</h4>
+                                <h4>News Feed</h4>
                             </div>
                             <div class="text">
-                                <span>You have 4 Rolls today.</span>
+                                <span>There are 3 new posts today.</span>
                             </div>
                             <div>
                             <a href="#">Show More</a>
