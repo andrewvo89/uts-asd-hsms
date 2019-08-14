@@ -4,7 +4,7 @@
         <header>
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <div class="container">
-                    <a class="navbar-brand" href=""><strong>High School</strong><span style="font-weight: 300; color: rgba(255,255,255,0.7);">Management System</span></a>
+                    <a class="navbar-brand" href="index.jsp"><strong style="font-size: 30px">High School</strong><span style="font-size: 30px; font-weight: 300; color: rgba(255,255,255,0.7);">Management System</span></a>
                 </div>
             </nav>
         </header>

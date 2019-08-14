@@ -10,7 +10,6 @@
 <%
 User user = (User)session.getAttribute("user");
 String errorMessage = (String)session.getAttribute("errorMessage");
-UserDao userDao = (UserDao)session.getAttribute("userDao"); 
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,7 +93,7 @@ UserDao userDao = (UserDao)session.getAttribute("userDao");
                                 <h4>Apply for Leave</h4>
                             </div>
                             <div class="text">
-                                <span>Apply online for Annual Leave, Sick Leave, Maternity Leave or Long Service Leave</span>
+                                <span>Apply online for Annual Leave, Sick Leave, Maternity Leave or Long Service Leave.</span>
                             </div>
                             <div>
                             <a href="#">Show More</a>
@@ -118,7 +117,7 @@ UserDao userDao = (UserDao)session.getAttribute("userDao");
                                <h4>HR Feedback</h4>
                            </div>
                            <div class="text">
-                               <span>Your workplace experience is important to us. Send us feedback via HR Feedback</span>
+                               <span>Your workplace experience is important to us. Send us feedback via HR Feedback.</span>
                            </div>
                            <a href="#">Show More</a>
                        </div>
