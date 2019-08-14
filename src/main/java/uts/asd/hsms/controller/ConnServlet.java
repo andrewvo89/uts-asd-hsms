@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ConnServlet extends HttpServlet {
-    private MongoDBConnector mongoConnector;  
+    private MongoDBConnector mongoDbConnector;  
     private UserDao userDao;
     private String dbUser, dbPass; 
     private MongoClient mongoClient;
@@ -23,12 +23,11 @@ public class ConnServlet extends HttpServlet {
     @Override //Create and instance of DBConnector for the deployment session
     public void init() {
         try {
-            mongoConnector = new MongoDBConnector(); 
+            mongoDbConnector = new MongoDBConnector(); 
         } catch (UnknownHostException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }    
-    }
-  
+    }  
     
     @Override 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -36,9 +35,8 @@ public class ConnServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");  
         HttpSession session = request.getSession();
         
-        mongoClient = mongoConnector.openConnection();
+        mongoClient = mongoDbConnector.openConnection();
         userDao = new UserDao(mongoClient);
-
         session.setAttribute("userDao", userDao);
     }    
   

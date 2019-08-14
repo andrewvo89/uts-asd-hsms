@@ -25,6 +25,7 @@ public class UserDao {
 
     public UserDao(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
+        
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("teachers");
     }
