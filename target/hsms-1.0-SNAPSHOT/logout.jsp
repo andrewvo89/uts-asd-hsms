@@ -1,7 +1,7 @@
 <%-- 
     Document   : logout
     Created on : 14 Aug. 2019, 11:13:14 am
-    Author     : Admin
+    Author     : Andrew
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
