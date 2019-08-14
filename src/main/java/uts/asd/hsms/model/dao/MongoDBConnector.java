@@ -1,5 +1,5 @@
 /*
- * Author: Georges Bou Ghantous
+ * Author: Andrew Vo-Nguyen
  *
  * This class provides the methods to establish connection between ASD-Demo-app
  * and MongoDBLab cloud Database. The data is saved dynamically on mLab cloud database as
@@ -24,7 +24,11 @@ public class MongoDBConnector {
 //    }
     
     public MongoDBConnector() throws UnknownHostException {
-        mongoClient = new MongoClient(new MongoClientURI("mongodb://heroku_r0hsk6vb:gr128qe2kcsdjbgkhbj0r5ng4p@ds123196.mlab.com:23196/heroku_r0hsk6vb"));
+        String dbUser = "heroku_r0hsk6vb";
+        String dbPass = "gr128qe2kcsdjbgkhbj0r5ng4p";
+        String dbName = "heroku_r0hsk6vb";
+        String dbUrl = String.format("mongodb://%s:%s@ds123196.mlab.com:23196/%s", dbUser, dbPass, dbName);
+        mongoClient = new MongoClient(new MongoClientURI(dbUrl));
     }
     public MongoClient openConnection(){
         return this.mongoClient;
