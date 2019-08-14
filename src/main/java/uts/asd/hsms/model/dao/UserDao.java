@@ -11,6 +11,8 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import uts.asd.hsms.model.*;
 import com.mongodb.MongoClient;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -33,20 +35,38 @@ public class UserDao {
         DBCursor cursor = collection.find(query);
         DBObject result = cursor.one();
         
-        int teacherID = (int)result.get("teacherId");
-        String firstName = (String)result.get("firstName");
-        String lastName = (String)result.get("lastName");
-        String department = (String)result.get("department");
-        String email = (String)result.get("email");
-        String password = (String)result.get("password");
-        String userRole = (String)result.get("firstName");
+        if (result != null) {
+            String firstName = (String)result.get("firstName");
+            String lastName = (String)result.get("lastName");
+            String department = (String)result.get("department");
+            String email = (String)result.get("email");
+            String password = (String)result.get("password");
+            int userRole = (int)result.get("uerRole");
+            return new User(teacherId, firstName, lastName, department, email, password, userRole);
+        }        
+        return null;        
+    }
+        public User getUser(String email, String password) {
+        BasicDBObject query = new BasicDBObject();
+        List<BasicDBObject> queryList = new ArrayList<BasicDBObject>();
+        queryList.add(new BasicDBObject("email", email));
+        queryList.add(new BasicDBObject("password", password));
+        query.put("$and", queryList);
+        DBCursor cursor = collection.find(query);
+        DBObject result = cursor.one();
         
-        User user = new User(teacherID, firstName, lastName, department, email, password, userRole);
-        return user; 
-        
+        if (result != null) {
+            int teacherID = (int)result.get("teacherId");
+            String firstName = (String)result.get("firstName");
+            String lastName = (String)result.get("lastName");
+            String department = (String)result.get("department");
+            int userRole = (int)result.get("userRole");
+            return new User(teacherID, firstName, lastName, department, email, password, userRole);
+        }
+        return null;        
     }
     
-    public void addUser(String firstName, String lastName, String department, String email, String password, String userRole) {
+    public void addUser(String firstName, String lastName, String department, String email, String password, int userRole) {
         BasicDBObject newRecord = new BasicDBObject();
         //newRecord.put("teacherId", teacherID);
         newRecord.put("firstName", firstName);

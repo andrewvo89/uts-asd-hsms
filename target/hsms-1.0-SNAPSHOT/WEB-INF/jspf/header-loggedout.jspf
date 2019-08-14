@@ -4,20 +4,7 @@
         <header>
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <div class="container">
-                    <a class="navbar-brand" href="index.jsp"><strong>High School</strong><span style="font-weight: 300; color: rgba(255,255,255,0.7)">Management System</span></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <ul class="navbar-nav mr-auto">
-                        </ul>
-                        <ul class="navbar-nav navbar-right">
-   
-                             <li class="nav-item">
-                                <a class="nav-link" href="index.jsp">Log in</a>
-                            </li>
-                        </ul>
+                    <a class="navbar-brand" href=""><strong>High School</strong><span style="font-weight: 300; color: rgba(255,255,255,0.7);">Management System</span></a>
                 </div>
             </nav>
         </header>

@@ -15,9 +15,9 @@ public class User implements Serializable {
     private String department;
     private String email;
     private String password;
-    private String userRole;
+    private int userRole;
 
-    public User(int teacherID, String firstName, String lastName, String department, String email, String password, String userRole) {
+    public User(int teacherID, String firstName, String lastName, String department, String email, String password, int userRole) {
         this.teacherID = teacherID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -25,6 +25,16 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         this.userRole = userRole;
+        //userRole
+        //1 = Administrator
+        //2 = Principle
+        //3 = Head Teacher
+        //4 = Teacher
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "teacherID=" + teacherID + ", firstName=" + firstName + ", lastName=" + lastName + ", department=" + department + ", email=" + email + ", password=" + password + ", userRole=" + userRole + '}';
     }
 
     public int getTeacherID() {
@@ -75,12 +85,19 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getUserRole() {
+    public int getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(String userRole) {
+    public void setUserRole(int userRole) {
         this.userRole = userRole;
+    }
+    public String getUserRoleString() {
+        if (userRole == 1) return "Administrator";
+        else if (userRole == 2) return "Principal";
+        else if (userRole == 3) return "Head Teacher";
+        else if (userRole == 4) return "Teacher";
+        return null;
     }
     
     
