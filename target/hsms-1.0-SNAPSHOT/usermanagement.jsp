@@ -115,16 +115,7 @@
                      </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Add User</button>
-                    </div>
-                    <div class="collapse" id="collapseExample">
-                        <div class="card-body">
-                        </div>
-                    </div>
-                </div>
-                <br>                
+                
                 <table class="table">
                     <thead class="thead-light">
                         <tr>
@@ -159,6 +150,106 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="float-right">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" role="button">Add User</button>
+                </div>
+   
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group row">
+                                        <label for="firstName" class="col-sm-4 col-form-label">First Name</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="lastName" class="col-sm-4 col-form-label">Last Name</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="email" class="col-sm-4 col-form-label">Email</label>
+                                        <div class="col-sm-8">
+                                            <input type="email" class="form-control" id="email" placeholder="Email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="password" class="col-sm-4 col-form-label">Password</label>
+                                        <div class="col-sm-8">
+                                            <input type="password" class="form-control" id="password" placeholder="Password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">Department</div>
+                                        <div class="col-sm-8">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="department">
+                                                <label class="form-check-label" for="department">English</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="department">
+                                                <label class="form-check-label" for="department">Maths</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="department">
+                                                <label class="form-check-label" for="department">Science</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="department">
+                                                <label class="form-check-label" for="department">Art</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="department">
+                                                <label class="form-check-label" for="department">Music</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <fieldset class="form-group">
+                                        <div class="row">
+                                            <legend class="col-form-label col-sm-4 pt-0">User Role</legend>
+                                            <div class="col-sm-8">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                                                    <label class="form-check-label" for="gridRadios1">
+                                                        First radio
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                                                    <label class="form-check-label" for="gridRadios2">
+                                                        Second radio
+                                                    </label>
+                                                </div>
+                                                <div class="form-check disabled">
+                                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
+                                                    <label class="form-check-label" for="gridRadios3">
+                                                        Third disabled radio
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="form-group row">
+                                        <div class="col-sm-8">
+                                            <button type="submit" class="btn btn-primary">Sign in</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        
             </div>
         </div>
         <%@ include file="/WEB-INF/jspf/footer-static.jspf" %>        
