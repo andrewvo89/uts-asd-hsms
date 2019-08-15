@@ -2,14 +2,13 @@
     Document   : index.jsp
     Created on : 10/08/2019, 8:33:10 PM
     Author     : Andrew
---%>
-<%@page import="uts.asd.hsms.model.dao.*"%>
+    --%>
+
 <%@page import="uts.asd.hsms.model.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/ConnServlet" flush="true" />
 <%
-User user = (User)session.getAttribute("user");
-String errorMessage = (String)session.getAttribute("errorMessage");
+    User user = (User)session.getAttribute("user");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,6 +38,7 @@ String errorMessage = (String)session.getAttribute("errorMessage");
             <div class="container">
         <%    
         if (user == null) {
+            String errorMessage = (String)session.getAttribute("errorMessage");
         %>
             <form class="form-signin" method="post" action="login.jsp">
                 <h1 class="h3 mb-3 font-weight-normal">Log In</h1>
@@ -47,12 +47,10 @@ String errorMessage = (String)session.getAttribute("errorMessage");
                 <label for="inputPassword" class="sr-only">Password</label>
                 <input name="password" type="password" id="inputPassword" class="form-control" placeholder="password" required>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-                <input type="hidden" name="submitted" value="yes">
-                    <%
-                    if (errorMessage != null) {
-                        out.print(errorMessage);
-                    }
-                    %>
+                <input type="hidden" name="redirect" value="<%=request.getParameter("redirect")%>">
+                <%
+                    if (errorMessage != null) out.print(errorMessage);
+                %>
             </form>
         <%
         }

@@ -48,9 +48,9 @@
                                 <%
                                     if (userRole <= 2) {
                                 %>
-                                    <a class="dropdown-item" href="teachermanagement.jsp">Teacher Management</a>
+                                    <a class="dropdown-item" href="usermanagement.jsp">User Management</a>
                                     <a class="dropdown-item" href="#">Review HR Feedback</a>
-                                    <a class="dropdown-item" href="#">View Teacher Logs</a>
+                                    <a class="dropdown-item" href="#">View User Logs</a>
                                 <%
                                     }
                                 %>

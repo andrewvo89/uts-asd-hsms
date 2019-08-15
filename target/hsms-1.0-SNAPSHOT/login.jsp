@@ -15,9 +15,10 @@
     </head>
     <body>
         <%
-            UserDao userDao = (UserDao) session.getAttribute("userDao");
+            UserDao userDao = (UserDao)session.getAttribute("userDao");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
+            String redirect = request.getParameter("redirect");
             User user = userDao.getUser(email, password);
             
             if (user != null) {
@@ -25,8 +26,9 @@
                 session.removeAttribute("errorMessage");                    
             } else {
                 session.setAttribute("errorMessage", "Username or Password Incorrect");                               
-            }  
-            response.sendRedirect("index.jsp");               
+            }
+            if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   
+            else response.sendRedirect(redirect + ".jsp");
         %>
         
     </body>
