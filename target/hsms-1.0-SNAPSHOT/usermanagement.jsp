@@ -39,7 +39,7 @@
                 <h1>User Management</h1>
                 <div class="card">
                     <div class="card-header">
-                        <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Search</button>
+                        <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
                     </div>
                     <div class="collapse" id="collapseExample">
                         <div class="card-body">
@@ -56,31 +56,31 @@
                             </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="departmant">Department</label>
+                                        <label for="departmentSearch">Department</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
-                                                <label class="form-check-label" for="inlineRadio1">All</label>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="all" value="all" checked>
+                                                <label class="form-check-label" for="all">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                                <label class="form-check-label" for="inlineRadio2">English</label>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="english" value="english">
+                                                <label class="form-check-label" for="english">English</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                                                <input class="form-check-input" type="math" name="departmentSearch" id="math" value="math">
                                                 <label class="form-check-label" for="inlineRadio3">Maths</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                                                <label class="form-check-label" for="inlineRadio3">Science</label>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="science" value="science">
+                                                <label class="form-check-label" for="science">Science</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                                                <label class="form-check-label" for="inlineRadio3">Art</label>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="art" value="art">
+                                                <label class="form-check-label" for="art">Art</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                                                <label class="form-check-label" for="inlineRadio3">Music</label>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="music" value="music">
+                                                <label class="form-check-label" for="music">Music</label>
                                             </div>                                               
                                         </div>
                                     </div>
@@ -88,29 +88,29 @@
                                         <label for="departmant">Permission Level</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
-                                                <label class="form-check-label" for="inlineRadio1">All</label>
+                                                <input class="form-check-input" type="radio" name="permissionSearch" id="all" value="all" checked>
+                                                <label class="form-check-label" for="all">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                                <label class="form-check-label" for="inlineRadio1">Administrator</label>
+                                                <input class="form-check-input" type="radio" name="permissionSearch" id="administrator" value="administrator">
+                                                <label class="form-check-label" for="administrator">Administrator</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                                <label class="form-check-label" for="inlineRadio2">Principal</label>
+                                                <input class="form-check-input" type="radio" name="permissionSearch" id="principal" value="principal">
+                                                <label class="form-check-label" for="principal">Principal</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                                                <label class="form-check-label" for="inlineRadio3">Head Teacher</label>
+                                                <input class="form-check-input" type="radio" name="permissionSearch" id="headTeacher" value="headTeacher">
+                                                <label class="form-check-label" for="headTeacher">Head Teacher</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                                                <input class="form-check-input" type="radio" name="permissionSearch" id="inlineRadio3" value="option3">
                                                 <label class="form-check-label" for="inlineRadio3">Teacher</label>
                                             </div>                                               
                                         </div>
                                     </div>
                                 </div> 
-                                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                                <button type="submit" class="btn btn-primary mb-2">Search</button>
                             </form> 
                      </div>
                     </div>
@@ -193,55 +193,51 @@
                                         <div class="col-sm-4">Department</div>
                                         <div class="col-sm-8">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="department">
-                                                <label class="form-check-label" for="department">English</label>
+                                                <input class="form-check-input" type="radio" name="department" id="english" value="english" checked>
+                                                <label class="form-check-label" for="english">English</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="department">
-                                                <label class="form-check-label" for="department">Maths</label>
+                                                <input class="form-check-input" type="radio" name="department" id="math" value="math">
+                                                <label class="form-check-label" for="math">Math</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="department">
-                                                <label class="form-check-label" for="department">Science</label>
+                                                <input class="form-check-input" type="radio" name="department" id="science" value="science">
+                                                <label class="form-check-label" for="science">Science</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="department">
-                                                <label class="form-check-label" for="department">Art</label>
+                                                <input class="form-check-input" type="radio" name="department" id="art" value="art">
+                                                <label class="form-check-label" for="art">Art</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="department">
+                                                <input class="form-check-input" type="radio" name="department" id="music" value="music">
                                                 <label class="form-check-label" for="department">Music</label>
                                             </div>
                                         </div>
                                     </div>
-                                    <fieldset class="form-group">
-                                        <div class="row">
-                                            <legend class="col-form-label col-sm-4 pt-0">User Role</legend>
-                                            <div class="col-sm-8">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                                                    <label class="form-check-label" for="gridRadios1">
-                                                        First radio
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                                                    <label class="form-check-label" for="gridRadios2">
-                                                        Second radio
-                                                    </label>
-                                                </div>
-                                                <div class="form-check disabled">
-                                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-                                                    <label class="form-check-label" for="gridRadios3">
-                                                        Third disabled radio
-                                                    </label>
-                                                </div>
+                                    <div class="form-group row">
+                                        <legend class="col-form-label col-sm-4 pt-0">User Role</legend>
+                                        <div class="col-sm-8">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="userRole" id="administrator" value="administrator" checked>
+                                                <label class="form-check-label" for="administrator">Administrator</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="userRole" id="principal" value="principal">
+                                                <label class="form-check-label" for="principal">Principal</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="userRole" id="headTeacher" value="headTeacher">
+                                                <label class="form-check-label" for="headTeacher">Head Teacher</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="userRole" id="teacher" value="teacher">
+                                                <label class="form-check-label" for="teacher">Teacher</label>
                                             </div>
                                         </div>
-                                    </fieldset>
+                                    </div>
                                     <div class="form-group row">
                                         <div class="col-sm-8">
-                                            <button type="submit" class="btn btn-primary">Sign in</button>
+                                            <button type="submit" class="btn btn-primary">Confirm</button>
                                         </div>
                                     </div>
                                 </form>
