@@ -1,5 +1,5 @@
 <%-- 
-    Document   : teachermanagement
+    Document   : usermanagement
     Created on : 14 Aug. 2019, 10:58:09 pm
     Author     : Andrew
 --%>
@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
-        <title>Teacher Management</title>
+        <title>User Management</title>
         <%
         if (user == null) {
             response.sendRedirect("index.jsp?redirect=usermanagement");
@@ -37,41 +37,93 @@
         <div class="main">
             <div class="container">
                 <h1>User Management</h1>
-                <div class="card" style="width: 20rem;">
+                <div class="card">
                     <div class="card-header">
-                        <a class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Search</a>
+                        <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Search</button>
                     </div>
                     <div class="collapse" id="collapseExample">
                         <div class="card-body">
                             <form>
-                                <div class="form-group">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
                                     <label for="firstName">First Name</label>
                                     <input type="text" class="form-control" id="firstName" placeholder="First Name">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-md-6">
                                     <label for="lastName">Last Name</label>
                                     <input type="text" class="form-control" id="lastName" placeholder="Last Name">
                                 </div>
-                                <div class="form-group">
-                                    <label for="departmant">Department</label>
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="radio" name="departmant" id="inlineRadio1" value="All">
-                                      <label class="form-check-label" for="inlineRadio1">All</label>
+                            </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="departmant">Department</label>
+                                        <div class="form-check">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                <label class="form-check-label" for="inlineRadio1">All</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                <label class="form-check-label" for="inlineRadio2">English</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                                                <label class="form-check-label" for="inlineRadio3">Maths</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                                                <label class="form-check-label" for="inlineRadio3">Science</label>
+                                            </div>   
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                                                <label class="form-check-label" for="inlineRadio3">Art</label>
+                                            </div>   
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                                                <label class="form-check-label" for="inlineRadio3">Music</label>
+                                            </div>                                               
+                                        </div>
                                     </div>
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="radio" name="departmant" id="inlineRadio2" value="English">
-                                      <label class="form-check-label" for="inlineRadio2">English</label>
+                                    <div class="form-group col-md-6">
+                                        <label for="departmant">Permission Level</label>
+                                        <div class="form-check">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                <label class="form-check-label" for="inlineRadio1">All</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                                <label class="form-check-label" for="inlineRadio1">Administrator</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                <label class="form-check-label" for="inlineRadio2">Principal</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                                                <label class="form-check-label" for="inlineRadio3">Head Teacher</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                                                <label class="form-check-label" for="inlineRadio3">Teacher</label>
+                                            </div>                                               
+                                        </div>
                                     </div>
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="radio" name="departmant" id="inlineRadio3" value="Maths">
-                                      <label class="form-check-label" for="inlineRadio3">Maths</label>
-                                    </div>
-                                </div>
+                                </div> 
                                 <button type="submit" class="btn btn-primary mb-2">Submit</button>
                             </form> 
                      </div>
                     </div>
-                </div>         
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Add User</button>
+                    </div>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card-body">
+                        </div>
+                    </div>
+                </div>
                 <br>                
                 <table class="table">
                     <thead class="thead-light">
