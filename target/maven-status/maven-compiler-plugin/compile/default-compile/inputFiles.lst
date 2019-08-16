@@ -1,6 +1,6 @@
-D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\resources\JavaEE8Resource.java
-D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\UserDao.java
-D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\User.java
-D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\ConnServlet.java
-D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\JAXRSConfiguration.java
-D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\MongoDBConnector.java
+/Users/MatthewHellmich/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/controller/ConnServlet.java
+/Users/MatthewHellmich/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/model/User.java
+/Users/MatthewHellmich/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/model/dao/UserDao.java
+/Users/MatthewHellmich/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/resources/JavaEE8Resource.java
+/Users/MatthewHellmich/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/JAXRSConfiguration.java
+/Users/MatthewHellmich/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/model/dao/MongoDBConnector.java
