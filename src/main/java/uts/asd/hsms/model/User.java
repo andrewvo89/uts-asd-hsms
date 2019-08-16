@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     
-    private int teacherID;
+    private int userId;
     private String firstName;
     private String lastName;
     private String department;
@@ -17,8 +17,8 @@ public class User implements Serializable {
     private String password;
     private int userRole;
 
-    public User(int teacherID, String firstName, String lastName, String department, String email, String password, int userRole) {
-        this.teacherID = teacherID;
+    public User(int userId, String firstName, String lastName, String department, String email, String password, int userRole) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.department = department;
@@ -34,15 +34,15 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "teacherID=" + teacherID + ", firstName=" + firstName + ", lastName=" + lastName + ", department=" + department + ", email=" + email + ", password=" + password + ", userRole=" + userRole + '}';
+        return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", department=" + department + ", email=" + email + ", password=" + password + ", userRole=" + userRole + '}';
     }
 
-    public int getTeacherID() {
-        return teacherID;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setTeacherID(int teacherID) {
-        this.teacherID = teacherID;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {

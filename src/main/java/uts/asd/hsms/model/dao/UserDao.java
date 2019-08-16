@@ -27,12 +27,32 @@ public class UserDao {
         this.mongoClient = mongoClient;
         
         database = mongoClient.getDB("heroku_r0hsk6vb");
-        collection = database.getCollection("teachers");
+        collection = database.getCollection("users");
     }
     
-    public User getUser(int teacherId) {
+    public User[] getUsers() {
+        DBCursor cursor = collection.find();
+        System.out.println("COUNT: " + cursor.count());
+        User[] users = new User[cursor.count()];
+        int count = 0;
+        while (cursor.hasNext()) {
+            DBObject result = cursor.next();
+            int userId = (int)result.get("userId");
+            String firstName = (String)result.get("firstName");
+            String lastName = (String)result.get("lastName");
+            String department = (String)result.get("department");
+            String email = (String)result.get("email");
+            String password = (String)result.get("password");
+            int userRole = (int)result.get("userRole");
+            users[count] = new User(userId, firstName, lastName, department, email, password, userRole);
+            count ++;
+        }
+        return users;
+    }
+    
+    public User getUser(int userId) {
         BasicDBObject query = new BasicDBObject();
-        query.put("teacherId", teacherId);
+        query.put("userId", userId);
         DBCursor cursor = collection.find(query);
         DBObject result = cursor.one();
         
@@ -43,7 +63,7 @@ public class UserDao {
             String email = (String)result.get("email");
             String password = (String)result.get("password");
             int userRole = (int)result.get("uerRole");
-            return new User(teacherId, firstName, lastName, department, email, password, userRole);
+            return new User(userId, firstName, lastName, department, email, password, userRole);
         }        
         return null;        
     }
@@ -57,12 +77,12 @@ public class UserDao {
         DBObject result = cursor.one();
         
         if (result != null) {
-            int teacherID = (int)result.get("teacherId");
+            int userId = (int)result.get("userId");
             String firstName = (String)result.get("firstName");
             String lastName = (String)result.get("lastName");
             String department = (String)result.get("department");
             int userRole = (int)result.get("userRole");
-            return new User(teacherID, firstName, lastName, department, email, password, userRole);
+            return new User(userId, firstName, lastName, department, email, password, userRole);
         }
         return null;        
     }
