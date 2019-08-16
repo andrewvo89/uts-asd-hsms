@@ -1,0 +1,131 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14/08/2019, 4:26:40 PM
+    Author     : Andrew
+*/
+
+body {
+    padding-top: 3rem;
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+    background: #eee;
+}
+
+span{
+    font-size:15px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+}
+
+/* Push the Main Div down the padding value of the nav */
+div.main {
+    margin-top: 60px;
+}
+
+@media (min-width: 40em) {
+    .carousel-caption p {
+        margin-bottom: 1.25rem;
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+}
+
+/* Sign In Form */
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+    margin-top: 9rem;
+}
+.form-signin .checkbox {
+    font-weight: 400;
+}
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.required {
+    color: #f00;
+}
+
+/* Header */
+.navbar {
+  min-height: 100px;
+}
+
+/* Footer */
+.movie-dark-footer {
+    margin-top: 0;
+    background: #444;
+    padding: 15px 0;
+}
+.movie-dark-footer p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    margin: 0;
+}
+.movie-dark-footer p a {
+    color: #3472b1;
+    text-decoration: none;
+}
+.fixed-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Profile Page */
+.user-header {
+    display: block;
+}
+.user-header h2 {
+    display: inline-block;
+}
+
+/* Utilities */
+.topspacer {
+    margin-top: 25px;
+}
+
+.box{
+    padding:60px 0px;
+}
+
+.box-part{
+    background:#FFF;
+    border-radius:0;
+    padding:60px 10px;
+    margin:30px 0px;
+}
+.text{
+    margin:20px 0px;
+}
+
+.fa{
+     color:#4183D7;
+}
