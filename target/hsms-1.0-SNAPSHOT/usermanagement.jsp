@@ -4,6 +4,7 @@
     Author     : Andrew1
 --%>
 
+<%@page import="org.bson.types.ObjectId"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="uts.asd.hsms.model.dao.*"%>
 <%@page import="uts.asd.hsms.model.*"%>
@@ -23,21 +24,24 @@
         <link rel="stylesheet" href="css/main.css">
         <title>User Management</title>
         <%
-        if (user == null) {
-            response.sendRedirect("index.jsp?redirect=usermanagement");
-        }
-        else {
+            if (user == null) {
+                response.sendRedirect("index.jsp?redirect=usermanagement");
+            }
+            else if (user.getUserRole() >= 3) {
+                response.sendRedirect("index.jsp");
+            }
+            else {
         %>
             <%@ include file="/WEB-INF/jspf/header-loggedin.jspf" %>
         <%
-        }
+            }
         %>
     </head>
     <body>
         <div class="main">
             <div class="container">
                 <h1>User Management</h1>
-                <div class="card">
+                <div class="card" style="margin-top:25px">
                     <div class="card-header">
                         <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
                     </div>
@@ -133,12 +137,12 @@
                             User[] users = userDao.getUsers();
                             for (int x = 0; x < users.length; x++) {
                                 User currentUser = users[x];
-                                int userId = currentUser.getUserId();
+                                String userId = currentUser.getUserIdString();
                                 String firstName = currentUser.getFirstName();
                                 String lastName = currentUser.getLastName();
-                                String department = currentUser.getDepartment();
                                 String email = currentUser.getEmail();
                                 String password = currentUser.getPassword();
+                                String department = currentUser.getDepartment();
                                 String userRoleString = currentUser.getUserRoleString();
                         %>
                         <tr>
@@ -243,10 +247,9 @@
                                                     <div class="userId">
                                                         <input type="hidden" id="userId">
                                                     </div>
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-8">
-                                                            <button type="submit" class="btn btn-primary">Confirm</button>
-                                                        </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Confirm</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -254,7 +257,30 @@
                                     </div>
                                 </div>
                                 
-                                <button type=button" class="btn btn-danger" onclick="window.location.href = 'userdelete.jsp?userId=<%=currentUser.getUserId()%>';">Delete</button>
+                                <button type=button" class="btn btn-danger"  data-toggle="modal" data-target="#userDeleteModal"
+                                        data-toggle="modal"role="button" data-userid="<%=userId%>" data-firstname="<%=firstName%>" 
+                                        data-lastname="<%=lastName%>">Delete</button>
+                                    
+                                        <div class="modal fade" id="userDeleteModal" tabindex="-1" role="dialog" aria-labelledby="userDeleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="userDeleteModalLabel"></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this user?</p>
+                                                <p>This action cannot be undone.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary btn-danger">Confirm</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
                             </td>
                         <%
                             }
@@ -307,56 +333,55 @@
                                             <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm Password">
                                         </div>
                                     </div>
-                            <div class="form-group row">
-                                <div class="col-sm-4">Department</div>
-                                <div class="col-sm-8">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="departmentAdd" id="English" checked>
-                                        <label class="form-check-label" for="english">English</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="departmentAdd" id="Math">
-                                        <label class="form-check-label" for="math">Math</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="departmentAdd" id="Science">
-                                        <label class="form-check-label" for="science">Science</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="departmentAdd" id="Art">
-                                        <label class="form-check-label" for="art">Art</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="departmentAdd" id="Music">
-                                        <label class="form-check-label" for="department">Music</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <legend class="col-form-label col-sm-4 pt-0">User Role</legend>
-                                <div class="col-sm-8">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="userRoleAdd" id="Administrator" checked>
-                                        <label class="form-check-label" for="administrator">Administrator</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="userRoleAdd" id="Principal">
-                                        <label class="form-check-label" for="principal">Principal</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="userRoleAdd" id="Head Teacher">
-                                        <label class="form-check-label" for="headTeacher">Head Teacher</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="userRoleAdd" id="Teacher">
-                                        <label class="form-check-label" for="teacher">Teacher</label>
-                                    </div>
-                                </div>
-                            </div>
                                     <div class="form-group row">
-                                        <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-primary float-right">Confirm</button>
+                                        <div class="col-sm-4">Department</div>
+                                        <div class="col-sm-8">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" id="English" checked>
+                                                <label class="form-check-label" for="english">English</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Math">
+                                                <label class="form-check-label" for="math">Math</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Science">
+                                                <label class="form-check-label" for="science">Science</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Art">
+                                                <label class="form-check-label" for="art">Art</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Music">
+                                                <label class="form-check-label" for="department">Music</label>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <legend class="col-form-label col-sm-4 pt-0">User Role</legend>
+                                        <div class="col-sm-8">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Administrator" checked>
+                                                <label class="form-check-label" for="administrator">Administrator</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Principal">
+                                                <label class="form-check-label" for="principal">Principal</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Head Teacher">
+                                                <label class="form-check-label" for="headTeacher">Head Teacher</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Teacher">
+                                                <label class="form-check-label" for="teacher">Teacher</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Confirm</button>
                                     </div>
                                 </form>
                             </div>

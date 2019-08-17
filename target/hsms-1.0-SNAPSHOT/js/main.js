@@ -19,3 +19,12 @@ $('#userEditModal').on('show.bs.modal', function (event) {
   document.getElementById(department).checked = true
   document.getElementById(userrolestring).checked = true
 })
+
+$('#userDeleteModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var userid = button.data('userid')
+  var firstname = button.data('firstname')
+  var lastname = button.data('lastname')
+  var modal = $(this)
+  modal.find('.modal-title').text('Delete ' + firstname + ' ' + lastname)
+})
