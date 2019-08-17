@@ -1,7 +1,7 @@
 <%-- 
     Document   : usermanagement
     Created on : 14 Aug. 2019, 10:58:09 pm
-    Author     : Andrew1
+    Author     : Andrew
 --%>
 
 <%@page import="org.bson.types.ObjectId"%>
@@ -10,6 +10,7 @@
 <%@page import="uts.asd.hsms.model.*"%>
 <%
     User user = (User)session.getAttribute("user");
+    UserDao userDao = (UserDao)session.getAttribute("userDao");
 %>
 <!DOCTYPE html>
 <html>
@@ -31,6 +32,10 @@
                 response.sendRedirect("index.jsp");
             }
             else {
+                if (request.getParameter("addFlag") != null) {
+                System.out.println("WORKED");
+                userDao.addUser(request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("department"), request.getParameter("email"), request.getParameter("password"), 1);
+            }
         %>
             <%@ include file="/WEB-INF/jspf/header-loggedin.jspf" %>
         <%
@@ -133,7 +138,6 @@
                     </thead>
                     <tbody>
                         <%
-                            UserDao userDao = (UserDao)session.getAttribute("userDao");
                             User[] users = userDao.getUsers();
                             for (int x = 0; x < users.length; x++) {
                                 User currentUser = users[x];
@@ -302,7 +306,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="" oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : "")'>
+                                <form action="" oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : "")' method="post" action="usermanagement.jsp"> 
                                     <div class="form-group row">
                                         <label for="firstName" class="col-sm-4 col-form-label">First Name</label>
                                         <div class="col-sm-8">
@@ -379,6 +383,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" id="addFlag" value="true">
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         <button type="submit" class="btn btn-primary">Confirm</button>

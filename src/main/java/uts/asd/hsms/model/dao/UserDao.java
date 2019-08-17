@@ -33,7 +33,6 @@ public class UserDao {
     
     public User[] getUsers() {
         DBCursor cursor = collection.find();
-        System.out.println("COUNT: " + cursor.count());
         User[] users = new User[cursor.count()];
         int count = 0;
         while (cursor.hasNext()) {
@@ -93,9 +92,9 @@ public class UserDao {
         //newRecord.put("teacherId", teacherID);
         newRecord.put("firstName", firstName);
         newRecord.put("lastName", lastName);
-        newRecord.put("department", department);
         newRecord.put("email", email);
         newRecord.put("password", password);
+        newRecord.put("department", department);
         newRecord.put("userRole", userRole);
         collection.insert(newRecord);
     }

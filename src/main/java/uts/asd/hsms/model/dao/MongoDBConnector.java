@@ -24,11 +24,13 @@ public class MongoDBConnector {
 //    }
     
     public MongoDBConnector() throws UnknownHostException {
+        String dbUrl = "ds123196.mlab.com";
+        String dbPort = String.valueOf(23196);
         String dbUser = "heroku_r0hsk6vb";
         String dbPass = "gr128qe2kcsdjbgkhbj0r5ng4p";
         String dbName = "heroku_r0hsk6vb";
-        String dbUrl = String.format("mongodb://%s:%s@ds123196.mlab.com:23196/%s", dbUser, dbPass, dbName);
-        mongoClient = new MongoClient(new MongoClientURI(dbUrl));
+        String dbUri = String.format("mongodb://%s:%s@%s:%s/%s", dbUser, dbPass, dbUrl, dbPort, dbName);
+        mongoClient = new MongoClient(new MongoClientURI(dbUri));
     }
     public MongoClient openConnection(){
         return this.mongoClient;
