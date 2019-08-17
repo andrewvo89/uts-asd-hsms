@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="org.bson.types.ObjectId"%>
 <%@page import="uts.asd.hsms.model.dao.*"%>
 <%@page import="uts.asd.hsms.model.*"%>
 <%
@@ -37,77 +38,56 @@
     <body>
         <div class="main">
             <div class="container">
-                <h1>User Management</h1>
+                <h1>Class-roll Management</h1>
                 <div class="card" style="margin-top:25px">
                     <div class="card-header">
                         <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
                     </div>
                     <div class="collapse" id="collapseExample">
                         <div class="card-body">
-                            <form action="" oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : "")'>
+                            <form action="">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                                    <label for="firstName">Class ID</label>
+                                    <input type="text" class="form-control" id="classId" placeholder="Class ID">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="lastName">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                                    <label for="lastName">Department</label>
+                                    <input type="text" class="form-control" id="department" placeholder="Department">
                                 </div>
                             </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="departmentSearch">Department</label>
+                                    <div class="form-group col-md-7">
+                                        <label for="departmentSearch">Grade</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="all" value="all" checked>
+                                                <input class="form-check-input" type="radio" name="gradeSearch" id="all" value="all" checked>
                                                 <label class="form-check-label" for="all">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="english" value="english">
-                                                <label class="form-check-label" for="english">English</label>
+                                                <input class="form-check-input" type="radio" name="gradeSearch" id="7" value="7">
+                                                <label class="form-check-label" for="7">7</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="math" value="math">
-                                                <label class="form-check-label" for="math">Maths</label>
+                                                <input class="form-check-input" type="radio" name="gradeSearch" id="8" value="8">
+                                                <label class="form-check-label" for="8">8</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="science" value="science">
-                                                <label class="form-check-label" for="science">Science</label>
+                                                <input class="form-check-input" type="radio" name="gradeSearch" id="9" value="9">
+                                                <label class="form-check-label" for="9">9</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="art" value="art">
-                                                <label class="form-check-label" for="art">Art</label>
+                                                <input class="form-check-input" type="radio" name="gradeSearch" id="10" value="10">
+                                                <label class="form-check-label" for="10">10</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="music" value="music">
-                                                <label class="form-check-label" for="music">Music</label>
-                                            </div>                                               
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="departmant">Permission Level</label>
-                                        <div class="form-check">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="all" value="all" checked>
-                                                <label class="form-check-label" for="all">All</label>
+                                                <input class="form-check-input" type="radio" name="gradeSearch" id="11" value="11">
+                                                <label class="form-check-label" for="11">11</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="administrator" value="administrator">
-                                                <label class="form-check-label" for="administrator">Administrator</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="principal" value="principal">
-                                                <label class="form-check-label" for="principal">Principal</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="headTeacher" value="headTeacher">
-                                                <label class="form-check-label" for="headTeacher">Head Teacher</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="teacher" value="teacher">
-                                                <label class="form-check-label" for="teacher">Teacher</label>
-                                            </div>                                               
+                                                <input class="form-check-input" type="radio" name="gradeSearch" id="12" value="12">
+                                                <label class="form-check-label" for="12">12</label>
+                                            </div> 
                                         </div>
                                     </div>
                                 </div> 
@@ -116,5 +96,159 @@
                      </div>
                     </div>
                 </div>
+                
+                    <br><table class="table" id="tutTable">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Class ID</th>
+                                <th scope="col">Department</th>
+                                <th scope="col">Grade</th>
+                                <th scope="col">Teacher</th>
+                                <th scope="col">Class Size</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-toggle="modal" data-target="#editRollModal">
+                                <td>M1010</td>
+                                <td>Math</td>
+                                <td>8</td>
+                                <td>Andrew</td>
+                                <td>23</td>
+                            </tr>
+                            <tr>
+                                <td>M1137</td>
+                                <td>Math</td>
+                                <td>11</td>
+                                <td>Andrew</td>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>E4120</td>
+                                <td>Economics</td>
+                                <td>12</td>
+                                <td>Andrew</td>
+                                <td>20</td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>   
+            
+            <div class="modal fade" id="editRollModal" tabindex="-1" role="dialog" aria-labelledby="editRoll" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editRollModalLabel">M1010 Math Year 8</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="">
+                                                    <table class="table">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th class="col-sm-6">Student</th>
+                                                                <th class="col-sm-2">Week 1</th>
+                                                                <th class="col-sm-2">Week 2</th>
+                                                                <th class="col-sm-2">Week 3</th>
+                                                                <th class="col-sm-2">Week 4</th>
+                                                                <th class="col-sm-2">Week 5</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Jessica Simpson</td>
+                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Lil Nas X</td>
+                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Shawn Mendes</td>
+                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Camila (Senorita) Cabello</td>
+                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Beyonce</td>
+                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Barack Obama</td>
+                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Taika Waititi</td>
+                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Sandra Oh</td>
+                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Kahlme Anithyme</td>
+                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Sia Laytor</td>
+                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
+                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <button type="save" class="btn btn-primary mb-2">Save</button>
+                                                    </table>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+            </div>
+            
+        <%@ include file="/WEB-INF/jspf/footer-static.jspf" %>        
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>

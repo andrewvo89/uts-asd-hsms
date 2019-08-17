@@ -33,7 +33,7 @@ public class Tutorial implements Serializable{
         this.tutorialId = tutorialId;
     }
     
-    public String getdepartment(){
+    public String getDepartment(){
         return department;
     }
     
