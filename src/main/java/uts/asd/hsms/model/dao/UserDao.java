@@ -30,7 +30,7 @@ public class UserDao {
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("users");
     }
-    
+    //get all users using no parameters
     public User[] getUsers() {
         DBCursor cursor = collection.find();
         System.out.println("COUNT: " + cursor.count());
@@ -50,7 +50,7 @@ public class UserDao {
         }
         return users;
     }
-    
+    //gets a user using two parametercs, objectID and userId
     public User getUser(ObjectId userId) {
         BasicDBObject query = new BasicDBObject();
         query.put("_id", userId.toString());
@@ -67,7 +67,7 @@ public class UserDao {
             return new User(userId, firstName, lastName, email, password, department, userRole);
         }        
         return null;        
-    }
+    } //gets a user using two parameters, email and password (e.g. for login)
         public User getUser(String email, String password) {
         BasicDBObject query = new BasicDBObject();
         List<BasicDBObject> queryList = new ArrayList<BasicDBObject>();
@@ -87,7 +87,7 @@ public class UserDao {
         }
         return null;        
     }
-    
+    // adds a new user taking parameters from fields
     public void addUser(String firstName, String lastName, String department, String email, String password, int userRole) {
         BasicDBObject newRecord = new BasicDBObject();
         //newRecord.put("teacherId", teacherID);
@@ -98,6 +98,24 @@ public class UserDao {
         newRecord.put("password", password);
         newRecord.put("userRole", userRole);
         collection.insert(newRecord);
+    }
+    
+    public Tutorial[] getTutorials() {
+        DBCursor cursor = collection.find();
+        System.out.println("COUNT: " + cursor.count());
+        Tutorial[] tutorials = new Tutorial[cursor.count()];
+        int count = 0;
+        while (cursor.hasNext()) {
+            DBObject result = cursor.next();
+            ObjectId tutorialId = (ObjectId)result.get("_id");
+            String department = (String)result.get("firstName");
+            int grade = (int)result.get("lastName");
+            ObjectId userId = (ObjectId)result.get("department");
+            int tutSize = (int)result.get("email");
+            tutorials[count] = new Tutorial(tutorialId, department, grade, userId, tutSize);
+            count ++;
+        }
+        return tutorials;
     }
 //    
 //    public User getUser(String userId, String password) throws SQLException {
