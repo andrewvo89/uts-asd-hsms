@@ -36,8 +36,16 @@
     </head>
     <body>
         <div class="main">
-            <div class="container">
+            <div class="container"><br>
                 <h1>Staff Directory</h1>
+                <h3>Executive</h3>
+<p><strong>Alice Lo</strong><br>English<br>Principal<br>Office location CB11.02.011<br>Phone number 0400000000 <br>Email <a href="mailto:principal@hsms.edu.au">principal@hsms.edu.au</a></p>
+<h3>Head Teacher</h3>
+<p><strong>Bob Smith</strong><br>Science<br>Head Teacher<br>Office location CB11.02.02<br>Phone number 0400000000 <br>Email <a href="mailto:headteacher@hsms.edu.au">headteacher@hsms.edu.au</a></p>
+
+<h3>Teacher</h3>
+<p><strong>Joe Blow</strong><br>Art<br>Head Teacher<br>Office location CB11.02.02<br>Phone number 0400000000 <br>Email <a href="mailto:teacher@hsms.edu.au">teacher@hsms.edu.au</a></p>
+
             </div>
         </div>
         <%@ include file="/WEB-INF/jspf/footer-static.jspf" %>        
