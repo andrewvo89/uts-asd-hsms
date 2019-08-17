@@ -4,6 +4,7 @@
     Author     : Andrew1
 --%>
 
+<%@page import="org.bson.types.ObjectId"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="uts.asd.hsms.model.dao.*"%>
 <%@page import="uts.asd.hsms.model.*"%>
@@ -23,21 +24,24 @@
         <link rel="stylesheet" href="css/main.css">
         <title>User Management</title>
         <%
-        if (user == null) {
-            response.sendRedirect("index.jsp?redirect=usermanagement");
-        }
-        else {
+            if (user == null) {
+                response.sendRedirect("index.jsp?redirect=usermanagement");
+            }
+            else if (user.getUserRole() >= 3) {
+                response.sendRedirect("index.jsp");
+            }
+            else {
         %>
             <%@ include file="/WEB-INF/jspf/header-loggedin.jspf" %>
         <%
-        }
+            }
         %>
     </head>
     <body>
         <div class="main">
             <div class="container">
                 <h1>User Management</h1>
-                <div class="card">
+                <div class="card" style="margin-top:25px">
                     <div class="card-header">
                         <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
                     </div>
@@ -133,12 +137,12 @@
                             User[] users = userDao.getUsers();
                             for (int x = 0; x < users.length; x++) {
                                 User currentUser = users[x];
-                                int userId = currentUser.getUserId();
+                                String userId = currentUser.getUserIdString();
                                 String firstName = currentUser.getFirstName();
                                 String lastName = currentUser.getLastName();
-                                String department = currentUser.getDepartment();
                                 String email = currentUser.getEmail();
                                 String password = currentUser.getPassword();
+                                String department = currentUser.getDepartment();
                                 String userRoleString = currentUser.getUserRoleString();
                         %>
                         <tr>
@@ -254,8 +258,8 @@
                                 </div>
                                 
                                 <button type=button" class="btn btn-danger"  data-toggle="modal" data-target="#userDeleteModal"
-                                        data-toggle="modal" data-target="#userEditModal" role="button" data-userid="<%=userId%>" 
-                                        data-firstname="<%=firstName%>" data-lastname="<%=lastName%>">Delete</button>
+                                        data-toggle="modal"role="button" data-userid="<%=userId%>" data-firstname="<%=firstName%>" 
+                                        data-lastname="<%=lastName%>">Delete</button>
                                     
                                         <div class="modal fade" id="userDeleteModal" tabindex="-1" role="dialog" aria-labelledby="userDeleteModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">

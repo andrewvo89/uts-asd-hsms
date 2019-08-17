@@ -6,24 +6,25 @@
 package uts.asd.hsms.model;
 
 import java.io.Serializable;
+import org.bson.types.ObjectId;
 
 public class User implements Serializable {
     
-    private int userId;
+    private ObjectId userId;
     private String firstName;
     private String lastName;
-    private String department;
     private String email;
     private String password;
+    private String department;
     private int userRole;
 
-    public User(int userId, String firstName, String lastName, String department, String email, String password, int userRole) {
+    public User(ObjectId userId, String firstName, String lastName, String email, String password, String department, int userRole) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.department = department;
         this.email = email;
         this.password = password;
+        this.department = department;
         this.userRole = userRole;
         //userRole
         //1 = Administrator
@@ -32,16 +33,11 @@ public class User implements Serializable {
         //4 = Teacher
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", department=" + department + ", email=" + email + ", password=" + password + ", userRole=" + userRole + '}';
-    }
-
-    public int getUserId() {
+    public ObjectId getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(ObjectId userId) {
         this.userId = userId;
     }
 
@@ -61,14 +57,6 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -85,6 +73,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     public int getUserRole() {
         return userRole;
     }
@@ -99,6 +95,8 @@ public class User implements Serializable {
         else if (userRole == 4) return "Teacher";
         return null;
     }
-    
+    public String getUserIdString() {
+        return userId.toString();
+    }
     
 }

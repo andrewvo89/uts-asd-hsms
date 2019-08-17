@@ -13,6 +13,7 @@ import uts.asd.hsms.model.*;
 import com.mongodb.MongoClient;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -37,22 +38,22 @@ public class UserDao {
         int count = 0;
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
-            int userId = (int)result.get("userId");
+            ObjectId userId = (ObjectId)result.get("_id");
             String firstName = (String)result.get("firstName");
             String lastName = (String)result.get("lastName");
             String department = (String)result.get("department");
             String email = (String)result.get("email");
             String password = (String)result.get("password");
             int userRole = (int)result.get("userRole");
-            users[count] = new User(userId, firstName, lastName, department, email, password, userRole);
+            users[count] = new User(userId, firstName, lastName, email, password, department, userRole);
             count ++;
         }
         return users;
     }
     
-    public User getUser(int userId) {
+    public User getUser(ObjectId userId) {
         BasicDBObject query = new BasicDBObject();
-        query.put("userId", userId);
+        query.put("_id", userId.toString());
         DBCursor cursor = collection.find(query);
         DBObject result = cursor.one();
         
@@ -63,7 +64,7 @@ public class UserDao {
             String email = (String)result.get("email");
             String password = (String)result.get("password");
             int userRole = (int)result.get("uerRole");
-            return new User(userId, firstName, lastName, department, email, password, userRole);
+            return new User(userId, firstName, lastName, email, password, department, userRole);
         }        
         return null;        
     }
@@ -77,12 +78,12 @@ public class UserDao {
         DBObject result = cursor.one();
         
         if (result != null) {
-            int userId = (int)result.get("userId");
+            ObjectId userId = (ObjectId)result.get("_id");
             String firstName = (String)result.get("firstName");
             String lastName = (String)result.get("lastName");
             String department = (String)result.get("department");
             int userRole = (int)result.get("userRole");
-            return new User(userId, firstName, lastName, department, email, password, userRole);
+            return new User(userId, firstName, lastName, email, password, department, userRole);
         }
         return null;        
     }
