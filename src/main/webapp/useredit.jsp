@@ -16,7 +16,7 @@
     String email = request.getParameter("emailEdit");
     String password = request.getParameter("passwordEdit");
     int userRole = Integer.parseInt(request.getParameter("userRoleEdit"));
-    
+    String redirect = request.getParameter("redirect");    
 %>
 <!DOCTYPE html>
 <html>
@@ -24,8 +24,9 @@
     </head>
     <body>
         <%
-            userDao.editUser(userId, firstName, lastName, email, password, department, userRole);
-            response.sendRedirect("usermanagement.jsp");
+            System.out.println("User ID is : " + firstName);
+            //userDao.editUser(userId, firstName, lastName, email, password, department, userRole);
+            response.sendRedirect(redirect + ".jsp");
         %>
     </body>
 </html>

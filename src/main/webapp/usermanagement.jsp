@@ -249,6 +249,9 @@
                                                     <div class="userId">
                                                         <input type="hidden" name="userIdEdit">
                                                     </div>
+                                                    <div class="redirect">
+                                                        <input type="hidden" name="redirect" value="usermanagement">>
+                                                    </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary">Confirm</button>
