@@ -26,5 +26,6 @@ $('#userDeleteModal').on('show.bs.modal', function (event) {
   var firstname = button.data('firstname')
   var lastname = button.data('lastname')
   var modal = $(this)
-  modal.find('.modal-title').text('Delete ' + firstname + ' ' + lastname)
+  modal.find('.userId input').val(userid)
+  modal.find('.modal-title').text('Delete ' + firstname + ' ' + lastname + ' ' + userid)
 })

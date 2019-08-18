@@ -13,6 +13,7 @@ import uts.asd.hsms.model.*;
 import com.mongodb.MongoClient;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 /**
@@ -97,6 +98,25 @@ public class UserDao {
         newRecord.put("department", department);
         newRecord.put("userRole", userRole);
         collection.insert(newRecord);
+    }
+    
+    public void deleteUser(ObjectId userId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", userId);
+        collection.remove(query);
+    }
+    
+    public void editUser(ObjectId userId, String firstName, String lastName, String department, String email, String password, int userRole) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", userId);
+        BasicDBObject newRecord = new BasicDBObject(); 
+        newRecord.put("firstName", firstName);
+        newRecord.put("lastName", lastName);
+        newRecord.put("email", email);
+        newRecord.put("password", password);
+        newRecord.put("department", department);
+        newRecord.put("userRole", userRole);
+        collection.update(query, newRecord);        
     }
 //    
 //    public User getUser(String userId, String password) throws SQLException {
