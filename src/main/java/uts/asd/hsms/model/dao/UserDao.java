@@ -31,7 +31,7 @@ public class UserDao {
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("users");
     }
-    
+    //get all users using no parameters
     public User[] getUsers() {
         DBCursor cursor = collection.find();
         User[] users = new User[cursor.count()];
@@ -50,7 +50,7 @@ public class UserDao {
         }
         return users;
     }
-    
+    //gets a user using two parametercs, objectID and userId
     public User getUser(ObjectId userId) {
         BasicDBObject query = new BasicDBObject();
         query.put("_id", userId.toString());
@@ -67,7 +67,7 @@ public class UserDao {
             return new User(userId, firstName, lastName, email, password, department, userRole);
         }        
         return null;        
-    }
+    } //gets a user using two parameters, email and password (e.g. for login)
         public User getUser(String email, String password) {
         BasicDBObject query = new BasicDBObject();
         List<BasicDBObject> queryList = new ArrayList<BasicDBObject>();
