@@ -88,7 +88,7 @@ public class UserDao {
         return null;        
     }
     
-    public void addUser(String firstName, String lastName, String department, String email, String password, int userRole) {
+    public void addUser(String firstName, String lastName, String email, String password, String department, int userRole) {
         BasicDBObject newRecord = new BasicDBObject();
         //newRecord.put("teacherId", teacherID);
         newRecord.put("firstName", firstName);
@@ -106,7 +106,7 @@ public class UserDao {
         collection.remove(query);
     }
     
-    public void editUser(ObjectId userId, String firstName, String lastName, String department, String email, String password, int userRole) {
+    public void editUser(ObjectId userId, String firstName, String lastName, String email, String password, String department, int userRole) {
         BasicDBObject query = new BasicDBObject();
         query.put("_id", userId);
         BasicDBObject newRecord = new BasicDBObject(); 
@@ -118,60 +118,5 @@ public class UserDao {
         newRecord.put("userRole", userRole);
         collection.update(query, newRecord);        
     }
-//    
-//    public User getUser(String userId, String password) throws SQLException {
-//        
-//        String sqlQuery = String.format("SELECT * FROM USERS WHERE userid = '%s'", userId);
-//        System.out.println(sqlQuery);
-//        ResultSet rs = st.executeQuery(sqlQuery);
-//        while(rs.next()) {
-//            User user = new User(rs.getString("userid"), rs.getString("firstname"),
-//                         rs.getString("lastname"), rs.getString("email"),
-//                         rs.getString("password"), rs.getBoolean("staff"));
-//            if (user.passwordMatches(password)) {
-//                return user;
-//            }
-//        }
-//        
-//        return null;
-//        
-//    }
-//    
-//    public boolean createUser(String userId, String firstName, String lastName, String email, String password, boolean staff) throws SQLException {
-//        
-//        String sqlQuery = String.format("INSERT INTO USERS VALUES('%s','%s','%s','%s','%s', %b)",
-//                userId, firstName, lastName, email, password, staff);
-//        System.out.println(sqlQuery);
-//        int result = st.executeUpdate(sqlQuery);
-//        
-//        if (result > 0) {
-//            return true;
-//        }
-//        
-//        return false;
-//        
-//    }
-//    
-//    public boolean updateUser(String userId, String firstName, String lastName, String email, String password, boolean staff) throws SQLException {
-//        
-//        String sqlQuery = String.format("UPDATE USERS SET firstname = '%s', lastname = '%s', email = '%s', password = '%s', staff = %b WHERE userid = '%s'",
-//                firstName, lastName, email, password, staff, userId);
-//        System.out.println(sqlQuery);
-//        int result = st.executeUpdate(sqlQuery);
-//        
-//        if (result > 0) {
-//            return true;
-//        }
-//        
-//        return false;
-//        
-//    }
-//    
-//    public void deleteUser(String userId) throws SQLException{
-//        
-//        String sqlQuery = String.format("DELETE FROM USERS WHERE userid = '%s'", userId);
-//        st.executeUpdate(sqlQuery);
-//        
-//    }
 
 }

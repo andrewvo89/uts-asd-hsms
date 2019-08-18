@@ -7,26 +7,17 @@
 <%@page import="org.bson.types.ObjectId"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="uts.asd.hsms.model.dao.*"%>
-<%@page import="uts.asd.hsms.model.*"%>
 <%
     UserDao userDao = (UserDao)session.getAttribute("userDao");
+    ObjectId userId = new ObjectId(request.getParameter("userIdDelete"));
 %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="css/main.css">
-        <title>User Management</title>
     </head>
     <body>
         <%
-            userDao.deleteUser(new ObjectId(request.getParameter("userId")));
+            userDao.deleteUser(userId);
             response.sendRedirect("usermanagement.jsp");
         %>
     </body>

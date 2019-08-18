@@ -9,17 +9,22 @@
 <%@page import="uts.asd.hsms.model.*"%>
 <%
     UserDao userDao = (UserDao)session.getAttribute("userDao");
+    ObjectId userId = new ObjectId(request.getParameter("userIdEdit"));
+    String firstName = request.getParameter("firstNameEdit");
+    String lastName = request.getParameter("lastNameEdit");
+    String department = request.getParameter("departmentEdit");
+    String email = request.getParameter("emailEdit");
+    String password = request.getParameter("passwordEdit");
+    int userRole = Integer.parseInt(request.getParameter("userRoleEdit"));
+    
 %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
     </head>
     <body>
         <%
-            userDao.editUser(new ObjectId(request.getParameter("userId")), request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("department"), request.getParameter("email"), request.getParameter("password"), Integer.parseInt(request.getParameter("userRole")));
+            userDao.editUser(userId, firstName, lastName, email, password, department, userRole);
             response.sendRedirect("usermanagement.jsp");
         %>
     </body>
