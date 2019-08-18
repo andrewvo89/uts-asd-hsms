@@ -1,7 +1,7 @@
 <%-- 
     Document   : usermanagement
     Created on : 14 Aug. 2019, 10:58:09 pm
-    Author     : Andrew1
+    Author     : Andrew
 --%>
 
 <%@page import="org.bson.types.ObjectId"%>
@@ -10,6 +10,7 @@
 <%@page import="uts.asd.hsms.model.*"%>
 <%
     User user = (User)session.getAttribute("user");
+    UserDao userDao = (UserDao)session.getAttribute("userDao");
 %>
 <!DOCTYPE html>
 <html>
@@ -31,13 +32,15 @@
                 response.sendRedirect("index.jsp");
             }
             else {
+            
         %>
             <%@ include file="/WEB-INF/jspf/header-loggedin.jspf" %>
         <%
             }
         %>
     </head>
-    <body>
+    <body style="padding-bottom: 8rem">
+        <input name="addFlag" type="hidden" value="false">
         <div class="main">
             <div class="container">
                 <h1>User Management</h1>
@@ -63,27 +66,27 @@
                                         <label for="departmentSearch">Department</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="all" value="all" checked>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="all" value="All" checked>
                                                 <label class="form-check-label" for="all">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="english" value="english">
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="english" value="English">
                                                 <label class="form-check-label" for="english">English</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="math" value="math">
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="math" value="Math">
                                                 <label class="form-check-label" for="math">Maths</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="science" value="science">
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="science" value="Science">
                                                 <label class="form-check-label" for="science">Science</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="art" value="art">
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="art" value="Art">
                                                 <label class="form-check-label" for="art">Art</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="music" value="music">
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="music" value="Music">
                                                 <label class="form-check-label" for="music">Music</label>
                                             </div>                                               
                                         </div>
@@ -96,19 +99,19 @@
                                                 <label class="form-check-label" for="all">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="administrator" value="administrator">
+                                                <input class="form-check-input" type="radio" name="permissionSearch" id="administrator" value="1">
                                                 <label class="form-check-label" for="administrator">Administrator</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="principal" value="principal">
+                                                <input class="form-check-input" type="radio" name="permissionSearch" id="principal" value="2">
                                                 <label class="form-check-label" for="principal">Principal</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="headTeacher" value="headTeacher">
+                                                <input class="form-check-input" type="radio" name="permissionSearch" id="headTeacher" value="3">
                                                 <label class="form-check-label" for="headTeacher">Head Teacher</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="teacher" value="teacher">
+                                                <input class="form-check-input" type="radio" name="permissionSearch" id="teacher" value="4">
                                                 <label class="form-check-label" for="teacher">Teacher</label>
                                             </div>                                               
                                         </div>
@@ -133,11 +136,10 @@
                     </thead>
                     <tbody>
                         <%
-                            UserDao userDao = (UserDao)session.getAttribute("userDao");
                             User[] users = userDao.getUsers();
                             for (int x = 0; x < users.length; x++) {
                                 User currentUser = users[x];
-                                String userId = currentUser.getUserIdString();
+                                String userId = currentUser.getUserId().toString();
                                 String firstName = currentUser.getFirstName();
                                 String lastName = currentUser.getLastName();
                                 String email = currentUser.getEmail();
@@ -152,7 +154,7 @@
                             <td><%=email%></td>
                             <td><%=userRoleString%></td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userEditModal" role="button" 
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userEditModal" role="button"
                                         data-userid="<%=userId%>" data-firstname="<%=firstName%>" data-lastname="<%=lastName%>"
                                         data-department="<%=department%>" data-email="<%=email%>" data-password="<%=password%>" 
                                         data-userrolestring="<%=userRoleString%>">Edit</button>
@@ -167,58 +169,58 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="" oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : "")'>
+                                                <form action="useredit.jsp" method="post" oninput='passwordConfirmEdit.setCustomValidity(passwordConfirmEdit.value != passwordEdit.value ? "Passwords do not match." : "")'>
                                                     <div class="form-group row">
                                                         <label for="firstName" class="col-sm-4 col-form-label">First Name</label>
                                                         <div class="col-sm-8 firstName">
-                                                            <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                                                            <input type="text" class="form-control" name="firstNameEdit" placeholder="First Name">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="lastName" class="col-sm-4 col-form-label">Last Name</label>
                                                         <div class="col-sm-8 lastName">
-                                                            <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                                                            <input type="text" class="form-control" name="lastNameEdit" placeholder="Last Name">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="email" class="col-sm-4 col-form-label">Email</label>
                                                         <div class="col-sm-8 email">
-                                                            <input type="email" class="form-control" id="email" placeholder="Email">
+                                                            <input type="email" class="form-control" name="emailEdit" placeholder="Email">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="password" class="col-sm-4 col-form-label">Password</label>
                                                         <div class="col-sm-8 password">
-                                                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                                            <input type="password" class="form-control" name="passwordEdit" placeholder="Password">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="passwordConfirm" class="col-sm-4 col-form-label">Confirm Password</label>
                                                         <div class="col-sm-8 password">
-                                                            <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm Password">
+                                                            <input type="password" class="form-control" name="passwordConfirmEdit" placeholder="Confirm Password">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-sm-4">Department</div>
                                                         <div class="col-sm-8">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="departmentAdd" id="English">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="English" value="English">
                                                                 <label class="form-check-label" for="english">English</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Math">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="Math" value="Math">
                                                                 <label class="form-check-label" for="math">Math</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Science">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="Science" value="Science">
                                                                 <label class="form-check-label" for="science">Science</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Art">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="Art" value="Art">
                                                                 <label class="form-check-label" for="art">Art</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Music">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="Music" value="Music">
                                                                 <label class="form-check-label" for="department">Music</label>
                                                             </div>
                                                         </div>
@@ -227,25 +229,25 @@
                                                         <legend class="col-form-label col-sm-4 pt-0">User Role</legend>
                                                         <div class="col-sm-8">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Administrator">
+                                                                <input class="form-check-input" type="radio" name="userRoleEdit" id="Administrator" value="1">
                                                                 <label class="form-check-label" for="administrator">Administrator</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Principal">
+                                                                <input class="form-check-input" type="radio" name="userRoleEdit" id="Principal" value="2">
                                                                 <label class="form-check-label" for="principal">Principal</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Head Teacher">
+                                                                <input class="form-check-input" type="radio" name="userRoleEdit" id="Head Teacher" value="3">
                                                                 <label class="form-check-label" for="headTeacher">Head Teacher</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Teacher">
+                                                                <input class="form-check-input" type="radio" name="userRoleEdit" id="Teacher" value="4">
                                                                 <label class="form-check-label" for="teacher">Teacher</label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="userId">
-                                                        <input type="hidden" id="userId">
+                                                        <input type="hidden" name="userIdEdit">
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -269,15 +271,20 @@
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this user?</p>
-                                                <p>This action cannot be undone.</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary btn-danger">Confirm</button>
-                                            </div>
+                                            </div>                                            
+                                            <form action="userdelete.jsp" method="post">
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to delete this user?</p>
+                                                    <p>This action cannot be undone.</p>
+                                                </div>
+                                                <div class="userId">
+                                                    <input type="hidden" name="userIdDelete">
+                                                </div>
+                                                <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary btn-danger">Confirm</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                     </div>
@@ -302,58 +309,58 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="" oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : "")'>
+                                <form oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : "")' method="post" action="useradd.jsp"> 
                                     <div class="form-group row">
                                         <label for="firstName" class="col-sm-4 col-form-label">First Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                                            <input type="text" class="form-control" name="firstNameAdd" placeholder="First Name">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="lastName" class="col-sm-4 col-form-label">Last Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                                            <input type="text" class="form-control" name="lastNameAdd" placeholder="Last Name">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="email" class="col-sm-4 col-form-label">Email</label>
                                         <div class="col-sm-8 email">
-                                            <input type="email" class="form-control" id="email" placeholder="Email">
+                                            <input type="email" class="form-control" name="emailAdd" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="password" class="col-sm-4 col-form-label">Password*</label>
                                         <div class="col-sm-8">
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                            <input type="password" class="form-control" name="passwordAdd" placeholder="Password">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="passwordConfirm" class="col-sm-4 col-form-label">Confirm Password*</label>
                                         <div class="col-sm-8">
-                                            <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm Password">
+                                            <input type="password" class="form-control" name="passwordConfirmAdd" name="passwordConfirm" placeholder="Confirm Password">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-4">Department</div>
                                         <div class="col-sm-8">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="English" checked>
+                                                <input class="form-check-input" type="radio" name="departmentAdd" id="English" value="English" checked>
                                                 <label class="form-check-label" for="english">English</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Math">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Math" value="Math">
                                                 <label class="form-check-label" for="math">Math</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Science">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Science" value="Science">
                                                 <label class="form-check-label" for="science">Science</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Art">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Art" value="Art">
                                                 <label class="form-check-label" for="art">Art</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Music">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Music" value="Music">
                                                 <label class="form-check-label" for="department">Music</label>
                                             </div>
                                         </div>
@@ -362,26 +369,26 @@
                                         <legend class="col-form-label col-sm-4 pt-0">User Role</legend>
                                         <div class="col-sm-8">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Administrator" checked>
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Administrator" value="1" checked>
                                                 <label class="form-check-label" for="administrator">Administrator</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Principal">
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Principal" value="2">
                                                 <label class="form-check-label" for="principal">Principal</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Head Teacher">
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Head Teacher" value="3">
                                                 <label class="form-check-label" for="headTeacher">Head Teacher</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Teacher">
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Teacher" value="4">
                                                 <label class="form-check-label" for="teacher">Teacher</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                        <button type="submit" class="btn btn-primary submit">Confirm</button>                                        
                                     </div>
                                 </form>
                             </div>
@@ -390,11 +397,11 @@
                 </div>
                         
             </div>
-        </div>
-        <%@ include file="/WEB-INF/jspf/footer-static.jspf" %>        
+        </div>       
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script src="js/main.js"></script>
     </body>
+        <%@ include file="/WEB-INF/jspf/footer-static.jspf"%> 
 </html>

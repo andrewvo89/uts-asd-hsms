@@ -13,6 +13,7 @@ import uts.asd.hsms.model.*;
 import com.mongodb.MongoClient;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 /**
@@ -33,7 +34,6 @@ public class UserDao {
     
     public User[] getUsers() {
         DBCursor cursor = collection.find();
-        System.out.println("COUNT: " + cursor.count());
         User[] users = new User[cursor.count()];
         int count = 0;
         while (cursor.hasNext()) {
@@ -88,71 +88,35 @@ public class UserDao {
         return null;        
     }
     
-    public void addUser(String firstName, String lastName, String department, String email, String password, int userRole) {
+    public void addUser(String firstName, String lastName, String email, String password, String department, int userRole) {
         BasicDBObject newRecord = new BasicDBObject();
         //newRecord.put("teacherId", teacherID);
         newRecord.put("firstName", firstName);
         newRecord.put("lastName", lastName);
-        newRecord.put("department", department);
         newRecord.put("email", email);
         newRecord.put("password", password);
+        newRecord.put("department", department);
         newRecord.put("userRole", userRole);
         collection.insert(newRecord);
     }
-//    
-//    public User getUser(String userId, String password) throws SQLException {
-//        
-//        String sqlQuery = String.format("SELECT * FROM USERS WHERE userid = '%s'", userId);
-//        System.out.println(sqlQuery);
-//        ResultSet rs = st.executeQuery(sqlQuery);
-//        while(rs.next()) {
-//            User user = new User(rs.getString("userid"), rs.getString("firstname"),
-//                         rs.getString("lastname"), rs.getString("email"),
-//                         rs.getString("password"), rs.getBoolean("staff"));
-//            if (user.passwordMatches(password)) {
-//                return user;
-//            }
-//        }
-//        
-//        return null;
-//        
-//    }
-//    
-//    public boolean createUser(String userId, String firstName, String lastName, String email, String password, boolean staff) throws SQLException {
-//        
-//        String sqlQuery = String.format("INSERT INTO USERS VALUES('%s','%s','%s','%s','%s', %b)",
-//                userId, firstName, lastName, email, password, staff);
-//        System.out.println(sqlQuery);
-//        int result = st.executeUpdate(sqlQuery);
-//        
-//        if (result > 0) {
-//            return true;
-//        }
-//        
-//        return false;
-//        
-//    }
-//    
-//    public boolean updateUser(String userId, String firstName, String lastName, String email, String password, boolean staff) throws SQLException {
-//        
-//        String sqlQuery = String.format("UPDATE USERS SET firstname = '%s', lastname = '%s', email = '%s', password = '%s', staff = %b WHERE userid = '%s'",
-//                firstName, lastName, email, password, staff, userId);
-//        System.out.println(sqlQuery);
-//        int result = st.executeUpdate(sqlQuery);
-//        
-//        if (result > 0) {
-//            return true;
-//        }
-//        
-//        return false;
-//        
-//    }
-//    
-//    public void deleteUser(String userId) throws SQLException{
-//        
-//        String sqlQuery = String.format("DELETE FROM USERS WHERE userid = '%s'", userId);
-//        st.executeUpdate(sqlQuery);
-//        
-//    }
+    
+    public void deleteUser(ObjectId userId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", userId);
+        collection.remove(query);
+    }
+    
+    public void editUser(ObjectId userId, String firstName, String lastName, String email, String password, String department, int userRole) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", userId);
+        BasicDBObject newRecord = new BasicDBObject(); 
+        newRecord.put("firstName", firstName);
+        newRecord.put("lastName", lastName);
+        newRecord.put("email", email);
+        newRecord.put("password", password);
+        newRecord.put("department", department);
+        newRecord.put("userRole", userRole);
+        collection.update(query, newRecord);        
+    }
 
 }
