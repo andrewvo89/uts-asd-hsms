@@ -81,7 +81,7 @@
                                 <span>There are 3 new posts today.</span>
                             </div>
                             <div>
-                            <a href="#">Show More</a>
+                            <a href="newsfeed.jsp">Show More</a>
                             </div>
                         </div>
                     </div>
