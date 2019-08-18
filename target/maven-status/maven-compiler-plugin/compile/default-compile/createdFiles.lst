@@ -1,6 +1,6 @@
-uts\asd\hsms\model\dao\UserDao.class
-uts\asd\hsms\model\dao\MongoDBConnector.class
-uts\asd\hsms\resources\JavaEE8Resource.class
-uts\asd\hsms\JAXRSConfiguration.class
-uts\asd\hsms\controller\ConnServlet.class
-uts\asd\hsms\model\User.class
+uts/asd/hsms/controller/ConnServlet.class
+uts/asd/hsms/model/dao/UserDao.class
+uts/asd/hsms/model/User.class
+uts/asd/hsms/JAXRSConfiguration.class
+uts/asd/hsms/resources/JavaEE8Resource.class
+uts/asd/hsms/model/dao/MongoDBConnector.class

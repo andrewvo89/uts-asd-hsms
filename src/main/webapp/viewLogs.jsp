@@ -33,9 +33,10 @@
         %>      
     </head>
     <body>
-        
-   
-<H3 style="color:#e0ac62; padding-top: 150px;" align="center">Log Activities</H3>
+ <% java.util.Date date = new java.util.Date(); %>
+        <br><p style="text-align:right; padding-top: 150px;"> Logged on <%= date %></p>       
+  
+<H3 style="color:#e0ac62; padding-top: 50px;" align="center">Log Activities</H3>
 <table style="padding-top: 150px;" width="600" border="1" align="center">
 <tr>
 <th> <div align="center">UserID </div></th>
@@ -47,10 +48,10 @@
 <td><div align="center"><%=request.getAttribute("Date")%></div></td>
 </tr>
 </table>      
-        <br> VIEW USER LOGS 
-        <a href="searchLog.jsp"><button type="button"> View </button></a>
- <% java.util.Date date = new java.util.Date(); %>
-    <br> Logged on <%= date %>
+        <br><p style="text-align:center;"> VIEW USER LOGS 
+            <a href="log.jsp"><button type="button"> View </button></p></a>
+    <br>
+ 
     
 <%@ include file="/WEB-INF/jspf/footer-static.jspf" %>        
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
