@@ -23,7 +23,7 @@
     <body>
         <%
             userDao.addUser(firstName, lastName, email, password, department, userRole);
-            response.sendRedirect("usermanagement.jsp");
+            response.sendRedirect("usermanagement.jsp?emailSearch="+email);
         %>
     </body>
 </html>
