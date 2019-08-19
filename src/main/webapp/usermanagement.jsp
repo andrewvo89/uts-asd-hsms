@@ -11,6 +11,41 @@
 <%
     User user = (User)session.getAttribute("user");
     UserDao userDao = (UserDao)session.getAttribute("userDao");
+    String firstNameSearch = request.getParameter("firstNameSearch");
+    String lastNameSearch = request.getParameter("lastNameSearch");
+    String departmentSearch = request.getParameter("departmentSearch");
+    String emailSearch = request.getParameter("emailSearch");
+    String departmentSearchAll="", departmentSearchEnglish="", departmentSearchMath="", departmentSearchScience="", departmentSearchArt="", departmentSearchMusic="";
+    String userRoleSearchAll="", userRoleSearchAdministrator="", userRoleSearchPrincipal="", userRoleSearchHeadTeacher="", userRoleSearchTeacher="";
+    int userRoleSearch = 0;
+    
+    if (request.getParameter("userRoleSearch") != null) {
+        try {
+            userRoleSearch = Integer.parseInt(request.getParameter("userRoleSearch"));
+        }
+        catch (NumberFormatException ex) {
+            userRoleSearch = 0;
+        }
+    }
+    if (request.getParameter("firstNameSearch") == null) firstNameSearch = "";
+    if (request.getParameter("lastNameSearch") == null) lastNameSearch = "";
+    if (request.getParameter("departmentSearch") == null) departmentSearch = "";
+    if (request.getParameter("emailSearch") == null) emailSearch = "";
+    
+    if (departmentSearch.equals("English")) departmentSearchEnglish = "checked";
+    else if(departmentSearch.equals("Math")) departmentSearchMath = "checked";
+    else if(departmentSearch.equals("Science")) departmentSearchScience = "checked";
+    else if(departmentSearch.equals("Art")) departmentSearchArt = "checked";
+    else if(departmentSearch.equals("Music")) departmentSearchMusic = "checked";
+    else departmentSearchAll = "checked";
+    
+    if (userRoleSearch == 1) userRoleSearchAdministrator = "checked";
+    else if(userRoleSearch == 2) userRoleSearchPrincipal = "checked";
+    else if(userRoleSearch == 3) userRoleSearchHeadTeacher = "checked";
+    else if(userRoleSearch == 4) userRoleSearchTeacher = "checked";
+    else userRoleSearchAll = "checked";
+        
+    User[] users = userDao.getUsers(null, firstNameSearch, lastNameSearch, emailSearch, null, departmentSearch, userRoleSearch);
 %>
 <!DOCTYPE html>
 <html>
@@ -46,19 +81,26 @@
                 <h1>User Management</h1>
                 <div class="card" style="margin-top:25px">
                     <div class="card-header">
-                        <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
+                        <form action="usermanagement.jsp" method="post">
+                            <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
+                            <input type="hidden" name="firstNameSearch" value="">
+                            <input type="hidden" name="lastNameSearch" value="">
+                            <input type="hidden" name="departmentSearch" value="">
+                            <input type="hidden" name="userRoleSearch" value="">
+                            <button type="submit" class="btn btn-outline-secondary">Clear Filter</button>                            
+                        </form>
                     </div>
-                    <div class="collapse" id="collapseExample">
+                    <div class="collapse" id="collapseSearch">
                         <div class="card-body">
-                            <form action="" oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : "")'>
+                            <form action="usermanagement.jsp" method="post">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="First Name">
+                                    <label for="firstNameSearch">First Name</label>
+                                    <input type="text" class="form-control" name="firstNameSearch" placeholder="First Name" value="<%=firstNameSearch%>">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="lastName">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                                    <label for="lastNameSearch">Last Name</label>
+                                    <input type="text" class="form-control" name="lastNameSearch" placeholder="Last Name" value="<%=lastNameSearch%>">
                                 </div>
                             </div>
                                 <div class="form-row">
@@ -66,27 +108,27 @@
                                         <label for="departmentSearch">Department</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="all" value="All" checked>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="All" value="All" <%=departmentSearchAll%>>
                                                 <label class="form-check-label" for="all">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="english" value="English">
+                                                <input class="form-check-input" type="radio" name="departmentSearch" value="English" <%=departmentSearchEnglish%>>
                                                 <label class="form-check-label" for="english">English</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="math" value="Math">
-                                                <label class="form-check-label" for="math">Maths</label>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Math" <%=departmentSearchMath%>>
+                                                <label class="form-check-label" for="math">Math</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="science" value="Science">
+                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Science" <%=departmentSearchScience%>>
                                                 <label class="form-check-label" for="science">Science</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="art" value="Art">
+                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Art" <%=departmentSearchArt%>>
                                                 <label class="form-check-label" for="art">Art</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="music" value="Music">
+                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Music" <%=departmentSearchMusic%>>
                                                 <label class="form-check-label" for="music">Music</label>
                                             </div>                                               
                                         </div>
@@ -95,23 +137,23 @@
                                         <label for="departmant">Permission Level</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="all" value="all" checked>
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="0" <%=userRoleSearchAll%>>
                                                 <label class="form-check-label" for="all">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="administrator" value="1">
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="1" <%=userRoleSearchAdministrator%>>
                                                 <label class="form-check-label" for="administrator">Administrator</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="principal" value="2">
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="2" <%=userRoleSearchPrincipal%>>
                                                 <label class="form-check-label" for="principal">Principal</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="headTeacher" value="3">
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="3" <%=userRoleSearchHeadTeacher%>>
                                                 <label class="form-check-label" for="headTeacher">Head Teacher</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="permissionSearch" id="teacher" value="4">
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="4" <%=userRoleSearchTeacher%>>
                                                 <label class="form-check-label" for="teacher">Teacher</label>
                                             </div>                                               
                                         </div>
@@ -119,7 +161,7 @@
                                 </div> 
                                 <button type="submit" class="btn btn-primary mb-2">Search</button>
                             </form> 
-                     </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -136,7 +178,6 @@
                     </thead>
                     <tbody>
                         <%
-                            User[] users = userDao.getUsers();
                             for (int x = 0; x < users.length; x++) {
                                 User currentUser = users[x];
                                 String userId = currentUser.getUserId().toString();
@@ -250,7 +291,7 @@
                                                         <input type="hidden" name="userIdEdit">
                                                     </div>
                                                     <div class="redirect">
-                                                        <input type="hidden" name="redirect" value="usermanagement">>
+                                                        <input type="hidden" name="redirect" value="usermanagement">
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -347,23 +388,23 @@
                                         <div class="col-sm-4">Department</div>
                                         <div class="col-sm-8">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="English" value="English" checked>
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="English" checked>
                                                 <label class="form-check-label" for="english">English</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Math" value="Math">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Math">
                                                 <label class="form-check-label" for="math">Math</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Science" value="Science">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Science">
                                                 <label class="form-check-label" for="science">Science</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Art" value="Art">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Art">
                                                 <label class="form-check-label" for="art">Art</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Music" value="Music">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Music">
                                                 <label class="form-check-label" for="department">Music</label>
                                             </div>
                                         </div>
@@ -398,7 +439,6 @@
                         </div>
                     </div>
                 </div>
-                        
             </div>
         </div>       
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -13,6 +13,7 @@ import uts.asd.hsms.model.*;
 import com.mongodb.MongoClient;
 import java.util.ArrayList;
 import java.util.List;
+import static java.util.regex.Pattern.*;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -50,24 +51,73 @@ public class UserDao {
         }
         return users;
     }
-    //gets a user using two parametercs, objectID and userId
-    public User getUser(ObjectId userId) {
+    public User[] getUsers(ObjectId userId, String firstName, String lastName, String email, String password, String department, int userRole) {
+        List<BasicDBObject> conditions = new ArrayList<BasicDBObject>();
         BasicDBObject query = new BasicDBObject();
-        query.put("_id", userId.toString());
-        DBCursor cursor = collection.find(query);
-        DBObject result = cursor.one();
-        
-        if (result != null) {
-            String firstName = (String)result.get("firstName");
-            String lastName = (String)result.get("lastName");
-            String department = (String)result.get("department");
-            String email = (String)result.get("email");
-            String password = (String)result.get("password");
-            int userRole = (int)result.get("uerRole");
-            return new User(userId, firstName, lastName, email, password, department, userRole);
-        }        
-        return null;        
-    } //gets a user using two parameters, email and password (e.g. for login)
+        DBCursor cursor;
+        if (userId != null) conditions.add(new BasicDBObject("_id", userId));
+        if (firstName != null) {
+            if (!firstName.isEmpty()) conditions.add(new BasicDBObject("firstName", compile(quote(firstName.trim()), CASE_INSENSITIVE)));
+        }
+        if (lastName != null) {
+            if (!lastName.isEmpty()) conditions.add(new BasicDBObject("lastName", compile(quote(lastName.trim()), CASE_INSENSITIVE)));
+        }
+        if (email != null) {
+            if (!email.isEmpty()) conditions.add(new BasicDBObject("email", compile(quote(email.trim()), CASE_INSENSITIVE)));
+        }
+        if (password != null) {
+            if (!password.isEmpty()) conditions.add(new BasicDBObject("password", compile(quote(password.trim()), CASE_INSENSITIVE)));
+        }
+        if (department != null) {
+            if (!department.isEmpty()) {
+                if (!department.equals("All")) conditions.add(new BasicDBObject("department", compile(quote(department), CASE_INSENSITIVE)));
+            }
+        }
+        if (userRole != 0) conditions.add(new BasicDBObject("userRole", userRole));
+        if (conditions.size() == 0) {
+            cursor = collection.find();
+        }
+        else {
+            query.put("$and", conditions);
+            cursor = collection.find(query);
+        }
+        System.out.println("SDSDSDS" + query.toString());
+        User[] users = new User[cursor.count()];
+
+        int count = 0;
+        while (cursor.hasNext()) {
+            DBObject result = cursor.next();
+            ObjectId userIdResult = (ObjectId)result.get("_id");
+            String firstNameResult = (String)result.get("firstName");
+            String lastNameResult = (String)result.get("lastName");
+            String emailResult = (String)result.get("email");
+            String passwordResult = (String)result.get("password");
+            String departmentResult = (String)result.get("department");
+            int userRoleResult = (int)result.get("userRole");
+            users[count] = new User(userIdResult, firstNameResult, lastNameResult, emailResult, passwordResult, departmentResult, userRoleResult);
+            count ++;
+            }
+            return users;
+    }
+        //gets a user using two parametercs, objectID and userId
+        public User getUser(ObjectId userId) {
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", userId.toString());
+            DBCursor cursor = collection.find(query);
+            DBObject result = cursor.one();
+
+            if (result != null) {
+                String firstName = (String)result.get("firstName");
+                String lastName = (String)result.get("lastName");
+                String department = (String)result.get("department");
+                String email = (String)result.get("email");
+                String password = (String)result.get("password");
+                int userRole = (int)result.get("uerRole");
+                return new User(userId, firstName, lastName, email, password, department, userRole);
+            }        
+            return null;        
+        } 
+        //gets a user using two parameters, email and password (e.g. for login)
         public User getUser(String email, String password) {
         BasicDBObject query = new BasicDBObject();
         List<BasicDBObject> queryList = new ArrayList<BasicDBObject>();

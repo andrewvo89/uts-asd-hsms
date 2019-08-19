@@ -8,6 +8,7 @@
 <%@page import="uts.asd.hsms.model.dao.*"%>
 <%@page import="uts.asd.hsms.model.*"%>
 <%
+    User user = (User)session.getAttribute("user");
     UserDao userDao = (UserDao)session.getAttribute("userDao");
     ObjectId userId = new ObjectId(request.getParameter("userIdEdit"));
     String firstName = request.getParameter("firstNameEdit");
@@ -24,8 +25,10 @@
     </head>
     <body>
         <%
-            System.out.println("User ID is : " + firstName);
-            //userDao.editUser(userId, firstName, lastName, email, password, department, userRole);
+            userDao.editUser(userId, firstName, lastName, email, password, department, userRole);
+            if (userId.equals(user.getUserId())) {
+                session.setAttribute("user", new User(userId, firstName, lastName, email, password, department, userRole));
+            }
             response.sendRedirect(redirect + ".jsp");
         %>
     </body>

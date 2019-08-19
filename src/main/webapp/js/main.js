@@ -10,7 +10,7 @@ $('#userEditModal').on('show.bs.modal', function (event) {
   var department = button.data('department')
   var userrolestring = button.data('userrolestring')
   var modal = $(this)
-  modal.find('.modal-title').text('Edit ' + firstname + ' ' + lastname)
+  modal.find('.modal-title').text('Edit ' + department + ' ' + userrolestring)
   modal.find('.userId input').val(userid)
   modal.find('.firstName input').val(firstname)
   modal.find('.lastName input').val(lastname)

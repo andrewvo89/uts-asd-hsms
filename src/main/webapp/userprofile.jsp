@@ -48,35 +48,38 @@
                             <div class="form-group row">
                                 <label for="firstName" class="col-sm-4 col-form-label">First Name</label>
                                 <div class="col-sm-8 firstName">
-                                    <input type="text" class="form-control" name="firstNameEdit" placeholder="First Name" value="<%=firstName%>"disabled="true">
+                                    <input type="text" class="form-control" name="firstName" placeholder="First Name" value="<%=firstName%>" disabled="true">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="lastName" class="col-sm-4 col-form-label">Last Name</label>
                                 <div class="col-sm-8 lastName">
-                                    <input type="text" class="form-control" name="lastNameEdit" placeholder="Last Name" value="<%=lastName%>" disabled="true">
+                                    <input type="text" class="form-control" name="lastName" placeholder="Last Name" value="<%=lastName%>" disabled="true">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="email" class="col-sm-4 col-form-label">Email</label>
                                 <div class="col-sm-8 email">
-                                    <input type="email" class="form-control" name="emailEdit" placeholder="Email" value="<%=email%>"  disabled="true">
+                                    <input type="email" class="form-control" name="email" placeholder="Email" value="<%=email%>"  disabled="true">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="password" class="col-sm-4 col-form-label">Password</label>
+                                <label for="passwordEdit" class="col-sm-4 col-form-label">Password</label>
                                 <div class="col-sm-8 password">
-                                    <input type="password" class="form-control" name="password" name="passwordEdit"  value="<%=password%>" placeholder="Password">
+                                    <input type="password" class="form-control" name="passwordEdit"  value="<%=password%>" placeholder="Password">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="passwordConfirm" class="col-sm-4 col-form-label">Confirm Password</label>
+                                <label for="passwordConfirmEdit" class="col-sm-4 col-form-label">Confirm Password</label>
                                 <div class="col-sm-8 password">
-                                    <input type="password" class="form-control" name="passwordConfirm" name="passwordConfirmEdit"  value="<%=password%>" placeholder="Confirm Password">
+                                    <input type="password" class="form-control" name="passwordConfirmEdit"  value="<%=password%>" placeholder="Confirm Password">
                                 </div>
                             </div>
                             <div class="hidden">
                                 <input type="hidden" name="userIdEdit" value="<%=userId%>">
+                                <input type="hidden" name="firstNameEdit" value="<%=firstName%>">
+                                <input type="hidden" name="lastNameEdit" value="<%=lastName%>">
+                                <input type="hidden" name="emailEdit" value="<%=email%>">
                                 <input type="hidden" name="departmentEdit" value="<%=department%>">
                                 <input type="hidden" name="userRoleEdit" value="<%=userRole%>">
                                 <input type="hidden" name="redirect" value="userprofile">
@@ -85,6 +88,7 @@
                                 <button type="button" class="btn btn-secondary" onclick="window.location.href='index.jsp'">Close</button>
                                 <button type="submit" class="btn btn-primary">Confirm</button>
                             </div>
+                        </form>
                     </div>
                 </div>
             </div>
