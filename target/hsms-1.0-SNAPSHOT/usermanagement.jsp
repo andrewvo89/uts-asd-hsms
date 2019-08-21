@@ -8,17 +8,60 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="uts.asd.hsms.model.dao.*"%>
 <%@page import="uts.asd.hsms.model.*"%>
+<%@page import="uts.asd.hsms.controller.*"%>
+<%@page import="java.io.*,java.lang.*,java.util.*,java.net.*,java.util.*,java.text.*"%>
+<%@page import="javax.activation.*,javax.mail.*"%>
+<%@page import="javax.servlet.http.*,javax.servlet.*"%>
+<%@page import="java.util.ArrayList"%>
+        
 <%
     User user = (User)session.getAttribute("user");
     UserDao userDao = (UserDao)session.getAttribute("userDao");
+    ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
+    if (message == null) {
+        message = new ArrayList<String>();//1.message header 2.message body 3.message type 4.modal trigger
+        message.add(""); message.add(""); message.add(""); message.add("");
+    }
+    //Prefill Add Data variables    
+    String firstNameAdd = (String)session.getAttribute("firstNameAdd");
+    String lastNameAdd = (String)session.getAttribute("lastNameAdd");
+    String emailAdd = (String)session.getAttribute("emailAdd");
+    String passwordAdd = (String)session.getAttribute("passwordAdd");
+    String departmentAdd = (String)session.getAttribute("departmentAdd");
+    String depratmentAddEnglish = "", depratmentAddMath = "", depratmentAddScience = "", depratmentAddArt = "", depratmentAddMusic = "";
+    String userRoleAddAdministrator = "", userRoleAddPrincipal = "", userRoleAddHeadTeacher = "", userRoleAddTeacher = "";
+    int userRoleAdd = 0;  
+    if (session.getAttribute("userRoleAdd") != null) {
+        try {
+            userRoleAdd = Integer.valueOf((session.getAttribute("userRoleAdd").toString()));
+        }
+        catch (NumberFormatException ex) {
+            userRoleAdd = 0;
+        }
+    }    
+    if (firstNameAdd == null) firstNameAdd = "";
+    if (lastNameAdd == null) lastNameAdd = "";
+    if (emailAdd == null) emailAdd = "";
+    if (passwordAdd == null) passwordAdd = "";
+    if (departmentAdd == null) departmentAdd = "";
+    if (departmentAdd.equals("Math")) depratmentAddMath = "checked";
+    else if(departmentAdd.equals("Science")) depratmentAddScience = "checked";
+    else if(departmentAdd.equals("Art")) depratmentAddArt = "checked";
+    else if(departmentAdd.equals("Music")) depratmentAddMusic = "checked";
+    else depratmentAddEnglish = "checked";
+    if(userRoleAdd == 2) userRoleAddPrincipal = "checked";
+    else if(userRoleAdd == 3) userRoleAddHeadTeacher = "checked";
+    else if(userRoleAdd == 4) userRoleAddTeacher = "checked";
+    else userRoleAddAdministrator = "checked";
+
+    //Prefill Search Data variables
     String firstNameSearch = request.getParameter("firstNameSearch");
     String lastNameSearch = request.getParameter("lastNameSearch");
     String departmentSearch = request.getParameter("departmentSearch");
     String emailSearch = request.getParameter("emailSearch");
     String departmentSearchAll="", departmentSearchEnglish="", departmentSearchMath="", departmentSearchScience="", departmentSearchArt="", departmentSearchMusic="";
     String userRoleSearchAll="", userRoleSearchAdministrator="", userRoleSearchPrincipal="", userRoleSearchHeadTeacher="", userRoleSearchTeacher="";
-    int userRoleSearch = 0;
-    
+    int userRoleSearch = 0;    
     if (request.getParameter("userRoleSearch") != null) {
         try {
             userRoleSearch = Integer.parseInt(request.getParameter("userRoleSearch"));
@@ -27,18 +70,16 @@
             userRoleSearch = 0;
         }
     }
-    if (request.getParameter("firstNameSearch") == null) firstNameSearch = "";
-    if (request.getParameter("lastNameSearch") == null) lastNameSearch = "";
-    if (request.getParameter("departmentSearch") == null) departmentSearch = "";
-    if (request.getParameter("emailSearch") == null) emailSearch = "";
-    
+    if (firstNameSearch == null) firstNameSearch = "";
+    if (lastNameSearch == null) lastNameSearch = "";
+    if (departmentSearch == null) departmentSearch = "";
+    if (emailSearch == null) emailSearch = "";    
     if (departmentSearch.equals("English")) departmentSearchEnglish = "checked";
     else if(departmentSearch.equals("Math")) departmentSearchMath = "checked";
     else if(departmentSearch.equals("Science")) departmentSearchScience = "checked";
     else if(departmentSearch.equals("Art")) departmentSearchArt = "checked";
     else if(departmentSearch.equals("Music")) departmentSearchMusic = "checked";
-    else departmentSearchAll = "checked";
-    
+    else departmentSearchAll = "checked";    
     if (userRoleSearch == 1) userRoleSearchAdministrator = "checked";
     else if(userRoleSearch == 2) userRoleSearchPrincipal = "checked";
     else if(userRoleSearch == 3) userRoleSearchHeadTeacher = "checked";
@@ -74,11 +115,12 @@
             }
         %>
     </head>
+    <input type="hidden" id="modalTrigger" value="<%=message.get(3)%>">
     <body style="padding-bottom: 8rem">
-        <input name="addFlag" type="hidden" value="false">
         <div class="main">
             <div class="container">
                 <h1>User Management</h1>
+                 
                 <div class="card" style="margin-top:25px">
                     <div class="card-header">
                         <form action="usermanagement.jsp" method="post">
@@ -199,7 +241,8 @@
                                         data-userid="<%=userId%>" data-firstname="<%=firstName%>" data-lastname="<%=lastName%>"
                                         data-department="<%=department%>" data-email="<%=email%>" data-password="<%=password%>" 
                                         data-userrolestring="<%=userRoleString%>">Edit</button>
-                                        
+                                    
+                                <!--EDIT USER MODAL DIALOG-->        
                                 <div class="modal fade" id="userEditModal" tabindex="-1" role="dialog" aria-labelledby="userEditModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -210,7 +253,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="useredit.jsp" method="post" oninput='passwordConfirmEdit.setCustomValidity(passwordConfirmEdit.value != passwordEdit.value ? "Passwords do not match." : "")'>
+                                                <form action="UserServlet" method="post" oninput='passwordConfirmEdit.setCustomValidity(passwordConfirmEdit.value != passwordEdit.value ? "Passwords do not match." : "")'>
                                                     <div class="form-group row">
                                                         <label for="firstName" class="col-sm-4 col-form-label">First Name</label>
                                                         <div class="col-sm-8 firstName">
@@ -238,7 +281,7 @@
                                                     <div class="form-group row">
                                                         <label for="passwordConfirm" class="col-sm-4 col-form-label">Confirm Password</label>
                                                         <div class="col-sm-8 password">
-                                                            <input type="password" class="form-control" name="passwordConfirmEdit" placeholder="Confirm Password">
+                                                                <input type="password" class="form-control" name="passwordConfirmEdit" placeholder="Confirm Password">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -249,7 +292,7 @@
                                                                 <label class="form-check-label" for="english">English</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="Math" value="Math">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="Math" value="Math" >
                                                                 <label class="form-check-label" for="math">Math</label>
                                                             </div>
                                                             <div class="form-check">
@@ -290,10 +333,9 @@
                                                     <div class="userId">
                                                         <input type="hidden" name="userIdEdit">
                                                     </div>
-                                                    <div class="redirect">
-                                                        <input type="hidden" name="redirect" value="usermanagement">
-                                                    </div>
                                                     <div class="modal-footer">
+                                                        <input type="hidden" name="action" value="edit">
+                                                        <input type="hidden" name="redirect" value="usermanagement">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary">Confirm</button>
                                                     </div>
@@ -301,37 +343,57 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                
+                                </div>                       
+                                <!--MESSAGE MODAL-->
+                                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="messageModalLabel"><%=message.get(0)%></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>    
+                                            </div>                            
+                                            <div class="modal-body">
+                                                    <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div> 
+                                    </div>   
+                                </div>                          
+                                <!--DELETE MESSAGE MODAL AFTER DELETE-->                                
                                 <button type=button" class="btn btn-danger"  data-toggle="modal" data-target="#userDeleteModal"
                                         data-toggle="modal"role="button" data-userid="<%=userId%>" data-firstname="<%=firstName%>" 
                                         data-lastname="<%=lastName%>">Delete</button>
                                     
                                         <div class="modal fade" id="userDeleteModal" tabindex="-1" role="dialog" aria-labelledby="userDeleteModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="userDeleteModalLabel"></h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>                                            
-                                            <form action="userdelete.jsp" method="post">
-                                                <div class="modal-body">
-                                                    <p>Are you sure you want to delete this user?</p>
-                                                    <p>This action cannot be undone.</p>
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="userDeleteModalLabel"></h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>                                            
+                                                    <form action="UserServlet" method="post">
+                                                        <div class="modal-body">
+                                                            <p>Are you sure you want to delete this user?</p>
+                                                            <p>This action cannot be undone.</p>
+                                                        </div>
+                                                        <div class="userId">
+                                                            <input type="hidden" name="userIdDelete">        
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="action" value="delete">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary btn-danger">Confirm</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
-                                                <div class="userId">
-                                                    <input type="hidden" name="userIdDelete">
-                                                </div>
-                                                <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary btn-danger">Confirm</button>
-                                                </div>
-                                            </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                    </div>
                             </td>
                         <%
                             }
@@ -341,8 +403,8 @@
                 </table>
                 <div class="float-right">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#userAddModal" role="button">Add User</button>
-                </div>
-   
+                </div>                
+                <!--ADD USER MODAL DIALOG-->         
                 <div class="modal fade" id="userAddModal" tabindex="-1" role="dialog" aria-labelledby="userAddModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -353,58 +415,64 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : "")' method="post" action="useradd.jsp"> 
+                                <form oninput='passwordConfirmAdd.setCustomValidity(passwordConfirmAdd.value != passwordAdd.value ? "Passwords do not match." : "")' method="post" action="UserServlet"> 
                                     <div class="form-group row">
                                         <label for="firstName" class="col-sm-4 col-form-label">First Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="firstNameAdd" placeholder="First Name">
+                                            <input type="text" class="form-control" name="firstNameAdd" placeholder="First Name" required="true" minlength="1" maxlength="32" value="<%=firstNameAdd%>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="lastName" class="col-sm-4 col-form-label">Last Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="lastNameAdd" placeholder="Last Name">
+                                            <input type="text" class="form-control" name="lastNameAdd" placeholder="Last Name" required="true" minlength="1" maxlength="32" value="<%=lastNameAdd%>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="email" class="col-sm-4 col-form-label">Email</label>
                                         <div class="col-sm-8 email">
-                                            <input type="email" class="form-control" name="emailAdd" placeholder="Email">
+                                            <input type="email" class="form-control" name="emailAdd" placeholder="Email" required="true" minlength="1" maxlength="64" value="<%=emailAdd%>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="password" class="col-sm-4 col-form-label">Password*</label>
+                                        <label for="password" class="col-sm-4 col-form-label">Password</label>
                                         <div class="col-sm-8">
-                                            <input type="password" class="form-control" name="passwordAdd" placeholder="Password">
+                                            <div class="input-group" id="show_hide_password">
+                                                <input type="password" class="form-control pwdadd1" name="passwordAdd" placeholder="Password" required="true" minlength="6" maxlength="16" value="<%=passwordAdd%>">
+                                                <button class="btn btn-outline-dark revealdelete1" type="button" data-toggle="button">show</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="passwordConfirm" class="col-sm-4 col-form-label">Confirm Password*</label>
+                                        <label for="passwordConfirm" class="col-sm-4 col-form-label">Confirm Password</label>
                                         <div class="col-sm-8">
-                                            <input type="password" class="form-control" name="passwordConfirmAdd" name="passwordConfirm" placeholder="Confirm Password">
+                                            <div class="input-group" id="show_hide_password">
+                                                <input type="password" class="form-control pwdadd2" name="passwordConfirmAdd" name="passwordConfirm" placeholder="Confirm Password" required="true" minlength="6" maxlength="16" value="<%=passwordAdd%>">
+                                                <button class="btn btn-outline-dark revealdelete2" type="button" data-toggle="button">show</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-4">Department</div>
                                         <div class="col-sm-8">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" value="English" checked>
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="English" <%=depratmentAddEnglish%>>
                                                 <label class="form-check-label" for="english">English</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Math">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Math" <%=depratmentAddMath%>>
                                                 <label class="form-check-label" for="math">Math</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Science">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Science" <%=depratmentAddScience%>>
                                                 <label class="form-check-label" for="science">Science</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Art">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Art" <%=depratmentAddArt%>>
                                                 <label class="form-check-label" for="art">Art</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Music">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Music" <%=depratmentAddMusic%>>
                                                 <label class="form-check-label" for="department">Music</label>
                                             </div>
                                         </div>
@@ -413,24 +481,32 @@
                                         <legend class="col-form-label col-sm-4 pt-0">User Role</legend>
                                         <div class="col-sm-8">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Administrator" value="1" checked>
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Administrator" value="1" <%=userRoleAddAdministrator%>>
                                                 <label class="form-check-label" for="administrator">Administrator</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Principal" value="2">
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Principal" value="2" <%=userRoleAddPrincipal%>>
                                                 <label class="form-check-label" for="principal">Principal</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Head Teacher" value="3">
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Head Teacher" value="3" <%=userRoleAddHeadTeacher%>>
                                                 <label class="form-check-label" for="headTeacher">Head Teacher</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Teacher" value="4">
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" id="Teacher" value="4" <%=userRoleAddTeacher%>>
                                                 <label class="form-check-label" for="teacher">Teacher</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
+                                    <%
+                                        if (message.get(1) != "") {
+                                    %>      
+                                    <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
+                                    <%
+                                        }
+                                    %>   
+                                        <input type="hidden" name="action" value="add">                                 
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         <button type="submit" class="btn btn-primary submit">Confirm</button>                                        
                                     </div>
@@ -440,11 +516,21 @@
                     </div>
                 </div>
             </div>
-        </div>       
+        </div>
+    <%
+        session.removeAttribute("firstNameAdd");
+        session.removeAttribute("lastNameAdd");
+        session.removeAttribute("emailAdd");
+        session.removeAttribute("passwordAdd");
+        session.removeAttribute("departmentAdd");
+        session.removeAttribute("userRoleAdd");
+        session.removeAttribute("message");
+    %>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="js/main.js"></script>
+        <script src="js/usermanagement.js"></script>
     </body>
         <%@ include file="/WEB-INF/jspf/footer-static.jspf"%> 
 </html>
