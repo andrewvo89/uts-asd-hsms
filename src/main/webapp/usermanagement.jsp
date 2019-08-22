@@ -22,7 +22,7 @@
         message = new ArrayList<String>();//1.message header 2.message body 3.message type 4.modal trigger
         message.add(""); message.add(""); message.add(""); message.add("");
     }
-    //Prefill Add Data variables    
+    //Prefill Add Data variables
     String firstNameAdd = (String)session.getAttribute("firstNameAdd");
     String lastNameAdd = (String)session.getAttribute("lastNameAdd");
     String emailAdd = (String)session.getAttribute("emailAdd");

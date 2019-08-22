@@ -1,5 +1,6 @@
 uts\asd\hsms\model\dao\UserDao.class
 uts\asd\hsms\model\dao\MongoDBConnector.class
+uts\asd\hsms\controller\LoginServlet.class
 uts\asd\hsms\controller\EmailValidator.class
 uts\asd\hsms\controller\ConnServlet.class
 uts\asd\hsms\controller\UserValidator.class

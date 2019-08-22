@@ -40,7 +40,7 @@
         if (user == null) {
             String errorMessage = (String)session.getAttribute("errorMessage");
         %>
-            <form class="form-signin" method="post" action="login.jsp">
+            <form class="form-signin" method="post" action="LoginServlet">
                 <h1 class="h3 mb-3 font-weight-normal">Log In</h1>
                 <label for="inputEmail" class="sr-only">Email address</label>
                 <input name="email" type="text" id="inputId" class="form-control" placeholder="teacher@hsms.edu.au" required autofocus>

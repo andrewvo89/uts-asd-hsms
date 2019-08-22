@@ -12,6 +12,7 @@ import com.mongodb.DBObject;
 import uts.asd.hsms.model.*;
 import com.mongodb.MongoClient;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import static java.util.regex.Pattern.*;
 import org.bson.Document;
@@ -38,6 +39,7 @@ public class UserDao {
     //get all users using no parameters
     public User[] getUsers() {
         DBCursor cursor = collection.find();
+        cursor.sort(new BasicDBObject("firstName", 1));
         User[] users = new User[cursor.count()];
         int count = 0;
         while (cursor.hasNext()) {
@@ -52,6 +54,7 @@ public class UserDao {
             users[count] = new User(userId, firstName, lastName, email, password, department, userRole);
             count ++;
         }
+        Arrays.sort(users, 0, 1);
         return users;
     }
     public User[] getUsers(ObjectId userId, String firstName, String lastName, String email, String password, String department, int userRole) {
@@ -84,6 +87,7 @@ public class UserDao {
             query.put("$and", conditions);
             cursor = collection.find(query);
         }
+        cursor.sort(new BasicDBObject("firstName", 1));
         User[] users = new User[cursor.count()];
 
         int count = 0;
