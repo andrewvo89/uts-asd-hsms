@@ -12,6 +12,7 @@ import com.mongodb.DBObject;
 import uts.asd.hsms.model.*;
 import com.mongodb.MongoClient;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import static java.util.regex.Pattern.*;
 import org.bson.Document;
@@ -27,14 +28,18 @@ public class UserDao {
     DBCollection collection;
 
     public UserDao(MongoClient mongoClient) {
-        this.mongoClient = mongoClient;
-        
+        this.mongoClient = mongoClient;        
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("users");
+    }
+
+    public DB getDatabase() {
+        return database;
     }
     //get all users using no parameters
     public User[] getUsers() {
         DBCursor cursor = collection.find();
+        cursor.sort(new BasicDBObject("firstName", 1));
         User[] users = new User[cursor.count()];
         int count = 0;
         while (cursor.hasNext()) {
@@ -49,6 +54,7 @@ public class UserDao {
             users[count] = new User(userId, firstName, lastName, email, password, department, userRole);
             count ++;
         }
+        Arrays.sort(users, 0, 1);
         return users;
     }
     public User[] getUsers(ObjectId userId, String firstName, String lastName, String email, String password, String department, int userRole) {
@@ -81,7 +87,7 @@ public class UserDao {
             query.put("$and", conditions);
             cursor = collection.find(query);
         }
-        System.out.println("SDSDSDS" + query.toString());
+        cursor.sort(new BasicDBObject("firstName", 1));
         User[] users = new User[cursor.count()];
 
         int count = 0;
@@ -99,22 +105,21 @@ public class UserDao {
             }
             return users;
     }
-        //gets a user using two parametercs, objectID and userId
+        //gets a user using one parameters, objectID 
         public User getUser(ObjectId userId) {
             BasicDBObject query = new BasicDBObject();
-            query.put("_id", userId.toString());
+            query.put("_id", userId);
             DBCursor cursor = collection.find(query);
             DBObject result = cursor.one();
-
             if (result != null) {
                 String firstName = (String)result.get("firstName");
                 String lastName = (String)result.get("lastName");
                 String department = (String)result.get("department");
                 String email = (String)result.get("email");
                 String password = (String)result.get("password");
-                int userRole = (int)result.get("uerRole");
+                int userRole = (int)result.get("userRole");
                 return new User(userId, firstName, lastName, email, password, department, userRole);
-            }        
+            }       
             return null;        
         } 
         //gets a user using two parameters, email and password (e.g. for login)
