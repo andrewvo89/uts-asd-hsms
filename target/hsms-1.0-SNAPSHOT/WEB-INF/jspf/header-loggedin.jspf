@@ -68,7 +68,7 @@
                                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                                     <a class="dropdown-item" href="userprofile.jsp">Edit Profile</a>
                                     <a class="dropdown-item" href="#">Activity Log</a>
-                                    <a class="dropdown-item" href="logout.jsp">Log Out</a>
+                                    <a class="dropdown-item" href="LogoutServlet">Log Out</a>
                                 </div>
                             </li>
                         </ul>
