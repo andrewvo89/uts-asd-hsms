@@ -48,7 +48,7 @@
 <td><div align="center"><%=request.getAttribute("Date")%></div></td>
 </tr>
 </table>      
-        <br><p style="text-align:center;"> VIEW USER LOGS 
+        <br><p style="text-align:center;"> VEW USER LOGS 
             <a href="log.jsp"><button type="button"> View </button></p></a>
     <br>
  
