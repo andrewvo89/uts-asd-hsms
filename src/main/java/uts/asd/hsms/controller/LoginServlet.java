@@ -80,7 +80,7 @@ public class LoginServlet extends HttpServlet {
             try {  
                 if (user != null) if (PasswordEncrypt.validatePassword(password, user.getPassword())) authenticated = true;
             }//Keep authenticated = false
-            catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {}
+            catch (NoSuchAlgorithmException | InvalidKeySpecException | NumberFormatException ex) {}
             //session.setAttribute("user", new User(new ObjectId("5d58b31df28d4f28c41f0908"), "Backdoor", "Backdoor", "Backdoor", "Backdoor", "Backdoor", 1));
             if (authenticated) {
                 session.setAttribute("user", user);
