@@ -27,7 +27,6 @@ public class User implements Serializable {
     @Pattern(regexp = "^[A-Za-z0-9._-]+@hsms.edu.au$", message = "Email Address must end in @hsms.edu.au")
     @EmailConstraint(message = "Email Address is already registered on HSMS")
     private String email;
-    private String salt;
     @NotEmpty(message = "Please enter Password")
     @Size(min = 6, max = 16, message = "Password must be between 6 and 36 Characters")
     @Pattern(regexp = "^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\\S+$).*$", message = "Password must contain at least 1 Lower Case, 1 Upper Case and 1 Special Character")
@@ -40,7 +39,6 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.salt = salt;
         this.password = password;
         this.department = department;
         this.userRole = userRole;
@@ -81,14 +79,6 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public String getPassword() {

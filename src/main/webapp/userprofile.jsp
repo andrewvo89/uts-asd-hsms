@@ -38,8 +38,8 @@
     <%        
         ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
         if (message == null) {
-            message = new ArrayList<String>();
-            message.add(""); message.add(""); message.add("");
+            message = new ArrayList<String>();//1.message header 2.message body 3.message type 4.modal trigger
+            message.add(""); message.add(""); message.add(""); message.add("");
         }
             String userId = user.getUserIdString();
             String firstName = user.getFirstName();
@@ -108,7 +108,6 @@
                                 <button type="button" class="btn btn-secondary" onclick="window.location.href='index.jsp'">Close</button>
                                 <button type="submit" class="btn btn-primary">Confirm</button>
                             </div>
-
                         </form>
                     </div>
                 </div>

@@ -133,7 +133,7 @@ public class UserServlet extends HttpServlet {
         catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
             message.add("Edit User Result"); ex.getMessage(); message.add("danger"); message.add("messageModal");
             session.setAttribute("message", message);
-        }
+        }//If user trying to edit is the same user that is logged in, update the session user with new details
         if (userId.equals(sessionUser.getUserId())) session.setAttribute("user", new User(userId, firstName, lastName, email, password, department, userRole));
         response.sendRedirect(redirect + ".jsp");
     }
