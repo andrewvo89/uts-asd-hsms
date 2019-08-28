@@ -6,6 +6,8 @@
 package uts.asd.hsms.controller;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,12 +32,10 @@ public class UserServlet extends HttpServlet {
     private String firstName, lastName, email, password, department;
     private int userRole;
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //processRequest(request, response);          
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {         
         session = request.getSession();
         userDao = (UserDao)session.getAttribute("userDao");
         message = new ArrayList<String>();
@@ -59,24 +59,34 @@ public class UserServlet extends HttpServlet {
         User user = new User(null, firstName, lastName, email, password, department, userRole);
         UserValidator userValidator = new UserValidator(user);
         String[] errorMessages = userValidator.validateUser();
+        String addModelErrorMessage = "";
+        Boolean addSuccess = false;
 
         //If Errors
-        if (errorMessages != null) {
+        if (errorMessages != null) addModelErrorMessage = errorMessages[0];
+        else {//No Errors
+            try {
+                password = PasswordEncrypt.generateStorngPasswordHash(password);
+                userDao.addUser(firstName, lastName, email, password, department, userRole);
+            }
+            catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                addModelErrorMessage = ex.getMessage();
+            }
+        }
+        if (addSuccess) {    
+            session.setAttribute("message", message);
+            message.add("Add User Result"); message.add(String.format("%s %s added successfully", firstName, lastName)); message.add("success"); message.add("messageModal");
+            response.sendRedirect("usermanagement.jsp?emailSearch="+email);   
+        }
+        else {   
             session.setAttribute("firstNameAdd", firstName);
             session.setAttribute("lastNameAdd", lastName);
             session.setAttribute("emailAdd", email);
             session.setAttribute("passwordAdd", password);
             session.setAttribute("departmentAdd", department);
             session.setAttribute("userRoleAdd", userRole);
-            session.setAttribute("message", message);
-            message.add("Add User Result"); message.add(errorMessages[0]); message.add("danger"); message.add("addModal");
+            message.add("Add User Result"); message.add(addModelErrorMessage); message.add("danger"); message.add("addModal");
             response.sendRedirect("usermanagement.jsp");
-        }//No Errors
-        else {
-            userDao.addUser(firstName, lastName, email, password, department, userRole);
-            message.add("Add User Result"); message.add(String.format("%s %s added successfully", firstName, lastName)); message.add("success"); message.add("messageModal");
-            session.setAttribute("message", message);
-            response.sendRedirect("usermanagement.jsp?emailSearch="+email);
         }
     }
     
@@ -92,28 +102,38 @@ public class UserServlet extends HttpServlet {
         
         User sessionUser = (User)session.getAttribute("user");
         User oldUser = userDao.getUser(userId);
-        User newUser = new User(null, firstName, lastName, email, password, department, userRole);           
+        User newUser = new User(userId, firstName, lastName, email, password, department, userRole);
         UserValidator userValidator = new UserValidator(newUser);
-
         String tempEmail = null;
-        //If Errors
-        if (oldUser.getEmail().equals(newUser.getEmail())) {
-            tempEmail = newUser.getPassword();
-            newUser.setEmail("placeholder@hsms.edu.au");
+        
+        try {
+            //Clause to eliminate duplicate email flag on validateUser() if email is unchanged
+            if (oldUser.getEmail().equals(newUser.getEmail())) {
+                tempEmail = newUser.getEmail();
+                newUser.setEmail("placeholder@hsms.edu.au");
+            }
+            //If password field is left blank, bypass validation with a temp password
+            if (newUser.getPassword().length() == 0) newUser.setPassword("TempP@s$");
+            String[] errorMessages = userValidator.validateUser();
+            if (newUser.getPassword().equals("TempP@s$")) newUser.setPassword(null);
+            else newUser.setPassword(PasswordEncrypt.generateStorngPasswordHash(password));
+            //Set email back to the original one
+            if (tempEmail != null) newUser.setEmail(tempEmail);
+            //If Errors
+            if (errorMessages != null) {
+                message.add("Edit User Result"); message.add(errorMessages[0]); message.add("danger"); message.add("messageModal");
+                session.setAttribute("message", message);
+            }//No Errors
+            else {
+                userDao.editUser(newUser.getUserId(), newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getPassword(), newUser.getDepartment(), newUser.getUserRole());
+                message.add("Edit User Result"); message.add(String.format("%s %s edited successfully", newUser.getFirstName(), newUser.getLastName())); message.add("success"); message.add("messageModal");
+                session.setAttribute("message", message);
+            }
         }
-        String[] errorMessages = userValidator.validateUser();
-        if (tempEmail != null) newUser.setEmail(tempEmail);
-
-        if (errorMessages != null) {
-            message.add("Edit User Result"); message.add(errorMessages[0]); message.add("danger"); message.add("messageModal");
+        catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            message.add("Edit User Result"); ex.getMessage(); message.add("danger"); message.add("messageModal");
             session.setAttribute("message", message);
-        }//No Errors
-        else {
-            userDao.editUser(userId, firstName, lastName, email, password, department, userRole);
-            message.add("Edit User Result"); message.add(String.format("%s %s edited successfully", firstName, lastName)); message.add("success"); message.add("messageModal");
-            session.setAttribute("message", message);
-        }
-
+        }//If user trying to edit is the same user that is logged in, update the session user with new details
         if (userId.equals(sessionUser.getUserId())) session.setAttribute("user", new User(userId, firstName, lastName, email, password, department, userRole));
         response.sendRedirect(redirect + ".jsp");
     }
@@ -126,7 +146,7 @@ public class UserServlet extends HttpServlet {
             response.sendRedirect("usermanagement.jsp");
         }
         
-        public static String toProperCase(String input) {
+        public String toProperCase(String input) {
             String properCase = "";
             String previousLetter = "";
             for (int x = 0; x < input.length(); x ++) {
