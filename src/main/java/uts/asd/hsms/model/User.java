@@ -5,15 +5,31 @@
  */
 package uts.asd.hsms.model;
 
+import uts.asd.hsms.controller.EmailConstraint;
 import java.io.Serializable;
 import org.bson.types.ObjectId;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 public class User implements Serializable {
     
     private ObjectId userId;
+    @NotEmpty(message = "Please enter First Name")
+    @Size(min = 1, max = 32, message = "Last Name must be between 1 and 32 Characters")
     private String firstName;
+    @NotEmpty(message = "Please enter Last Name")
+    @Size(min = 1, max = 32, message = "Last Name must be between 1 and 32 Characters")
     private String lastName;
+    @NotEmpty(message = "Please enter email")
+    @Email(message = "Email Address is invalid")
+    @Pattern(regexp = "^[A-Za-z0-9._-]+@hsms.edu.au$", message = "Email Address must end in @hsms.edu.au")
+    @EmailConstraint(message = "Email Address is already registered on HSMS")
     private String email;
+    @NotEmpty(message = "Please enter Password")
+    @Size(min = 6, max = 16, message = "Password must be between 6 and 36 Characters")
+    @Pattern(regexp = "^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\\S+$).*$", message = "Password must contain at least 1 Lower Case, 1 Upper Case and 1 Special Character")
     private String password;
     private String department;
     private int userRole;
