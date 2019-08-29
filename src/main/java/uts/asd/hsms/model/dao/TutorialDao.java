@@ -12,7 +12,10 @@ import com.mongodb.DBObject;
 import uts.asd.hsms.model.*;
 import com.mongodb.MongoClient;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import static java.util.regex.Pattern.*;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 /**
@@ -27,14 +30,17 @@ public class TutorialDao {
     
     public TutorialDao(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
-        
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("classes");
     }
     
+    public DB getDatabase() {
+        return database;
+    }
+    
     public Tutorial[] getTutorials() {
         DBCursor cursor = collection.find();
-        System.out.println("COUNT: " + cursor.count());
+        cursor.sort(new BasicDBObject(("tutorialId"), 1));
         Tutorial[] tutorials = new Tutorial[cursor.count()];
         int count = 0;
         while (cursor.hasNext()) {
