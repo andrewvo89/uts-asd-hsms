@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 public class ConnServlet extends HttpServlet {
     private MongoDBConnector mongoDbConnector;  
     private UserDao userDao;
+    private TutorialDao tutorialDao;
     private MongoClient mongoClient;
     private boolean dbStatus;
      
@@ -35,6 +36,9 @@ public class ConnServlet extends HttpServlet {
         
         userDao = new UserDao(mongoClient);        
         session.setAttribute("userDao", userDao);
+        
+        tutorialDao = new TutorialDao(mongoClient);
+        session.setAttribute("tutorialDao", tutorialDao);
         
     }
     
