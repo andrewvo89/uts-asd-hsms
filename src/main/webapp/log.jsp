@@ -48,16 +48,21 @@
 </tr>
 </table> 
 
-<form action ="searchLog.jsp" target="" method="post" style="padding-top: 50px; text-align:center;">
+<form action ="logmanagement.jsp" target="" method="post" style="padding-top: 50px; text-align:center;">
             <table style="margin: 0 auto; padding-top: 50px; padding-bottom: 20px; text-align: left;">              
                 <H3 style="color:#e0ac62;" >Search Login Records</H3>
                 <tr>
                     <th> Date: </th>
                     <th><input type="text" name="DATETIME"></th>
-                </tr>      
+                </tr>
+                <tr>
+                    <th> userID: </th>
+                    <th><input type="text" name="USERID"></th>
+                </tr>
             </table>
             <input type="submit" value="Search">
            
+            
         </form> 
 
     <%@ include file="/WEB-INF/jspf/footer-static.jspf" %>        

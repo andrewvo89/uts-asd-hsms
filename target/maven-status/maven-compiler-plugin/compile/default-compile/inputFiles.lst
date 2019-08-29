@@ -1,6 +1,6 @@
-/Users/jean/uts-asd-hsms/src/main/java/uts/asd/hsms/JAXRSConfiguration.java
-/Users/jean/uts-asd-hsms/src/main/java/uts/asd/hsms/model/User.java
-/Users/jean/uts-asd-hsms/src/main/java/uts/asd/hsms/model/dao/UserDao.java
-/Users/jean/uts-asd-hsms/src/main/java/uts/asd/hsms/resources/JavaEE8Resource.java
-/Users/jean/uts-asd-hsms/src/main/java/uts/asd/hsms/model/dao/MongoDBConnector.java
-/Users/jean/uts-asd-hsms/src/main/java/uts/asd/hsms/controller/ConnServlet.java
+/Users/jean/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/model/User.java
+/Users/jean/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/model/dao/MongoDBConnector.java
+/Users/jean/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/resources/JavaEE8Resource.java
+/Users/jean/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/JAXRSConfiguration.java
+/Users/jean/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/controller/ConnServlet.java
+/Users/jean/Documents/GitHub/uts-asd-hsms/src/main/java/uts/asd/hsms/model/dao/UserDao.java

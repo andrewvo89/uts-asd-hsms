@@ -38,11 +38,13 @@
 <tr>
 <th> <div align="center">Date </div></th>
 <th> <div align="center">UserID</div></th>
+<th> <div align="center">FirstName</div></th>
 </tr>
 
 <tr>
 <td><div align="center"><%=request.getAttribute("Date")%></div></td>
 <td><div align="center"><%=request.getAttribute("userID")%></div></td>
+<td><div align="center"><%=request.getAttribute("firstName")%></div></td>
 </tr>
 </table>  
         
