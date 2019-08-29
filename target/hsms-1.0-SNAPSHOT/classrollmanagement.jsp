@@ -105,31 +105,31 @@
                                 <th scope="col">Class ID</th>
                                 <th scope="col">Department</th>
                                 <th scope="col">Grade</th>
-                                <th scope="col">Teacher</th>
                                 <th scope="col">Class Size</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody> 
                             <%
                                 TutorialDao tutorialDao = (TutorialDao)session.getAttribute("tutorialDao");
                                 Tutorial[] tutorials = tutorialDao.getTutorials();
                                 for (int x = 0; x < tutorials.length; x++) {
                                     Tutorial currentTut = tutorials[x];
+                                    String refId = currentTut.getRefIdString(); 
                                     String tutorialId = currentTut.getTutorialId();
                                     String department = currentTut.getDepartment();
                                     int grade = currentTut.getGrade();
                                     String userId = currentTut.getUserIdString();
                                     int tutSize = currentTut.getTutSize();  
                             %>
-                            <tr data-toggle="modal" data-target="#editRollModal">
+                            <tr>
                                 <td><%=tutorialId%></td>
                                 <td><%=department%></td>
                                 <td><%=grade%></td>
-                                <td><%=userId%></td>
                                 <td><%=tutSize%></td>
                             <%
                                 }
                             %>
+                            </tr> 
                         </tbody>
                     </table>
             </div>   

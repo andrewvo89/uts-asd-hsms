@@ -11,18 +11,28 @@ import org.bson.types.ObjectId;
 
 public class Tutorial implements Serializable{
     
+    private ObjectId refId;
     private String tutorialId;
     private String department;
     private int grade;
     private ObjectId userId;
     private int tutSize;
     
-    public Tutorial(String tutorialId, String department, int grade, ObjectId userId, int tutSize){
+    public Tutorial(ObjectId refId, String tutorialId, String department, int grade, ObjectId userId, int tutSize){
+        this.refId = refId;
         this.tutorialId = tutorialId;
         this.department = department;
         this.grade = grade;
         this.userId = userId;
         this.tutSize = tutSize;
+    }
+    
+    
+    public ObjectId getRefId(){
+        return refId;
+    }
+    public void setRefId(ObjectId refId){
+        this.refId = refId;
     }
     
     public String getTutorialId(){
@@ -67,5 +77,9 @@ public class Tutorial implements Serializable{
     
     public String getUserIdString() {
         return userId.toString();
+    }
+    
+    public String getRefIdString() {
+        return refId.toString();
     }
 }

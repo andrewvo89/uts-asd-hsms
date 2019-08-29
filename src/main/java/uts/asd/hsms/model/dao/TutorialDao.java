@@ -39,12 +39,13 @@ public class TutorialDao {
         int count = 0;
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
-            String tutorialId = (String)result.get("_id");
-            String department = (String)result.get("firstName");
-            int grade = (int)result.get("lastName");
-            ObjectId userId = (ObjectId)result.get("department");
-            int tutSize = (int)result.get("email");
-            tutorials[count] = new Tutorial(tutorialId, department, grade, userId, tutSize);
+            ObjectId refId = (ObjectId)result.get("_id");
+            String tutorialId = (String)result.get("tutorialId");
+            String department = (String)result.get("department");
+            int grade = (int)result.get("grade");
+            ObjectId userId = (ObjectId)result.get("userId");
+            int tutSize = (int)result.get("tutSize");
+            tutorials[count] = new Tutorial(refId, tutorialId, department, grade, userId, tutSize);
             count ++;
         }
         return tutorials;
