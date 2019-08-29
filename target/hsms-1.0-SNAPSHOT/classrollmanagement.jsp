@@ -110,27 +110,26 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <%
+                                TutorialDao tutorialDao = (TutorialDao)session.getAttribute("tutorialDao");
+                                Tutorial[] tutorials = tutorialDao.getTutorials();
+                                for (int x = 0; x < tutorials.length; x++) {
+                                    Tutorial currentTut = tutorials[x];
+                                    String tutorialId = currentTut.getTutorialId();
+                                    String department = currentTut.getDepartment();
+                                    int grade = currentTut.getGrade();
+                                    String userId = currentTut.getUserIdString();
+                                    int tutSize = currentTut.getTutSize();  
+                            %>
                             <tr data-toggle="modal" data-target="#editRollModal">
-                                <td>M1010</td>
-                                <td>Math</td>
-                                <td>8</td>
-                                <td>Andrew</td>
-                                <td>23</td>
-                            </tr>
-                            <tr>
-                                <td>M1137</td>
-                                <td>Math</td>
-                                <td>11</td>
-                                <td>Andrew</td>
-                                <td>15</td>
-                            </tr>
-                            <tr>
-                                <td>E4120</td>
-                                <td>Economics</td>
-                                <td>12</td>
-                                <td>Andrew</td>
-                                <td>20</td>
-                            </tr>
+                                <td><%=tutorialId%></td>
+                                <td><%=department%></td>
+                                <td><%=grade%></td>
+                                <td><%=userId%></td>
+                                <td><%=tutSize%></td>
+                            <%
+                                }
+                            %>
                         </tbody>
                     </table>
             </div>   

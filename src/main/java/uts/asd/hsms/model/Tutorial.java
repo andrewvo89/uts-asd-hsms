@@ -65,10 +65,6 @@ public class Tutorial implements Serializable{
         this.tutSize = classSize;
     }
     
-    public String getTutIdString() {
-        return tutorialId;
-    }
-    
     public String getUserIdString() {
         return userId.toString();
     }
