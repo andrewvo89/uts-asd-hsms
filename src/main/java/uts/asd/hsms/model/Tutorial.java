@@ -11,13 +11,13 @@ import org.bson.types.ObjectId;
 
 public class Tutorial implements Serializable{
     
-    private ObjectId tutorialId;
+    private String tutorialId;
     private String department;
     private int grade;
     private ObjectId userId;
     private int tutSize;
     
-    public Tutorial(ObjectId tutorialId, String department, int grade, ObjectId userId, int tutSize){
+    public Tutorial(String tutorialId, String department, int grade, ObjectId userId, int tutSize){
         this.tutorialId = tutorialId;
         this.department = department;
         this.grade = grade;
@@ -25,11 +25,11 @@ public class Tutorial implements Serializable{
         this.tutSize = tutSize;
     }
     
-    public ObjectId getTutorialId(){
+    public String getTutorialId(){
         return tutorialId;
     }
     
-    public void setTutorialId(ObjectId tutorialId){
+    public void setTutorialId(String tutorialId){
         this.tutorialId = tutorialId;
     }
     
@@ -66,7 +66,7 @@ public class Tutorial implements Serializable{
     }
     
     public String getTutIdString() {
-        return tutorialId.toString();
+        return tutorialId;
     }
     
     public String getUserIdString() {

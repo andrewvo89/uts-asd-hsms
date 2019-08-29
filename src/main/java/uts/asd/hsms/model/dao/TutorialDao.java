@@ -39,7 +39,7 @@ public class TutorialDao {
         int count = 0;
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
-            ObjectId tutorialId = (ObjectId)result.get("_id");
+            String tutorialId = (String)result.get("_id");
             String department = (String)result.get("firstName");
             int grade = (int)result.get("lastName");
             ObjectId userId = (ObjectId)result.get("department");

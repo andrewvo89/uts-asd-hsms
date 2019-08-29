@@ -39,6 +39,8 @@
         <div class="main">
             <div class="container">
                 <h1>Class-roll Management</h1>
+                
+                <!-- Div for filter section -->
                 <div class="card" style="margin-top:25px">
                     <div class="card-header">
                         <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
@@ -133,6 +135,8 @@
                     </table>
             </div>   
             
+            
+            <!--Div for roll edit -->
             <div class="modal fade" id="editRollModal" tabindex="-1" role="dialog" aria-labelledby="editRoll" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
