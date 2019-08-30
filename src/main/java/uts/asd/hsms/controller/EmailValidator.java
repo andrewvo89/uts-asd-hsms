@@ -4,12 +4,17 @@
  * and open the template in the editor.
  */
 package uts.asd.hsms.controller;
+
+import uts.asd.hsms.controller.EmailConstraint;
 import com.mongodb.MongoClient;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
+import uts.asd.hsms.model.*;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import uts.asd.hsms.controller.ConnServlet;
 import uts.asd.hsms.model.User;
 import uts.asd.hsms.model.dao.MongoDBConnector;
 import uts.asd.hsms.model.dao.UserDao;

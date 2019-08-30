@@ -6,6 +6,7 @@ $('#userEditModal').on('show.bs.modal', function(event) {
   var firstname = button.data('firstname')
   var lastname = button.data('lastname')
   var email = button.data('email')
+  var password = button.data('password')
   var department = button.data('department')
   var userrolestring = button.data('userrolestring')
   var modal = $(this)
@@ -14,6 +15,7 @@ $('#userEditModal').on('show.bs.modal', function(event) {
   modal.find('.firstName input').val(firstname)
   modal.find('.lastName input').val(lastname)
   modal.find('.email input').val(email)
+  modal.find('.password input').val(password)
   document.getElementById(department).checked = true
   document.getElementById(userrolestring).checked = true
 })
@@ -40,7 +42,7 @@ $(window).on('load', function() {
     }   
 });
 
-$(".revealadd1").on('click',function() {
+$(".revealdelete1").on('click',function() {
     var $pwd = $(".pwdadd1");
     if ($pwd.attr('type') === 'password') {
         $pwd.attr('type', 'text');
@@ -49,26 +51,8 @@ $(".revealadd1").on('click',function() {
     }
 });
 
-$(".revealadd2").on('click',function() {
+$(".revealdelete2").on('click',function() {
     var $pwd = $(".pwdadd2");
-    if ($pwd.attr('type') === 'password') {
-        $pwd.attr('type', 'text');
-    } else {
-        $pwd.attr('type', 'password');
-    }
-});
-
-$(".revealedit1").on('click',function() {
-    var $pwd = $(".pwdedit1");
-    if ($pwd.attr('type') === 'password') {
-        $pwd.attr('type', 'text');
-    } else {
-        $pwd.attr('type', 'password');
-    }
-});
-
-$(".revealedit2").on('click',function() {
-    var $pwd = $(".pwdedit2");
     if ($pwd.attr('type') === 'password') {
         $pwd.attr('type', 'text');
     } else {

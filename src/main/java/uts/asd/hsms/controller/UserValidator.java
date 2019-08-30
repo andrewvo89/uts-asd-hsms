@@ -11,6 +11,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import uts.asd.hsms.model.User;
+import uts.asd.hsms.model.dao.*;
 
 /**
  *

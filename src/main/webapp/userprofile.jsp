@@ -8,6 +8,26 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="uts.asd.hsms.model.dao.*"%>
 <%@page import="uts.asd.hsms.model.*"%>
+<%
+    User user = (User)session.getAttribute("user");
+    ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
+    if (message == null) {
+        message = new ArrayList<String>();
+        message.add(""); message.add(""); message.add("");
+    }
+
+    if (user == null) {
+        response.sendRedirect("index.jsp?redirect=userprofile");
+    }
+    else {
+        String userId = user.getUserIdString();
+        String firstName = user.getFirstName();
+        String lastName = user.getLastName();
+        String email = user.getEmail();
+        String password = user.getPassword();
+        String department = user.getDepartment();
+        int userRole = user.getUserRole();
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,34 +40,8 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>User Profile</title>
-        <%
-            User user = (User)session.getAttribute("user");
-            if (user == null) {
-                session.setAttribute("redirect", "userprofile");
-        %>    
-                <jsp:include page="LoginServlet" flush="true" />
-        <%
-            }
-            else {
-        %>
-                <%@ include file="/WEB-INF/jspf/header.jspf"%>
-        <%
-            }
-        %> 
+        <%@ include file="/WEB-INF/jspf/header-loggedin.jspf" %>
     </head>
-    <%        
-        ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
-        if (message == null) {
-            message = new ArrayList<String>();//1.message header 2.message body 3.message type 4.modal trigger
-            message.add(""); message.add(""); message.add(""); message.add("");
-        }
-            String userId = user.getUserIdString();
-            String firstName = user.getFirstName();
-            String lastName = user.getLastName();
-            String email = user.getEmail();
-            String department = user.getDepartment();
-            int userRole = user.getUserRole();
-    %>
     <body>
         <div class="main">
             <div class="container" style="width: 750px">
@@ -78,7 +72,7 @@
                                 <label for="passwordEdit" class="col-sm-4 col-form-label">Password</label>
                                 <div class="col-sm-8 password">
                                     <div class="input-group" id="show_hide_password">
-                                        <input type="password" class="form-control pwd1" name="passwordEdit" placeholder="New Password" minlength="6" maxlength="16" required>
+                                        <input type="password" class="form-control pwd1" name="passwordEdit" value="<%=password%>" placeholder="Password">
                                         <button class="btn btn-outline-dark reveal1" type="button" data-toggle="button">show</button> 
                                     </div>
                                 </div>
@@ -87,7 +81,7 @@
                                 <label for="passwordConfirmEdit" class="col-sm-4 col-form-label">Confirm Password</label>
                                 <div class="col-sm-8 password">
                                      <div class="input-group" id="show_hide_password">
-                                        <input type="password" class="form-control pwd2" name="passwordConfirmEdit" placeholder="Confirm Password" minlength="6" maxlength="16" required>
+                                        <input type="password" class="form-control pwd2" name="passwordConfirmEdit"  value="<%=password%>" placeholder="Confirm Password">
                                         <button class="btn btn-outline-dark reveal2" type="button" data-toggle="button">show</button> 
                                     </div>
                                 </div>
@@ -108,6 +102,7 @@
                                 <button type="button" class="btn btn-secondary" onclick="window.location.href='index.jsp'">Close</button>
                                 <button type="submit" class="btn btn-primary">Confirm</button>
                             </div>
+
                         </form>
                     </div>
                 </div>
@@ -117,10 +112,13 @@
             session.removeAttribute("message");
             session.removeAttribute("modalTrigger");
         %>
-        <%@ include file="/WEB-INF/jspf/footer.jspf" %>        
+        <%@ include file="/WEB-INF/jspf/footer-static.jspf" %>        
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script src="js/userprofile.js"></script>
     </body>
+        <%
+            }
+        %>
 </html>
