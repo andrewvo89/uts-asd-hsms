@@ -16,27 +16,31 @@ import javax.servlet.http.HttpSession;
 public class ConnServlet extends HttpServlet {
     private MongoDBConnector mongoDbConnector;  
     private UserDao userDao;
-    private String dbUser, dbPass; 
     private MongoClient mongoClient;
+    private boolean dbStatus;
      
     @Override //Create and instance of DBConnector for the deployment session
     public void init() {
         try {
-            mongoDbConnector = new MongoDBConnector(); 
+            mongoDbConnector = new MongoDBConnector();
+            mongoClient = mongoDbConnector.openConnection();
         } catch (UnknownHostException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }    
-    }  
+    }
     
     @Override 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException { 
-        response.setContentType("text/html;charset=UTF-8");  
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         
-        mongoClient = mongoDbConnector.openConnection();
-        userDao = new UserDao(mongoClient);
+        userDao = new UserDao(mongoClient);        
         session.setAttribute("userDao", userDao);
-    }    
+        
+    }
+    
+    @Override //Destroy the servlet and release the resources of the application
+     public void destroy() {
+         mongoDbConnector.closeConnection();
+    }
   
 }

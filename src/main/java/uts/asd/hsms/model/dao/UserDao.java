@@ -12,7 +12,11 @@ import com.mongodb.DBObject;
 import uts.asd.hsms.model.*;
 import com.mongodb.MongoClient;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import static java.util.regex.Pattern.*;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -24,49 +28,118 @@ public class UserDao {
     DBCollection collection;
 
     public UserDao(MongoClient mongoClient) {
-        this.mongoClient = mongoClient;
-        
+        this.mongoClient = mongoClient;        
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("users");
     }
-    
+
+    public DB getDatabase() {
+        return database;
+    }
+    //get all users using no parameters
     public User[] getUsers() {
         DBCursor cursor = collection.find();
-        System.out.println("COUNT: " + cursor.count());
+        cursor.sort(new BasicDBObject("firstName", 1));
         User[] users = new User[cursor.count()];
         int count = 0;
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
-            int userId = (int)result.get("userId");
+            ObjectId userId = (ObjectId)result.get("_id");
             String firstName = (String)result.get("firstName");
             String lastName = (String)result.get("lastName");
             String department = (String)result.get("department");
             String email = (String)result.get("email");
             String password = (String)result.get("password");
             int userRole = (int)result.get("userRole");
-            users[count] = new User(userId, firstName, lastName, department, email, password, userRole);
+            users[count] = new User(userId, firstName, lastName, email, password, department, userRole);
             count ++;
         }
+        Arrays.sort(users, 0, 1);
         return users;
     }
-    
-    public User getUser(int userId) {
+    public User[] getUsers(ObjectId userId, String firstName, String lastName, String email, String password, String department, int userRole) {
+        List<BasicDBObject> conditions = new ArrayList<BasicDBObject>();
         BasicDBObject query = new BasicDBObject();
-        query.put("userId", userId);
-        DBCursor cursor = collection.find(query);
-        DBObject result = cursor.one();
-        
-        if (result != null) {
-            String firstName = (String)result.get("firstName");
-            String lastName = (String)result.get("lastName");
-            String department = (String)result.get("department");
-            String email = (String)result.get("email");
-            String password = (String)result.get("password");
-            int userRole = (int)result.get("uerRole");
-            return new User(userId, firstName, lastName, department, email, password, userRole);
-        }        
-        return null;        
+        DBCursor cursor;
+        if (userId != null) conditions.add(new BasicDBObject("_id", userId));
+        if (firstName != null) {
+            if (!firstName.isEmpty()) conditions.add(new BasicDBObject("firstName", compile(quote(firstName.trim()), CASE_INSENSITIVE)));
+        }
+        if (lastName != null) {
+            if (!lastName.isEmpty()) conditions.add(new BasicDBObject("lastName", compile(quote(lastName.trim()), CASE_INSENSITIVE)));
+        }
+        if (email != null) {
+            if (!email.isEmpty()) conditions.add(new BasicDBObject("email", compile(quote(email.trim()), CASE_INSENSITIVE)));
+        }
+        if (password != null) {
+            if (!password.isEmpty()) conditions.add(new BasicDBObject("password", compile(quote(password.trim()), CASE_INSENSITIVE)));
+        }
+        if (department != null) {
+            if (!department.isEmpty()) {
+                if (!department.equals("All")) conditions.add(new BasicDBObject("department", compile(quote(department), CASE_INSENSITIVE)));
+            }
+        }
+        if (userRole != 0) conditions.add(new BasicDBObject("userRole", userRole));
+        if (conditions.size() == 0) {
+            cursor = collection.find();
+        }
+        else {
+            query.put("$and", conditions);
+            cursor = collection.find(query);
+        }
+        cursor.sort(new BasicDBObject("firstName", 1));
+        User[] users = new User[cursor.count()];
+
+        int count = 0;
+        while (cursor.hasNext()) {
+            DBObject result = cursor.next();
+            ObjectId userIdResult = (ObjectId)result.get("_id");
+            String firstNameResult = (String)result.get("firstName");
+            String lastNameResult = (String)result.get("lastName");
+            String emailResult = (String)result.get("email");
+            String passwordResult = (String)result.get("password");
+            String departmentResult = (String)result.get("department");
+            int userRoleResult = (int)result.get("userRole");
+            users[count] = new User(userIdResult, firstNameResult, lastNameResult, emailResult, passwordResult, departmentResult, userRoleResult);
+            count ++;
+            }
+            return users;
     }
+        //gets a user using one parameters, objectID 
+        public User getUser(ObjectId userId) {
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", userId);
+            DBCursor cursor = collection.find(query);
+            DBObject result = cursor.one();
+            if (result != null) {
+                String firstName = (String)result.get("firstName");
+                String lastName = (String)result.get("lastName");
+                String department = (String)result.get("department");
+                String email = (String)result.get("email");
+                String password = (String)result.get("password");
+                int userRole = (int)result.get("userRole");
+                return new User(userId, firstName, lastName, email, password, department, userRole);
+            }       
+            return null;        
+        } 
+        public User getUser(String email) {
+            BasicDBObject query = new BasicDBObject();
+            query.put("email", email);
+            DBCursor cursor = collection.find(query);
+            DBObject result = cursor.one();
+            if (result != null) {
+                ObjectId userId = (ObjectId)result.get("_id");
+                String firstName = (String)result.get("firstName");
+                String lastName = (String)result.get("lastName");
+                String password = (String)result.get("password");
+                String department = (String)result.get("department");
+                int userRole = (int)result.get("userRole");
+                return new User(userId, firstName, lastName, email, password, department, userRole);
+            }       
+            return null; 
+        }
+        
+        //gets a user using two parameters, email and password (e.g. for login)
         public User getUser(String email, String password) {
         BasicDBObject query = new BasicDBObject();
         List<BasicDBObject> queryList = new ArrayList<BasicDBObject>();
@@ -77,81 +150,45 @@ public class UserDao {
         DBObject result = cursor.one();
         
         if (result != null) {
-            int userId = (int)result.get("userId");
+            ObjectId userId = (ObjectId)result.get("_id");
             String firstName = (String)result.get("firstName");
             String lastName = (String)result.get("lastName");
             String department = (String)result.get("department");
             int userRole = (int)result.get("userRole");
-            return new User(userId, firstName, lastName, department, email, password, userRole);
+            return new User(userId, firstName, lastName, email, password, department, userRole);
         }
         return null;        
     }
     
-    public void addUser(String firstName, String lastName, String department, String email, String password, int userRole) {
+    public void addUser(String firstName, String lastName, String email, String password, String department, int userRole) {
         BasicDBObject newRecord = new BasicDBObject();
-        //newRecord.put("teacherId", teacherID);
         newRecord.put("firstName", firstName);
         newRecord.put("lastName", lastName);
-        newRecord.put("department", department);
         newRecord.put("email", email);
         newRecord.put("password", password);
+        newRecord.put("department", department);
         newRecord.put("userRole", userRole);
         collection.insert(newRecord);
     }
-//    
-//    public User getUser(String userId, String password) throws SQLException {
-//        
-//        String sqlQuery = String.format("SELECT * FROM USERS WHERE userid = '%s'", userId);
-//        System.out.println(sqlQuery);
-//        ResultSet rs = st.executeQuery(sqlQuery);
-//        while(rs.next()) {
-//            User user = new User(rs.getString("userid"), rs.getString("firstname"),
-//                         rs.getString("lastname"), rs.getString("email"),
-//                         rs.getString("password"), rs.getBoolean("staff"));
-//            if (user.passwordMatches(password)) {
-//                return user;
-//            }
-//        }
-//        
-//        return null;
-//        
-//    }
-//    
-//    public boolean createUser(String userId, String firstName, String lastName, String email, String password, boolean staff) throws SQLException {
-//        
-//        String sqlQuery = String.format("INSERT INTO USERS VALUES('%s','%s','%s','%s','%s', %b)",
-//                userId, firstName, lastName, email, password, staff);
-//        System.out.println(sqlQuery);
-//        int result = st.executeUpdate(sqlQuery);
-//        
-//        if (result > 0) {
-//            return true;
-//        }
-//        
-//        return false;
-//        
-//    }
-//    
-//    public boolean updateUser(String userId, String firstName, String lastName, String email, String password, boolean staff) throws SQLException {
-//        
-//        String sqlQuery = String.format("UPDATE USERS SET firstname = '%s', lastname = '%s', email = '%s', password = '%s', staff = %b WHERE userid = '%s'",
-//                firstName, lastName, email, password, staff, userId);
-//        System.out.println(sqlQuery);
-//        int result = st.executeUpdate(sqlQuery);
-//        
-//        if (result > 0) {
-//            return true;
-//        }
-//        
-//        return false;
-//        
-//    }
-//    
-//    public void deleteUser(String userId) throws SQLException{
-//        
-//        String sqlQuery = String.format("DELETE FROM USERS WHERE userid = '%s'", userId);
-//        st.executeUpdate(sqlQuery);
-//        
-//    }
+    
+    public void deleteUser(ObjectId userId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", userId);
+        collection.remove(query);
+    }
+    
+    public void editUser(ObjectId userId, String firstName, String lastName, String email, String password, String department, int userRole) {
+        BasicDBObject query = new BasicDBObject().append("_id", userId);
+        BasicDBObject records = new BasicDBObject();
+        BasicDBObject update = new BasicDBObject();
+        records.append("firstName", firstName);
+        records.append("lastName", lastName);
+        records.append("email", email);
+        records.append("department", department);
+        records.append("userRole", userRole);  
+        if (password != null) records.append("password", password);        
+        update.append("$set", records);
+        collection.update(query, update);
+    }
 
 }
