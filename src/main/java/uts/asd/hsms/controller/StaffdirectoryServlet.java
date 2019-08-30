@@ -20,9 +20,9 @@ import uts.asd.hsms.model.*;
  *
  * @author alvin
  */
-public class staffdirectoryServlet extends HttpServlet {
+public class StaffdirectoryServlet extends HttpServlet {
     private HttpSession session;
-    private staffDao staffDao;
+    private StaffDao staffDao;
     private ArrayList<String> message;
     private HttpServletRequest request;
     private HttpServletResponse response;
@@ -37,7 +37,7 @@ public class staffdirectoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //processRequest(request, response);          
         session = request.getSession();
-        staffDao = (staffDao)session.getAttribute("staffDao");
+        staffDao = (StaffDao)session.getAttribute("staffDao");
         message = new ArrayList<String>();
         this.response = response;
         this.request = request;
@@ -57,7 +57,7 @@ public class staffdirectoryServlet extends HttpServlet {
         userRole = Integer.parseInt(request.getParameter("userRoleAdd"));
 
         Staff staff = new Staff(null, firstName, lastName, email, password, department, userRole);
-        staffValidator staffValidator = new staffValidator(staff);
+        StaffValidator staffValidator = new StaffValidator(staff);
         String[] errorMessages = staffValidator.validatestaff();
 
         //If Errors
@@ -93,7 +93,7 @@ public class staffdirectoryServlet extends HttpServlet {
         Staff sessionStaff = (Staff)session.getAttribute("staff");
         Staff oldStaff = staffDao.getstaff(staffId);
         Staff newStaff = new Staff(null, firstName, lastName, email, password, department, userRole);           
-        staffValidator staffValidator = new staffValidator(newStaff);
+        StaffValidator staffValidator = new StaffValidator(newStaff);
 
         String tempEmail = null;
         //If Errors

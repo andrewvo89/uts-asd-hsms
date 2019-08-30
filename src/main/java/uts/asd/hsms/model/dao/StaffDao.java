@@ -22,12 +22,12 @@ import org.bson.types.ObjectId;
  *
  * @author alvin
  */
-public class staffDao {
+public class StaffDao {
     MongoClient mongoClient;
     DB database;
     DBCollection collection;
 
-    public staffDao(MongoClient mongoClient) {
+    public StaffDao(MongoClient mongoClient) {
         this.mongoClient = mongoClient;        
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("staffcontact");

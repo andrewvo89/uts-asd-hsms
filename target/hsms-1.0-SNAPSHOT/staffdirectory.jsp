@@ -15,8 +15,8 @@
 <%@page import="java.util.ArrayList"%>
 
 <%
-    User user = (User)session.getAttribute("user");
-    UserDao userDao = (UserDao)session.getAttribute("userDao");
+    Staff staff = (Staff)session.getAttribute("staff");
+    StaffDao staffDao = (StaffDao)session.getAttribute("staffDao");
     ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
     if (message == null) {
         message = new ArrayList<String>();//1.message header 2.message body 3.message type 4.modal trigger
@@ -193,22 +193,21 @@
                         </tr>
                     </thead>
                               <tbody>
+                                  <h3>Executive</h3>
+                                   <tr>
+                            <td>Alice</td>
+                            <td>Lo</td>
+                            <td>English</td>
+                            <td>Principal</td>
+                            <td>principal@hsms.edu.au</td>
+                            <td>0400000000</td>
+                            <td>CB11.02.011</td>
+                                   </tr>>
 
 
                         </tbody>
                     </table>
-
-                
-                    
-                
-                <h3>Executive</h3>
-<p><strong>Alice Lo</strong><br>English<br>Principal<br>Office location CB11.02.011<br>Phone number 0400000000 <br>Email <a href="mailto:principal@hsms.edu.au">principal@hsms.edu.au</a></p>
-<h3>Head Teacher</h3>
-<p><strong>Bob Smith</strong><br>Science<br>Head Teacher<br>Office location CB11.02.02<br>Phone number 0400000000 <br>Email <a href="mailto:headteacher@hsms.edu.au">headteacher@hsms.edu.au</a></p>
-
-<h3>Teacher</h3>
-<p><strong>Joe Blow</strong><br>Art<br>Head Teacher<br>Office location CB11.02.02<br>Phone number 0400000000 <br>Email <a href="mailto:teacher@hsms.edu.au">teacher@hsms.edu.au</a></p>
-
+       
             </div>
         </div>
      

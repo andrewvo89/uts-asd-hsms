@@ -21,8 +21,8 @@
         <servlet-class>uts.asd.hsms.controller.LogoutServlet</servlet-class>
     </servlet>
         <servlet>
-        <servlet-name>staffdirectoryServlet</servlet-name>
-        <servlet-class>uts.asd.hsms.controller.staffdirectoryServlet</servlet-class>
+        <servlet-name>StaffdirectoryServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.StaffdirectoryServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ConnServlet</servlet-name>
@@ -41,8 +41,8 @@
         <url-pattern>/LogoutServlet</url-pattern>
     </servlet-mapping>
         <servlet-mapping>
-        <servlet-name>staffdirectoryServlet</servlet-name>
-        <url-pattern>/staffdirectoryServlet</url-pattern>
+        <servlet-name>StaffdirectoryServlet</servlet-name>
+        <url-pattern>/StaffdirectoryServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

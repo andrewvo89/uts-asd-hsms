@@ -17,10 +17,10 @@ import uts.asd.hsms.model.dao.*;
  *
  * @author alvin
  */
-public class staffValidator {
+public class StaffValidator {
     private Staff staff;
     
-    public staffValidator(Staff staff) {
+    public StaffValidator(Staff staff) {
         this.staff = staff;
     }
     
