@@ -122,6 +122,23 @@ public class UserDao {
             }       
             return null;        
         } 
+        public User getUser(String email) {
+            BasicDBObject query = new BasicDBObject();
+            query.put("email", email);
+            DBCursor cursor = collection.find(query);
+            DBObject result = cursor.one();
+            if (result != null) {
+                ObjectId userId = (ObjectId)result.get("_id");
+                String firstName = (String)result.get("firstName");
+                String lastName = (String)result.get("lastName");
+                String password = (String)result.get("password");
+                String department = (String)result.get("department");
+                int userRole = (int)result.get("userRole");
+                return new User(userId, firstName, lastName, email, password, department, userRole);
+            }       
+            return null; 
+        }
+        
         //gets a user using two parameters, email and password (e.g. for login)
         public User getUser(String email, String password) {
         BasicDBObject query = new BasicDBObject();
@@ -145,7 +162,6 @@ public class UserDao {
     
     public void addUser(String firstName, String lastName, String email, String password, String department, int userRole) {
         BasicDBObject newRecord = new BasicDBObject();
-        //newRecord.put("teacherId", teacherID);
         newRecord.put("firstName", firstName);
         newRecord.put("lastName", lastName);
         newRecord.put("email", email);
@@ -162,16 +178,17 @@ public class UserDao {
     }
     
     public void editUser(ObjectId userId, String firstName, String lastName, String email, String password, String department, int userRole) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("_id", userId);
-        BasicDBObject newRecord = new BasicDBObject(); 
-        newRecord.put("firstName", firstName);
-        newRecord.put("lastName", lastName);
-        newRecord.put("email", email);
-        newRecord.put("password", password);
-        newRecord.put("department", department);
-        newRecord.put("userRole", userRole);
-        collection.update(query, newRecord);        
+        BasicDBObject query = new BasicDBObject().append("_id", userId);
+        BasicDBObject records = new BasicDBObject();
+        BasicDBObject update = new BasicDBObject();
+        records.append("firstName", firstName);
+        records.append("lastName", lastName);
+        records.append("email", email);
+        records.append("department", department);
+        records.append("userRole", userRole);  
+        if (password != null) records.append("password", password);        
+        update.append("$set", records);
+        collection.update(query, update);
     }
 
 }
