@@ -33,7 +33,7 @@
     </head>
     
     <body>
-<H3 style="color:#e0ac62; padding-top: 50px;" align="center">Log Activities</H3>
+<H3 style="color:#e0ac62; padding-top: 100px;" align="center">Log Activities</H3>
 <table style="padding-top: 250px;" width="600" border="1" align="center">
 <tr>
 <th><div align="center">UserID </div></th>
@@ -48,8 +48,8 @@
 </tr>
 </table> 
 
-<form action ="logmanagement.jsp" target="" method="post" style="padding-top: 50px; text-align:center;">
-            <table style="margin: 0 auto; padding-top: 50px; padding-bottom: 20px; text-align: left;">              
+<form action ="logmanagement.jsp" target="" method="post" style="padding-top: 100px; text-align:center;">
+            <table style="margin: 0 auto; padding-top: 100px; padding-bottom: 20px; text-align: left;">              
                 <H3 style="color:#e0ac62;" >Search Login Records</H3>
                 <tr>
                     <th> Date: </th>

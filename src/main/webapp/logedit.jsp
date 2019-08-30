@@ -34,10 +34,10 @@
     </head>
     <body>
  <% java.util.Date date = new java.util.Date(); %>
-        <br><p style="text-align:right; padding-top: 150px;"> Logged on <%= date %></p>       
+        <br><p style="text-align:right; padding-top: 100px;"> Logged on <%= date %></p>       
   
 <H3 style="color:#e0ac62; padding-top: 50px;" align="center">Log Activities</H3>
-<table style="padding-top: 150px;" width="600" border="1" align="center">
+<table style="padding-top: 100px;" width="600" border="1" align="center">
 <tr>
 <th> <div align="center">UserID </div></th>
 <th> <div align="center">Last Logged In </div></th>
