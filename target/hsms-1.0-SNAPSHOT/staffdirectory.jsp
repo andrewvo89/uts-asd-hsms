@@ -15,8 +15,9 @@
 <%@page import="java.util.ArrayList"%>
 
 <%
-    Staff staff = (Staff)session.getAttribute("staff");
-    StaffDao staffDao = (StaffDao)session.getAttribute("staffDao");
+  Staff staff = (Staff)session.getAttribute("staff");
+  StaffDao staffDao = (StaffDao)session.getAttribute("staffDao");
+  
     ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
     if (message == null) {
         message = new ArrayList<String>();//1.message header 2.message body 3.message type 4.modal trigger
@@ -86,7 +87,7 @@
     else if(userRoleSearch == 4) userRoleSearchTeacher = "checked";
     else userRoleSearchAll = "checked";
         
-    User[] users = userDao.getUsers(null, firstNameSearch, lastNameSearch, emailSearch, null, departmentSearch, userRoleSearch);
+    Staff[] Staff = staffDao.getstaff(null, firstNameSearch, lastNameSearch, emailSearch, null, departmentSearch, userRoleSearch);
 %>
 <!DOCTYPE html>
 <html>
@@ -101,7 +102,7 @@
         <link rel="stylesheet" href="css/main.css">
         <title>Staff Directory</title>
                 <%
-        if (user == null) {
+        if (staff == null) {
             response.sendRedirect("index.jsp?redirect=jobmanagement");
         }
         else {
@@ -212,11 +213,11 @@
         </div>
      
 
+        <%@ include file="/WEB-INF/jspf/footer.jspf" %>  
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="js/usermanagement.js"></script>
     </body>
             <%@ include file="/WEB-INF/jspf/footer-static.jspf" %>     
 </html>
