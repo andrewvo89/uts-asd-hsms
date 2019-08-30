@@ -10,7 +10,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 /**
  *
  * @author Admin
@@ -19,7 +19,7 @@ public class CucumberRunnerTest {
     WebDriver driver;
     @Given("^I have opened the browser$")
     public void givenStatement() throws InstantiationException, IllegalAccessException {
-        Class<? extends WebDriver> driverClass = ChromeDriver.class;
+        Class<? extends WebDriver> driverClass = FirefoxDriver.class;
         WebDriverManager.getInstance(driverClass).setup();
         driver = driverClass.newInstance();
         //driver.get("https://uts-asd-hsms.herokuapp.com/");
