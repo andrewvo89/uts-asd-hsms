@@ -23,7 +23,8 @@ public class Tester {
     public void givenStatement() throws InstantiationException, IllegalAccessException {
         Class<? extends WebDriver> driverClass = ChromeDriver.class;
         WebDriverManager.getInstance(driverClass).setup();
-        driver.get("https://uts-asd-hsms.herokuapp.com/");
+        driver = driverClass.newInstance();
+        //driver.get("https://uts-asd-hsms.herokuapp.com/");
         
         System.out.println("Given statement executed successfully");
     }
