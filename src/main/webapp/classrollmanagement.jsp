@@ -111,6 +111,7 @@
                                 <th scope="col">Department</th>
                                 <th scope="col">Grade</th>
                                 <th scope="col">Class Size</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody> 
@@ -131,7 +132,9 @@
                                 <td><%=department%></td>
                                 <td><%=grade%></td>
                                 <td><%=tutSize%></td>
-                                
+                                <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editRollModal" role="button" data-tutorialId="<%=tutorialId%>">Edit</button>         
+                                </td>
                             <%
                                 }
                             %>
@@ -143,10 +146,11 @@
             
             <!--Div for roll edit -->
             <div class="modal fade" id="editRollModal" tabindex="-1" role="dialog" aria-labelledby="editRoll" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
+                
+                                    <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="editRollModalLabel">M1010 Math Year 8</h5>
+                                                <h5 class="modal-title" id="editRollModalLabel"></h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -156,98 +160,71 @@
                                                     <table class="table">
                                                         <thead class="thead-light">
                                                             <tr>
-                                                                <th class="col-sm-6">Student</th>
-                                                                <th class="col-sm-2">Week 1</th>
-                                                                <th class="col-sm-2">Week 2</th>
-                                                                <th class="col-sm-2">Week 3</th>
-                                                                <th class="col-sm-2">Week 4</th>
-                                                                <th class="col-sm-2">Week 5</th>
+                                                                <th scope="col">First Name</th>
+                                                                <th scope="col">Last Name</th>
+                                                                <th scope="col">Wk 1</th>
+                                                                <th scope="col">Wk 2</th>
+                                                                <th scope="col">Wk 3</th>
+                                                                <th scope="col">Wk 4</th>
+                                                                <th scope="col">Wk 5</th>
+                                                                <th scope="col">Wk 6</th>
+                                                                <th scope="col">Wk 7</th>
+                                                                <th scope="col">Wk 8</th>
+                                                                <th scope="col">Wk 9</th>
+                                                                <th scope="col">Wk 10</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                                    <%
+                                    AttendanceDao attendanceDao = (AttendanceDao)session.getAttribute("attendanceDao");
+                                    Attendance[] attendance = attendanceDao.getAttendance();
+                                    for (int x = 0; x < tutorials.length; x++) {
+                                    Attendance currentAttendance = attendance[x];
+                                    int studentId = currentAttendance.getStudentId(); 
+                                    String firstName = currentAttendance.getFirstName();
+                                    String lastName = currentAttendance.getLastName();
+                                    String wk1 = currentAttendance.getWk1();
+                                    String wk2 = currentAttendance.getWk2();
+                                    String wk3 = currentAttendance.getWk3();
+                                    String wk4 = currentAttendance.getWk4();
+                                    String wk5 = currentAttendance.getWk5();
+                                    String wk6 = currentAttendance.getWk6();
+                                    String wk7 = currentAttendance.getWk7();
+                                    String wk8 = currentAttendance.getWk8();
+                                    String wk9 = currentAttendance.getWk9();
+                                    String wk10 = currentAttendance.getWk10();
+                                    String tutorialId = currentAttendance.getTutorialId();
+                                                                    %>
                                                             <tr>
-                                                                <td>Jessica Simpson</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Lil Nas X</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Shawn Mendes</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Camila (Senorita) Cabello</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Beyonce</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Barack Obama</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Taika Waititi</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Sandra Oh</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Kahlme Anithyme</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Sia Laytor</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                                <td><%=firstName%></td>
+                                                                <td><%=lastName%></td>
+                                                                <td>
+                                                                    <%=wk1%>
+                                                                    <input type="text" class="form-control" name="wk1" maxlength="1">
+                                                                </td>
+                                                                <td><%=wk2%></td>
+                                                                <td><%=wk3%></td>
+                                                                <td><%=wk4%></td>
+                                                                <td><%=wk5%></td>
+                                                                <td><%=wk6%></td>
+                                                                <td><%=wk7%></td>
+                                                                <td><%=wk8%></td>
+                                                                <td><%=wk9%></td>
+                                                                <td><%=wk10%></td>
+                                                                
+                                                <%
+                                                    }
+                                                %>
                                                             </tr>
                                                         </tbody>
-                                                        <button type="save" class="btn btn-primary mb-2">Save</button>
                                                     </table>
+                                                            
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="action" value="edit">
+                                                        <input type="hidden" name="redirect" value="classrollmanagement">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>

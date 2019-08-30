@@ -17,6 +17,7 @@ public class ConnServlet extends HttpServlet {
     private MongoDBConnector mongoDbConnector;  
     private UserDao userDao;
     private TutorialDao tutorialDao;
+    private AttendanceDao attendanceDao;
     private MongoClient mongoClient;
     private boolean dbStatus;
      
@@ -39,6 +40,9 @@ public class ConnServlet extends HttpServlet {
         
         tutorialDao = new TutorialDao(mongoClient);
         session.setAttribute("tutorialDao", tutorialDao);
+        
+        attendanceDao = new AttendanceDao(mongoClient);
+        session.setAttribute("attendanceDao", attendanceDao);
         
     }
     

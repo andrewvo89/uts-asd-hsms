@@ -11,6 +11,7 @@ import org.bson.types.ObjectId;
 
 public class Attendance implements Serializable{
     
+    private ObjectId refStudentId;
     private int studentId;
     private String firstName;
     private String lastName;
@@ -26,7 +27,8 @@ public class Attendance implements Serializable{
     private String wk10;
     private String tutorialId;
     
-    public Attendance(int studentId, String firstName, String lastName, String wk1, String wk2, String wk3, String wk4, String wk5, String wk6, String wk7, String wk8, String wk9, String wk10, String tutorialId){
+    public Attendance(ObjectId refStudentId, int studentId, String firstName, String lastName, String wk1, String wk2, String wk3, String wk4, String wk5, String wk6, String wk7, String wk8, String wk9, String wk10, String tutorialId){
+        this.refStudentId = refStudentId;
         this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,6 +43,15 @@ public class Attendance implements Serializable{
         this.wk9 = wk9;
         this.wk10 = wk10;
         this.tutorialId = tutorialId;
+    }
+    
+    
+    
+    public ObjectId getRefStudentId() {
+        return refStudentId;
+    }
+    public void setRefStudentId(ObjectId refStudentId) {
+        this.refStudentId = refStudentId;
     }
     
     public int getStudentId() {
@@ -139,5 +150,9 @@ public class Attendance implements Serializable{
     }
     public void setTutorialId(String tutorialId){
         this.tutorialId = tutorialId;
+    }
+    
+    public String getRefStudentIdString() {
+        return refStudentId.toString();
     }
 }

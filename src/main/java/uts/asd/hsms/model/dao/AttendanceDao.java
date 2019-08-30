@@ -32,6 +32,10 @@ public class AttendanceDao {
         collection = database.getCollection("studentattendance");
     }
     
+    public DB getDatabase() {
+        return database;
+    }
+    
     public Attendance[] getAttendance() {
         DBCursor cursor = collection.find();
         System.out.println("COUNT: " + cursor.count());
@@ -39,6 +43,7 @@ public class AttendanceDao {
         int count = 0;
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
+            ObjectId refStudentId = (ObjectId)result.get("refStudentId");
             int studentId = (int)result.get("studentId");
             String firstName = (String)result.get("firstName");
             String lastName = (String)result.get("lastName");
@@ -53,10 +58,37 @@ public class AttendanceDao {
             String wk9 = (String)result.get("wk9");
             String wk10 = (String)result.get("wk10");
             String tutorialId = (String)result.get("tutorialId");
-            attendances[count] = new Attendance(studentId, firstName, lastName, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, tutorialId);
+            attendances[count] = new Attendance(refStudentId, studentId, firstName, lastName, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, tutorialId);
             count ++;
         }
         return attendances;
+    }
+    
+    //grabs the attendance record of a student according to their refStudentId
+    public Attendance getSingleAttendance (ObjectId refStudentId){
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", refStudentId);
+        DBCursor cursor = collection.find(query);
+        DBObject result = cursor.one();
+        if (result != null) {
+            int studentId = (int)result.get("studentId");
+            String firstName = (String)result.get("firstName");
+            String lastName = (String)result.get("lastName");
+            String wk1 = (String)result.get("wk1");
+            String wk2 = (String)result.get("wk2");
+            String wk3 = (String)result.get("wk3");
+            String wk4 = (String)result.get("wk4");
+            String wk5 = (String)result.get("wk5");
+            String wk6 = (String)result.get("wk6");
+            String wk7 = (String)result.get("wk7");
+            String wk8 = (String)result.get("wk8");
+            String wk9 = (String)result.get("wk9");
+            String wk10 = (String)result.get("wk10");
+            String tutorialId = (String)result.get("tutorialId");
+            return new Attendance(refStudentId, studentId, firstName, lastName, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, tutorialId);
+
+        }
+        return null;
     }
     
 }
