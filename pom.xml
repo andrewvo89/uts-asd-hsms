@@ -29,6 +29,7 @@
             <scope>provided</scope>
         </dependency>
         <!-- GAE SDK dependency -->
+
         <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-1.0-sdk</artifactId>

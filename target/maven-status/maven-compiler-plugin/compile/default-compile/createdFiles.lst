@@ -9,4 +9,5 @@ uts\asd\hsms\resources\JavaEE8Resource.class
 uts\asd\hsms\controller\UserServlet.class
 uts\asd\hsms\JAXRSConfiguration.class
 uts\asd\hsms\controller\EmailConstraint.class
+uts\asd\hsms\controller\EmailNotifier.class
 uts\asd\hsms\model\User.class
