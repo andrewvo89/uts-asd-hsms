@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uts.asd.hsms.model.User;
 import uts.asd.hsms.model.dao.UserDao;
+import javax.mail.MessagingException;
+
 /**
  *
  * @author Andrew
@@ -70,12 +73,13 @@ public class LoginServlet extends HttpServlet {
     }
         protected void loginAuth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             HttpSession session = request.getSession();
+            EmailNotifier emailNotification = new EmailNotifier();
             String redirect = (String)session.getAttribute("redirect");
             UserDao userDao = (UserDao)session.getAttribute("userDao");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             User loginUser = null;
-            //User user = userDao.getUser(email);
+            ArrayList<String> failedLogins;
             if (userDao.getUsers(null, null, null, null, null, email, null, null, 0).length > 0)
                 loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0)[0];
             Boolean authenticated = false;
@@ -83,15 +87,48 @@ public class LoginServlet extends HttpServlet {
             try {  
                 if (loginUser != null) if (PasswordEncrypt.validatePassword(password, loginUser.getPassword())) authenticated = true;
             }//Keep authenticated = false
-            catch (NoSuchAlgorithmException | InvalidKeySpecException | NumberFormatException ex) {}
+            catch (NoSuchAlgorithmException | InvalidKeySpecException | NumberFormatException ex) { authenticated = false; }
             //session.setAttribute("user", new User(new ObjectId("5d58b31df28d4f28c41f0908"), "Backdoor", "Backdoor", "Backdoor", "Backdoor", "Backdoor", 1));
+            //Authentication Passed
             if (authenticated) {
                 session.setAttribute("user", loginUser);
                 session.removeAttribute("errorMessage");
+                session.removeAttribute("failedLogins");
+            }//Authentication Failed
+            else {//If attribute failedLogins exists, get the attribute, otherwise initialize a new one
+                if (session.getAttribute("failedLogins") != null) failedLogins = (ArrayList<String>)session.getAttribute("failedLogins");
+                else failedLogins = new ArrayList<String>();
+                if (loginUser != null) {//If email exists in database, add it to failed logins count (logging up to 5 counts)
+                    failedLogins.add(email);           
+                    try {
+                        if (checkFailedLogins(email, failedLogins)) {
+                            String recipient = "uts.asd.hsms@gmail.com", subject = "Suspicous Activity detected on HSMS", 
+                                    body = "Dear " + loginUser.getFirstName() + ",\n\nYour email has had over 5 failed log in attempts.\n"
+                                    + "If this was not you, please log into your account to change your password here: https://uts-asd-hsms.herokuapp.com/userprofile.jsp. \n"
+                                    + "Or contact a HSMS Administrator immediately for assistance: administrator@hsms.edu.au.";
+                            session.setAttribute("errorMessage", String.format("%s has had over 5 failed Log In attempts. An Administrator has been notified.", email));
+                            emailNotification.sendEmail(recipient, subject, body);
+                        }
+                        else session.setAttribute("errorMessage", "Username or Password Incorrect");
+                        session.setAttribute("failedLogins", failedLogins);
+                    }
+                    catch (MessagingException ex) {System.out.println(ex.getMessage());}
+                }              
             }
-            else session.setAttribute("errorMessage", "Username or Password Incorrect");
+            //redirect to any page on the website depending on where the log in request came from
             if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   
             else response.sendRedirect(redirect + ".jsp");
         }
-}
         
+        protected boolean checkFailedLogins(String email, ArrayList<String> failedLogins) {
+            int count = 0;
+            for(String failedLogin: failedLogins) {
+                if (failedLogin.equals(email)) count ++;
+            }
+            if (count >= 5) return true;
+            return false;
+        }
+        
+        
+
+}
