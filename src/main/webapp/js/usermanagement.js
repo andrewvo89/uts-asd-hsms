@@ -67,8 +67,7 @@ $('#userDeleteModal').on('show.bs.modal', function(event) {
   modal.find('.modal-title').text('Delete ' + firstname + ' ' + lastname)
 })
 
-
-
+//Reveal Password upon pressing Show Button
 $(".revealadd1").on('click',function() {
     var $pwd = $(".pwdadd1");
     if ($pwd.attr('type') === 'password') {

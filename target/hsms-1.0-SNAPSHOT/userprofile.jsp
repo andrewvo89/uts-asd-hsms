@@ -20,7 +20,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>User Profile</title>
-        <%
+        <%//Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
                 session.setAttribute("redirect", "userprofile");
@@ -35,12 +35,12 @@
             }
         %> 
     </head>
-    <%        
+    <%  //Initialize any error messages from UserServlet      
         ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
         if (message == null) {
-            message = new ArrayList<String>();//1.message header 2.message body 3.message type 4.modal trigger
-            message.add(""); message.add(""); message.add(""); message.add("");
-        }
+            message = new ArrayList<String>();//1.message header 2.message body 3.message type
+            message.add(""); message.add(""); message.add("");
+        }//Get properties from Session User
             String userId = user.getUserIdString();
             String firstName = user.getFirstName();
             String lastName = user.getLastName();
@@ -54,6 +54,7 @@
         <div class="main">
             <div class="container" style="width: 750px">
                 <h1>Edit Profile</h1>
+                <!--PRE-FILL FIELD DATA FROM SESSION USER PROPERTIES-->
                 <div class="card" style="margin-top:25px">
                     <div class="card-header"></div>
                     <div class="card-body">
@@ -112,6 +113,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--HIDDEN FIELDS TO HOLD DATA FROM SESSION USER TO BE PUSHED THROUGH TO SERVLET FOR PROCESSING-->
                             <div class="hidden">
                                 <input type="hidden" name="userIdEdit" value="<%=userId%>">
                                 <input type="hidden" name="userRoleEdit" value="<%=userRole%>">
@@ -129,7 +131,7 @@
                 </div>
             </div>
         </div>
-        <%                            
+        <%  //Clear error message from Sessions                          
             session.removeAttribute("message");
             session.removeAttribute("modalTrigger");
         %>

@@ -29,6 +29,7 @@ public class EmailNotifier {
     public void sendEmail(String recipient, String subject, String body) throws AddressException, MessagingException {
         String host = "smtp.gmail.com", from = "uts.asd.hsms@gmail.com", pass = "Password!1", port = "465";   
         
+        //Define properties of how the email will be sent
         properties = new Properties();
         properties.put("mail.smtp.user", from);
         properties.put("mail.smtp.host", host);

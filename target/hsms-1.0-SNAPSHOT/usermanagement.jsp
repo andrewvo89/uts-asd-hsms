@@ -25,7 +25,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>User Management</title>
-        <%
+        <%//Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
                 session.setAttribute("redirect", "usermanagement");
@@ -44,7 +44,7 @@
     <%
         UserDao userDao = (UserDao)session.getAttribute("userDao");
         ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
-        if (message == null) {
+        if (message == null) {//Initialize notification messages for pop up Modals
             message = new ArrayList<String>();//1.message header 2.message body 3.message type
             message.add(""); message.add(""); message.add("");
         }
@@ -80,7 +80,7 @@
         else if(userRoleSearch == 3) userRoleSearchHeadTeacher = "checked";
         else if(userRoleSearch == 4) userRoleSearchTeacher = "checked";
         else userRoleSearchAll = "checked";
-
+        //Return search results in the form of Users for populating the table
         User[] users = userDao.getUsers(null, firstNameSearch, lastNameSearch, null, null, emailSearch, null, departmentSearch, userRoleSearch);
     %>
     <body style="padding-bottom: 8rem">
@@ -100,6 +100,7 @@
                             <button type="submit" class="btn btn-outline-secondary">Clear Filter</button>                            
                         </form>
                     </div>
+                    <!--SEARCH MODULE-->
                     <div class="collapse" id="collapseSearch">
                         <div class="card-body">
                             <form action="usermanagement.jsp" method="post">
@@ -174,7 +175,7 @@
                         </div>
                     </div>
                 </div>
-                
+                <!--POPULATE TABLE WITH SEARCH RESULTS-->
                 <table class="table">
                     <thead class="thead-light">
                         <tr>
@@ -256,7 +257,7 @@
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="passwordEdit" class="col-sm-4 col-form-label">Password</label>
-                                                        <div class="col-sm-8 password">
+                                                        <div class="col-sm-8">
                                                             <div class="input-group" id="show_hide_password">
                                                                 <input type="password" class="form-control pwdedit1" id="passwordedit" name="passwordEdit" placeholder="New Password" maxlength="16" pattern="^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\S+$).*$" title="Password must contain at least 1 Lower Case, 1 Upper Case and 1 Special Character">
                                                                 <button class="btn btn-outline-dark revealedit1" type="button" data-toggle="button">show</button>
@@ -265,7 +266,7 @@
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="passwordConfirmEdit" class="col-sm-4 col-form-label">Confirm Password</label>
-                                                        <div class="col-sm-8 password">
+                                                        <div class="col-sm-8">
                                                             <div class="input-group" id="show_hide_password">
                                                                 <input type="password" class="form-control pwdedit2" id="passwordconfirmedit" name="passwordConfirmEdit" placeholder="Confirm Password" maxlength="16">
                                                                 <button class="btn btn-outline-dark revealedit2" type="button" data-toggle="button">show</button>
@@ -511,7 +512,7 @@
             </div>
         </div>
     <%
-        //CLEAR ALL PRE-FILL & ERROR MESSAGE SESSION VARIABLES
+        //Clear error message from Session
         session.removeAttribute("message");
     %>
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>  

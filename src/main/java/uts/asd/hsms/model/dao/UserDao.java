@@ -38,7 +38,7 @@ public class UserDao {
     public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole) {
         List<BasicDBObject> conditions = new ArrayList<BasicDBObject>();
         BasicDBObject query = new BasicDBObject();
-        DBCursor cursor;
+        DBCursor cursor;//If the parameter fields are NULL, do not include them in query
         if (userId != null) conditions.add(new BasicDBObject("_id", userId));
         if (firstName != null) {
             if (!firstName.isEmpty()) conditions.add(new BasicDBObject("firstName", compile(quote(firstName.trim()), CASE_INSENSITIVE)));
@@ -72,7 +72,7 @@ public class UserDao {
             cursor = collection.find(query);
         }
         cursor.sort(new BasicDBObject("firstName", 1));
-        User[] users = new User[cursor.count()];
+        User[] users = new User[cursor.count()];//Initialize a User array, the size of the results returned
 
         int count = 0;
         while (cursor.hasNext()) {
@@ -88,11 +88,11 @@ public class UserDao {
             int userRoleResult = (int)result.get("userRole");
             users[count] = new User(userIdResult, firstNameResult, lastNameResult, phoneResult, locationResult, emailResult, passwordResult, departmentResult, userRoleResult);
             count ++;
-            }
-            return users;
+        }
+        return users;
     }
     
-    public void addUser(User user) {
+    public void addUser(User user) {//Simple add to Mongo Database
         BasicDBObject newRecord = new BasicDBObject();
         newRecord.put("firstName", user.getFirstName());
         newRecord.put("lastName", user.getLastName());
@@ -105,13 +105,13 @@ public class UserDao {
         collection.insert(newRecord);
     }    
     
-    public void deleteUser(ObjectId userId) {
+    public void deleteUser(ObjectId userId) { //Simple Delete from Database, based on _userId
         BasicDBObject query = new BasicDBObject();
         query.put("_id", userId);
         collection.remove(query);
     }
     
-    public void editUser(User user) {
+    public void editUser(User user) { //Edit user in database based on _userId
         BasicDBObject query = new BasicDBObject().append("_id", user.getUserId());
         BasicDBObject records = new BasicDBObject();
         BasicDBObject update = new BasicDBObject();
