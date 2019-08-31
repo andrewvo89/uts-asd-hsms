@@ -80,6 +80,7 @@ public class LoginServlet extends HttpServlet {
             String password = request.getParameter("password");
             User loginUser = null;
             ArrayList<String> failedLogins;
+            String s = "";
             if (userDao.getUsers(null, null, null, null, null, email, null, null, 0).length > 0)
                 loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0)[0];
             Boolean authenticated = false;
@@ -112,8 +113,9 @@ public class LoginServlet extends HttpServlet {
                         else session.setAttribute("errorMessage", "Username or Password Incorrect");
                         session.setAttribute("failedLogins", failedLogins);
                     }
-                    catch (MessagingException ex) {System.out.println(ex.getMessage());}
-                }              
+                    catch (MessagingException ex) {session.setAttribute("errorMessage", ex.getMessage());}
+                }
+                
             }
             //redirect to any page on the website depending on where the log in request came from
             if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   
