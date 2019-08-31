@@ -105,7 +105,9 @@ public class LoginServlet extends HttpServlet {
                             String recipient = "uts.asd.hsms@gmail.com", subject = "Suspicous Activity detected on HSMS", 
                                     body = "Dear " + loginUser.getFirstName() + ",\n\nYour email has had over 5 failed log in attempts.\n"
                                     + "If this was not you, please log into your account to change your password here: https://uts-asd-hsms.herokuapp.com/userprofile.jsp. \n"
-                                    + "Or contact a HSMS Administrator immediately for assistance: administrator@hsms.edu.au.";
+                                    + "Or contact a HSMS Administrator immediately for assistance: administrator@hsms.edu.au.\n\n"
+                                    + "Kind Regards,\n"
+                                    + "The HSMS Team";
                             session.setAttribute("errorMessage", String.format("%s has had over 5 failed log in attempts. An Administrator has been notified.", email));
                             emailNotification.sendEmail(recipient, subject, body);
                         }
