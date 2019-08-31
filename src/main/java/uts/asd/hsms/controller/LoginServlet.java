@@ -110,7 +110,7 @@ public class LoginServlet extends HttpServlet {
                             session.setAttribute("errorMessage", String.format("%s has had over 5 failed Log In attempts. An Administrator has been notified.", email));
                             emailNotification.sendEmail(recipient, subject, body);
                         }
-                        else session.setAttribute("errorMessage", "Username or Password Incorrect");
+                        else session.setAttribute("errorMessage", "Username or Password Incorrect: " + failedLogins.size());
                         session.setAttribute("failedLogins", failedLogins);
                     }
                     catch (MessagingException ex) {session.setAttribute("errorMessage", ex.getMessage());}
