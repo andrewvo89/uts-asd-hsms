@@ -48,12 +48,12 @@ public class LoginServlet extends HttpServlet {
             out.println("       <div class=\"main\" role=\"main\">");
             out.println("           <div class=\"container\">");
             out.println("               <form class=\"form-signin\" method=\"post\" action=\"LoginServlet\">");
-            out.println("                   <h1 class=\"h3 mb-3 font-weight-normal\">Log In</h1>");
+            out.println("                   <h2 class=\"h3 mb-3 font-weight-normal text-center\">Welcome to HSMS</h2>");
             out.println("                   <label for=\"inputEmail\" class=\"sr-only\">Email address</label>");
             out.println("                   <input name=\"email\" type=\"text\" id=\"inputId\" class=\"form-control\" placeholder=\"teacher@hsms.edu.au\" required autofocus>");
             out.println("                   <label for=\"inputPassword\" class=\"sr-only\">Password</label>");
             out.println("                   <input name=\"password\" type=\"password\" id=\"inputPassword\" class=\"form-control pwd\" placeholder=\"password\" required>");
-            out.println("                   <button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\" id=\"submit\">Log In</button>");  
+            out.println("                   <button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\" id=\"submit\">Sign In</button>");  
             if (session.getAttribute("errorMessage") != null) out.println("<div class=\"alert alert-danger mr-auto\" role=\"alert\" style=\"text-align: center; margin-top: 10px\">"+session.getAttribute("errorMessage")+"</div>");
             out.println("               </form>");
             out.println("           </div>");
@@ -90,7 +90,7 @@ public class LoginServlet extends HttpServlet {
             catch (NoSuchAlgorithmException | InvalidKeySpecException | NumberFormatException ex) { authenticated = false; }
             //session.setAttribute("user", new User(new ObjectId("5d58b31df28d4f28c41f0908"), "Backdoor", "Backdoor", "Backdoor", "Backdoor", "Backdoor", 1));
             //Authentication Passed
-            if (authenticated) {
+            if (authenticated) {//Login success
                 session.setAttribute("user", loginUser);
                 session.removeAttribute("errorMessage");
                 session.removeAttribute("failedLogins");
@@ -99,28 +99,24 @@ public class LoginServlet extends HttpServlet {
                 if (session.getAttribute("failedLogins") != null) failedLogins = (ArrayList<String>)session.getAttribute("failedLogins");
                 else failedLogins = new ArrayList<String>();
                 if (loginUser != null) {//If email exists in database, add it to failed logins count (logging up to 5 counts)
-                    String test = "";
-                    failedLogins.add(email); 
-                    for (String s: failedLogins) {
-                        test += ", " + s;
-                    }
+                    failedLogins.add(email); //Add the failed email to the ArrayList for processing
                     try {
-                        if (checkFailedLogins(email, failedLogins)) {
+                        if (checkFailedLogins(email, failedLogins)) {// Email found > 5 times in ArrayList
                             String recipient = "uts.asd.hsms@gmail.com", subject = "Suspicous Activity detected on HSMS", 
                                     body = "Dear " + loginUser.getFirstName() + ",\n\nYour email has had over 5 failed log in attempts.\n"
                                     + "If this was not you, please log into your account to change your password here: https://uts-asd-hsms.herokuapp.com/userprofile.jsp. \n"
                                     + "Or contact a HSMS Administrator immediately for assistance: administrator@hsms.edu.au.";
-                            session.setAttribute("errorMessage", String.format("%s has had over 5 failed Log In attempts. An Administrator has been notified.", email));
+                            session.setAttribute("errorMessage", String.format("%s has had over 5 failed log in attempts. An Administrator has been notified.", email));
                             emailNotification.sendEmail(recipient, subject, body);
                         }
-                        else session.setAttribute("errorMessage", "Username or Password Incorrect: " + test);
-                        session.setAttribute("failedLogins", failedLogins);
-                    }
+                        else session.setAttribute("errorMessage", "Username or Password Incorrect");
+                        session.setAttribute("failedLogins", failedLogins);//Add new ArrayList fo the session to keep count of failed logins
+                    }//If smtp.gmail.com email server fails to send the email
                     catch (MessagingException ex) {session.setAttribute("errorMessage", ex.getMessage());}
                 }
                 
             }
-            //redirect to any page on the website depending on where the log in request came from
+            //Redirect to any page on the website depending on where the log in request came from
             if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   
             else response.sendRedirect(redirect + ".jsp");
         }
@@ -129,7 +125,7 @@ public class LoginServlet extends HttpServlet {
             int count = 0;
             for(String failedLogin: failedLogins) {
                 if (failedLogin.equals(email)) count ++;
-            }
+            }//If email is found more then 5 times in the ArrayList, return true
             if (count >= 5) return true;
             return false;
         }

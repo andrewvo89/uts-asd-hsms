@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="css/main.css">
         <title>High School Management System</title>
 
-        <%
+        <%//Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
                 session.setAttribute("redirect", "index");

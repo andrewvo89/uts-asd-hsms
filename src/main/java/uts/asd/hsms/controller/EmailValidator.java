@@ -24,7 +24,7 @@ public class EmailValidator implements ConstraintValidator<EmailConstraint, Stri
     @Override
     public void initialize(EmailConstraint email) {
     }
- 
+    //Check if the email address already exists in the database, as email must be unique
     @Override
     public boolean isValid(String email, ConstraintValidatorContext cxt) {
         MongoDBConnector mongoDbConnector = null;  
