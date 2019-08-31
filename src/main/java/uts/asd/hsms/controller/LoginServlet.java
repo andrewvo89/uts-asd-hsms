@@ -80,7 +80,6 @@ public class LoginServlet extends HttpServlet {
             String password = request.getParameter("password");
             User loginUser = null;
             ArrayList<String> failedLogins;
-            String s = "";
             if (userDao.getUsers(null, null, null, null, null, email, null, null, 0).length > 0)
                 loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0)[0];
             Boolean authenticated = false;
@@ -100,7 +99,11 @@ public class LoginServlet extends HttpServlet {
                 if (session.getAttribute("failedLogins") != null) failedLogins = (ArrayList<String>)session.getAttribute("failedLogins");
                 else failedLogins = new ArrayList<String>();
                 if (loginUser != null) {//If email exists in database, add it to failed logins count (logging up to 5 counts)
-                    failedLogins.add(email);           
+                    String test = "";
+                    failedLogins.add(email); 
+                    for (String s: failedLogins) {
+                        test += ", " + s;
+                    }
                     try {
                         if (checkFailedLogins(email, failedLogins)) {
                             String recipient = "uts.asd.hsms@gmail.com", subject = "Suspicous Activity detected on HSMS", 
@@ -110,7 +113,7 @@ public class LoginServlet extends HttpServlet {
                             session.setAttribute("errorMessage", String.format("%s has had over 5 failed Log In attempts. An Administrator has been notified.", email));
                             emailNotification.sendEmail(recipient, subject, body);
                         }
-                        else session.setAttribute("errorMessage", "Username or Password Incorrect: " + failedLogins.size());
+                        else session.setAttribute("errorMessage", "Username or Password Incorrect: " + test);
                         session.setAttribute("failedLogins", failedLogins);
                     }
                     catch (MessagingException ex) {session.setAttribute("errorMessage", ex.getMessage());}
