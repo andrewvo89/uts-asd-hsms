@@ -3,10 +3,10 @@
 #----------------------------------
 
 @RunWith
-Feature: Website is deployed Properly
+Feature: Test open HSMS Website
 
 # A very simple scenario
-   Scenario: Website is deployed Properly      
+   Scenario: Test login button enabled   
     Given I have opened the browser
-    When I visit website
-    Then website returns content
+    When Website is loaded
+    Then Login button should exist

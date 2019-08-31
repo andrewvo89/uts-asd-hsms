@@ -45,40 +45,9 @@
         UserDao userDao = (UserDao)session.getAttribute("userDao");
         ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
         if (message == null) {
-            message = new ArrayList<String>();//1.message header 2.message body 3.message type 4.modal trigger
-            message.add(""); message.add(""); message.add(""); message.add("");
+            message = new ArrayList<String>();//1.message header 2.message body 3.message type
+            message.add(""); message.add(""); message.add("");
         }
-        //Prefill Add Data variables
-        String firstNameAdd = (String)session.getAttribute("firstNameAdd");
-        String lastNameAdd = (String)session.getAttribute("lastNameAdd");
-        String emailAdd = (String)session.getAttribute("emailAdd");
-        String passwordAdd = (String)session.getAttribute("passwordAdd");
-        String departmentAdd = (String)session.getAttribute("departmentAdd");
-        String depratmentAddAdministration = "", depratmentAddEnglish = "", depratmentAddMath = "", depratmentAddScience = "", depratmentAddArt = "";
-        String userRoleAddAdministrator = "", userRoleAddPrincipal = "", userRoleAddHeadTeacher = "", userRoleAddTeacher = "";
-        int userRoleAdd = 0;  
-        if (session.getAttribute("userRoleAdd") != null) {
-            try {
-                userRoleAdd = Integer.valueOf((session.getAttribute("userRoleAdd").toString()));
-            }
-            catch (NumberFormatException ex) {
-                userRoleAdd = 0;
-            }
-        }    
-        if (firstNameAdd == null) firstNameAdd = "";
-        if (lastNameAdd == null) lastNameAdd = "";
-        if (emailAdd == null) emailAdd = "";
-        if (passwordAdd == null) passwordAdd = "";
-        if (departmentAdd == null) departmentAdd = "";
-        if (departmentAdd.equals("English")) depratmentAddEnglish = "checked";
-        else if(departmentAdd.equals("Math")) depratmentAddMath = "checked";
-        else if(departmentAdd.equals("Science")) depratmentAddScience = "checked";
-        else if(departmentAdd.equals("Art")) depratmentAddArt = "checked";
-        else depratmentAddAdministration = "checked";
-        if(userRoleAdd == 2) userRoleAddPrincipal = "checked";
-        else if(userRoleAdd == 3) userRoleAddHeadTeacher = "checked";
-        else if(userRoleAdd == 4) userRoleAddTeacher = "checked";
-        else userRoleAddAdministrator = "checked";
 
         //Prefill Search Data variables
         String firstNameSearch = request.getParameter("firstNameSearch");
@@ -112,10 +81,10 @@
         else if(userRoleSearch == 4) userRoleSearchTeacher = "checked";
         else userRoleSearchAll = "checked";
 
-        User[] users = userDao.getUsers(null, firstNameSearch, lastNameSearch, emailSearch, null, departmentSearch, userRoleSearch);
+        User[] users = userDao.getUsers(null, firstNameSearch, lastNameSearch, null, null, emailSearch, null, departmentSearch, userRoleSearch);
     %>
     <body style="padding-bottom: 8rem">
-    <input type="hidden" id="modalTrigger" value="<%=message.get(3)%>">
+    <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
             <div class="container">
                 <h1>User Management</h1>
@@ -225,6 +194,8 @@
                                 String userId = currentUser.getUserId().toString();
                                 String firstName = currentUser.getFirstName();
                                 String lastName = currentUser.getLastName();
+                                String phone = currentUser.getPhone();
+                                String location = currentUser.getLocation();
                                 String email = currentUser.getEmail();
                                 String department = currentUser.getDepartment();
                                 String userRoleString = currentUser.getUserRoleString();
@@ -237,8 +208,9 @@
                             <td><%=userRoleString%></td>
                             <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userEditModal" role="button"
-                                        data-userid="<%=userId%>" data-firstname="<%=firstName%>" data-lastname="<%=lastName%>"
-                                        data-department="<%=department%>" data-email="<%=email%>" data-userrolestring="<%=userRoleString%>">Edit</button>
+                                data-userid="<%=userId%>" data-firstname="<%=firstName%>" data-lastname="<%=lastName%>" data-phone="<%=phone%>" 
+                                data-location="<%=location%>" data-department="<%=department%>" data-email="<%=email%>" 
+                                data-userrolestring="<%=userRoleString%>">Edit</button>
                                     
                                 <!--EDIT USER MODAL DIALOG-->        
                                 <div class="modal fade" id="userEditModal" tabindex="-1" role="dialog" aria-labelledby="userEditModalLabel" aria-hidden="true">
@@ -251,39 +223,51 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="UserServlet" method="post" oninput='passwordConfirmEdit.setCustomValidity(passwordConfirmEdit.value != passwordEdit.value ? "Passwords do not match." : "")'>
+                                                <form action="UserServlet" method="post">
                                                     <div class="form-group row">
-                                                        <label for="firstName" class="col-sm-4 col-form-label">First Name</label>
+                                                        <label for="firstNameEdit" class="col-sm-4 col-form-label">First Name</label>
                                                         <div class="col-sm-8 firstName">
                                                             <input type="text" class="form-control" name="firstNameEdit" placeholder="First Name" required="true" minlength="1" maxlength="32">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <label for="lastName" class="col-sm-4 col-form-label">Last Name</label>
+                                                        <label for="lastNameEdit" class="col-sm-4 col-form-label">Last Name</label>
                                                         <div class="col-sm-8 lastName">
                                                             <input type="text" class="form-control" name="lastNameEdit" placeholder="Last Name" required="true" minlength="1" maxlength="32">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <label for="email" class="col-sm-4 col-form-label">Email</label>
-                                                        <div class="col-sm-8 email">
-                                                            <input type="email" class="form-control" name="emailEdit" placeholder="Email" required="true" minlength="1" maxlength="64">
+                                                        <label for="phoneEdit" class="col-sm-4 col-form-label">Phone</label>
+                                                        <div class="col-sm-8 phone">
+                                                            <input type="tel" class="form-control" name="phoneEdit" placeholder="Phone" required="true" minlength="1" maxlength="10" pattern="^[0-9]*$" title="Phone must include numbers only">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <label for="password" class="col-sm-4 col-form-label">Password</label>
+                                                        <label for="locationEdit" class="col-sm-4 col-form-label">Location</label>
+                                                        <div class="col-sm-8 location">
+                                                            <input type="text" class="form-control" name="locationEdit" placeholder="Location" required="true" minlength="1" maxlength="16">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="emailEdit" class="col-sm-4 col-form-label">Email</label>
+                                                        <div class="col-sm-8 email">
+                                                            <input type="email" class="form-control" name="emailEdit" placeholder="Email" required="true" minlength="1" maxlength="64" pattern="^[A-Za-z0-9._-]+@hsms.edu.au$" title="Email Address must end in @hsms.edu.au">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="passwordEdit" class="col-sm-4 col-form-label">Password</label>
                                                         <div class="col-sm-8 password">
                                                             <div class="input-group" id="show_hide_password">
-                                                                <input type="password" class="form-control pwdedit1" name="passwordEdit" placeholder="New Password" maxlength="16">
+                                                                <input type="password" class="form-control pwdedit1" id="passwordedit" name="passwordEdit" placeholder="New Password" maxlength="16" pattern="^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\S+$).*$" title="Password must contain at least 1 Lower Case, 1 Upper Case and 1 Special Character">
                                                                 <button class="btn btn-outline-dark revealedit1" type="button" data-toggle="button">show</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <label for="passwordConfirm" class="col-sm-4 col-form-label">Confirm Password</label>
+                                                        <label for="passwordConfirmEdit" class="col-sm-4 col-form-label">Confirm Password</label>
                                                         <div class="col-sm-8 password">
                                                             <div class="input-group" id="show_hide_password">
-                                                                <input type="password" class="form-control pwdedit2" name="passwordConfirmEdit" placeholder="Confirm Password" maxlength="16">
+                                                                <input type="password" class="form-control pwdedit2" id="passwordconfirmedit" name="passwordConfirmEdit" placeholder="Confirm Password" maxlength="16">
                                                                 <button class="btn btn-outline-dark revealedit2" type="button" data-toggle="button">show</button>
                                                             </div>
                                                         </div>
@@ -348,7 +332,7 @@
                                         </div>
                                     </div>
                                 </div>                       
-                                <!--MESSAGE MODAL AFTER ADD OR DELETE ACTION-->
+                                <!--MESSAGE MODAL AFTER ADD, EDIT OR DELETE ACTION-->
                                 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
@@ -367,7 +351,7 @@
                                         </div> 
                                     </div>   
                                 </div>                          
-                                <!--DELETE MESSAGE MODAL AFTER DELETE-->                                
+                                <!--DELETE CONFIRMATION MODAL-->                                
                                 <button type=button" class="btn btn-danger"  data-toggle="modal" data-target="#userDeleteModal"
                                         data-toggle="modal"role="button" data-userid="<%=userId%>" data-firstname="<%=firstName%>" 
                                         data-lastname="<%=lastName%>">Delete</button>
@@ -419,39 +403,51 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form oninput='passwordConfirmAdd.setCustomValidity(passwordConfirmAdd.value != passwordAdd.value ? "Passwords do not match." : "")' method="post" action="UserServlet"> 
+                                <form method="post" action="UserServlet"> 
                                     <div class="form-group row">
-                                        <label for="firstName" class="col-sm-4 col-form-label">First Name</label>
+                                        <label for="firstNameAdd" class="col-sm-4 col-form-label">First Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="firstNameAdd" placeholder="First Name" required="true" minlength="1" maxlength="32" value="<%=firstNameAdd%>">
+                                            <input type="text" class="form-control" name="firstNameAdd" placeholder="First Name" required="true" minlength="1" maxlength="32">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="lastName" class="col-sm-4 col-form-label">Last Name</label>
+                                        <label for="lastNameAdd" class="col-sm-4 col-form-label">Last Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="lastNameAdd" placeholder="Last Name" required="true" minlength="1" maxlength="32" value="<%=lastNameAdd%>">
+                                            <input type="text" class="form-control" name="lastNameAdd" placeholder="Last Name" required="true" minlength="1" maxlength="32">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="email" class="col-sm-4 col-form-label">Email</label>
-                                        <div class="col-sm-8 email">
-                                            <input type="email" class="form-control" name="emailAdd" placeholder="Email" required="true" minlength="1" maxlength="64" value="<%=emailAdd%>">
+                                        <label for="phoneAdd" class="col-sm-4 col-form-label">Phone</label>
+                                        <div class="col-sm-8">
+                                            <input type="tel" class="form-control" name="phoneAdd" placeholder="Phone" required="true" minlength="1" maxlength="10" pattern="^[0-9]*$" title="Phone must include numbers only">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="password" class="col-sm-4 col-form-label">Password</label>
+                                        <label for="locationAdd" class="col-sm-4 col-form-label">Location</label>
+                                        <div class="col-sm-8 location">
+                                            <input type="text" class="form-control" name="locationAdd" placeholder="Location" required="true" minlength="1" maxlength="16">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="emailAdd" class="col-sm-4 col-form-label">Email</label>
+                                        <div class="col-sm-8">
+                                            <input type="email" class="form-control" name="emailAdd" placeholder="Email" required="true" minlength="1" maxlength="64" pattern="^[A-Za-z0-9._-]+@hsms.edu.au$" title="Email Address must end in @hsms.edu.au">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="passwordAdd" class="col-sm-4 col-form-label">Password</label>
                                         <div class="col-sm-8">
                                             <div class="input-group" id="show_hide_password">
-                                                <input type="password" class="form-control pwdadd1" name="passwordAdd" placeholder="Password" minlength="6" maxlength="16" value="<%=passwordAdd%>">
+                                                <input type="password" class="form-control pwdadd1" id="passwordadd" name="passwordAdd" placeholder="Password" minlength="6" maxlength="16" pattern="^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\S+$).*$" title="Password must contain at least 1 Lower Case, 1 Upper Case and 1 Special Character">
                                                 <button class="btn btn-outline-dark revealadd1" type="button" data-toggle="button">show</button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="passwordConfirm" class="col-sm-4 col-form-label">Confirm Password</label>
+                                        <label for="passwordConfirmAdd" class="col-sm-4 col-form-label">Confirm Password</label>
                                         <div class="col-sm-8">
                                             <div class="input-group" id="show_hide_password">
-                                                <input type="password" class="form-control pwdadd2" name="passwordConfirmAdd" name="passwordConfirm" placeholder="Confirm Password" minlength="6" maxlength="16" value="<%=passwordAdd%>">
+                                                <input type="password" class="form-control pwdadd2" id="passwordconfirmadd" name="passwordConfirmAdd" name="passwordConfirm" placeholder="Confirm Password">
                                                 <button class="btn btn-outline-dark revealadd2" type="button" data-toggle="button">show</button>
                                             </div>
                                         </div>
@@ -460,23 +456,23 @@
                                         <div class="col-sm-4">Department</div>
                                         <div class="col-sm-8">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Administration" <%=depratmentAddAdministration%>>
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Administration" checked>
                                                 <label class="form-check-label" for="department">Administration</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" value="English" <%=depratmentAddEnglish%>>
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="English">
                                                 <label class="form-check-label" for="english">English</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Math" <%=depratmentAddMath%>>
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Math">
                                                 <label class="form-check-label" for="math">Math</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Science" <%=depratmentAddScience%>>
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Science">
                                                 <label class="form-check-label" for="science">Science</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Art" <%=depratmentAddArt%>>
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Art">
                                                 <label class="form-check-label" for="art">Art</label>
                                             </div>
                                         </div>
@@ -485,31 +481,24 @@
                                         <legend class="col-form-label col-sm-4 pt-0">User Role</legend>
                                         <div class="col-sm-8">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" value="1" <%=userRoleAddAdministrator%>>
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" value="1" checked>
                                                 <label class="form-check-label" for="administrator">Administrator</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" value="2" <%=userRoleAddPrincipal%>>
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" value="2">
                                                 <label class="form-check-label" for="principal">Principal</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" value="3" <%=userRoleAddHeadTeacher%>>
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" value="3">
                                                 <label class="form-check-label" for="headTeacher">Head Teacher</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="userRoleAdd" value="4" <%=userRoleAddTeacher%>>
+                                                <input class="form-check-input" type="radio" name="userRoleAdd" value="4">
                                                 <label class="form-check-label" for="teacher">Teacher</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                    <%
-                                        if (message.get(1) != "") {
-                                    %>      
-                                    <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
-                                    <%
-                                        }
-                                    %>   
                                         <input type="hidden" name="action" value="add">                                 
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         <button type="submit" class="btn btn-primary submit">Confirm</button>                                        
@@ -523,12 +512,6 @@
         </div>
     <%
         //CLEAR ALL PRE-FILL & ERROR MESSAGE SESSION VARIABLES
-        session.removeAttribute("firstNameAdd");
-        session.removeAttribute("lastNameAdd");
-        session.removeAttribute("emailAdd");
-        session.removeAttribute("passwordAdd");
-        session.removeAttribute("departmentAdd");
-        session.removeAttribute("userRoleAdd");
         session.removeAttribute("message");
     %>
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>  

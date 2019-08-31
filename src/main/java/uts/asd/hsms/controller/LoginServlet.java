@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
             out.println("                   <input name=\"email\" type=\"text\" id=\"inputId\" class=\"form-control\" placeholder=\"teacher@hsms.edu.au\" required autofocus>");
             out.println("                   <label for=\"inputPassword\" class=\"sr-only\">Password</label>");
             out.println("                   <input name=\"password\" type=\"password\" id=\"inputPassword\" class=\"form-control pwd\" placeholder=\"password\" required>");
-            out.println("                   <button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">Log In</button>");  
+            out.println("                   <button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\" id=\"submit\">Log In</button>");  
             if (session.getAttribute("errorMessage") != null) out.println("<div class=\"alert alert-danger mr-auto\" role=\"alert\" style=\"text-align: center; margin-top: 10px\">"+session.getAttribute("errorMessage")+"</div>");
             out.println("               </form>");
             out.println("           </div>");
@@ -74,16 +74,19 @@ public class LoginServlet extends HttpServlet {
             UserDao userDao = (UserDao)session.getAttribute("userDao");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-            User user = userDao.getUser(email);
+            User loginUser = null;
+            //User user = userDao.getUser(email);
+            if (userDao.getUsers(null, null, null, null, null, email, null, null, 0).length > 0)
+                loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0)[0];
             Boolean authenticated = false;
             
             try {  
-                if (user != null) if (PasswordEncrypt.validatePassword(password, user.getPassword())) authenticated = true;
+                if (loginUser != null) if (PasswordEncrypt.validatePassword(password, loginUser.getPassword())) authenticated = true;
             }//Keep authenticated = false
             catch (NoSuchAlgorithmException | InvalidKeySpecException | NumberFormatException ex) {}
             //session.setAttribute("user", new User(new ObjectId("5d58b31df28d4f28c41f0908"), "Backdoor", "Backdoor", "Backdoor", "Backdoor", "Backdoor", 1));
             if (authenticated) {
-                session.setAttribute("user", user);
+                session.setAttribute("user", loginUser);
                 session.removeAttribute("errorMessage");
             }
             else session.setAttribute("errorMessage", "Username or Password Incorrect");
