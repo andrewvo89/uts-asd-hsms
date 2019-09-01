@@ -13,6 +13,6 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
  
 
-//@RunWith(Cucumber.class)
-//@CucumberOptions(plugin = {"pretty", "json:target/cucumber.json"}, features={"src/test/java"})
-//public class Tester {   }
+@RunWith(Cucumber.class)
+@CucumberOptions(plugin = {"pretty", "json:target/cucumber.json"}, features={"src/test/java"})
+public class Tester {   }
