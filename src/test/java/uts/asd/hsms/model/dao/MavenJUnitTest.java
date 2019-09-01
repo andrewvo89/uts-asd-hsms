@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Assert;
 import static org.junit.Assert.*;
+import org.junit.Test;
 /**
  *
  * @author ADMIN
@@ -24,5 +25,9 @@ public class MavenJUnitTest {
     public static void setUpClass() throws UnknownHostException {
         System.out.println("\n<-- Starting test -->");
         mdb = new MongoDBConnector();
+    }
+    @Test
+    public void testMongoDBConnecto() throws UnknownHostException {
+        Assert.assertNotNull("Cannot establish connection to Mongo DB", mdb.getMongoDB());
     }
 }

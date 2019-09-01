@@ -4,6 +4,7 @@
     Author     : Andrew
 --%>
 
+<jsp:include page="ConnServlet" flush="true" />
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="uts.asd.hsms.model.dao.*"%>
