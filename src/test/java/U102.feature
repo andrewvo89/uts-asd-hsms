@@ -9,8 +9,7 @@ I want edit an existing teacher
 In order to update their details
 
 # A very simple scenario
-    
-   Background: Edit existing user      
+    Background: Edit existing user      
     Given I am on the user management page
    
    Scenario Outline: Start editing a user

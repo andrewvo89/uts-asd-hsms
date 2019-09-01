@@ -28,7 +28,7 @@ public class U102RunnerTest {
         WebDriverManager.getInstance(driverClass).setup();
         driver = driverClass.newInstance();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/uts-asd-hsms/usermanagement.jsp");
+        driver.get("https://uts-asd-hsms.herokuapp.com/usermanagement.jsp");
         driver.findElement(By.id("email")).sendKeys("administrator@hsms.edu.au");
         driver.findElement(By.id("password")).sendKeys("Password!");
         driver.findElement(By.id("submit")).submit();
