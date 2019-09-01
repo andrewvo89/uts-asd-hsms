@@ -50,10 +50,10 @@ public class LoginServlet extends HttpServlet {
             out.println("               <form class=\"form-signin\" method=\"post\" action=\"LoginServlet\">");
             out.println("                   <h2 class=\"h3 mb-3 font-weight-normal text-center\">Welcome to HSMS</h2>");
             out.println("                   <label for=\"inputEmail\" class=\"sr-only\">Email address</label>");
-            out.println("                   <input name=\"email\" type=\"text\" id=\"inputId\" class=\"form-control\" placeholder=\"teacher@hsms.edu.au\" required autofocus>");
+            out.println("                   <input name=\"email\"  id=\"email\" type=\"text\" class=\"form-control\" placeholder=\"teacher@hsms.edu.au\" required autofocus>");
             out.println("                   <label for=\"inputPassword\" class=\"sr-only\">Password</label>");
-            out.println("                   <input name=\"password\" type=\"password\" id=\"inputPassword\" class=\"form-control pwd\" placeholder=\"password\" required>");
-            out.println("                   <button class=\"btn btn-lg btn-primary btn-block\" type=\"submit\" id=\"submit\">Sign In</button>");  
+            out.println("                   <input name=\"password\" id=\"password\" type=\"password\" class=\"form-control pwd\" placeholder=\"password\" required>");
+            out.println("                   <button name=\"submit\" id=\"submit\" class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">Sign In</button>");  
             if (session.getAttribute("errorMessage") != null) out.println("<div class=\"alert alert-danger mr-auto\" role=\"alert\" style=\"text-align: center; margin-top: 10px\">"+session.getAttribute("errorMessage")+"</div>");
             out.println("               </form>");
             out.println("           </div>");
@@ -80,7 +80,7 @@ public class LoginServlet extends HttpServlet {
             String password = request.getParameter("password");
             User loginUser = null;
             ArrayList<String> failedLogins;
-            if (userDao.getUsers(null, null, null, null, null, email, null, null, 0).length > 0)
+            if (userDao.getUsers(null, null, null, null, null, email, null, null, 0) != null)
                 loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0)[0];
             Boolean authenticated = false;
             

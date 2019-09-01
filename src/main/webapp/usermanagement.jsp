@@ -13,6 +13,7 @@
 <%@page import="javax.activation.*,javax.mail.*"%>
 <%@page import="javax.servlet.http.*,javax.servlet.*"%>
 <%@page import="java.util.ArrayList"%>
+<jsp:include page="ConnServlet" flush="true" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -208,7 +209,7 @@
                             <td><%=email%></td>
                             <td><%=userRoleString%></td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userEditModal" role="button"
+                                <button id="userEditButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#userEditModal" role="button"
                                 data-userid="<%=userId%>" data-firstname="<%=firstName%>" data-lastname="<%=lastName%>" data-phone="<%=phone%>" 
                                 data-location="<%=location%>" data-department="<%=department%>" data-email="<%=email%>" 
                                 data-userrolestring="<%=userRoleString%>">Edit</button>
@@ -252,7 +253,7 @@
                                                     <div class="form-group row">
                                                         <label for="emailEdit" class="col-sm-4 col-form-label">Email</label>
                                                         <div class="col-sm-8 email">
-                                                            <input type="email" class="form-control" name="emailEdit" placeholder="Email" required="true" minlength="1" maxlength="64" pattern="^[A-Za-z0-9._-]+@hsms.edu.au$" title="Email Address must end in @hsms.edu.au">
+                                                            <input type="email" class="form-control" name="emailEdit" id="emailEdit" placeholder="Email" required="true" minlength="1" maxlength="64" pattern="^[A-Za-z0-9._-]+@hsms.edu.au$" title="Email Address must end in @hsms.edu.au">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -326,7 +327,7 @@
                                                         <input type="hidden" name="action" value="edit">
                                                         <input type="hidden" name="redirect" value="usermanagement">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                                        <button id="userEditConfirmButton" type="submit" class="btn btn-primary">Confirm</button>
                                                     </div>
                                                 </form>
                                             </div>
