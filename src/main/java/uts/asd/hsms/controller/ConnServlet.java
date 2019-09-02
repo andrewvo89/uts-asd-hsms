@@ -39,6 +39,7 @@ public class ConnServlet extends HttpServlet {
     
     @Override //Destroy the servlet and release the resources of the application
      public void destroy() {
+         mongoClient.close();
          mongoDbConnector.closeConnection();
     }
   

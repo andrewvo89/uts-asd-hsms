@@ -241,7 +241,7 @@
                                                     <div class="form-group row">
                                                         <label for="phoneEdit" class="col-sm-4 col-form-label">Phone</label>
                                                         <div class="col-sm-8 phone">
-                                                            <input type="tel" class="form-control" name="phoneEdit" placeholder="Phone" required="true" minlength="1" maxlength="10" pattern="^[0-9]*$" title="Phone must include numbers only">
+                                                            <input type="tel" class="form-control" name="phoneEdit" id="phoneEdit" placeholder="Phone" required="true" minlength="1" maxlength="10" pattern="^[0-9]*$" title="Phone must include numbers only">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">

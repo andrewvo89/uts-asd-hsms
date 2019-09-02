@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  *
  * @author Andrew
  */
-public class U102RunnerTest {
+public class U102 {
    WebDriver driver; 
 	
    @Given("^I am on the user management page$") 
@@ -39,9 +39,14 @@ public class U102RunnerTest {
         driver.findElement(By.id("userEditButton")).click();
    } 
 	
-   @And("^change email to \"([^\"]*)\"$") 
-   public void editLastName(String email) throws Throwable { 
+   @And("^I change phone to \"([^\"]*)\" and email to \"([^\"]*)\"$") 
+   public void editLastName(String phone, String email) throws Throwable { 
+        WebElement phoneEdit = driver.findElement(By.name("phoneEdit")); 
         WebElement emailEdit = driver.findElement(By.id("emailEdit")); 
+        phoneEdit.clear();
+        for (int x = 0; x < phone.length(); x ++) {
+            phoneEdit.sendKeys(String.valueOf(phone.charAt(x)));
+        }
         emailEdit.clear();
         for (int x = 0; x < email.length(); x ++) {
             emailEdit.sendKeys(String.valueOf(email.charAt(x)));
