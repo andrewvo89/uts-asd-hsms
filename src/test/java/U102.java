@@ -40,7 +40,7 @@ public class U102 {
    } 
 	
    @And("^I change phone to \"([^\"]*)\" and email to \"([^\"]*)\"$") 
-   public void editLastName(String phone, String email) throws Throwable { 
+   public void editUser(String phone, String email) throws Throwable { 
         WebElement phoneEdit = driver.findElement(By.id("phoneEdit")); 
         WebElement emailEdit = driver.findElement(By.id("emailEdit")); 
         phoneEdit.clear();
