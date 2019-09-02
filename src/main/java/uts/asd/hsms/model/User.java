@@ -23,16 +23,16 @@ public class User implements Serializable {
     @Size(min = 1, max = 32, message = "Last Name must be between 1 and 32 Characters")
     private String lastName;
     @NotEmpty(message = "Please enter Phone")
-    @Size(min = 1, max = 32, message = "Phone must be between 1 and 10 Characters")
+    @Size(min = 1, max = 10, message = "Phone must be between 1 and 10 Characters")
     @Pattern(regexp = "^[0-9]*$", message = "Phone must include numbers only")
     private String phone;
     @NotEmpty(message = "Please enter Location")
-    @Size(min = 1, max = 32, message = "Location must be between 1 and 16 Characters")
+    @Size(min = 1, max = 16, message = "Location must be between 1 and 16 Characters")
     private String location;
     @NotEmpty(message = "Please enter email")
     @Email(message = "Email Address is invalid")
     @Pattern(regexp = "^[A-Za-z0-9._-]+@hsms.edu.au$", message = "Email Address must end in @hsms.edu.au")
-    //@EmailConstraint(message = "Email Address is already registered on HSMS")
+    @EmailConstraint(message = "Email Address is already registered on HSMS")
     private String email;
     @NotEmpty(message = "Please enter Password")
     @Size(min = 6, max = 16, message = "Password must be between 6 and 36 Characters")
