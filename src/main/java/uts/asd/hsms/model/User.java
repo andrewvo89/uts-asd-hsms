@@ -32,7 +32,7 @@ public class User implements Serializable {
     @NotEmpty(message = "Please enter email")
     @Email(message = "Email Address is invalid")
     @Pattern(regexp = "^[A-Za-z0-9._-]+@hsms.edu.au$", message = "Email Address must end in @hsms.edu.au")
-    @EmailConstraint(message = "Email Address is already registered on HSMS")
+    //@EmailConstraint(message = "Email Address is already registered on HSMS")
     private String email;
     @NotEmpty(message = "Please enter Password")
     @Size(min = 6, max = 16, message = "Password must be between 6 and 36 Characters")

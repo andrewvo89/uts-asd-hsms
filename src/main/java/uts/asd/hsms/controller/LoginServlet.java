@@ -70,6 +70,7 @@ public class LoginServlet extends HttpServlet {
             out.println("   </body>");
             out.println("</html>");
         }
+        
     }
         protected void loginAuth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             HttpSession session = request.getSession();

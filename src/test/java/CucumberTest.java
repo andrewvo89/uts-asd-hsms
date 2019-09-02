@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  *
  * @author Andrew
  */
-public class U102RunnerTest {
+public class CucumberTest {
    WebDriver driver; 
 	
    @Given("^I am on the user management page$") 

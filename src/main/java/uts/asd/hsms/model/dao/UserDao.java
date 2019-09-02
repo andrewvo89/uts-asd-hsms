@@ -92,39 +92,56 @@ public class UserDao {
         return users;
     }
     
-    public void addUser(User user) {//Simple add to Mongo Database
-        BasicDBObject newRecord = new BasicDBObject();
-        newRecord.put("firstName", user.getFirstName());
-        newRecord.put("lastName", user.getLastName());
-        newRecord.put("phone", user.getPhone());
-        newRecord.put("location", user.getLocation());
-        newRecord.put("email", user.getEmail());
-        newRecord.put("password", user.getPassword());
-        newRecord.put("department", user.getDepartment());
-        newRecord.put("userRole", user.getUserRole());
-        collection.insert(newRecord);
+    public boolean addUser(User user) {//Simple add to Mongo Database
+        try {
+            BasicDBObject newRecord = new BasicDBObject();
+            newRecord.put("firstName", user.getFirstName());
+            newRecord.put("lastName", user.getLastName());
+            newRecord.put("phone", user.getPhone());
+            newRecord.put("location", user.getLocation());
+            newRecord.put("email", user.getEmail());
+            newRecord.put("password", user.getPassword());
+            newRecord.put("department", user.getDepartment());
+            newRecord.put("userRole", user.getUserRole());
+            collection.insert(newRecord);
+        }
+        catch (Exception ex) {
+            return false;
+        }
+        return true;
     }    
     
-    public void deleteUser(ObjectId userId) { //Simple Delete from Database, based on _userId
-        BasicDBObject query = new BasicDBObject();
-        query.put("_id", userId);
-        collection.remove(query);
+    public boolean deleteUser(ObjectId userId) { //Simple Delete from Database, based on _userId
+        try {
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", userId);
+            collection.remove(query);}
+        catch (Exception ex) {
+            return false;
+        }
+        return true;
     }
     
-    public void editUser(User user) { //Edit user in database based on _userId
-        BasicDBObject query = new BasicDBObject().append("_id", user.getUserId());
-        BasicDBObject records = new BasicDBObject();
-        BasicDBObject update = new BasicDBObject();
-        if (user.getFirstName() != null) records.append("firstName", user.getFirstName());
-        if (user.getLastName() != null) records.append("lastName", user.getLastName());
-        if (user.getPhone() != null) records.append("phone", user.getPhone());
-        if (user.getLocation() != null) records.append("location", user.getLocation());
-        if (user.getEmail() != null) records.append("email", user.getEmail());
-        if (user.getDepartment() != null) records.append("department", user.getDepartment());
-        if (user.getUserRole() != 0) records.append("userRole", user.getUserRole());  
-        if (user.getPassword() != null) records.append("password", user.getPassword());        
-        update.append("$set", records);
-        collection.update(query, update);
+    public boolean editUser(User user) { //Edit user in database based on _userId
+        try {
+            BasicDBObject query = new BasicDBObject().append("_id", user.getUserId());
+            BasicDBObject records = new BasicDBObject();
+            BasicDBObject update = new BasicDBObject();
+            if (user.getFirstName() != null) records.append("firstName", user.getFirstName());
+            if (user.getLastName() != null) records.append("lastName", user.getLastName());
+            if (user.getPhone() != null) records.append("phone", user.getPhone());
+            if (user.getLocation() != null) records.append("location", user.getLocation());
+            if (user.getEmail() != null) records.append("email", user.getEmail());
+            if (user.getDepartment() != null) records.append("department", user.getDepartment());
+            if (user.getUserRole() != 0) records.append("userRole", user.getUserRole());  
+            if (user.getPassword() != null) records.append("password", user.getPassword());        
+            update.append("$set", records);
+            collection.update(query, update);
+        }
+        catch (Exception ex) {
+            return false;
+        }
+        return true;
     }
 
 }
