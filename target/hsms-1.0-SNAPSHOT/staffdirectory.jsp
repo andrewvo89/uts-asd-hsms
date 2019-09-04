@@ -113,7 +113,7 @@
         else if(userRoleSearch == 4) userRoleSearchTeacher = "checked";
         else userRoleSearchAll = "checked";
 
-        User[] users = userDao.getUsers(null, firstNameSearch, lastNameSearch, emailSearch, null, departmentSearch, userRoleSearch);
+         User[] users = userDao.getUsers(null, firstNameSearch, lastNameSearch, null, null, emailSearch, null, departmentSearch, userRoleSearch);
     %>
     <body>
         <div class="main">
@@ -220,13 +220,15 @@
                         </tr>
                     </thead>
                               <tbody>
-                                                          <%
+                        <%
                             //Loop through results of MongoDB search result and place them in a table
                             for (int x = 0; x < users.length; x++) {
                                 User currentUser = users[x];
                                 String userId = currentUser.getUserId().toString();
                                 String firstName = currentUser.getFirstName();
                                 String lastName = currentUser.getLastName();
+                                String phone = currentUser.getPhone();
+                                String location = currentUser.getLocation();
                                 String email = currentUser.getEmail();
                                 String department = currentUser.getDepartment();
                                 String userRoleString = currentUser.getUserRoleString();
@@ -235,15 +237,18 @@
                             <td><%=firstName%></td>
                             <td><%=lastName%></td>
                             <td><%=department%></td>
+                            <td><%=userRoleString%></td>
                             <td><%=email%></td>
+                            <td><%=phone%></td>
+                            <td><%=location%></td>
                                                     <%
                             }
                         %>
 
-                            </tr>>
+                            </tr>
                     
 
-                                  <h3>Executive</h3>
+                        
                                    <tr>
                             <td>Alice</td>
                             <td>Lo</td>
@@ -252,7 +257,7 @@
                             <td>principal@hsms.edu.au</td>
                             <td>0400000000</td>
                             <td>CB11.02.011</td>
-                                   </tr>>
+                                   </tr>
 
 
                         </tbody>
