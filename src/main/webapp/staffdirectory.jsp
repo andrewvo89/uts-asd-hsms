@@ -236,9 +236,10 @@
                             <td><%=lastName%></td>
                             <td><%=department%></td>
                             <td><%=email%></td>
-                            <td><%=email%></td>
-                            <td><%=email%></td>
-                            <td><%=email%></td>
+                                                    <%
+                            }
+                        %>
+
                             </tr>>
                     
 
