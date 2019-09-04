@@ -42,7 +42,7 @@ public class UserValidator {
         //Validate bean
         Set<ConstraintViolation<User>> constraintViolations = validator.validate(user);
 
-        
+        //Return an ArrayList of error messages for validations
         if (constraintViolations.size() > 0) {
             messages = new String[constraintViolations.size()];
             int count = 0;
