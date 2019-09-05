@@ -104,7 +104,7 @@
                     </div>
                 </div>
                 
-                    <br><table class="table" id="tutTable">
+                    <br><table class="table table-hover" id="tutTable">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Class ID</th>
@@ -133,7 +133,7 @@
                                 <td><%=grade%></td>
                                 <td><%=tutSize%></td>
                                 <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editRollModal" role="button" data-tutorialId="<%=tutorialId%>">Edit</button>         
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editRollModal" role="button" data-tutorial-id="<%=tutorialId%>">Edit</button>         
                                 </td>
                             <%
                                 }
@@ -199,18 +199,55 @@
                                                                 <td><%=firstName%></td>
                                                                 <td><%=lastName%></td>
                                                                 <td>
-                                                                    <%=wk1%>
-                                                                    <input type="text" class="form-control" name="wk1" maxlength="1">
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk1" maxlength="1">
+                                                                    </div>
                                                                 </td>
-                                                                <td><%=wk2%></td>
-                                                                <td><%=wk3%></td>
-                                                                <td><%=wk4%></td>
-                                                                <td><%=wk5%></td>
-                                                                <td><%=wk6%></td>
-                                                                <td><%=wk7%></td>
-                                                                <td><%=wk8%></td>
-                                                                <td><%=wk9%></td>
-                                                                <td><%=wk10%></td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk2" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk3" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk4" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk5" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk6" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk7" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk8" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk9" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk10" maxlength="1">
+                                                                    </div>
+                                                                </td>
                                                                 
                                                 <%
                                                     }
@@ -237,6 +274,6 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="js/usermanagement.js"></script>
+        <script src="js/classrollmanagement.js"></script>
     </body>
 </html>

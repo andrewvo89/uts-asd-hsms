@@ -7,6 +7,7 @@ package uts.asd.hsms.model;
 
 import java.io.Serializable;
 import org.bson.types.ObjectId;
+import javax.validation.constraints.*;
 
 
 public class Attendance implements Serializable{
@@ -16,15 +17,35 @@ public class Attendance implements Serializable{
     private String firstName;
     private String lastName;
     private String wk1;
+    @Size(min = 0, max = 1, message = "Limit entree to 1 character.")
+    @Pattern(regexp = "P|L|A", message = "P = Present, L = Late, A = Away")
     private String wk2;
+    @Size(min = 0, max = 1, message = "Limit entree to 1 character.")
+    @Pattern(regexp = "P|L|A", message = "P = Present, L = Late, A = Away")
     private String wk3;
+    @Size(min = 0, max = 1, message = "Limit entree to 1 character.")
+    @Pattern(regexp = "P|L|A", message = "P = Present, L = Late, A = Away")
     private String wk4;
+    @Size(min = 0, max = 1, message = "Limit entree to 1 character.")
+    @Pattern(regexp = "P|L|A", message = "P = Present, L = Late, A = Away")
     private String wk5;
+    @Size(min = 0, max = 1, message = "Limit entree to 1 character.")
+    @Pattern(regexp = "P|L|A", message = "P = Present, L = Late, A = Away")
     private String wk6;
+    @Size(min = 0, max = 1, message = "Limit entree to 1 character.")
+    @Pattern(regexp = "P|L|A", message = "P = Present, L = Late, A = Away")
     private String wk7;
+    @Size(min = 0, max = 1, message = "Limit entree to 1 character.")
+    @Pattern(regexp = "P|L|A", message = "P = Present, L = Late, A = Away")
     private String wk8;
+    @Size(min = 0, max = 1, message = "Limit entree to 1 character.")
+    @Pattern(regexp = "P|L|A", message = "P = Present, L = Late, A = Away")
     private String wk9;
+    @Size(min = 0, max = 1, message = "Limit entree to 1 character.")
+    @Pattern(regexp = "P|L|A", message = "P = Present, L = Late, A = Away")
     private String wk10;
+    @Size(min = 0, max = 1, message = "Limit entree to 1 character.")
+    @Pattern(regexp = "P|L|A", message = "P = Present, L = Late, A = Away")
     private String tutorialId;
     
     public Attendance(ObjectId refStudentId, int studentId, String firstName, String lastName, String wk1, String wk2, String wk3, String wk4, String wk5, String wk6, String wk7, String wk8, String wk9, String wk10, String tutorialId){

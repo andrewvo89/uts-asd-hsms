@@ -65,10 +65,7 @@ public class AttendanceServlet extends HttpServlet {
         Attendance newAttendance = new Attendance (refStudentId, studentId, firstName, lastName, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, tutorialId);
         AttendanceValidator attendanceValidator = new AttendanceValidator(newAttendance);
         
-        try {
-            if (!"P","A","L".equals(newAttendance.getWk1())){
-            }
-        }
+        
     }
     
     public String toProperCase(String input) {
