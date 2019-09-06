@@ -10,6 +10,7 @@ package uts.asd.hsms.model.dao;
 import java.net.UnknownHostException;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoDatabase;
 
 public class MongoDBConnector {
 
@@ -22,6 +23,9 @@ public class MongoDBConnector {
 //       }
 //       return db;
 //    }
+    public MongoDatabase getMongoDB(){
+       return mongoClient.getDatabase("heroku_r0hsk6vb");
+    }
     
     public MongoDBConnector() throws UnknownHostException {
         String dbUrl = "ds123196.mlab.com";
@@ -32,6 +36,9 @@ public class MongoDBConnector {
         String dbUri = String.format("mongodb://%s:%s@%s:%s/%s", dbUser, dbPass, dbUrl, dbPort, dbName);
         mongoClient = new MongoClient(new MongoClientURI(dbUri));
     }
+    
+    
+    
     public MongoClient openConnection(){
         return this.mongoClient;
     }

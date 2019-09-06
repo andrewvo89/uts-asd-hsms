@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="css/main.css">
         <title>High School Management System</title>
 
-        <%
+        <%//Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
                 session.setAttribute("redirect", "index");
@@ -38,7 +38,7 @@
     <body>
         <div class="main" role="main">
             <div class="container">
-                <h2>Welcome back <%=user.getFirstName()%> <%=user.getLastName()%></h2>
+                <h2 id="welcome">Welcome back <%=user.getFirstName()%> <%=user.getLastName()%></h2>
                 <div class="box" style="margin-top:-60px">
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -111,7 +111,6 @@
                                 <a href="#">Show More</a>
                             </div>
                         </div>
-
                     </div>		
                 </div>
             </div>

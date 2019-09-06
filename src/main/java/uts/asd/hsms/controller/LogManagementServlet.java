@@ -6,28 +6,36 @@
 package uts.asd.hsms.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import uts.asd.hsms.model.UserAudit;
+import uts.asd.hsms.model.dao.AuditLogDAO;
 
 /**
  *
- * @author Andrew
+ * @author Sukonrat
  */
-public class LogoutServlet extends HttpServlet {
+public class LogManagementServlet extends HttpServlet {
 
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();     
-        session.invalidate();//Remove session, go back to index.jsp
-        response.sendRedirect("index.jsp"); 
-    }
-    @Override
+     AuditLogDAO dao = new AuditLogDAO();
+     UserAudit[] logList = dao.getUserAudit();  
+    RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("logmanagement.jsp");
+    request.setAttribute("userAudit",logList);
+    dispatcher.forward(request, response);
+      
+    } 
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-    }
-
+         throws ServletException, IOException {
+ 
+      doGet(request, response);
+   }  
+    
 }
+        

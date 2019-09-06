@@ -19,7 +19,6 @@ public class ConnServlet extends HttpServlet {
     private TutorialDao tutorialDao;
     private AttendanceDao attendanceDao;
     private MongoClient mongoClient;
-    private boolean dbStatus;
      
     @Override //Create and instance of DBConnector for the deployment session
     public void init() {
@@ -48,6 +47,7 @@ public class ConnServlet extends HttpServlet {
     
     @Override //Destroy the servlet and release the resources of the application
      public void destroy() {
+         mongoClient.close();
          mongoDbConnector.closeConnection();
     }
   

@@ -10,28 +10,29 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import uts.asd.hsms.model.User;
+import uts.asd.hsms.model.Staff;
+import uts.asd.hsms.model.dao.*;
 
 /**
  *
- * @author Andrew
+ * @author alvin
  */
-public class UserValidator {
-    private User user;
+public class StaffValidator {
+    private Staff staff;
     
-    public UserValidator(User user) {
-        this.user = user;
+    public StaffValidator(Staff staff) {
+        this.staff = staff;
     }
     
-    public User getUser() {
-        return user;
+    public Staff getstaff() {
+        return staff;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setstaff(Staff staff) {
+        this.staff = staff;
     }
     
-    public String[] validateUser() {
+    public String[] validatestaff() {
         String[] messages;
         //Create ValidatorFactory which returns validator
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -40,13 +41,13 @@ public class UserValidator {
         Validator validator = factory.getValidator();
         
         //Validate bean
-        Set<ConstraintViolation<User>> constraintViolations = validator.validate(user);
+        Set<ConstraintViolation<Staff>> constraintViolations = validator.validate(staff);
 
-        //Return an ArrayList of error messages for validations
+        
         if (constraintViolations.size() > 0) {
             messages = new String[constraintViolations.size()];
             int count = 0;
-            for (ConstraintViolation<User> violation : constraintViolations) {
+            for (ConstraintViolation<Staff> violation : constraintViolations) {
                 messages[count] = violation.getMessage();
                 count ++;
             }

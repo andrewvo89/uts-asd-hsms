@@ -13,22 +13,15 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-public class User implements Serializable {
+public class Staff implements Serializable {
     
-    private ObjectId userId;
+    private ObjectId staffId;
     @NotEmpty(message = "Please enter First Name")
     @Size(min = 1, max = 32, message = "Last Name must be between 1 and 32 Characters")
     private String firstName;
     @NotEmpty(message = "Please enter Last Name")
     @Size(min = 1, max = 32, message = "Last Name must be between 1 and 32 Characters")
     private String lastName;
-    @NotEmpty(message = "Please enter Phone")
-    @Size(min = 1, max = 10, message = "Phone must be between 1 and 10 Characters")
-    @Pattern(regexp = "^[0-9]*$", message = "Phone must include numbers only")
-    private String phone;
-    @NotEmpty(message = "Please enter Location")
-    @Size(min = 1, max = 16, message = "Location must be between 1 and 16 Characters")
-    private String location;
     @NotEmpty(message = "Please enter email")
     @Email(message = "Email Address is invalid")
     @Pattern(regexp = "^[A-Za-z0-9._-]+@hsms.edu.au$", message = "Email Address must end in @hsms.edu.au")
@@ -41,12 +34,10 @@ public class User implements Serializable {
     private String department;
     private int userRole;
 
-    public User(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole) {
-        this.userId = userId;
+    public Staff(ObjectId staffId, String firstName, String lastName, String email, String password, String department, int userRole) {
+        this.staffId = staffId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phone = phone;
-        this.location = location;
         this.email = email;
         this.password = password;
         this.department = department;
@@ -58,17 +49,12 @@ public class User implements Serializable {
         //4 = Teacher
     }
 
-    public User(String phone, String location) {
-        this.phone = phone;
-        this.location = location;
+    public ObjectId getstaffId() {
+        return staffId;
     }
 
-    public ObjectId getUserId() {
-        return userId;
-    }
-
-    public void setUserId(ObjectId userId) {
-        this.userId = userId;
+    public void setstaffId(ObjectId staffId) {
+        this.staffId = staffId;
     }
 
     public String getFirstName() {
@@ -87,22 +73,6 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-       
     public String getEmail() {
         return email;
     }
@@ -141,8 +111,8 @@ public class User implements Serializable {
         else if (userRole == 4) return "Teacher";
         return null;
     }
-    public String getUserIdString() {
-        return userId.toString();
+    public String getstaffIdString() {
+        return staffId.toString();
     }
     
 }
