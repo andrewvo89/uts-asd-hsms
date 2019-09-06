@@ -9,12 +9,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.bson.types.ObjectId;
 import uts.asd.hsms.model.User;
+import uts.asd.hsms.model.UserAudit;
+import uts.asd.hsms.model.dao.AuditLogDAO;
 import uts.asd.hsms.model.dao.UserDao;
 /**
  *
@@ -76,7 +82,9 @@ public class LoginServlet extends HttpServlet {
             String password = request.getParameter("password");
             User user = userDao.getUser(email);
             Boolean authenticated = false;
+            AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
             
+            String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
             try {  
                 if (user != null) if (PasswordEncrypt.validatePassword(password, user.getPassword())) authenticated = true;
             }//Keep authenticated = false
@@ -85,10 +93,13 @@ public class LoginServlet extends HttpServlet {
             if (authenticated) {
                 session.setAttribute("user", user);
                 session.removeAttribute("errorMessage");
+                auditLogDao.addLoginTime(UserAudit.getUserID, timeStamp);
             }
             else session.setAttribute("errorMessage", "Username or Password Incorrect");
             if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   
             else response.sendRedirect(redirect + ".jsp");
         }
+
+    
 }
         
