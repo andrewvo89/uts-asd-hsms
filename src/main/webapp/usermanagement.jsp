@@ -41,7 +41,7 @@
         <%
             }
         %> 
-    </head>
+    </head>z
     <%
         UserDao userDao = (UserDao)session.getAttribute("userDao");
         ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
