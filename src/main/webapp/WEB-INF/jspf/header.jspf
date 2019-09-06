@@ -18,22 +18,22 @@
                                 <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Communication</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                                     <a class="dropdown-item" href="newsfeed.jsp">News Feed</a>
-                                    <a class="dropdown-item" href="#">Messages</a>
+                                    <a class="dropdown-item" href="messages.jsp">Messages</a>
                                     <a class="dropdown-item" href="staffdirectory.jsp">Staff Contact</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Teacher Admin</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                                    <a class="dropdown-item" href="#">Calendar</a>
+                                    <a class="dropdown-item" href="calendar.jsp">Calendar</a>
                                     <a class="dropdown-item" href="classrollmanagement.jsp">Attendance Rolls</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Human Resources</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                                    <a class="dropdown-item" href="#">Apply for Leave</a>
-                                    <a class="dropdown-item" href="#">Job Board</a>
+                                    <a class="dropdown-item" href="leaveapply.jsp">Apply for Leave</a>
+                                    <a class="dropdown-item" href="jobboard.jsp">Job Board</a>
                                     <a class="dropdown-item" href="complaintfill.jsp">Submit Feedback</a>
                                 </div>
                             </li>
@@ -55,7 +55,7 @@
                                     }
                                 %>
                                     <a class="dropdown-item" href="jobmanagement.jsp">Job Applications</a>
-                                    <a class="dropdown-item" href="#">Leave Approval</a>  
+                                    <a class="dropdown-item" href="leaveapproval.jsp">Leave Approval</a>  
                                 </div>
                             </li>
                             <%
