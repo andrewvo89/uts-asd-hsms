@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -87,9 +88,9 @@ public class LoginServlet extends HttpServlet {
             if (userDao.getUsers(null, null, null, null, null, email, null, null, 0) != null)
                 loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0)[0];
             Boolean authenticated = false;
-            AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
+            //AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
             
-            String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
+            //String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
             try {  
                 if (loginUser != null) if (PasswordEncrypt.validatePassword(password, loginUser.getPassword())) authenticated = true;
             }//Keep authenticated = false
@@ -99,7 +100,7 @@ public class LoginServlet extends HttpServlet {
             if (authenticated) {//Login success
                 session.setAttribute("user", loginUser);
                 session.removeAttribute("errorMessage");
-                auditLogDao.addLoginTime(UserAudit.getUserID, timeStamp);
+                //auditLogDao.addLoginTime(UserAudit.getUserID, timeStamp);
             }
             //Redirect to any page on the website depending on where the log in request came from
             if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   

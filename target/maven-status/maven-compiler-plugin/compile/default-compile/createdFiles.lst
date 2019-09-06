@@ -1,8 +1,11 @@
 uts\asd\hsms\controller\StaffdirectoryServlet.class
+uts\asd\hsms\controller\LogActivityServlet.class
 uts\asd\hsms\model\dao\MongoDBConnector.class
+uts\asd\hsms\controller\LogManagementServlet.class
 uts\asd\hsms\model\UserAudit.class
 uts\asd\hsms\controller\StaffValidator.class
 uts\asd\hsms\controller\PasswordEncrypt.class
+uts\asd\hsms\model\dao\AuditLogDAO.class
 uts\asd\hsms\controller\LogoutServlet.class
 uts\asd\hsms\controller\UserValidator.class
 uts\asd\hsms\resources\JavaEE8Resource.class
@@ -12,6 +15,8 @@ uts\asd\hsms\controller\EmailConstraint.class
 uts\asd\hsms\model\dao\StaffDao.class
 uts\asd\hsms\controller\EmailNotifier.class
 uts\asd\hsms\model\Staff.class
+uts\asd\hsms\model\dao\UserDao.class
 uts\asd\hsms\controller\AttendanceValidator.class
 uts\asd\hsms\controller\ConnServlet.class
+uts\asd\hsms\controller\LogServlet.class
 uts\asd\hsms\model\User.class

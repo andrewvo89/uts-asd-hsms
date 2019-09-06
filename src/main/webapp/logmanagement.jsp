@@ -27,6 +27,7 @@
         <%
             }
             else {
+                if (user.getUserRole() > 2) response.sendRedirect("index.jsp");
         %>
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
