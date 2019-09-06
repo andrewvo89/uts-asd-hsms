@@ -1,9 +1,8 @@
 <%-- 
-    Document   : searchLog
-    Created on : Aug 16, 2019, 10:36:38 PM
+    Document   : log
+    Created on : Aug 16, 2019, 9:30:37 PM
     Author     : Sukonrat
 --%>
-
 <%@page import="uts.asd.hsms.model.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/ConnServlet" flush="true" />
@@ -34,19 +33,19 @@
             }
         %> 
     </head>
+    
     <body>
-       <H3 style="color:#e0ac62; padding-top: 150px;" align="center">Search Log Activities</H3>
-<table style="padding-top: 150px;" width="600" border="1" align="center">
+<H3 style="color:#e0ac62; padding-top: 100px;" align="center">Log Activities</H3>
+<table style="padding-top: 250px;" width="600" border="1" align="center">
 <tr>
-<th> <div align="center">Date </div></th>
-<th> <div align="center">UserID</div></th>
-<th> <div align="center">FirstName</div></th>
+<th><div align="center">UserID </div></th>
+<th><div align="center">UserName</div></th>
+<th><div align="center">Last LoggedIn</div></th>
 </tr>
-
 <tr>
-<td><div align="center"><%=request.getAttribute("Date")%></div></td>
-<td><div align="center"><%=request.getAttribute("userID")%></div></td>
-<td><div align="center"><%=request.getAttribute("firstName")%></div></td>
+<td><div align="center" value="${userAudit.userID}</div></td>
+<td><div align="center" value="${userAudit.firstName}"></div></td>
+<td><div align="center" value="${userAudit.timeStamp}"></div></td>
 </tr>
 </table>  
         
@@ -56,4 +55,3 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </body>
 </html>
-
