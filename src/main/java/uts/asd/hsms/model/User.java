@@ -22,6 +22,13 @@ public class User implements Serializable {
     @NotEmpty(message = "Please enter Last Name")
     @Size(min = 1, max = 32, message = "Last Name must be between 1 and 32 Characters")
     private String lastName;
+    @NotEmpty(message = "Please enter Phone")
+    @Size(min = 1, max = 10, message = "Phone must be between 1 and 10 Characters")
+    @Pattern(regexp = "^[0-9]*$", message = "Phone must include numbers only")
+    private String phone;
+    @NotEmpty(message = "Please enter Location")
+    @Size(min = 1, max = 16, message = "Location must be between 1 and 16 Characters")
+    private String location;
     @NotEmpty(message = "Please enter email")
     @Email(message = "Email Address is invalid")
     @Pattern(regexp = "^[A-Za-z0-9._-]+@hsms.edu.au$", message = "Email Address must end in @hsms.edu.au")
@@ -34,10 +41,12 @@ public class User implements Serializable {
     private String department;
     private int userRole;
 
-    public User(ObjectId userId, String firstName, String lastName, String email, String password, String department, int userRole) {
+    public User(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phone = phone;
+        this.location = location;
         this.email = email;
         this.password = password;
         this.department = department;
@@ -47,6 +56,11 @@ public class User implements Serializable {
         //2 = Principle
         //3 = Head Teacher
         //4 = Teacher
+    }
+
+    public User(String phone, String location) {
+        this.phone = phone;
+        this.location = location;
     }
 
     public ObjectId getUserId() {
@@ -73,6 +87,22 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+       
     public String getEmail() {
         return email;
     }

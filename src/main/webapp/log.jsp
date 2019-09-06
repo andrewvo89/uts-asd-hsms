@@ -21,13 +21,12 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
-        <title>High School Management System</title>
-
-       <%--
+        <title>Log</title>
+        <%//Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
-                session.setAttribute("redirect", "index");
-        %>
+                session.setAttribute("redirect", "log");
+        %>   
                 <jsp:include page="LoginServlet" flush="true" />
         <%
             }
@@ -36,7 +35,7 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
-       --%>      
+        %> 
     </head>
     <body>
  <%
@@ -58,13 +57,26 @@
 <td><div align="center" value="${userAudit.userID}"></div></td>
 <td><div align="center" value="${userAudit.timeStamp}"></div></td>
 </tr>
-</table>      
-        <br><p style="text-align:center;"> VIEW USER LOGS 
-            <a href="logmanagement.jsp"><button type="button"> View </button></p></a>
-    <br>
- 
-    
-<%--@ include file="/WEB-INF/jspf/footer-static.jspf" --%>        
+</table> 
+
+<form action ="logmanagement.jsp" target="" method="post" style="padding-top: 100px; text-align:center;">
+            <table style="margin: 0 auto; padding-top: 100px; padding-bottom: 20px; text-align: left;">              
+                <H3 style="color:#e0ac62;" >Search Login Records</H3>
+                <tr>
+                    <th> Date: </th>
+                    <th><input type="text" name="DATETIME"></th>
+                </tr>
+                <tr>
+                    <th> userID: </th>
+                    <th><input type="text" name="USERID"></th>
+                </tr>
+            </table>
+            <input type="submit" value="Search">
+           
+            
+        </form> 
+
+    <%@ include file="/WEB-INF/jspf/footer.jspf" %>        
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
