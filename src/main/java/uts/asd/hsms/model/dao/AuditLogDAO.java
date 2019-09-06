@@ -41,7 +41,12 @@ public class AuditLogDAO {
     public AuditLogDAO() {
        
     }
-    
+    public DB getDatabase() {
+        return database;
+    }
+    public AuditLogDAO(MongoClient mongoClient) {
+        
+    }
     public UserAudit[] getUserAudit() { 
         DBCursor cursor = collection.find();
         System.out.println("COUNT: " + cursor.count());
@@ -49,7 +54,7 @@ public class AuditLogDAO {
         int count = 0;
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
-            ObjectId logId = (ObjectId)result.get("_id");
+           ObjectId logId = (ObjectId)result.get("_id");
             ObjectId userId = (ObjectId)result.get("userID");
             String firstName = (String)result.get("firstName");
             String timeStamp = (String)result.get("date");

@@ -26,9 +26,6 @@ import uts.asd.hsms.model.dao.AuditLogDAO;
  */
 public class LogServlet extends HttpServlet {
 
-
-
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         String userID = request.getParameter("userID");	
