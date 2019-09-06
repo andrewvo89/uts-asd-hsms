@@ -139,6 +139,7 @@
                                 }
                             %>
                             </tr> 
+                        <button type="button" class="btn btn-primary"><a  href="classrolledit.jsp">Test</a></button>
                         </tbody>
                     </table>
             </div>   
@@ -178,7 +179,7 @@
                                                                     <%
                                     AttendanceDao attendanceDao = (AttendanceDao)session.getAttribute("attendanceDao");
                                     Attendance[] attendance = attendanceDao.getAttendance();
-                                    for (int x = 0; x < tutorials.length; x++) {
+                                    for (int x = 0; x < attendance.length; x++) {
                                     Attendance currentAttendance = attendance[x];
                                     int studentId = currentAttendance.getStudentId(); 
                                     String firstName = currentAttendance.getFirstName();
@@ -253,6 +254,7 @@
                                                     }
                                                 %>
                                                             </tr>
+                                                            
                                                         </tbody>
                                                     </table>
                                                             
