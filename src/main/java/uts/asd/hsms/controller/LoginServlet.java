@@ -9,13 +9,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.bson.types.ObjectId;
 import uts.asd.hsms.model.User;
+import uts.asd.hsms.model.UserAudit;
+import uts.asd.hsms.model.dao.AuditLogDAO;
 import uts.asd.hsms.model.dao.UserDao;
 import javax.mail.MessagingException;
 
@@ -84,7 +88,9 @@ public class LoginServlet extends HttpServlet {
             if (userDao.getUsers(null, null, null, null, null, email, null, null, 0) != null)
                 loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0)[0];
             Boolean authenticated = false;
+            //AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
             
+            //String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
             try {  
                 if (loginUser != null) if (PasswordEncrypt.validatePassword(password, loginUser.getPassword())) authenticated = true;
             }//Keep authenticated = false
@@ -94,30 +100,7 @@ public class LoginServlet extends HttpServlet {
             if (authenticated) {//Login success
                 session.setAttribute("user", loginUser);
                 session.removeAttribute("errorMessage");
-                session.removeAttribute("failedLogins");
-            }//Authentication Failed
-            else {//If attribute failedLogins exists, get the attribute, otherwise initialize a new one
-                if (session.getAttribute("failedLogins") != null) failedLogins = (ArrayList<String>)session.getAttribute("failedLogins");
-                else failedLogins = new ArrayList<String>();
-                if (loginUser != null) {//If email exists in database, add it to failed logins count (logging up to 5 counts)
-                    failedLogins.add(email); //Add the failed email to the ArrayList for processing
-                    try {
-                        if (checkFailedLogins(email, failedLogins)) {// Email found > 5 times in ArrayList
-                            String recipient = "uts.asd.hsms@gmail.com", subject = "Suspicous Activity detected on HSMS", 
-                                    body = "Dear " + loginUser.getFirstName() + ",\n\nYour email has had over 5 failed log in attempts.\n"
-                                    + "If this was not you, please log into your account to change your password here: https://uts-asd-hsms.herokuapp.com/userprofile.jsp. \n"
-                                    + "Or contact a HSMS Administrator immediately for assistance: administrator@hsms.edu.au.\n\n"
-                                    + "Kind Regards,\n"
-                                    + "The HSMS Team";
-                            session.setAttribute("errorMessage", String.format("%s has had over 5 failed log in attempts. An Administrator has been notified.", email));
-                            emailNotification.sendEmail(recipient, subject, body);
-                        }
-                        else session.setAttribute("errorMessage", "Username or Password Incorrect");
-                        session.setAttribute("failedLogins", failedLogins);//Add new ArrayList fo the session to keep count of failed logins
-                    }//If smtp.gmail.com email server fails to send the email
-                    catch (MessagingException ex) {session.setAttribute("errorMessage", ex.getMessage());}
-                }
-                
+                //auditLogDao.addLoginTime(UserAudit.getUserID, timeStamp);
             }
             //Redirect to any page on the website depending on where the log in request came from
             if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   
