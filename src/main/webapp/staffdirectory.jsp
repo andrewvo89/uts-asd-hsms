@@ -122,7 +122,7 @@
                  <!--Filter--> 
                   <div class="card" style="margin-top:25px">
                     <div class="card-header">
-                        <form action="usermanagement.jsp" method="post">
+                        <form action="staffdirectory.jsp" method="post">
                             <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
                             <input type="hidden" name="firstNameSearch" value="">
                             <input type="hidden" name="lastNameSearch" value="">
@@ -133,7 +133,7 @@
                     </div>
                     <div class="collapse" id="collapseSearch">
                         <div class="card-body">
-                            <form action="usermanagement.jsp" method="post">
+                            <form action="staffdirectory.jsp" method="post">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="firstNameSearch">First Name</label>
@@ -175,7 +175,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="departmant">Permission Level</label>
+                                        <label for="departmant">Staff Role</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="userRoleSearch" value="0" <%=userRoleSearchAll%>>
