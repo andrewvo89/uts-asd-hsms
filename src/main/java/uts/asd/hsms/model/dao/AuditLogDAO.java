@@ -41,7 +41,7 @@ public class AuditLogDAO {
     public AuditLogDAO() {
        
     }
-
+    
     public UserAudit[] getUserAudit() { 
         DBCursor cursor = collection.find();
         System.out.println("COUNT: " + cursor.count());
