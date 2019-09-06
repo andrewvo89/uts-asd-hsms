@@ -60,10 +60,8 @@ public class AttendanceServlet extends HttpServlet {
         wk10 = toProperCase(request.getParameter("wk10Edit"));
         String redirect = request.getParameter("redirect");
         
-        Attendance sessionAttendance = (Attendance)session.getAttribute("attendance");
-        Attendance oldAttendance = attendanceDao.getSingleAttendance(refStudentId);
-        Attendance newAttendance = new Attendance (refStudentId, studentId, firstName, lastName, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, tutorialId);
-        AttendanceValidator attendanceValidator = new AttendanceValidator(newAttendance);
+        AttendanceDao sessionAttendance = (AttendanceDao)session.getAttribute("attendanceDao");
+        sessionAttendance.
         
         
     }

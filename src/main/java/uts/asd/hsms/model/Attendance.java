@@ -67,7 +67,6 @@ public class Attendance implements Serializable{
     }
     
     
-    
     public ObjectId getRefStudentId() {
         return refStudentId;
     }

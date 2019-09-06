@@ -117,4 +117,9 @@ public class AttendanceDao {
         }
         return null;
     }
-}
+    
+    public void editAttendance(Attendance attendance) {
+        BasicDBObject query = new BasicDBObject().append("_id", attendance.getRefStudentId());
+        BasicDBObject records = new BasicDBObject();
+        BasicDBObject update = new BasicDBObject();
+        if (attendance.getWk1() != null) records.append("wk1", user.getWk1());

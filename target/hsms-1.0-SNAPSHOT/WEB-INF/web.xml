@@ -24,6 +24,10 @@
         <servlet-name>NewServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.NewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AttendanceServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.AttendanceServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ConnServlet</servlet-name>
         <url-pattern>/ConnServlet</url-pattern>
@@ -43,6 +47,10 @@
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttendanceServlet</servlet-name>
+        <url-pattern>/AttendanceServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

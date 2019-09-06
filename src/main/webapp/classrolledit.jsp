@@ -85,56 +85,56 @@
                                         String tutorialId = currentAttendance.getTutorialId();
                                                                         %>
                                 <tr>
-                                    <td><%=firstName%></td>
-                                    <td><%=lastName%></td>
+                                    <td name="firstName"><%=firstName%></td>
+                                    <td name="lastName"><%=lastName%></td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk1" type="text" class="form-control" name="wk1" maxlength="1">
+                                            <input for="wk1" type="text" class="form-control" name="wk1Edit" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk2" type="text" class="form-control" name="wk2" maxlength="1">
+                                            <input for="wk2" type="text" class="form-control" name="wk2Edit" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk3" type="text" class="form-control" name="wk3" maxlength="1">
+                                            <input for="wk3" type="text" class="form-control" name="wk3Edit" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk4" type="text" class="form-control" name="wk4" maxlength="1">
+                                            <input for="wk4" type="text" class="form-control" name="wk4Edit" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk5" type="text" class="form-control" name="wk5" maxlength="1">
+                                            <input for="wk5" type="text" class="form-control" name="wk5Edit" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk6" type="text" class="form-control" name="wk6" maxlength="1">
+                                            <input for="wk6" type="text" class="form-control" name="wk6Edit" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk7" type="text" class="form-control" name="wk7" maxlength="1">
+                                            <input for="wk7" type="text" class="form-control" name="wk7Edit" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk8" type="text" class="form-control" name="wk8" maxlength="1">
+                                            <input for="wk8" type="text" class="form-control" name="wk8Edit" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk9" type="text" class="form-control" name="wk9" maxlength="1">
+                                            <input for="wk9" type="text" class="form-control" name="wk9Edit" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk10" type="text" class="form-control" name="wk10" maxlength="1">
+                                            <input for="wk10" type="text" class="form-control" name="wk10Edit" maxlength="1">
                                         </div>
                                     </td>
 
