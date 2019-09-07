@@ -152,7 +152,7 @@ public class UserServlet extends HttpServlet {
         }
         session.setAttribute("message", message);//Set success of failure message to display on next page
         if (redirect.equals("userprofile")) response.sendRedirect(redirect + ".jsp");//Redirect to userprofile.jsp page as origin
-        else response.sendRedirect("usermanagement.jsp?emailSearch=" + redirectEmail);//Redirect with email search result to show in table  
+        else response.sendRedirect("usermanagement.jsp?emailSearch=" + redirectEmail);//Redirect with email search result to show in table
     }
         public void deleteUser() throws ServletException, IOException {
             userId = new ObjectId(request.getParameter("userIdDelete"));//Only perform if userid is found in database

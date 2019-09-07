@@ -38,7 +38,7 @@ public class User implements Serializable {
             + "Accepted Examples: 0466978467, +6148866412<br>"
             + "Rejected Examples: 02-9746-4581, +61+2+4445", groups = ValidatorGroupC.class)
     private String phone;
-    @Pattern(regexp = "^[A-Za-z0-9]{1}[A-Za-z0-9-.]{1,32}$", message = "<h5 class=\"alert-heading\">Location Error</h5><hr>"
+    @Pattern(regexp = "^[A-Za-z0-9]{1}[A-Za-z0-9-.]{0,31}$", message = "<h5 class=\"alert-heading\">Location Error</h5><hr>"
             + "Cannot be blank<br>"
             + "No more than 32 Characters<br>"
             + "Contains letters, numbers  or Special Characters: -. only<hr>"
@@ -53,8 +53,7 @@ public class User implements Serializable {
             + "Accepted Examples: carlos@hsms.edu.au, carlos.delarosa@hsms.edu.au<br>"
             + "Rejected Examples: carlos@gmail.com, c@rlos@outlooks.com", groups = ValidatorGroupE.class)
     @EmailConstraint(message = "<h5 class=\"alert-heading\">Email Error</h5><hr>"
-            + "Email Address is alredy registered on HSMS<br>"
-            + "Must be unique", groups = ValidatorGroupF.class)
+            + "Email Address is already registered on HSMS", groups = ValidatorGroupF.class)
     private String email;
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{6,16}$", message = "<h5 class=\"alert-heading\">Password Error</h5><hr>"
             + "Must contain at least 1 Lower Case Character<br>"

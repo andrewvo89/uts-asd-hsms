@@ -84,7 +84,7 @@
         //Return search results in the form of Users for populating the table
         User[] users = userDao.getUsers(null, firstNameSearch, lastNameSearch, null, null, emailSearch, null, departmentSearch, userRoleSearch);
     %>
-    <body style="padding-bottom: 8rem">
+    <body>
     <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
             <div class="container">
@@ -269,7 +269,7 @@
                                                         <label for="passwordConfirmEdit" class="col-sm-4 col-form-label">Confirm Password</label>
                                                         <div class="col-sm-8">
                                                             <div class="input-group" id="show_hide_password">
-                                                                <input type="password" class="form-control pwdedit2" id="passwordconfirmedit" name="passwordConfirmEdit" placeholder="Confirm Password">
+                                                                <input type="password" class="form-control pwdedit2" id="passwordconfirmedit" name="passwordConfirmEdit" placeholder="Confirm Password">    
                                                                 <button class="btn btn-outline-dark revealedit2" type="button" data-toggle="button">show</button>
                                                             </div>
                                                         </div>

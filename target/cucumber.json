@@ -1,0 +1,467 @@
+[
+  {
+    "line": 2,
+    "elements": [
+      {
+        "line": 7,
+        "name": "Edit existing user",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 10358216700,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I am on the user management page",
+            "match": {
+              "location": "U102.navigatePage()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2019-09-07T05:07:47.745Z",
+        "line": 16,
+        "name": "Start editing a user",
+        "description": "",
+        "id": "u102;start-editing-a-user;;2",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 77737000,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "I click on edit",
+            "match": {
+              "location": "U102.clickEdit()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 1796955500,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "I change phone to \"+614885646\" and email to \"aaron1@hsms.edu.au\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "+614885646",
+                  "offset": 19
+                },
+                {
+                  "val": "aaron1@hsms.edu.au",
+                  "offset": 45
+                }
+              ],
+              "location": "U102.editUser(String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 98258400,
+              "status": "passed"
+            },
+            "line": 13,
+            "name": "I should get a message indicating \"success\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 35
+                }
+              ],
+              "location": "U102.getResult(String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@RunWith"
+          }
+        ]
+      },
+      {
+        "line": 7,
+        "name": "Edit existing user",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 9234688000,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I am on the user management page",
+            "match": {
+              "location": "U102.navigatePage()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2019-09-07T05:08:00.110Z",
+        "line": 17,
+        "name": "Start editing a user",
+        "description": "",
+        "id": "u102;start-editing-a-user;;3",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 67772500,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "I click on edit",
+            "match": {
+              "location": "U102.clickEdit()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 1412174400,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "I change phone to \"203abc\" and email to \"aaron@gmail.com\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "203abc",
+                  "offset": 19
+                },
+                {
+                  "val": "aaron@gmail.com",
+                  "offset": 41
+                }
+              ],
+              "location": "U102.editUser(String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 87264300,
+              "status": "passed"
+            },
+            "line": 13,
+            "name": "I should get a message indicating \"danger\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "danger",
+                  "offset": 35
+                }
+              ],
+              "location": "U102.getResult(String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@RunWith"
+          }
+        ]
+      },
+      {
+        "line": 7,
+        "name": "Edit existing user",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 9232485200,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I am on the user management page",
+            "match": {
+              "location": "U102.navigatePage()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2019-09-07T05:08:10.915Z",
+        "line": 18,
+        "name": "Start editing a user",
+        "description": "",
+        "id": "u102;start-editing-a-user;;4",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 67045700,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "I click on edit",
+            "match": {
+              "location": "U102.clickEdit()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 1724606700,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "I change phone to \"046458764\" and email to \"principal@hsms.edu.au\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "046458764",
+                  "offset": 19
+                },
+                {
+                  "val": "principal@hsms.edu.au",
+                  "offset": 44
+                }
+              ],
+              "location": "U102.editUser(String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 98710000,
+              "status": "passed"
+            },
+            "line": 13,
+            "name": "I should get a message indicating \"success\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 35
+                }
+              ],
+              "location": "U102.getResult(String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@RunWith"
+          }
+        ]
+      },
+      {
+        "line": 7,
+        "name": "Edit existing user",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 9171988500,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I am on the user management page",
+            "match": {
+              "location": "U102.navigatePage()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2019-09-07T05:08:22.040Z",
+        "line": 19,
+        "name": "Start editing a user",
+        "description": "",
+        "id": "u102;start-editing-a-user;;5",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 67388700,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "I click on edit",
+            "match": {
+              "location": "U102.clickEdit()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 1686699300,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "I change phone to \"+61+485646\" and email to \"aaronchen@outlook.com\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "+61+485646",
+                  "offset": 19
+                },
+                {
+                  "val": "aaronchen@outlook.com",
+                  "offset": 45
+                }
+              ],
+              "location": "U102.editUser(String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 89734300,
+              "status": "passed"
+            },
+            "line": 13,
+            "name": "I should get a message indicating \"danger\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "danger",
+                  "offset": 35
+                }
+              ],
+              "location": "U102.getResult(String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@RunWith"
+          }
+        ]
+      },
+      {
+        "line": 7,
+        "name": "Edit existing user",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 9283082100,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I am on the user management page",
+            "match": {
+              "location": "U102.navigatePage()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2019-09-07T05:08:33.059Z",
+        "line": 20,
+        "name": "Start editing a user",
+        "description": "",
+        "id": "u102;start-editing-a-user;;6",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 70953600,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "I click on edit",
+            "match": {
+              "location": "U102.clickEdit()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 1639768000,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "I change phone to \"0297247764\" and email to \"aaron@hsms.edu.au\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "0297247764",
+                  "offset": 19
+                },
+                {
+                  "val": "aaron@hsms.edu.au",
+                  "offset": 45
+                }
+              ],
+              "location": "U102.editUser(String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 97116900,
+              "status": "passed"
+            },
+            "line": 13,
+            "name": "I should get a message indicating \"success\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 35
+                }
+              ],
+              "location": "U102.getResult(String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@RunWith"
+          }
+        ]
+      }
+    ],
+    "name": "U102",
+    "description": "   As a principal\n   I want edit an existing teacher\n   In order to update their details",
+    "id": "u102",
+    "keyword": "Feature",
+    "uri": "file:src/test/java/U102.feature",
+    "tags": [
+      {
+        "name": "@RunWith",
+        "type": "Tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ]
+  }
+]

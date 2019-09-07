@@ -39,7 +39,6 @@
         <div class="main" role="main">
             <div class="container">
                 <h2 id="welcome">Welcome back <%=user.getFirstName()%> <%=user.getLastName()%></h2>
-                <div class="box" style="margin-top:-60px">
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="box-part text-center">
@@ -111,8 +110,7 @@
                                 <a href="#">Show More</a>
                             </div>
                         </div>
-                    </div>		
-                </div>
+                    </div>	
             </div>
         </div>
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>        

@@ -9,36 +9,21 @@ and open the template in the editor.
 */
 
 body {
-    padding-top: 3rem;
+    padding-top: 20px;
+    /* Make sure that footer does not overlap body content */
+    padding-bottom: 150px;
     min-height: 100vh;
     position: relative;
-    margin: 0;
     background: #eee;
 }
-
 span{
     font-size:15px;
 }
-
-footer {
-  position: absolute;
-  bottom: 0;
-}
-
 /* Push the Main Div down the padding value of the nav */
 div.main {
-    margin-top: 60px;
+    margin-top: 100px;
 }
-
-@media (min-width: 40em) {
-    .carousel-caption p {
-        margin-bottom: 1.25rem;
-        font-size: 1.25rem;
-        line-height: 1.4;
-    }
-}
-
-/* Sign In Form */
+/* Sign In Form - https://getbootstrap.com/docs/4.0/components/forms/ */
 .form-signin {
     width: 100%;
     max-width: 330px;
@@ -72,24 +57,23 @@ div.main {
 .required {
     color: #f00;
 }
-
 /* Header */
 .navbar {
   min-height: 100px;
 }
-
 /* Footer */
-.movie-dark-footer {
+.dark-footer {
+    min-height: 50px;
     margin-top: 0;
     background: #444;
     padding: 15px 0;
 }
-.movie-dark-footer p {
+.dark-footer p {
     color: rgba(255, 255, 255, 0.8);
     font-size: 14px;
     margin: 0;
 }
-.movie-dark-footer p a {
+.dark-footer p a {
     color: #3472b1;
     text-decoration: none;
 }
@@ -98,24 +82,7 @@ div.main {
     bottom: 0;
     width: 100%;
 }
-
-/* Profile Page */
-.user-header {
-    display: block;
-}
-.user-header h2 {
-    display: inline-block;
-}
-
-/* Utilities */
-.topspacer {
-    margin-top: 25px;
-}
-
-.box{
-    padding:60px 0px;
-}
-
+/* Dashboard Cards - https://bootsnipp.com/snippets/or33d*/
 .box-part{
     background:#FFF;
     border-radius:0;
@@ -125,7 +92,6 @@ div.main {
 .text{
     margin:20px 0px;
 }
-
 .fa{
      color:#4183D7;
 }
