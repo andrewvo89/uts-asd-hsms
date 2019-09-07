@@ -54,7 +54,7 @@
     <body>
         <div class="main">
             <div class="container" style="width: 750px">
-                <h1>Edit Profile</h1>
+                <h2>Edit Profile</h2>
                 <!--PRE-FILL FIELD DATA FROM SESSION USER PROPERTIES-->
                 <div class="card" style="margin-top:25px">
                     <div class="card-header"></div>

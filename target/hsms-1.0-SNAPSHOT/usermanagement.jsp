@@ -88,7 +88,7 @@
     <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
             <div class="container">
-                <h1>User Management</h1>
+                <h2>User Management</h2>
                  
                 <div class="card" style="margin-top:25px">
                     <div class="card-header">
@@ -101,7 +101,7 @@
                             <button type="submit" class="btn btn-outline-secondary">Clear Filter</button>                            
                         </form>
                     </div>
-                    <!--SEARCH MODULE-->
+                    <!--SEARCH MODAL-->
                     <div class="collapse" id="collapseSearch">
                         <div class="card-body">
                             <form action="usermanagement.jsp" method="post">
@@ -229,38 +229,38 @@
                                                     <div class="form-group row">
                                                         <label for="firstNameEdit" class="col-sm-4 col-form-label">First Name</label>
                                                         <div class="col-sm-8 firstName">
-                                                            <input type="text" class="form-control" name="firstNameEdit" placeholder="First Name" required="true" minlength="1" maxlength="32">
+                                                            <input type="text" class="form-control" name="firstNameEdit" placeholder="First Name">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="lastNameEdit" class="col-sm-4 col-form-label">Last Name</label>
                                                         <div class="col-sm-8 lastName">
-                                                            <input type="text" class="form-control" name="lastNameEdit" placeholder="Last Name" required="true" minlength="1" maxlength="32">
+                                                            <input type="text" class="form-control" name="lastNameEdit" placeholder="Last Name">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="phoneEdit" class="col-sm-4 col-form-label">Phone</label>
                                                         <div class="col-sm-8 phone">
-                                                            <input type="tel" class="form-control" name="phoneEdit" id="phoneEdit" placeholder="Phone" required="true" minlength="1" maxlength="10" pattern="^[0-9]*$" title="Phone must include numbers only">
+                                                            <input type="tel" class="form-control" name="phoneEdit" id="phoneEdit" placeholder="Phone">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="locationEdit" class="col-sm-4 col-form-label">Location</label>
                                                         <div class="col-sm-8 location">
-                                                            <input type="text" class="form-control" name="locationEdit" placeholder="Location" required="true" minlength="1" maxlength="16">
+                                                            <input type="text" class="form-control" name="locationEdit" placeholder="Location">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="emailEdit" class="col-sm-4 col-form-label">Email</label>
                                                         <div class="col-sm-8 email">
-                                                            <input type="email" class="form-control" name="emailEdit" id="emailEdit" placeholder="Email" required="true" minlength="1" maxlength="64" pattern="^[A-Za-z0-9._-]+@hsms.edu.au$" title="Email Address must end in @hsms.edu.au">
+                                                            <input type="text" class="form-control" name="emailEdit" id="emailEdit" placeholder="Email">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="passwordEdit" class="col-sm-4 col-form-label">Password</label>
                                                         <div class="col-sm-8">
                                                             <div class="input-group" id="show_hide_password">
-                                                                <input type="password" class="form-control pwdedit1" id="passwordedit" name="passwordEdit" placeholder="New Password" maxlength="16" pattern="^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\S+$).*$" title="Password must contain at least 1 Lower Case, 1 Upper Case and 1 Special Character">
+                                                                <input type="password" class="form-control pwdedit1" id="passwordedit" name="passwordEdit" placeholder="New Password">
                                                                 <button class="btn btn-outline-dark revealedit1" type="button" data-toggle="button">show</button>
                                                             </div>
                                                         </div>
@@ -269,7 +269,7 @@
                                                         <label for="passwordConfirmEdit" class="col-sm-4 col-form-label">Confirm Password</label>
                                                         <div class="col-sm-8">
                                                             <div class="input-group" id="show_hide_password">
-                                                                <input type="password" class="form-control pwdedit2" id="passwordconfirmedit" name="passwordConfirmEdit" placeholder="Confirm Password" maxlength="16">
+                                                                <input type="password" class="form-control pwdedit2" id="passwordconfirmedit" name="passwordConfirmEdit" placeholder="Confirm Password">
                                                                 <button class="btn btn-outline-dark revealedit2" type="button" data-toggle="button">show</button>
                                                             </div>
                                                         </div>
@@ -409,38 +409,38 @@
                                     <div class="form-group row">
                                         <label for="firstNameAdd" class="col-sm-4 col-form-label">First Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="firstNameAdd" placeholder="First Name" required="true" minlength="1" maxlength="32">
+                                            <input type="text" class="form-control" name="firstNameAdd" placeholder="First Name">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="lastNameAdd" class="col-sm-4 col-form-label">Last Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="lastNameAdd" placeholder="Last Name" required="true" minlength="1" maxlength="32">
+                                            <input type="text" class="form-control" name="lastNameAdd" placeholder="Last Name">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="phoneAdd" class="col-sm-4 col-form-label">Phone</label>
                                         <div class="col-sm-8">
-                                            <input type="tel" class="form-control" name="phoneAdd" placeholder="Phone" required="true" minlength="1" maxlength="10" pattern="^[0-9]*$" title="Phone must include numbers only">
+                                            <input type="tel" class="form-control" name="phoneAdd" placeholder="Phone">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="locationAdd" class="col-sm-4 col-form-label">Location</label>
                                         <div class="col-sm-8 location">
-                                            <input type="text" class="form-control" name="locationAdd" placeholder="Location" required="true" minlength="1" maxlength="16">
+                                            <input type="text" class="form-control" name="locationAdd" placeholder="Location">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="emailAdd" class="col-sm-4 col-form-label">Email</label>
                                         <div class="col-sm-8">
-                                            <input type="email" class="form-control" name="emailAdd" placeholder="Email" required="true" minlength="1" maxlength="64" pattern="^[A-Za-z0-9._-]+@hsms.edu.au$" title="Email Address must end in @hsms.edu.au">
+                                            <input type="text" class="form-control" name="emailAdd" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="passwordAdd" class="col-sm-4 col-form-label">Password</label>
                                         <div class="col-sm-8">
                                             <div class="input-group" id="show_hide_password">
-                                                <input type="password" class="form-control pwdadd1" id="passwordadd" name="passwordAdd" placeholder="Password" minlength="6" maxlength="16" pattern="^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\S+$).*$" title="Password must contain at least 1 Lower Case, 1 Upper Case and 1 Special Character">
+                                                <input type="password" class="form-control pwdadd1" id="passwordadd" name="passwordAdd" placeholder="Password">
                                                 <button class="btn btn-outline-dark revealadd1" type="button" data-toggle="button">show</button>
                                             </div>
                                         </div>

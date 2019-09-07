@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package uts.asd.hsms.controller;
+import uts.asd.hsms.controller.validator.EmailConstraint;
 import com.mongodb.MongoClient;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
