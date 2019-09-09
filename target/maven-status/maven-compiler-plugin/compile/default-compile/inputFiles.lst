@@ -8,6 +8,7 @@ D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\UserAudit.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\LogManagementServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\EmailNotifier.java
+D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\JobDao.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\StaffDao.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\resources\JavaEE8Resource.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\StaffValidator.java
@@ -28,6 +29,7 @@ D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\AuditLogDAO.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\UserValidatorSequence.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\AttendanceServlet.java
+D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\Job.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\User.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\TutorialDao.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\Staff.java

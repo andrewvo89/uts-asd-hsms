@@ -8,20 +8,18 @@ $(window).on('load', function() {
 });
 
 //Confirm Password Validation
-var passwordedit = document.getElementById("passwordedit");
-var passwordconfirmedit = document.getElementById("passwordconfirmedit");
+$('#passwordedit, #passwordconfirmedit').on('keyup', function () {
+    var passwordedit = document.getElementById("passwordedit");
+    var passwordconfirmedit = document.getElementById("passwordconfirmedit")
+    if (passwordedit.value !== passwordconfirmedit.value) {
+      passwordconfirmedit.setCustomValidity("Passwords don't match");
+    } 
+    else {
+      passwordconfirmedit.setCustomValidity("");
+    }
+});
 
-function validatePasswordEdit(){
-  if(passwordedit.value != passwordconfirmedit.value) {
-    passwordconfirmedit.setCustomValidity("Passwords don't match");
-  } else {
-    passwordconfirmedit.setCustomValidity('');
-  }
-}
-
-passwordedit.onchange = validatePasswordEdit;
-passwordconfirmedit.onkeyup = validatePasswordEdit;
-
+//Reveal Password upon pressing Show Button
 $(".reveal1").on('click',function() {
     var $pwd = $(".pwd1");
     if ($pwd.attr('type') === 'password') {

@@ -23,7 +23,6 @@ public class Job implements Serializable {
     private String department;
     private String status;
     private Date postDate;
-
     private Date closeDate;
 
     public Job(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate) {
