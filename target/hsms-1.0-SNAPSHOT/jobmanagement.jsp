@@ -78,7 +78,7 @@
         Job[] jobs = jobDao.getJobs(null, titleSearch, null, workTypeSearch, departmentSearch, statusSearch, null, null);
         int jobsCount = jobs.length;
     %>
-    <body style="padding-bottom: 8rem">
+    <body>
         <div class="main">
             <div class="container">
                 <h2>Job Board</h2>
