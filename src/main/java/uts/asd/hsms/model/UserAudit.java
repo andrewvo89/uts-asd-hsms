@@ -46,7 +46,7 @@ public class UserAudit implements Serializable{
     return firstName;
     }
    
-    public void setTimeStamp(String date){
+    public void setTimeStamp(String timeStamp){
     this.timeStamp = timeStamp;
     }
  

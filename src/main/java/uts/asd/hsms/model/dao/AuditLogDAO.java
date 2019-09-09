@@ -54,7 +54,7 @@ public class AuditLogDAO {
         int count = 0;
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
-           ObjectId logId = (ObjectId)result.get("_id");
+            ObjectId logId = (ObjectId)result.get("_id");
             ObjectId userId = (ObjectId)result.get("userID");
             String firstName = (String)result.get("firstName");
             String timeStamp = (String)result.get("date");
@@ -63,12 +63,40 @@ public class AuditLogDAO {
         }
         return userAudits; 
     }
+    public UserAudit[] getAllUserAudit(){
+        
+       DBCursor cursor = collection.find();
+        System.out.println("COUNT: " + cursor.count());
+       UserAudit[] userAudits = new UserAudit[cursor.count()];
+        BasicDBObject query = new BasicDBObject();
+       
+       
+       return userAudits; 
     
-    public void addLoginTime(ObjectId userId,String timeStamp) {
+    }
+    
+    public UserAudit[] searchByDate(String timeStamp){
+         DBCursor cursor = collection.find();
+            BasicDBObject query = new BasicDBObject();
+         UserAudit[] userAudits = new UserAudit[cursor.count()];
+             query.put("timeStamp", timeStamp);
+       
+       return userAudits;
+    }
+    
+    
+   public void addLoginTime(ObjectId userId,String timeStamp) {
         BasicDBObject records = new BasicDBObject();
         records.append("userId", userId).append("date", timeStamp);
         collection.insert(records);
     }  
+    
+    
+    
 
-   
+    public boolean checkedRole(){
+  
+       return true;
+     }
 }
+
