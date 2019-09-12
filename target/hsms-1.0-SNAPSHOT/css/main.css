@@ -14,7 +14,7 @@ body {
     padding-bottom: 150px;
     min-height: 100vh;
     position: relative;
-    background: #eee;
+    background: #eeeeee;
 }
 span{
     font-size:15px;
@@ -94,4 +94,10 @@ div.main {
 }
 .fa{
      color:#4183D7;
+}
+.breadcrumb {
+    background-color: transparent;
+}
+.userprofile {
+    width: 750px
 }

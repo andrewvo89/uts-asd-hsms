@@ -40,7 +40,7 @@ public class UserValidator {
         Validator validator = factory.getValidator();
         
         //Validate bean
-        Set<ConstraintViolation<User>> constraintViolations = validator.validate(user, UserValidatorSequence.class);
+        Set<ConstraintViolation<User>> constraintViolations = validator.validate(user, ValidatorSequence.class);
 
         //Return an ArrayList of error messages for validations
         if (constraintViolations.size() > 0) {

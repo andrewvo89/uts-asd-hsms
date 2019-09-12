@@ -14,5 +14,5 @@ import javax.validation.groups.Default;
  */
 @GroupSequence({Default.class, ValidatorGroupA.class, ValidatorGroupB.class, ValidatorGroupC.class, ValidatorGroupD.class, 
     ValidatorGroupE.class, ValidatorGroupF.class, ValidatorGroupG.class})
-public interface UserValidatorSequence {
+public interface ValidatorSequence {
 }

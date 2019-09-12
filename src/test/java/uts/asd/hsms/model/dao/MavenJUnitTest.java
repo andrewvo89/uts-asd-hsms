@@ -57,7 +57,7 @@ public class MavenJUnitTest {
         printDivider();
         System.out.println("<-- Test #102 - Fetch All Users from MongoDB -->");
         printDivider();
-        Assert.assertNotNull("Cannot fetch all users from Users collection of MongoDB", userDao.getUsers(null, null, null, null, null, null, null, null, 0)[0]);
+        Assert.assertNotNull("Cannot fetch all users from Users collection of MongoDB", userDao.getUsers(null, null, null, null, null, null, null, null, 0, "firstname", 1)[0]);
         printDivider();
         System.out.println("<-- Test #102 - Test Passed -->");
         printDivider();
@@ -75,7 +75,7 @@ public class MavenJUnitTest {
     }
     @Test
     public void test104() throws UnknownHostException {
-        User testUser = userDao.getUsers(null, "Test", "User", "123456789", "Test", "test@hsms.edu.au", "TestUser!", "Administration", 1)[0];
+        User testUser = userDao.getUsers(null, "Test", "User", "123456789", "Test", "test@hsms.edu.au", "TestUser!", "Administration", 1, "firstname", 1)[0];
         User user = new User(testUser.getUserId(), "TestEdit", "UserEdit", "987564321", "TestEdit", "testedit@hsms.edu.au", "TestUser!", "Principal", 2);
         printDivider();
         System.out.println("<-- Test #104 - Edit a User from MongoDB -->");
@@ -87,7 +87,7 @@ public class MavenJUnitTest {
     }
     @Test
     public void test105() throws UnknownHostException {
-        User testUser = userDao.getUsers(null, "TestEdit", "UserEdit", "987564321", "TestEdit", "testedit@hsms.edu.au", "TestUser!", "Principal", 2)[0];
+        User testUser = userDao.getUsers(null, "TestEdit", "UserEdit", "987564321", "TestEdit", "testedit@hsms.edu.au", "TestUser!", "Principal", 2, "firstname", 1)[0];
         printDivider();
         System.out.println("<-- Test #105 - Delete a User from MongoDB -->");
         printDivider();

@@ -18,7 +18,6 @@ import java.util.List;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.compile;
 import static java.util.regex.Pattern.quote;
-import org.bson.Document;
 import org.bson.types.ObjectId;
 import uts.asd.hsms.model.*;
 
@@ -38,7 +37,12 @@ public class JobDao {
         collection = database.getCollection("jobs");
     }
     
-    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate) {  
+    public DB getDatabase() {
+        return database;
+    }
+    
+    
+    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, String sort, int order) {  
         List<BasicDBObject> conditions = new ArrayList<>();
         BasicDBObject query = new BasicDBObject();
         DBCursor cursor;//If the parameter fields are NULL, do not include them in query
@@ -79,7 +83,7 @@ public class JobDao {
             query.put("$and", conditions);
             cursor = collection.find(query);
         }    
-        //cursor.sort(new BasicDBObject("closeDate", 1));
+        cursor.sort(new BasicDBObject(sort, order));
         Job[] jobs = new Job[cursor.count()];//Initialize a User array, the size of the results returned
 
         int count = 0;
@@ -97,5 +101,55 @@ public class JobDao {
             count ++;
         }
         return jobs;
+    }
+    
+    public boolean addJob(Job job) {//Simple add to Mongo Database
+        try {
+            BasicDBObject newRecord = new BasicDBObject();
+            newRecord.put("title", job.getTitle());
+            newRecord.put("description", job.getDescription());
+            newRecord.put("worktype", job.getWorkType());
+            newRecord.put("department", job.getDepartment());
+            newRecord.put("status", job.getStatus());
+            newRecord.put("postdate", new Date());
+            newRecord.put("closedate", job.getCloseDate());
+            collection.insert(newRecord);  
+            job.setJobId((ObjectId)newRecord.get("_id"));
+        }
+        catch (Exception ex) {
+            return false;
+        }
+        return true;
+    }  
+        public boolean editJob(Job job) { //Edit job in database based on _id
+        try {
+            BasicDBObject query = new BasicDBObject().append("_id", job.getJobId());
+            BasicDBObject records = new BasicDBObject();
+            BasicDBObject update = new BasicDBObject();
+            if (job.getTitle() != null) records.append("title", job.getTitle());
+            if (job.getDescription() != null) records.append("description", job.getDescription());
+            if (job.getWorkType() != null) records.append("worktype", job.getWorkType());
+            if (job.getDepartment() != null) records.append("department", job.getDepartment());
+            if (job.getStatus() != null) records.append("status", job.getStatus());
+            //Need to do a check if status change so old date turns into new date
+            if (job.getCloseDate() != null) records.append("closedate", job.getCloseDate());
+            update.append("$set", records);
+            collection.update(query, update);
+        }
+        catch (Exception ex) {
+            return false;
+        }
+        return true;
+    } 
+    
+    public boolean deleteJob(ObjectId jobId) { //Simple Delete from Database, based on _id
+        try {
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", jobId);
+            collection.remove(query);}
+        catch (Exception ex) {
+            return false;
+        }
+        return true;
     }
 }

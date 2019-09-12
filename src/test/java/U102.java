@@ -36,13 +36,13 @@ public class U102 {
    
     @When("^I click on edit$") 
    public void clickEdit() throws Throwable { 
-        driver.findElement(By.id("userEditButton")).click();
+        driver.findElement(By.id("userEditButton0")).click();
    } 
 	
    @And("^I change phone to \"([^\"]*)\" and email to \"([^\"]*)\"$") 
    public void editUser(String phone, String email) throws Throwable { 
-        WebElement phoneEdit = driver.findElement(By.id("phoneEdit")); 
-        WebElement emailEdit = driver.findElement(By.id("emailEdit")); 
+        WebElement phoneEdit = driver.findElement(By.id("phoneEdit0")); 
+        WebElement emailEdit = driver.findElement(By.id("emailEdit0")); 
         phoneEdit.clear();
         for (int x = 0; x < phone.length(); x ++) {
             phoneEdit.sendKeys(String.valueOf(phone.charAt(x)));
@@ -51,7 +51,7 @@ public class U102 {
         for (int x = 0; x < email.length(); x ++) {
             emailEdit.sendKeys(String.valueOf(email.charAt(x)));
         }
-        driver.findElement(By.id("userEditConfirmButton")).submit();
+        driver.findElement(By.id("userEditConfirmButton0")).submit();
    } 
 	
    @Then("^I should get a message indicating \"([^\"]*)\"$") 
