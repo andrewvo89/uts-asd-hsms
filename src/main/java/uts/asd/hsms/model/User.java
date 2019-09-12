@@ -159,13 +159,7 @@ public class User implements Serializable {
     public void setUserRole(int userRole) {
         this.userRole = userRole;
     }
-    public String getUserRoleString() {
-        if (userRole == 1) return "Administrator";
-        else if (userRole == 2) return "Principal";
-        else if (userRole == 3) return "Head Teacher";
-        else if (userRole == 4) return "Teacher";
-        return null;
-    }
+    
     public String getUserIdString() {
         return userId.toString();
     }

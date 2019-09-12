@@ -12,17 +12,30 @@ package uts.asd.hsms.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.PastOrPresent;
 import org.bson.types.ObjectId;
 import javax.validation.constraints.Pattern;
+import uts.asd.hsms.controller.validator.*;
 
 public class Job implements Serializable {
     private ObjectId jobId;
+    @Pattern(regexp = "^.{1,50}$", message = "<h5 class=\"alert-heading\">Title Error</h5><hr>"
+        + "Cannot be blank<br>"
+        + "No more than 50 Characters<hr>", groups = ValidatorGroupA.class)
     private String title;
+    @Pattern(regexp = "^.{1,500}$", message = "<h5 class=\"alert-heading\">Description Error</h5><hr>"
+        + "Cannot be blank<br>"
+        + "No more than 500 Characters<hr>", groups = ValidatorGroupB.class)
     private String description;
     private String workType;
     private String department;
     private String status;
+    @PastOrPresent(message = "<h5 class=\"alert-heading\">Post Date Error</h5><hr>"
+            + "Must be present or in the past", groups = ValidatorGroupC.class)
     private Date postDate;
+    @FutureOrPresent(message = "<h5 class=\"alert-heading\">Close Date Error</h5><hr>"
+            + "Must be in the future unless in Draft mode or Closed", groups = ValidatorGroupD.class)
     private Date closeDate;
 
     public Job(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate) {

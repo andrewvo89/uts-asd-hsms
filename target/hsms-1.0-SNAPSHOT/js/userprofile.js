@@ -1,39 +1,36 @@
 //Open Message Modal on Page Load
-$(window).on('load', function() {
-    var modalTrigger = document.getElementById('modalTrigger').value;
-        
-    if (modalTrigger != '') {
-        $('#messageModal').modal('show');
+$(window).on("load", function () {
+    var modalTrigger = document.getElementById("modalTrigger").value;
+    if (modalTrigger != "") {
+        $("#messageModal").modal("show");
     }
 });
 
 //Confirm Password Validation
-$('#passwordedit, #passwordconfirmedit').on('keyup', function () {
-    var passwordedit = document.getElementById("passwordedit");
-    var passwordconfirmedit = document.getElementById("passwordconfirmedit")
-    if (passwordedit.value !== passwordconfirmedit.value) {
-      passwordconfirmedit.setCustomValidity("Passwords don't match");
-    } 
-    else {
-      passwordconfirmedit.setCustomValidity("");
+$("#passwordEdit, #passwordConfirmEdit").on("keyup", function () {
+    var passwordEdit = document.getElementById("passwordEdit");
+    var passwordConfirmEdit = document.getElementById("passwordConfirmEdit")
+    if (passwordEdit.value !== passwordConfirmEdit.value) {
+        passwordConfirmEdit.setCustomValidity("Passwords don't match");
+    } else {
+        passwordConfirmEdit.setCustomValidity("");
     }
 });
 
 //Reveal Password upon pressing Show Button
-$(".reveal1").on('click',function() {
-    var $pwd = $(".pwd1");
-    if ($pwd.attr('type') === 'password') {
-        $pwd.attr('type', 'text');
+$("#revealEdit").on("click", function () {
+    var passwordField = $("#passwordEdit");
+    if (passwordField.attr("type") === "password") {
+        passwordField.attr("type", "text");
     } else {
-        $pwd.attr('type', 'password');
+        passwordField.attr("type", "password");
     }
 });
-
-$(".reveal2").on('click',function() {
-    var $pwd = $(".pwd2");
-    if ($pwd.attr('type') === 'password') {
-        $pwd.attr('type', 'text');
+$("#revealConfirmEdit").on("click", function () {
+    var passwordField = $("#passwordConfirmEdit");
+    if (passwordField.attr("type") === "password") {
+        passwordField.attr("type", "text");
     } else {
-        $pwd.attr('type', 'password');
+        passwordField.attr("type", "password");
     }
 });

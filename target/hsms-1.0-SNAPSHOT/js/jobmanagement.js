@@ -1,46 +1,14 @@
-//Pre-fill Add Job Modal
-$('#jobAddModal').on('show.bs.modal', function(event) {
-  var button = $(event.relatedTarget); // Button that triggered the modal
-  var closedate = button.data('closedate');
-  var modal = $(this);
-  modal.find('.closedate input').val(closedate);
-});
-
-//Pre-fill Edit Job Modal
-$('#jobEditModal').on('show.bs.modal', function(event) {
-  var button = $(event.relatedTarget); // Button that triggered the modal
-  var jobid = button.data('jobid');
-  var title = button.data('title');
-  var worktype = button.data('worktype');
-  var department = button.data('department');
-  var status = button.data('status');
-  var closedate = button.data('closedate');
-  var modal = $(this);
-  modal.find('.modal-title').text('Edit ' + title);
-  modal.find('.jobId input').val(jobid);
-  modal.find('.title input').val(title);
-  modal.find('.closedate input').val(closedate);
-  document.getElementById(worktype).checked = true;
-  document.getElementById(department).checked = true;
-  document.getElementById(status).checked = true;
-});
-
-//Pre-fill Delete Job Modal
-$('#jobDeleteModal').on('show.bs.modal', function(event) {
-  var button = $(event.relatedTarget); // Button that triggered the modal
-  var jobid = button.data('jobid');
-  var title = button.data('title');
-  var modal = $(this);
-  modal.find('.jobId input').val(jobid);
-  modal.find('.modal-title').text('Delete ' + title);
-});
-
 //Upon page loading
-$(window).on('load', function() {
+$(window).on('load', function() {   
+    var modalTrigger = document.getElementById('modalTrigger').value;        
+    if (modalTrigger != '') {
+        $('#messageModal').modal('show');
+    }
     checkWorkType();
     checkStatus();
     checkDepartment();
 });
+
 $('input[name=workTypeSearch]').on('change',function() {
     checkWorkType();
 });

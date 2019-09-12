@@ -28,6 +28,14 @@
         <servlet-name>AttendanceServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.AttendanceServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>JobServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.JobBoardServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>JobBoardServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.JobBoardServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ConnServlet</servlet-name>
         <url-pattern>/ConnServlet</url-pattern>
@@ -51,6 +59,14 @@
     <servlet-mapping>
         <servlet-name>AttendanceServlet</servlet-name>
         <url-pattern>/AttendanceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JobServlet</servlet-name>
+        <url-pattern>/JobServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JobBoardServlet</servlet-name>
+        <url-pattern>/JobBoardServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

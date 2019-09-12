@@ -4,6 +4,9 @@
     Author     : Andrew
 --%>
 
+<%@page import="uts.asd.hsms.controller.JobManagementController"%>
+<%@page import="org.bson.types.ObjectId"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -13,7 +16,7 @@
 <jsp:include page="ConnServlet" flush="true" />
 <%@page import="uts.asd.hsms.model.*"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,69 +27,57 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Job Board</title>
-        <%//Check if there is a valid user in the session
-            User user = (User)session.getAttribute("user");
-            if (user == null) {
-                session.setAttribute("redirect", "jobmanagement");
-        %>   
-                <jsp:include page="LoginServlet" flush="true" />
-        <%
-            }
-            else {
-        %>
-                <%@ include file="/WEB-INF/jspf/header.jspf"%>
-        <%
-            }
-        %> 
     </head>
+    <body>
+    <%//Check if there is a valid user in the session
+        User user = (User)session.getAttribute("user");
+        if (user == null) {
+            session.setAttribute("redirect", "usermanagement");
+    %>   
+            <jsp:include page="LoginServlet" flush="true" />
     <%
-        JobDao jobDao = (JobDao)session.getAttribute("jobDao");
-        SimpleDateFormat ddMMyyyy = new SimpleDateFormat("dd-MM-yyyy"); 
-        SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");   
-        ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
-        if (message == null) {//Initialize notification messages for pop up Modals
-            message = new ArrayList<String>();//1.message header 2.message body 3.message type
-            message.add(""); message.add(""); message.add("");
         }
-        
-        //Prefill Search Data variables
-        String titleSearch = request.getParameter("titleSearch"); if (titleSearch == null) titleSearch = ""; 
-        String workTypeSearch = request.getParameter("workTypeSearch"); if (workTypeSearch == null) workTypeSearch = ""; 
-        String departmentSearch = request.getParameter("departmentSearch"); if (departmentSearch == null) departmentSearch = "";
-        String statusSearch = request.getParameter("statusSearch"); if (statusSearch == null) statusSearch = "";
-        String workTypeSearchAll="", workTypeSearchFullTime="", workTypeSearchPartTime="", workTypeSearchCasual="", workTypeSearchContract="";
-        String departmentSearchAll="", departmentSearchAdministration="", departmentSearchEnglish="", departmentSearchMath="", departmentSearchScience="", departmentSearchArt="";
-        String statusSearchAll="", statusSearchDraft="", statusSearchOpen="", statusSearchClosed="";
-
-           
-        if (workTypeSearch.equals("Full Time")) workTypeSearchFullTime = "checked";
-        else if(workTypeSearch.equals("Part Time")) workTypeSearchPartTime = "checked";
-        else if(workTypeSearch.equals("Casual")) workTypeSearchCasual = "checked";
-        else if(workTypeSearch.equals("Contract")) workTypeSearchContract = "checked";
-        else workTypeSearchAll = "checked";
-        if (departmentSearch.equals("English")) departmentSearchEnglish = "checked";
-        else if(departmentSearch.equals("Math")) departmentSearchMath = "checked";
-        else if(departmentSearch.equals("Science")) departmentSearchScience = "checked";
-        else if(departmentSearch.equals("Art")) departmentSearchArt = "checked";
-        else if(departmentSearch.equals("Administration")) departmentSearchAdministration = "checked";
-        else departmentSearchAll = "checked";
-        if (statusSearch.equals("Draft")) statusSearchDraft = "checked";
-        else if (statusSearch.equals("Open")) statusSearchOpen = "checked";
-        else if(statusSearch.equals("Closed")) statusSearchClosed = "checked";
-        else statusSearchAll = "checked";
-        //Return search results in the form of Users for populating the table
-        Job[] jobs = jobDao.getJobs(null, titleSearch, null, workTypeSearch, departmentSearch, statusSearch, null, null);
-        int jobsCount = jobs.length;
+        else {//Only Administrator & Principal Access
+            if (user.getUserRole() > 2) response.sendRedirect("index.jsp");
     %>
-    <body style="padding-bottom: 8rem">
+            <%@ include file="/WEB-INF/jspf/header.jspf"%>
+    <%
+        }
+        JobManagementController controller = new JobManagementController(session);
+        SimpleDateFormat dayDateFormat = new SimpleDateFormat("dd-MM-yyyy"); 
+        SimpleDateFormat yearDateFormat = new SimpleDateFormat("yyyy-MM-dd");   
+        ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
+        //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type
+        if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }        
+        //Prefill Search Data variables
+        ObjectId jobIdSearch = null; if (request.getParameter("jobIdSearch") != null) jobIdSearch = new ObjectId(request.getParameter("jobIdSearch"));
+        String titleSearch = request.getParameter("titleSearch"); if (titleSearch == null) titleSearch = ""; 
+        String workTypeSelection = request.getParameter("workTypeSearch");
+        String[] workTypeSearch = controller.getWorkTypeSearch(workTypeSelection);
+        String departmentSelection = request.getParameter("departmentSearch");
+        String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);
+        String statusSelection = request.getParameter("statusSearch");
+        String[] statusSearch = controller.getStatusSearch(statusSelection);        
+        //Set any job applications past the close date to "Closed" status
+        controller.setClosedStatus();
+        //Return search results in the form of Job for populating the table
+        Job[] jobs = controller.getJobs(jobIdSearch, titleSearch, null, workTypeSelection, departmentSelection, statusSelection, null, null, "closedate", -1);
+    %>
+        <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
             <div class="container">
-                <h2>Job Board</h2>
-                <div class="card" style="margin-top:25px">
+                <h2>Job Management</h2>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Job Management</li>
+                    </ol>
+                </nav>
+                <div class="card">
                     <div class="card-header">
                         <form action="jobmanagement.jsp" method="post">
                             <div class="float-left">
-                                <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter (<%=jobsCount%>)</button>
+                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=jobs.length%>)</a>
                                 <input type="hidden" name="titleSearch" value="">
                                 <input type="hidden" name="workTypeSearch" value="">
                                 <input type="hidden" name="departmentSearch" value="">
@@ -98,10 +89,10 @@
                                 <button id="statusButtonDraft" class="btn btn-outline-success badge badge-pill" type="button">Draft</button>
                                 <button id="statusButtonOpen" class="btn btn-outline-success badge badge-pill" type="button">Open</button>
                                 <button id="statusButtonClosed" class="btn btn-outline-success badge badge-pill" type="button">Closed</button>
-                                <button id="workTypeButtonFullTime" class="btn btn-outline-primary badge badge-pill" type="button">Full Time</button>
-                                <button id="workTypeButtonPartTime" class="btn btn-outline-primary badge badge-pill" type="button">Part Time</button>
-                                <button id="workTypeButtonCasual" class="btn btn-outline-primary badge badge-pill" type="button">Casual</button>
-                                <button id="workTypeButtonContract" class="btn btn-outline-primary badge badge-pill" type="button">Contract</button>
+                                <button id="workTypeButtonFullTime" class="btn btn-outline-info badge badge-pill" type="button">Full Time</button>
+                                <button id="workTypeButtonPartTime" class="btn btn-outline-info badge badge-pill" type="button">Part Time</button>
+                                <button id="workTypeButtonCasual" class="btn btn-outline-info badge badge-pill" type="button">Casual</button>
+                                <button id="workTypeButtonContract" class="btn btn-outline-info badge badge-pill" type="button">Contract</button>
                                 <button id="departmentButtonAdministration" class="btn btn-outline-warning badge badge-pill" type="button">Administration</button>
                                 <button id="departmentButtonEnglish" class="btn btn-outline-warning badge badge-pill" type="button">English</button>
                                 <button id="departmentButtonMath" class="btn btn-outline-warning badge badge-pill" type="button">Math</button>
@@ -116,26 +107,26 @@
                             <form action="jobmanagement.jsp" method="post">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="titleSearch">Title</label>
+                                        <label>Title</label>
                                         <input type="text" class="form-control" name="titleSearch" placeholder="Title" value="<%=titleSearch%>">
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="departmant">Status</label>
+                                        <label>Status</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="statusSearch" value="All" <%=statusSearchAll%>>
+                                                <input class="form-check-input" type="radio" name="statusSearch" value="All" <%=statusSearch[0]%>>
                                                 <label class="form-check-label">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="statusSearch" value="Draft" id="statusSearchDraft" <%=statusSearchDraft%>>
+                                                <input class="form-check-input" type="radio" name="statusSearch" value="Draft" id="statusSearchDraft" <%=statusSearch[1]%>>
                                                 <label class="form-check-label">Draft</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="statusSearch" value="Open" id="statusSearchOpen" <%=statusSearchOpen%>>
+                                                <input class="form-check-input" type="radio" name="statusSearch" value="Open" id="statusSearchOpen" <%=statusSearch[2]%>>
                                                 <label class="form-check-label">Open</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="statusSearch" value="Closed" id="statusSearchClosed" <%=statusSearchClosed%>>
+                                                <input class="form-check-input" type="radio" name="statusSearch" value="Closed" id="statusSearchClosed" <%=statusSearch[3]%>>
                                                 <label class="form-check-label">Closed</label>
                                             </div>                                              
                                         </div>
@@ -143,55 +134,55 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="workTypeSearch">Work Type</label>
+                                        <label>Work Type</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="workTypeSearch" value="All" <%=workTypeSearchAll%>>
+                                                <input class="form-check-input" type="radio" name="workTypeSearch" value="All" <%=workTypeSearch[0]%>>
                                                 <label class="form-check-label">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="workTypeSearch" id="workTypeSearchFullTime" value="Full Time" <%=workTypeSearchFullTime%>>
+                                                <input class="form-check-input" type="radio" name="workTypeSearch" id="workTypeSearchFullTime" value="Full Time" <%=workTypeSearch[1]%>>
                                                 <label class="form-check-label">Full Time</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="workTypeSearch" id="workTypeSearchPartTime" value="Part Time" <%=workTypeSearchPartTime%>>
+                                                <input class="form-check-input" type="radio" name="workTypeSearch" id="workTypeSearchPartTime" value="Part Time" <%=workTypeSearch[2]%>>
                                                 <label class="form-check-label">Part Time</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="workTypeSearch" id="workTypeSearchCasual" value="Casual" <%=workTypeSearchCasual%>>
+                                                <input class="form-check-input" type="radio" name="workTypeSearch" id="workTypeSearchCasual" value="Casual" <%=workTypeSearch[3]%>>
                                                 <label class="form-check-label">Casual</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="workTypeSearch" id="workTypeSearchContract" value="Contract" <%=workTypeSearchContract%>>
+                                                <input class="form-check-input" type="radio" name="workTypeSearch" id="workTypeSearchContract" value="Contract" <%=workTypeSearch[4]%>>
                                                 <label class="form-check-label">Contract</label>
                                             </div>                                               
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="departmentSearch">Department</label>
+                                        <label>Department</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="All" <%=departmentSearchAll%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" value="All" <%=departmentSearch[0]%>>
                                                 <label class="form-check-label">All</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchAdministration" value="Administration" <%=departmentSearchAdministration%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchAdministration" value="Administration" <%=departmentSearch[1]%>>
                                                 <label class="form-check-label">Administration</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchEnglish" value="English" <%=departmentSearchEnglish%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchEnglish" value="English" <%=departmentSearch[2]%>>
                                                 <label class="form-check-label">English</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch"  id="departmentSearchMath" value="Math" <%=departmentSearchMath%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch"  id="departmentSearchMath" value="Math" <%=departmentSearch[3]%>>
                                                 <label class="form-check-label">Math</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchScience" value="Science" <%=departmentSearchScience%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchScience" value="Science" <%=departmentSearch[4]%>>
                                                 <label class="form-check-label">Science</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchArt" value="Art" <%=departmentSearchArt%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchArt" value="Art" <%=departmentSearch[5]%>>
                                                 <label class="form-check-label">Art</label>
                                             </div>                                               
                                         </div>
@@ -207,7 +198,6 @@
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">Title</th>
-                            <th scope="col">Description</th>
                             <th scope="col">Work Type</th>
                             <th scope="col">Department</th>
                             <th scope="col">Status</th>
@@ -221,49 +211,54 @@
                             //Loop through results of MongoDB search result and place them in a table
                             for (int x = 0; x < jobs.length; x++) {
                                 Job currentJob = jobs[x];
-                                String jobId = currentJob.getJobId().toString();
+                                ObjectId jobId = currentJob.getJobId();
                                 String title = currentJob.getTitle();
                                 String description = currentJob.getDescription();
                                 String workType = currentJob.getWorkType();
+                                String[] workTypeEdit = controller.getWorkTypeEdit(workType);
                                 String department = currentJob.getDepartment();
+                                String[] departmentEdit = controller.getDepartmentEdit(department);
                                 String status = currentJob.getStatus();
-                                String postDate = ddMMyyyy.format(currentJob.getPostDate());
-                                String closeDate = ddMMyyyy.format(currentJob.getCloseDate());
+                                String[] statusEdit = controller.getStatusEdit(status);
+                                String postDate = dayDateFormat.format(currentJob.getPostDate());
+                                String closeDate = dayDateFormat.format(currentJob.getCloseDate());
+                                String reviewButtonDisabled = controller.getReviewButtonDisabled(jobId);
                         %>
                         <tr>
                             <td><%=title%></td>
-                            <td><%=description.substring(0, 20).concat("...")%></td>
                             <td><%=workType%></td>
                             <td><%=department%></td>
                             <td><%=status%></td>
                             <td><%=postDate%></td>
                             <td><%=closeDate%></td>
-                            <td>                                
-                                <button type=button" class="btn btn-info">Review</button>
-                                <button id="jobEditButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#jobEditModal" role="button"
-                                        data-jobid="<%=jobId%>" data-title="<%=title%>" data-worktype="<%=workType%>"
-                                        data-department="<%=department%>" data-status="<%=status%>" data-closedate="<%=yyyyMMdd.format(currentJob.getCloseDate())%>">Edit</button>
+                            <td>
+                                <form action="jobreview.jsp" method="post">
+                                    <input type="hidden" name="jobid" value="<%=jobId%>">
+                                    <button type="submit" class="btn btn-info" <%=reviewButtonDisabled%>>Review</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jobEditModal<%=x%>">Edit</button>                                
+                                    <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#jobDeleteModal<%=x%>">Delete</button>      
+                                </form>
                                 <!--EDIT USER MODAL DIALOG-->        
-                                <div class="modal fade" id="jobEditModal" tabindex="-1" role="dialog" aria-labelledby="jobEditModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="jobEditModal<%=x%>" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="jobEditModalLabel"></h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <h5 class="modal-title">Edit <%=title%></h5>
+                                                <button type="button" class="close" data-dismiss="modal">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
                                                 <form action="JobServlet" method="post">
                                                     <div class="form-group row">
-                                                        <label for="titleEdit" class="col-sm-4 col-form-label">Title</label>
-                                                        <div class="col-sm-8 title">
-                                                            <input type="text" class="form-control" name="titleEdit" placeholder="Title">
+                                                        <label class="col-sm-4 col-form-label">Title</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control" name="titleEdit" placeholder="Title" value="<%=title%>">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <label for="descriptionEdit" class="col-sm-4 col-form-label">Description</label>
-                                                        <div class="col-sm-8 description">
+                                                        <label class="col-sm-4 col-form-label">Description</label>
+                                                        <div class="col-sm-8">
                                                             <textarea class="form-control" name="descriptionEdit" rows="5" placeholder="Description"><%=description%></textarea>
                                                         </div>
                                                     </div>
@@ -271,19 +266,19 @@
                                                         <div class="col-sm-4">Work Type</div>
                                                         <div class="col-sm-8">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="workTypeEdit" id="Full Time" value="Full Time">
+                                                                <input class="form-check-input" type="radio" name="workTypeEdit" value="Full Time" <%=workTypeEdit[0]%>>
                                                                 <label class="form-check-label">Full Time</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="workTypeEdit" id="Part Time" value="Part Time">
+                                                                <input class="form-check-input" type="radio" name="workTypeEdit" value="Part Time" <%=workTypeEdit[1]%>>
                                                                 <label class="form-check-label">Part Time</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="workTypeEdit" id="Casual" value="Casual">
+                                                                <input class="form-check-input" type="radio" name="workTypeEdit" value="Casual" <%=workTypeEdit[2]%>>
                                                                 <label class="form-check-label">Casual</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="workTypeEdit" id="Contract" value="Contract">
+                                                                <input class="form-check-input" type="radio" name="workTypeEdit" value="Contract" <%=workTypeEdit[3]%>>
                                                                 <label class="form-check-label">Contract</label>
                                                             </div>
                                                         </div>
@@ -292,91 +287,68 @@
                                                         <div class="col-sm-4">Department</div>
                                                         <div class="col-sm-8">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="Administration" value="Administration">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" value="Administration" <%=departmentEdit[0]%>>
                                                                 <label class="form-check-label">Administration</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="English" value="English">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" value="English" <%=departmentEdit[1]%>>
                                                                 <label class="form-check-label">English</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="Math" value="Math" >
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" value="Math" <%=departmentEdit[2]%>>
                                                                 <label class="form-check-label">Math</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="Science" value="Science">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" value="Science" <%=departmentEdit[3]%>>
                                                                 <label class="form-check-label">Science</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="departmentEdit" id="Art" value="Art">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" value="Art" <%=departmentEdit[4]%>>
                                                                 <label class="form-check-labe">Art</label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <legend class="col-form-label col-sm-4 pt-0">Status</legend>
+                                                        <div class="col-form-label col-sm-4 pt-0">Status</div>
                                                         <div class="col-sm-8">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="statusEdit" id="Draft" value="Draft">
+                                                                <input class="form-check-input" type="radio" name="statusEdit" value="Draft" <%=statusEdit[0]%>>
                                                                 <label class="form-check-label">Draft</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="statusEdit" id="Open" value="Open">
+                                                                <input class="form-check-input" type="radio" name="statusEdit" value="Open" <%=statusEdit[1]%>>
                                                                 <label class="form-check-label">Open</label>
                                                             </div>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="statusEdit" id="Closed" value="Closed">
+                                                                <input class="form-check-input" type="radio" name="statusEdit" value="Closed" <%=statusEdit[2]%>>
                                                                 <label class="form-check-label">Closed</label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <label for="closeDateEdit" class="col-sm-4 col-form-label">Close Date</label>
+                                                        <label class="col-sm-4 col-form-label">Close Date</label>
                                                         <div class="col-sm-8 closedate">
-                                                            <input type="date" class="form-control" name="closeDateEdit">
+                                                            <input type="date" class="form-control" name="closeDateEdit" value="<%=yearDateFormat.format(currentJob.getCloseDate())%>">
                                                         </div>
                                                     </div>
-                                                    <div class="jobId">
-                                                        <input type="hidden" name="jobIdEdit">
-                                                    </div>
                                                     <div class="modal-footer">
+                                                        <input type="hidden" name="jodIdEdit" value="<%=jobId%>">
                                                         <input type="hidden" name="action" value="edit">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button id="jobEditConfirmButton" type="submit" class="btn btn-primary">Confirm</button>
+                                                        <button type="submit" class="btn btn-primary">Confirm</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
-                                </div>                       
-                                <!--MESSAGE MODAL AFTER ADD, EDIT OR DELETE ACTION-->
-                                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+                                </div>                        
+                                <!--DELETE CONFIRMATION MODAL-->                          
+                                <div class="modal fade" id="jobDeleteModal<%=x%>" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="messageModalLabel"><%=message.get(0)%></h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>    
-                                            </div>                            
-                                            <div class="modal-body">
-                                                <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div> 
-                                    </div>   
-                                </div>                          
-                                <!--DELETE CONFIRMATION MODAL-->                                
-                                <button type=button" class="btn btn-danger"  data-toggle="modal" data-target="#jobDeleteModal"
-                                        data-toggle="modal"role="button" data-jobid="<%=jobId%>" data-title="<%=title%>">Delete</button>                                
-                                <div class="modal fade" id="jobDeleteModal" tabindex="-1" role="dialog" aria-labelledby="jobDeleteModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="jobDeleteModalLabel"></h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <h5 class="modal-title" id="jobDeleteModalLabel<%=x%>">Delete <%=title%></h5>
+                                                <button type="button" class="close" data-dismiss="modal">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>                                            
@@ -385,10 +357,8 @@
                                                     <p>Are you sure you want to delete this Job Post?</p>
                                                     <p>This action cannot be undone.</p>
                                                 </div>
-                                                <div class="jobId">
-                                                    <input type="hidden" name="jobIdDelete">        
-                                                </div>
                                                 <div class="modal-footer">
+                                                    <input type="hidden" name="jobIdDelete" value="<%=jobId.toString()%>">
                                                     <input type="hidden" name="action" value="delete">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                     <button type="submit" class="btn btn-primary btn-danger">Confirm</button>
@@ -403,30 +373,30 @@
                                 }
                             %>
                     </tbody>
-                </table>   
+                </table>
                 <div class="float-right">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#jobAddModal" role="button" data-closedate="<%=yyyyMMdd.format(new Date())%>">Add Job Post</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#jobAddModal">Add Job Post</button>
                 </div>                
                 <!--ADD USER MODAL DIALOG-->   
-                <div class="modal fade" id="jobAddModal" tabindex="-1" role="dialog" aria-labelledby="jobAddModalLabel" aria-hidden="true">
+                <div class="modal fade" id="jobAddModal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="jobAddModalLabel">Add Job Post</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <h5 class="modal-title">Add Job Post</h5>
+                                <button type="button" class="close" data-dismiss="modal">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <form method="post" action="JobServlet"> 
                                     <div class="form-group row">
-                                        <label for="titleAdd" class="col-sm-4 col-form-label">Title</label>
+                                        <label class="col-sm-4 col-form-label">Title</label>
                                         <div class="col-sm-8 firstName">
                                             <input type="text" class="form-control" name="titleAdd" placeholder="Title">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="descriptionAdd" class="col-sm-4 col-form-label">Description</label>
+                                        <label class="col-sm-4 col-form-label">Description</label>
                                         <div class="col-sm-8 description">
                                             <textarea class="form-control" name="descriptionAdd" rows="5" placeholder="Description"></textarea>
                                         </div>
@@ -435,19 +405,19 @@
                                         <div class="col-sm-4">Work Type</div>
                                         <div class="col-sm-8">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="workTypeAdd" id="Full Time" value="Full Time" checked>
+                                                <input class="form-check-input" type="radio" name="workTypeAdd" value="Full Time" checked>
                                                 <label class="form-check-label">Full Time</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="workTypeAdd" id="Part Time" value="Part Time">
+                                                <input class="form-check-input" type="radio" name="workTypeAdd" value="Part Time">
                                                 <label class="form-check-label">Part Time</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="workTypeAdd" id="Casual" value="Casual">
+                                                <input class="form-check-input" type="radio" name="workTypeAdd" value="Casual">
                                                 <label class="form-check-label">Casual</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="workTypeAdd" id="Contract" value="Contract">
+                                                <input class="form-check-input" type="radio" name="workTypeAdd" value="Contract">
                                                 <label class="form-check-label">Contract</label>
                                             </div>
                                         </div>
@@ -456,48 +426,44 @@
                                         <div class="col-sm-4">Department</div>
                                         <div class="col-sm-8">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Administration" value="Administration" checked>
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Administration" checked>
                                                 <label class="form-check-label">Administration</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="English" value="English">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="English">
                                                 <label class="form-check-label">English</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Math" value="Math" >
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Math" >
                                                 <label class="form-check-label">Math</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Science" value="Science">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Science">
                                                 <label class="form-check-label">Science</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" id="Art" value="Art">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Art">
                                                 <label class="form-check-labe">Art</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <legend class="col-form-label col-sm-4 pt-0">Status</legend>
+                                        <div class="col-form-label col-sm-4 pt-0">Status</div>
                                         <div class="col-sm-8">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="statusAdd" id="Draft" value="Draft" checked>
+                                                <input class="form-check-input" type="radio" name="statusAdd" value="Draft" checked>
                                                 <label class="form-check-label">Draft</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="statusAdd" id="Open" value="Open">
+                                                <input class="form-check-input" type="radio" name="statusAdd" value="Open">
                                                 <label class="form-check-label">Open</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="statusAdd" id="Closed" value="Closed">
-                                                <label class="form-check-label">Closed</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="closeDateAdd" class="col-sm-4 col-form-label">Close Date</label>
+                                        <label class="col-sm-4 col-form-label">Close Date</label>
                                         <div class="col-sm-8 closedate">
-                                            <input type="date" class="form-control" name="closeDateAdd">
+                                            <input type="date" class="form-control" name="closeDateAdd" value="<%=controller.getMonthDate()%>">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -509,9 +475,32 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>                       
+                <!--MESSAGE MODAL AFTER ADD, EDIT OR DELETE ACTION-->
+                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"><%=message.get(0)%></h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>    
+                            </div>                            
+                            <div class="modal-body">
+                                <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div> 
+                    </div>   
+                </div>  
             </div>
         </div>
+        <%
+            //Clear error message from Session
+            session.removeAttribute("message");
+        %>
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>  
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

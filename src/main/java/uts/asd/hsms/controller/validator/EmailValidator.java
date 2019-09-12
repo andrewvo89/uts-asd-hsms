@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uts.asd.hsms.controller;
+package uts.asd.hsms.controller.validator;
 import uts.asd.hsms.controller.validator.EmailConstraint;
 import com.mongodb.MongoClient;
 import java.net.UnknownHostException;
@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import uts.asd.hsms.controller.ConnServlet;
 import uts.asd.hsms.model.User;
 import uts.asd.hsms.model.dao.MongoDBConnector;
 import uts.asd.hsms.model.dao.UserDao;
@@ -39,7 +40,7 @@ public class EmailValidator implements ConstraintValidator<EmailConstraint, Stri
         }  
         mongoClient = mongoDbConnector.openConnection();
         userDao = new UserDao(mongoClient);
-        User[] users = userDao.getUsers(null, null, null, null, null, null, null, null, 0);
+        User[] users = userDao.getUsers(null, null, null, null, null, null, null, null, 0, "firstname", 1);
         for (int x = 0; x < users.length; x ++) {
             if (users[x].getEmail().equals(email)){
                 mongoDbConnector.closeConnection();
