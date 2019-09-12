@@ -47,7 +47,7 @@
         String workTypeSelection = request.getParameter("workTypeSearch");
         String[] workTypeSearch = controller.getWorkTypeSearch(workTypeSelection);
         String departmentSelection = request.getParameter("departmentSearch");
-        String[] departmentSearch = controller.getDepartmentSearch(workTypeSelection);     
+        String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);     
         //Return search results in the form of Jobs for populating the table
         Job[] jobs = controller.getJobs(null, titleSearch, null, workTypeSelection, departmentSelection, "Open", null, null, "postdate", -1);
         %>

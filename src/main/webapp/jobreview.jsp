@@ -40,11 +40,11 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
-            JobReviewController jobReviewController = new JobReviewController(session);
+            JobReviewController controller = new JobReviewController(session);
             SimpleDateFormat longDate = new SimpleDateFormat("d MMMM"); 
             ObjectId jobId = new ObjectId(request.getParameter("jobid"));//Jobid from jobmanagement.jsp
-            Job job = jobReviewController.getJobs(jobId, null, null, null, null, null, null, null, "title", 1)[0];
-            JobApplication[] jobApplications = jobReviewController.getJobApplications(null, jobId, null, null, null, null, "statusdate", -1);
+            Job job = controller.getJobs(jobId, null, null, null, null, null, null, null, "title", 1)[0];
+            JobApplication[] jobApplications = controller.getJobApplications(null, jobId, null, null, null, null, "statusdate", -1);
         %>
         <div class="main">
             <div class="container">
@@ -60,7 +60,7 @@
                     //Loop through results of MongoDB search result and place them in a table
                     for (JobApplication jobApplication : jobApplications) {
                         ObjectId userId = jobApplication.getUserId();
-                        User currentUser = jobReviewController.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0];
+                        User currentUser = controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0];
                         String firstName = currentUser.getFirstName();
                         String lastname = currentUser.getLastName();
                         String email = currentUser.getEmail();
@@ -69,6 +69,8 @@
                         String coverLetter = jobApplication.getCoverLetter();
                         String status = jobApplication.getStatus();
                         Date statusDate = jobApplication.getStatusDate();
+                        String[] statusButtonDisabled = controller.getStatusButtonDisabled(status);
+                        String[] statusButtonLabel = controller.getStatusButtonLabel(status, statusDate);
                 %>
                 <div class="card">              
                     <div class="card-header float-right align-items-center py-2">
@@ -79,10 +81,10 @@
                     <div class="card-body">
                         <h4 class="card-title"><%=firstName%> <%=lastname%></h4>
                         <p class="card-text"><%=coverLetter%></p>
-                        <button type="button" class="btn btn-primary" <%=statusButtonDisabled[0]%>><%=statusButton[0]%></button>
-                        <button type="button" class="btn btn-primary" <%=statusButtonDisabled[1]%>><%=statusButton[1]%></button>
-                        <button type="button" class="btn btn-primary" <%=statusButtonDisabled[2]%>><%=statusButton[2]%></button>
-                        <button type="button" class="btn btn-primary" <%=statusButtonDisabled[3]%>><%=statusButton[3]%></button>
+                        <button type="button" class="btn btn-primary" <%=statusButtonDisabled[0]%>><%=statusButtonLabel[0]%></button>>>
+                        <button type="button" class="btn btn-warning" <%=statusButtonDisabled[1]%>><%=statusButtonLabel[1]%></button>>>
+                        <button type="button" class="btn btn-danger" <%=statusButtonDisabled[2]%>><%=statusButtonLabel[2]%></button>>>
+                        <button type="button" class="btn btn-success" <%=statusButtonDisabled[3]%>><%=statusButtonLabel[3]%></button>
                     </div>
                         <div class="card-footer text-muted"><%=status%> on <%=longDate.format(statusDate)%></div>
                 </div>

@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="uts.asd.hsms.controller.JobManagementController"%>
-<%@page import="uts.asd.hsms.controller.JobController"%>
 <%@page import="org.bson.types.ObjectId"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>

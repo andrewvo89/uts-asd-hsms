@@ -27,7 +27,28 @@ public class JobReviewController {
         jobDao = (JobDao)session.getAttribute("jobDao");
         userDao = (UserDao)session.getAttribute("userDao");
     }
-    
+    //Get status button states depending on status
+    public String[] getStatusButtonDisabled(String status) {
+        String[] statusButtonDisabled = new String[4];
+        for (int x = 0; x < statusButtonDisabled.length; x ++) statusButtonDisabled[x] = "";
+        statusButtonDisabled[0] = "disabled";
+        if (status.equals("Under Review")) statusButtonDisabled[1] = "disabled";  
+        if (status.equals("Rejected") || status.equals("Successful")) { statusButtonDisabled[1] = "disabled"; statusButtonDisabled[2] = "disabled"; statusButtonDisabled[3] = "disabled"; }
+        return statusButtonDisabled;
+    }
+    //Get status button text depending on status
+    public String[] getStatusButtonLabel(String status, Date statusDate) {
+        String[] statusButtonLabel = new String[4];
+        statusButtonLabel[0] = "Applied";
+        statusButtonLabel[1] = "Review Application";
+        statusButtonLabel[2] = "Reject Applicant";
+        statusButtonLabel[3] = "Successful Applicant"; 
+        if (status.equals("Applied")) statusButtonLabel[0] = "Applied on " + longDate.format(statusDate);
+        if (status.equals("Under Review")) statusButtonLabel[1] = "Under Review on " + longDate.format(statusDate);
+        if (status.equals("Rejected")) statusButtonLabel[2] = "Rejected on " + longDate.format(statusDate);
+        if (status.equals("Successful")) statusButtonLabel[3] = "Successful on " + longDate.format(statusDate);
+        return statusButtonLabel;
+    }
     //Talk to Dao to get all jobs
     public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, String sort, int order) {
         return jobDao.getJobs(jobId, title, description, workType, department, status, postDate, closeDate, sort, order);
