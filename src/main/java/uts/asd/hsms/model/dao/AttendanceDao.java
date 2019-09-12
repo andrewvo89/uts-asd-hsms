@@ -118,8 +118,27 @@ public class AttendanceDao {
         return null;
     }
     
-    public void editAttendance(Attendance attendance) {
+    public boolean editAttendance(Attendance attendance) {
+    try {
         BasicDBObject query = new BasicDBObject().append("_id", attendance.getRefStudentId());
         BasicDBObject records = new BasicDBObject();
         BasicDBObject update = new BasicDBObject();
-        if (attendance.getWk1() != null) records.append("wk1", user.getWk1());
+        if (attendance.getWk1() != null) records.append("wk1", attendance.getWk1());
+        if (attendance.getWk1() != null) records.append("wk2", attendance.getWk2());
+        if (attendance.getWk1() != null) records.append("wk3", attendance.getWk3());
+        if (attendance.getWk1() != null) records.append("wk4", attendance.getWk4());
+        if (attendance.getWk1() != null) records.append("wk5", attendance.getWk5());
+        if (attendance.getWk1() != null) records.append("wk6", attendance.getWk6());
+        if (attendance.getWk1() != null) records.append("wk7", attendance.getWk7());
+        if (attendance.getWk1() != null) records.append("wk8", attendance.getWk8());
+        if (attendance.getWk1() != null) records.append("wk9", attendance.getWk9());
+        if (attendance.getWk1() != null) records.append("wk10", attendance.getWk10());
+        update.append("$set", records);
+        collection.update(query, update);
+        }
+    catch (Exception ex) {
+        return false;
+    }
+    return true;
+    }
+}

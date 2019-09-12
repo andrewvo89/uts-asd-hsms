@@ -59,9 +59,11 @@ public class AttendanceServlet extends HttpServlet {
         wk9 = toProperCase(request.getParameter("wk9Edit"));
         wk10 = toProperCase(request.getParameter("wk10Edit"));
         String redirect = request.getParameter("redirect");
+        Attendance anAttendance = (Attendance)session.getAttribute("attendance");
+        Attendance oldAttendance = null, newAttendance = null;
         
         AttendanceDao sessionAttendance = (AttendanceDao)session.getAttribute("attendanceDao");
-        sessionAttendance.
+     //   sessionAttendance.editAttendance(attendance);
         
         
     }
