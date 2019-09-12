@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uts.asd.hsms.controller;
+package uts.asd.hsms.controller.validator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -12,6 +12,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
+import uts.asd.hsms.controller.EmailValidator;
 
 @Documented
 @Constraint(validatedBy = EmailValidator.class)

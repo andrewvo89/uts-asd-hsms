@@ -62,13 +62,13 @@ public class LoginServlet extends HttpServlet {
             out.println("               </form>");
             out.println("           </div>");
             out.println("       </div>");
-            out.println("       <footer class=\"text-muted movie-dark-footer fixed-footer\">");
+            out.println("       <footer class=\"text-muted dark-footer fixed-footer\">");
             out.println("           <div class=\"container\">");
             out.println("               <p class=\"float-right\">");
             out.println("                   <a href=\"#\">Back to top</a>");
             out.println("               </p>");
             out.println("               <p>High School Management System &copy; 2019</p>");
-            out.println("               <p>Please See <a href=\"#\">the About Page</a> for more Information.</p>");
+            out.println("               <p>Please email the <a href=\"mailto:administrator@hsms.edu.au\">Administrator</a> for help.</p>");
             out.println("           </div>");
             out.println("       </footer>");
             out.println("   </body>");

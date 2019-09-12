@@ -41,22 +41,22 @@ public class UserDao {
         DBCursor cursor;//If the parameter fields are NULL, do not include them in query
         if (userId != null) conditions.add(new BasicDBObject("_id", userId));
         if (firstName != null) {
-            if (!firstName.isEmpty()) conditions.add(new BasicDBObject("firstName", compile(quote(firstName.trim()), CASE_INSENSITIVE)));
+            if (!firstName.isEmpty()) conditions.add(new BasicDBObject("firstName", compile(quote(firstName), CASE_INSENSITIVE)));
         }
         if (lastName != null) {
-            if (!lastName.isEmpty()) conditions.add(new BasicDBObject("lastName", compile(quote(lastName.trim()), CASE_INSENSITIVE)));
+            if (!lastName.isEmpty()) conditions.add(new BasicDBObject("lastName", compile(quote(lastName), CASE_INSENSITIVE)));
         }
         if (phone != null) {
-            if (!phone.isEmpty()) conditions.add(new BasicDBObject("phone", compile(quote(phone.trim()), CASE_INSENSITIVE)));
+            if (!phone.isEmpty()) conditions.add(new BasicDBObject("phone", compile(quote(phone), CASE_INSENSITIVE)));
         }
         if (location != null) {
-            if (!location.isEmpty()) conditions.add(new BasicDBObject("location", compile(quote(location.trim()), CASE_INSENSITIVE)));
+            if (!location.isEmpty()) conditions.add(new BasicDBObject("location", compile(quote(location), CASE_INSENSITIVE)));
         }
         if (email != null) {
-            if (!email.isEmpty()) conditions.add(new BasicDBObject("email", compile(quote(email.trim()), CASE_INSENSITIVE)));
+            if (!email.isEmpty()) conditions.add(new BasicDBObject("email", email));
         }
         if (password != null) {
-            if (!password.isEmpty()) conditions.add(new BasicDBObject("password", compile(quote(password.trim()), CASE_INSENSITIVE)));
+            if (!password.isEmpty()) conditions.add(new BasicDBObject("password", compile(quote(password), CASE_INSENSITIVE)));
         }
         if (department != null) {
             if (!department.isEmpty()) {

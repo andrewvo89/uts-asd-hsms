@@ -52,9 +52,10 @@
             int userRole = user.getUserRole();
     %>
     <body>
+    <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
             <div class="container" style="width: 750px">
-                <h1>Edit Profile</h1>
+                <h2>Edit Profile</h2>
                 <!--PRE-FILL FIELD DATA FROM SESSION USER PROPERTIES-->
                 <div class="card" style="margin-top:25px">
                     <div class="card-header"></div>
@@ -87,20 +88,20 @@
                             <div class="form-group row">
                                 <label for="phone" class="col-sm-4 col-form-label">Phone</label>
                                 <div class="col-sm-8 email">
-                                    <input type="tel" class="form-control" name="phoneEdit" placeholder="Phone" value="<%=phone%>" required="true" minlength="1" maxlength="10" pattern="^[0-9]*$" title="Phone must include numbers only">
+                                    <input type="tel" class="form-control" name="phoneEdit" placeholder="Phone" value="<%=phone%>">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="location" class="col-sm-4 col-form-label">Location</label>
                                 <div class="col-sm-8 email">
-                                    <input type="text" class="form-control" name="locationEdit" placeholder="Location" value="<%=location%>" required>
+                                    <input type="text" class="form-control" name="locationEdit" placeholder="Location" value="<%=location%>">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="passwordEdit" class="col-sm-4 col-form-label">Password</label>
                                 <div class="col-sm-8 password">
                                     <div class="input-group" id="show_hide_password">
-                                        <input type="password" class="form-control pwd1" id="passwordedit" name="passwordEdit" placeholder="New Password" maxlength="16" pattern="^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\S+$).*$" title="Password must contain at least 1 Lower Case, 1 Upper Case and 1 Special Character">
+                                        <input type="password" class="form-control pwd1" id="passwordedit" name="passwordEdit" placeholder="New Password">
                                         <button class="btn btn-outline-dark reveal1" type="button" data-toggle="button">show</button> 
                                     </div>
                                 </div>
@@ -109,7 +110,7 @@
                                 <label for="passwordConfirmEdit" class="col-sm-4 col-form-label">Confirm Password</label>
                                 <div class="col-sm-8 password">
                                      <div class="input-group" id="show_hide_password">
-                                        <input type="password" class="form-control pwd2" id="passwordconfirmedit" name="passwordConfirmEdit" placeholder="Confirm Password" maxlength="16">
+                                        <input type="password" class="form-control pwd2" id="passwordconfirmedit" name="passwordConfirmEdit" placeholder="Confirm Password">
                                         <button class="btn btn-outline-dark reveal2" type="button" data-toggle="button">show</button> 
                                     </div>
                                 </div>
@@ -121,20 +122,37 @@
                                 <input type="hidden" name="redirect" value="userprofile">
                                 <input type="hidden" name="action" value="edit">
                             </div>     
-                            <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
                             <div class="float-right">   
                                 <input type="hidden" name="action" value="edit">                               
                                 <button type="button" class="btn btn-secondary" onclick="window.location.href='index.jsp'">Close</button>
                                 <button type="submit" class="btn btn-primary">Confirm</button>
                             </div>
                         </form>
+                        <!--MESSAGE MODAL EDIT ACTION-->
+                        <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="messageModalLabel"><%=message.get(0)%></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>    
+                                    </div>                            
+                                    <div class="modal-body">
+                                        <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div> 
+                            </div>   
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <%  //Clear error message from Sessions                          
             session.removeAttribute("message");
-            session.removeAttribute("modalTrigger");
         %>
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>        
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

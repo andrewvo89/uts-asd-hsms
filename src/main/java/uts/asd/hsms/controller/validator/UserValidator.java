@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uts.asd.hsms.controller;
+package uts.asd.hsms.controller.validator;
 import java.util.Set;
  
 import javax.validation.ConstraintViolation;
@@ -40,7 +40,7 @@ public class UserValidator {
         Validator validator = factory.getValidator();
         
         //Validate bean
-        Set<ConstraintViolation<User>> constraintViolations = validator.validate(user);
+        Set<ConstraintViolation<User>> constraintViolations = validator.validate(user, UserValidatorSequence.class);
 
         //Return an ArrayList of error messages for validations
         if (constraintViolations.size() > 0) {

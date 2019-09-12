@@ -83,38 +83,52 @@
         else userRoleSearchAll = "checked";
         //Return search results in the form of Users for populating the table
         User[] users = userDao.getUsers(null, firstNameSearch, lastNameSearch, null, null, emailSearch, null, departmentSearch, userRoleSearch);
+        int userCount = users.length;
     %>
-    <body style="padding-bottom: 8rem">
-    <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
+    <body>
+        <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
             <div class="container">
-                <h1>User Management</h1>
-                 
+                <h2>User Management</h2>                 
                 <div class="card" style="margin-top:25px">
                     <div class="card-header">
                         <form action="usermanagement.jsp" method="post">
-                            <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
-                            <input type="hidden" name="firstNameSearch" value="">
-                            <input type="hidden" name="lastNameSearch" value="">
-                            <input type="hidden" name="departmentSearch" value="">
-                            <input type="hidden" name="userRoleSearch" value="">
-                            <button type="submit" class="btn btn-outline-secondary">Clear Filter</button>                            
+                            <div class="float-left">
+                                <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseSearch" data-toggle="button">Filter (<%=userCount%>)</button>
+                                <input type="hidden" name="firstNameSearch" value="">
+                                <input type="hidden" name="lastNameSearch" value="">
+                                <input type="hidden" name="departmentSearch" value="">
+                                <input type="hidden" name="userRoleSearch" value="">
+                                <button type="submit" class="btn btn-outline-secondary">Clear Filter</button>
+                            </div>
+                            <div class="float-right align-items-center py-2">
+                                <span>Quick Filters:</span>
+                                <button id="departmentButtonAdministration" class="btn btn-outline-success badge badge-pill" type="button">Administration</button>
+                                <button id="departmentButtonEnglish" class="btn btn-outline-success badge badge-pill" type="button">English</button>
+                                <button id="departmentButtonMath" class="btn btn-outline-success badge badge-pill" type="button">Math</button>
+                                <button id="departmentButtonScience" class="btn btn-outline-success badge badge-pill" type="button">Science</button>
+                                <button id="departmentButtonArt" class="btn btn-outline-success badge badge-pill" type="button">Art</button>
+                                <button id="userRoleButtonAdministrator" class="btn btn-outline-primary badge badge-pill" type="button">Administrator</button>
+                                <button id="userRoleButtonPrincipal" class="btn btn-outline-primary badge badge-pill" type="button">Principal</button>
+                                <button id="userRoleButtonHeadTeacher" class="btn btn-outline-primary badge badge-pill" type="button">Head Teacher</button>
+                                <button id="userRoleButtonTeacher" class="btn btn-outline-primary badge badge-pill" type="button">Teacher</button>
+                            </div>                            
                         </form>
                     </div>
-                    <!--SEARCH MODULE-->
+                    <!--SEARCH MODAL-->
                     <div class="collapse" id="collapseSearch">
                         <div class="card-body">
                             <form action="usermanagement.jsp" method="post">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="firstNameSearch">First Name</label>
-                                    <input type="text" class="form-control" name="firstNameSearch" placeholder="First Name" value="<%=firstNameSearch%>">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="firstNameSearch">First Name</label>
+                                        <input type="text" class="form-control" name="firstNameSearch" placeholder="First Name" value="<%=firstNameSearch%>">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="lastNameSearch">Last Name</label>
+                                        <input type="text" class="form-control" name="lastNameSearch" placeholder="Last Name" value="<%=lastNameSearch%>">
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="lastNameSearch">Last Name</label>
-                                    <input type="text" class="form-control" name="lastNameSearch" placeholder="Last Name" value="<%=lastNameSearch%>">
-                                </div>
-                            </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="departmentSearch">Department</label>
@@ -124,23 +138,23 @@
                                                 <label class="form-check-label">All</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Administration" <%=departmentSearchAdministration%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchAdministration" value="Administration" <%=departmentSearchAdministration%>>
                                                 <label class="form-check-label">Administration</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="English" <%=departmentSearchEnglish%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchEnglish" value="English" <%=departmentSearchEnglish%>>
                                                 <label class="form-check-label">English</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Math" <%=departmentSearchMath%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchMath" value="Math" <%=departmentSearchMath%>>
                                                 <label class="form-check-label">Math</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Science" <%=departmentSearchScience%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchScience" value="Science" <%=departmentSearchScience%>>
                                                 <label class="form-check-label">Science</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Art" <%=departmentSearchArt%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchArt" value="Art" <%=departmentSearchArt%>>
                                                 <label class="form-check-label">Art</label>
                                             </div>                                               
                                         </div>
@@ -153,25 +167,25 @@
                                                 <label class="form-check-label">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="1" <%=userRoleSearchAdministrator%>>
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" id="userRoleSearchAdministrator" value="1" <%=userRoleSearchAdministrator%>>
                                                 <label class="form-check-label">Administrator</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="2" <%=userRoleSearchPrincipal%>>
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" id="userRoleSearchPrincipal" value="2" <%=userRoleSearchPrincipal%>>
                                                 <label class="form-check-label">Principal</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="3" <%=userRoleSearchHeadTeacher%>>
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" id="userRoleSearchHeadTeacher" value="3" <%=userRoleSearchHeadTeacher%>>
                                                 <label class="form-check-label">Head Teacher</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="4" <%=userRoleSearchTeacher%>>
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" id="userRoleSearchTeacher" value="4" <%=userRoleSearchTeacher%>>
                                                 <label class="form-check-label">Teacher</label>
                                             </div>                                               
                                         </div>
                                     </div>
                                 </div> 
-                                <button type="submit" class="btn btn-primary mb-2">Search</button>
+                                <button id="searchButton" type="submit" class="btn btn-primary mb-2">Search</button>
                             </form> 
                         </div>
                     </div>
@@ -210,10 +224,10 @@
                             <td><%=userRoleString%></td>
                             <td>
                                 <button id="userEditButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#userEditModal" role="button"
-                                data-userid="<%=userId%>" data-firstname="<%=firstName%>" data-lastname="<%=lastName%>" data-phone="<%=phone%>" 
-                                data-location="<%=location%>" data-department="<%=department%>" data-email="<%=email%>" 
-                                data-userrolestring="<%=userRoleString%>">Edit</button>
-                                    
+                                        data-userid="<%=userId%>" data-firstname="<%=firstName%>" data-lastname="<%=lastName%>" data-phone="<%=phone%>" 
+                                        data-location="<%=location%>" data-department="<%=department%>" data-email="<%=email%>" 
+                                        data-userrolestring="<%=userRoleString%>">Edit</button>
+
                                 <!--EDIT USER MODAL DIALOG-->        
                                 <div class="modal fade" id="userEditModal" tabindex="-1" role="dialog" aria-labelledby="userEditModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -229,38 +243,38 @@
                                                     <div class="form-group row">
                                                         <label for="firstNameEdit" class="col-sm-4 col-form-label">First Name</label>
                                                         <div class="col-sm-8 firstName">
-                                                            <input type="text" class="form-control" name="firstNameEdit" placeholder="First Name" required="true" minlength="1" maxlength="32">
+                                                            <input type="text" class="form-control" name="firstNameEdit" placeholder="First Name">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="lastNameEdit" class="col-sm-4 col-form-label">Last Name</label>
                                                         <div class="col-sm-8 lastName">
-                                                            <input type="text" class="form-control" name="lastNameEdit" placeholder="Last Name" required="true" minlength="1" maxlength="32">
+                                                            <input type="text" class="form-control" name="lastNameEdit" placeholder="Last Name">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="phoneEdit" class="col-sm-4 col-form-label">Phone</label>
                                                         <div class="col-sm-8 phone">
-                                                            <input type="tel" class="form-control" name="phoneEdit" id="phoneEdit" placeholder="Phone" required="true" minlength="1" maxlength="10" pattern="^[0-9]*$" title="Phone must include numbers only">
+                                                            <input type="tel" class="form-control" name="phoneEdit" id="phoneEdit" placeholder="Phone">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="locationEdit" class="col-sm-4 col-form-label">Location</label>
                                                         <div class="col-sm-8 location">
-                                                            <input type="text" class="form-control" name="locationEdit" placeholder="Location" required="true" minlength="1" maxlength="16">
+                                                            <input type="text" class="form-control" name="locationEdit" placeholder="Location">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="emailEdit" class="col-sm-4 col-form-label">Email</label>
                                                         <div class="col-sm-8 email">
-                                                            <input type="email" class="form-control" name="emailEdit" id="emailEdit" placeholder="Email" required="true" minlength="1" maxlength="64" pattern="^[A-Za-z0-9._-]+@hsms.edu.au$" title="Email Address must end in @hsms.edu.au">
+                                                            <input type="text" class="form-control" name="emailEdit" id="emailEdit" placeholder="Email">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <label for="passwordEdit" class="col-sm-4 col-form-label">Password</label>
                                                         <div class="col-sm-8">
                                                             <div class="input-group" id="show_hide_password">
-                                                                <input type="password" class="form-control pwdedit1" id="passwordedit" name="passwordEdit" placeholder="New Password" maxlength="16" pattern="^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\S+$).*$" title="Password must contain at least 1 Lower Case, 1 Upper Case and 1 Special Character">
+                                                                <input type="password" class="form-control pwdedit1" id="passwordedit" name="passwordEdit" placeholder="New Password">
                                                                 <button class="btn btn-outline-dark revealedit1" type="button" data-toggle="button">show</button>
                                                             </div>
                                                         </div>
@@ -269,7 +283,7 @@
                                                         <label for="passwordConfirmEdit" class="col-sm-4 col-form-label">Confirm Password</label>
                                                         <div class="col-sm-8">
                                                             <div class="input-group" id="show_hide_password">
-                                                                <input type="password" class="form-control pwdedit2" id="passwordconfirmedit" name="passwordConfirmEdit" placeholder="Confirm Password" maxlength="16">
+                                                                <input type="password" class="form-control pwdedit2" id="passwordconfirmedit" name="passwordConfirmEdit" placeholder="Confirm Password">    
                                                                 <button class="btn btn-outline-dark revealedit2" type="button" data-toggle="button">show</button>
                                                             </div>
                                                         </div>
@@ -345,7 +359,7 @@
                                                 </button>    
                                             </div>                            
                                             <div class="modal-body">
-                                                    <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
+                                                <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -354,41 +368,41 @@
                                     </div>   
                                 </div>                          
                                 <!--DELETE CONFIRMATION MODAL-->                                
-                                <button type=button" class="btn btn-danger"  data-toggle="modal" data-target="#userDeleteModal"
+                                <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#userDeleteModal"
                                         data-toggle="modal"role="button" data-userid="<%=userId%>" data-firstname="<%=firstName%>" 
                                         data-lastname="<%=lastName%>">Delete</button>
-                                    
-                                        <div class="modal fade" id="userDeleteModal" tabindex="-1" role="dialog" aria-labelledby="userDeleteModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="userDeleteModalLabel"></h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>                                            
-                                                    <form action="UserServlet" method="post">
-                                                        <div class="modal-body">
-                                                            <p>Are you sure you want to delete this user?</p>
-                                                            <p>This action cannot be undone.</p>
-                                                        </div>
-                                                        <div class="userId">
-                                                            <input type="hidden" name="userIdDelete">        
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <input type="hidden" name="action" value="delete">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-primary btn-danger">Confirm</button>
-                                                        </div>
-                                                    </form>
+
+                                <div class="modal fade" id="userDeleteModal" tabindex="-1" role="dialog" aria-labelledby="userDeleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="userDeleteModalLabel"></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>                                            
+                                            <form action="UserServlet" method="post">
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to delete this user?</p>
+                                                    <p>This action cannot be undone.</p>
                                                 </div>
-                                            </div>
+                                                <div class="userId">
+                                                    <input type="hidden" name="userIdDelete">        
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="hidden" name="action" value="delete">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary btn-danger">Confirm</button>
+                                                </div>
+                                            </form>
                                         </div>
+                                    </div>
+                                </div>
                             </td>
-                        <%
-                            }
-                        %>
                         </tr>
+                            <%
+                                }
+                            %>
                     </tbody>
                 </table>
                 <div class="float-right">
@@ -409,38 +423,38 @@
                                     <div class="form-group row">
                                         <label for="firstNameAdd" class="col-sm-4 col-form-label">First Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="firstNameAdd" placeholder="First Name" required="true" minlength="1" maxlength="32">
+                                            <input type="text" class="form-control" name="firstNameAdd" placeholder="First Name">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="lastNameAdd" class="col-sm-4 col-form-label">Last Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="lastNameAdd" placeholder="Last Name" required="true" minlength="1" maxlength="32">
+                                            <input type="text" class="form-control" name="lastNameAdd" placeholder="Last Name">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="phoneAdd" class="col-sm-4 col-form-label">Phone</label>
                                         <div class="col-sm-8">
-                                            <input type="tel" class="form-control" name="phoneAdd" placeholder="Phone" required="true" minlength="1" maxlength="10" pattern="^[0-9]*$" title="Phone must include numbers only">
+                                            <input type="tel" class="form-control" name="phoneAdd" placeholder="Phone">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="locationAdd" class="col-sm-4 col-form-label">Location</label>
                                         <div class="col-sm-8 location">
-                                            <input type="text" class="form-control" name="locationAdd" placeholder="Location" required="true" minlength="1" maxlength="16">
+                                            <input type="text" class="form-control" name="locationAdd" placeholder="Location">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="emailAdd" class="col-sm-4 col-form-label">Email</label>
                                         <div class="col-sm-8">
-                                            <input type="email" class="form-control" name="emailAdd" placeholder="Email" required="true" minlength="1" maxlength="64" pattern="^[A-Za-z0-9._-]+@hsms.edu.au$" title="Email Address must end in @hsms.edu.au">
+                                            <input type="text" class="form-control" name="emailAdd" placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="passwordAdd" class="col-sm-4 col-form-label">Password</label>
                                         <div class="col-sm-8">
                                             <div class="input-group" id="show_hide_password">
-                                                <input type="password" class="form-control pwdadd1" id="passwordadd" name="passwordAdd" placeholder="Password" minlength="6" maxlength="16" pattern="^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\S+$).*$" title="Password must contain at least 1 Lower Case, 1 Upper Case and 1 Special Character">
+                                                <input type="password" class="form-control pwdadd1" id="passwordadd" name="passwordAdd" placeholder="Password">
                                                 <button class="btn btn-outline-dark revealadd1" type="button" data-toggle="button">show</button>
                                             </div>
                                         </div>
@@ -508,8 +522,8 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div> 
+                </div>               
             </div>
         </div>
     <%

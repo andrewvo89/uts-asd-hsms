@@ -5,6 +5,7 @@
  */
 package uts.asd.hsms.controller;
 
+import uts.asd.hsms.controller.validator.UserValidator;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -66,7 +67,7 @@ public class UserServlet extends HttpServlet {
         message.add("Add User Result"); 
 
         //If Errors
-        if (errorMessages != null) addModalErrorMessage = errorMessages[0];
+        if (errorMessages != null) { addModalErrorMessage = errorMessages[0]; }
         else {//No Errors
             try {
                 newUser.setPassword(PasswordEncrypt.generateStorngPasswordHash(password));
@@ -127,7 +128,6 @@ public class UserServlet extends HttpServlet {
                 if (tempEmail != null) newUser.setEmail(tempEmail);
                 //If Errors
                 if (errorMessages != null) editModalErrorMessage = errorMessages[0];
-                //No Errors
                 else {//If no problems with editing user on a database level
                     if (userDao.editUser(newUser)) editSuccess = true;
                     else editModalErrorMessage = "Failed to edit user: Database issue";
@@ -140,18 +140,19 @@ public class UserServlet extends HttpServlet {
         else editModalErrorMessage = "Failed to edit user: User does not exist in Database";
         
         //Final setting of Parameters depending on edit success of failure
-        if (editSuccess) {            //If user trying to edit is the same user that is logged in, update the session user with new details
+        if (editSuccess) { 
+            System.out.println("Makes it to the sucess modal");           //If user trying to edit is the same user that is logged in, update the session user with new details
             if (userId.equals(sessionUser.getUserId())) session.setAttribute("user", newUser);
             message.add(String.format("%s %s edited successfully", newUser.getFirstName(), newUser.getLastName())); message.add("success");
             redirectEmail = newUser.getEmail();
         }
         else {
             message.add(editModalErrorMessage); message.add("danger");
-            redirectEmail = email;
+            redirectEmail = oldUser.getEmail();
         }
         session.setAttribute("message", message);//Set success of failure message to display on next page
         if (redirect.equals("userprofile")) response.sendRedirect(redirect + ".jsp");//Redirect to userprofile.jsp page as origin
-        else response.sendRedirect("usermanagement.jsp?emailSearch=" + redirectEmail);//Redirect with email search result to show in table  
+        else response.sendRedirect("usermanagement.jsp?emailSearch=" + redirectEmail);//Redirect with email search result to show in table
     }
         public void deleteUser() throws ServletException, IOException {
             userId = new ObjectId(request.getParameter("userIdDelete"));//Only perform if userid is found in database
