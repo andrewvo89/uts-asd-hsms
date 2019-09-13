@@ -22,7 +22,7 @@ public class UserDao {
     MongoClient mongoClient;
     DB database;
     DBCollection collection;
-
+    DBCollection auditLog;
     public UserDao(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
         
