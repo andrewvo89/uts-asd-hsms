@@ -36,6 +36,8 @@ private HttpSession session;
     private HttpServletRequest request;
     private HttpServletResponse response;
     private ObjectId userId;
+    
+@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
          
         
@@ -61,16 +63,19 @@ private HttpSession session;
    
     }
 
+@Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response)
          throws ServletException, IOException {
- session = request.getSession();
+         session = request.getSession();
         auditLogDao = (AuditLogDao)session.getAttribute("auditLogDao");
         logList = new ArrayList<String>();
         this.response = response;
         this.request = request;
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("log.jsp");
         dispatcher.forward(request,response);
-     // doGet(request, response);
+        // response.sendRedirect("index.jsp"); 
+        // doGet(request, response);
    }
 
     private static class AuditLogDao {
