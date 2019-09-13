@@ -59,3 +59,9 @@ target/classes/uts/asd/hsms/controller/validator/EmailValidator.class
 target/classes/uts/asd/hsms/model/Job.class
 target/classes/uts/asd/hsms/model/JobApplication.class
 target/classes/uts/asd/hsms/controller/ConnServlet.class
+target/classes/uts/asd/hsms/controller/ConnServlet.class
+target/classes/uts/asd/hsms/controller/JobBoardServlet.class
+target/classes/uts/asd/hsms/controller/JobServlet.class
+target/classes/uts/asd/hsms/controller/validator/EmailValidator.class
+target/classes/uts/asd/hsms/model/Job.class
+target/classes/uts/asd/hsms/model/JobApplication.class
