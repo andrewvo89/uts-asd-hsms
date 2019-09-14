@@ -5,25 +5,51 @@
  */
 package uts.asd.hsms.model;
 
+import uts.asd.hsms.controller.EmailConstraint;
 import java.io.Serializable;
+import org.bson.types.ObjectId;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 public class User implements Serializable {
     
-    private int userId;
+    private ObjectId userId;
+    @NotEmpty(message = "Please enter First Name")
+    @Size(min = 1, max = 32, message = "Last Name must be between 1 and 32 Characters")
     private String firstName;
+    @NotEmpty(message = "Please enter Last Name")
+    @Size(min = 1, max = 32, message = "Last Name must be between 1 and 32 Characters")
     private String lastName;
-    private String department;
+    @NotEmpty(message = "Please enter Phone")
+    @Size(min = 1, max = 10, message = "Phone must be between 1 and 10 Characters")
+    @Pattern(regexp = "^[0-9]*$", message = "Phone must include numbers only")
+    private String phone;
+    @NotEmpty(message = "Please enter Location")
+    @Size(min = 1, max = 16, message = "Location must be between 1 and 16 Characters")
+    private String location;
+    @NotEmpty(message = "Please enter email")
+    @Email(message = "Email Address is invalid")
+    @Pattern(regexp = "^[A-Za-z0-9._-]+@hsms.edu.au$", message = "Email Address must end in @hsms.edu.au")
+    @EmailConstraint(message = "Email Address is already registered on HSMS")
     private String email;
+    @NotEmpty(message = "Please enter Password")
+    @Size(min = 6, max = 16, message = "Password must be between 6 and 36 Characters")
+    @Pattern(regexp = "^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=\\S+$).*$", message = "Password must contain at least 1 Lower Case, 1 Upper Case and 1 Special Character")
     private String password;
+    private String department;
     private int userRole;
 
-    public User(int userId, String firstName, String lastName, String department, String email, String password, int userRole) {
+    public User(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.department = department;
+        this.phone = phone;
+        this.location = location;
         this.email = email;
         this.password = password;
+        this.department = department;
         this.userRole = userRole;
         //userRole
         //1 = Administrator
@@ -32,16 +58,16 @@ public class User implements Serializable {
         //4 = Teacher
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", department=" + department + ", email=" + email + ", password=" + password + ", userRole=" + userRole + '}';
+    public User(String phone, String location) {
+        this.phone = phone;
+        this.location = location;
     }
 
-    public int getUserId() {
+    public ObjectId getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(ObjectId userId) {
         this.userId = userId;
     }
 
@@ -61,14 +87,22 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+       
     public String getEmail() {
         return email;
     }
@@ -85,6 +119,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     public int getUserRole() {
         return userRole;
     }
@@ -99,6 +141,8 @@ public class User implements Serializable {
         else if (userRole == 4) return "Teacher";
         return null;
     }
-    
+    public String getUserIdString() {
+        return userId.toString();
+    }
     
 }
