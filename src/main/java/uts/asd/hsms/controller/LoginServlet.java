@@ -9,19 +9,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.bson.types.ObjectId;
 import uts.asd.hsms.model.User;
-import uts.asd.hsms.model.UserAudit;
-import uts.asd.hsms.model.dao.AuditLogDAO;
 import uts.asd.hsms.model.dao.UserDao;
-import javax.mail.MessagingException;
 
 /**
  *
@@ -41,18 +36,18 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            out.println("   <header>");
             out.println("       <nav class=\"navbar navbar-expand-md navbar-dark fixed-top bg-dark\">");
             out.println("           <div class=\"container\">");
             out.println("               <a class=\"navbar-brand\" href=\"index.jsp\"><strong style=\"font-size: 30px\">High School</strong><span style=\"font-size: 30px; font-weight: 300; color: rgba(255,255,255,0.7);\">Management System</span></a>");
             out.println("           </div>");
             out.println("       </nav>");
             out.println("   </header>");
-            out.println("</head>");
             out.println("   <body>");
             out.println("       <div class=\"main\" role=\"main\">");
             out.println("           <div class=\"container\">");
             out.println("               <form class=\"form-signin\" method=\"post\" action=\"LoginServlet\">");
-            out.println("                   <h2 class=\"h3 mb-3 font-weight-normal text-center\">Welcome to HSMS</h2>");
+            out.println("                   <p><img src=\"images/logo.jpg\" alt=\"HSMS Logo\" style=\"width:100%; height:100%;\" class=\"rounded mx-auto d-block\"></p>");
             out.println("                   <label for=\"inputEmail\" class=\"sr-only\">Email address</label>");
             out.println("                   <input name=\"email\"  id=\"email\" type=\"text\" class=\"form-control\" placeholder=\"teacher@hsms.edu.au\" required autofocus>");
             out.println("                   <label for=\"inputPassword\" class=\"sr-only\">Password</label>");
@@ -62,13 +57,13 @@ public class LoginServlet extends HttpServlet {
             out.println("               </form>");
             out.println("           </div>");
             out.println("       </div>");
-            out.println("       <footer class=\"text-muted movie-dark-footer fixed-footer\">");
+            out.println("       <footer class=\"text-muted dark-footer fixed-footer\">");
             out.println("           <div class=\"container\">");
             out.println("               <p class=\"float-right\">");
             out.println("                   <a href=\"#\">Back to top</a>");
             out.println("               </p>");
             out.println("               <p>High School Management System &copy; 2019</p>");
-            out.println("               <p>Please See <a href=\"#\">the About Page</a> for more Information.</p>");
+            out.println("               <p>Please email the <a href=\"mailto:administrator@hsms.edu.au\">Administrator</a> for help.</p>");
             out.println("           </div>");
             out.println("       </footer>");
             out.println("   </body>");
@@ -85,8 +80,8 @@ public class LoginServlet extends HttpServlet {
             String password = request.getParameter("password");
             User loginUser = null;
             ArrayList<String> failedLogins;
-            if (userDao.getUsers(null, null, null, null, null, email, null, null, 0) != null)
-                loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0)[0];
+            if (userDao.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1) != null)
+                loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1)[0];
             Boolean authenticated = false;
          // AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
             

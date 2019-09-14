@@ -9,7 +9,7 @@ import org.junit.runner.JUnitCore;
 
 /**
  *
- * @author ADMIN
+ * @author Andrew
  */
 public class MavenJUnitRunner {
     public static void main(String[] args) {

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /target/
 target/classes/uts/asd/hsms/controller/ConnServlet.class
 target/classes/uts/asd/hsms/controller/ConnServlet.class
@@ -65,3 +66,6 @@ target/classes/uts/asd/hsms/controller/JobServlet.class
 target/classes/uts/asd/hsms/controller/validator/EmailValidator.class
 target/classes/uts/asd/hsms/model/Job.class
 target/classes/uts/asd/hsms/model/JobApplication.class
+=======
+.DS_Store
+>>>>>>> a3c4096e5821d2310d054309ae817429df14d8a6
