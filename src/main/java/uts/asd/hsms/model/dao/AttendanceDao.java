@@ -14,7 +14,8 @@ import com.mongodb.MongoClient;
 import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.ObjectId;
-
+import static java.util.regex.Pattern.*;
+import org.bson.types.ObjectId;
 /**
 /**
  *
@@ -35,7 +36,7 @@ public class AttendanceDao {
     public DB getDatabase() {
         return database;
     }
-    
+    /*
     public Attendance[] getAttendance() {
         DBCursor cursor = collection.find();
         System.out.println("COUNT: " + cursor.count());
@@ -59,6 +60,88 @@ public class AttendanceDao {
             String wk10 = (String)result.get("wk10");
             String tutorialId = (String)result.get("tutorialId");
             attendances[count] = new Attendance(refStudentId, studentId, firstName, lastName, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, tutorialId);
+            count ++;
+        }
+        return attendances;
+    } */
+    
+    public Attendance[] getAttendance(ObjectId refStudentId, int studentId, String firstName, String lastName, String wk1, String wk2, String wk3, String wk4, String wk5, String wk6, String wk7, String wk8, String wk9, String wk10, String tutorialId, String sort, int order) {
+        List<BasicDBObject> conditions = new ArrayList<BasicDBObject>();
+        BasicDBObject query = new BasicDBObject();
+        DBCursor cursor; //if the parameter fields are Null, don't include them in query
+        if (refStudentId != null) conditions.add(new BasicDBObject("_id", refStudentId));
+        if (studentId != 0) conditions.add(new BasicDBObject("studentid", studentId));
+        if (firstName != null) {
+            if (!firstName.isEmpty()) conditions.add(new BasicDBObject("firstname", compile(quote(firstName), CASE_INSENSITIVE)));
+        }
+        if (lastName != null) {
+            if (!lastName.isEmpty()) conditions.add(new BasicDBObject("lastname", compile(quote(lastName), CASE_INSENSITIVE)));
+        }
+        if (lastName != null) {
+            if (!lastName.isEmpty()) conditions.add(new BasicDBObject("lastname", compile(quote(lastName), CASE_INSENSITIVE)));
+        }
+        if (wk1 != null) {
+            if (!wk1.isEmpty()) conditions.add(new BasicDBObject("wk1", compile(quote(wk1), CASE_INSENSITIVE)));
+        }
+        if (wk2 != null) {
+            if (!wk2.isEmpty()) conditions.add(new BasicDBObject("wk2", compile(quote(wk2), CASE_INSENSITIVE)));
+        }
+        if (wk3 != null) {
+            if (!wk3.isEmpty()) conditions.add(new BasicDBObject("wk3", compile(quote(wk3), CASE_INSENSITIVE)));
+        }
+        if (wk4 != null) {
+            if (!wk4.isEmpty()) conditions.add(new BasicDBObject("wk4", compile(quote(wk4), CASE_INSENSITIVE)));
+        }
+        if (wk5 != null) {
+            if (!wk5.isEmpty()) conditions.add(new BasicDBObject("wk5", compile(quote(wk5), CASE_INSENSITIVE)));
+        }
+        if (wk6 != null) {
+            if (!wk6.isEmpty()) conditions.add(new BasicDBObject("wk6", compile(quote(wk6), CASE_INSENSITIVE)));
+        }
+        if (wk7 != null) {
+            if (!wk7.isEmpty()) conditions.add(new BasicDBObject("wk7", compile(quote(wk7), CASE_INSENSITIVE)));
+        }
+        if (wk8 != null) {
+            if (!wk8.isEmpty()) conditions.add(new BasicDBObject("wk8", compile(quote(wk8), CASE_INSENSITIVE)));
+        }
+        if (wk9 != null) {
+            if (!wk9.isEmpty()) conditions.add(new BasicDBObject("wk9", compile(quote(wk9), CASE_INSENSITIVE)));
+        }
+        if (wk10 != null) {
+            if (!wk10.isEmpty()) conditions.add(new BasicDBObject("wk10", compile(quote(wk10), CASE_INSENSITIVE)));
+        }
+        if (tutorialId != null) {
+            if (!tutorialId.isEmpty()) conditions.add(new BasicDBObject("tutorialid", compile(quote(tutorialId), CASE_INSENSITIVE)));
+        }
+        if (conditions.size() == 0) {
+            cursor = collection.find();
+        } else {
+            query.put("$and", conditions);
+            cursor = collection.find(query);
+        }
+        
+        cursor.sort(new BasicDBObject(sort, order));
+        Attendance[] attendances = new Attendance[cursor.count()];
+        
+        int count = 0;
+        while (cursor.hasNext()) {
+            DBObject result = cursor.next();
+            ObjectId refStudentIdResult = (ObjectId)result.get("_id");
+            int studentIdResult = (int)result.get("studentid");
+            String firstNameResult = (String)result.get("firstname");
+            String lastNameResult = (String)result.get("lastname");
+            String wk1Result = (String)result.get("wk1");
+            String wk2Result = (String)result.get("wk2");
+            String wk3Result = (String)result.get("wk3");
+            String wk4Result = (String)result.get("wk4");
+            String wk5Result = (String)result.get("wk5");
+            String wk6Result = (String)result.get("wk6");
+            String wk7Result = (String)result.get("wk7");
+            String wk8Result = (String)result.get("wk8");
+            String wk9Result = (String)result.get("wk9");
+            String wk10Result = (String)result.get("wk10");
+            String tutorialIdResult = (String)result.get("tutorialid");
+            attendances[count] = new Attendance(refStudentIdResult, studentIdResult, firstNameResult, lastNameResult, wk1Result, wk2Result, wk3Result, wk4Result, wk5Result, wk6Result, wk7Result, wk8Result, wk9Result, wk10Result, tutorialIdResult);
             count ++;
         }
         return attendances;

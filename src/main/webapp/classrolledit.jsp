@@ -6,9 +6,10 @@
 
 <%@page import="org.bson.types.ObjectId"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="ConnServlet" flush="true" />
 <%@page import="uts.asd.hsms.model.dao.*"%>
 <%@page import="uts.asd.hsms.model.*"%>
-<%@page import="uts.asd.hsms.controller.*"%>
+<%@page import="uts.asd.hsms.controller.AttendanceController"%>
 <%@page import="java.io.*,java.lang.*,java.util.*,java.net.*,java.util.*,java.text.*"%>
 <%@page import="javax.activation.*,javax.mail.*"%>
 <%@page import="javax.servlet.http.*,javax.servlet.*"%>
@@ -25,6 +26,8 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Edit Class Roll</title>
+    </head>
+    <body>
         <%
             User user = (User)session.getAttribute("user");
             if (user == null) {
@@ -36,10 +39,11 @@
         %>
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
-            
+            Attendance attendance = (Attendance)session.getAttribute("attendance");
+            AttendanceController controllera = new AttendanceController(session);
+            String tutorialId = new String(request.getParameter("tutorialid"));
+            Attendance[] attendances = controllera.getStudentByClass(null, 0, null, null, null, null, null, null, null, null, null, null, null, null, tutorialId, "firstname", 1);
         %> 
-    </head>
-    <body>
         <div class="main">
             <div class="container">
                 <h1>Class-roll Edit</h1>
@@ -65,10 +69,9 @@
                             </thead>
                             <tbody>
                                 <%
-                                        AttendanceDao attendanceDao = (AttendanceDao)session.getAttribute("attendanceDao");
-                                        Attendance[] attendance = attendanceDao.getAttendance();
-                                        for (int x = 0; x < attendance.length; x++) {
-                                        Attendance currentAttendance = attendance[x];
+                                        for (Attendance attendance : attendances) {
+                                        ObjectId refStudentId = attendance.getRefStudentId();
+                                        Attendance currentAttendance = controllera.getStudentByClass(refStudentId, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, "firstname", 1)[0];
                                         int studentId = currentAttendance.getStudentId(); 
                                         String firstName = currentAttendance.getFirstName();
                                         String lastName = currentAttendance.getLastName();
@@ -82,7 +85,6 @@
                                         String wk8 = currentAttendance.getWk8();
                                         String wk9 = currentAttendance.getWk9();
                                         String wk10 = currentAttendance.getWk10();
-                                        String tutorialId = currentAttendance.getTutorialId();
                                                                         %>
                                 <tr>
                                     <td name="firstName"><%=firstName%></td>

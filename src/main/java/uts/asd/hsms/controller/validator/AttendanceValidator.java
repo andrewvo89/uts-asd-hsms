@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uts.asd.hsms.controller;
+package uts.asd.hsms.controller.validator;
 import java.util.Set;
  
 import javax.validation.ConstraintViolation;
