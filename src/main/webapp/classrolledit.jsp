@@ -39,14 +39,15 @@
         %>
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
-            Attendance attendance = (Attendance)session.getAttribute("attendance");
             AttendanceController controllera = new AttendanceController(session);
-            String tutorialId = new String(request.getParameter("tutorialid"));
-            Attendance[] attendances = controllera.getStudentByClass(null, 0, null, null, null, null, null, null, null, null, null, null, null, null, tutorialId, "firstname", 1);
+            
+            String tutorialId = new String(request.getParameter("tutorialId"));
+            System.out.println(tutorialId);
+            Attendance[] attendances = controllera.getStudentByClass(null, 0, null, null, null, null, null, null, null, null, null, null, null, null, tutorialId, "lastName", 1);
         %> 
         <div class="main">
             <div class="container">
-                <h1>Class-roll Edit</h1>
+                <h1><%=tutorialId%> Class-roll</h1>
                 
                 <br><div>
                     <form action="AttendanceServlet" method="post">
@@ -69,9 +70,9 @@
                             </thead>
                             <tbody>
                                 <%
-                                        for (Attendance attendance : attendances) {
-                                        ObjectId refStudentId = attendance.getRefStudentId();
-                                        Attendance currentAttendance = controllera.getStudentByClass(refStudentId, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, "firstname", 1)[0];
+                                    for (int x = 0; x < attendances.length; x++) {
+                                        Attendance currentAttendance = attendances[x];
+                                        ObjectId refStudentId = currentAttendance.getRefStudentId();
                                         int studentId = currentAttendance.getStudentId(); 
                                         String firstName = currentAttendance.getFirstName();
                                         String lastName = currentAttendance.getLastName();
@@ -85,7 +86,7 @@
                                         String wk8 = currentAttendance.getWk8();
                                         String wk9 = currentAttendance.getWk9();
                                         String wk10 = currentAttendance.getWk10();
-                                                                        %>
+                                %>
                                 <tr>
                                     <td name="firstName"><%=firstName%></td>
                                     <td name="lastName"><%=lastName%></td>

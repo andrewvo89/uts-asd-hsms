@@ -70,15 +70,12 @@ public class AttendanceDao {
         BasicDBObject query = new BasicDBObject();
         DBCursor cursor; //if the parameter fields are Null, don't include them in query
         if (refStudentId != null) conditions.add(new BasicDBObject("_id", refStudentId));
-        if (studentId != 0) conditions.add(new BasicDBObject("studentid", studentId));
+        if (studentId != 0) conditions.add(new BasicDBObject("studentId", studentId));
         if (firstName != null) {
-            if (!firstName.isEmpty()) conditions.add(new BasicDBObject("firstname", compile(quote(firstName), CASE_INSENSITIVE)));
+            if (!firstName.isEmpty()) conditions.add(new BasicDBObject("firstName", compile(quote(firstName), CASE_INSENSITIVE)));
         }
         if (lastName != null) {
-            if (!lastName.isEmpty()) conditions.add(new BasicDBObject("lastname", compile(quote(lastName), CASE_INSENSITIVE)));
-        }
-        if (lastName != null) {
-            if (!lastName.isEmpty()) conditions.add(new BasicDBObject("lastname", compile(quote(lastName), CASE_INSENSITIVE)));
+            if (!lastName.isEmpty()) conditions.add(new BasicDBObject("lastName", compile(quote(lastName), CASE_INSENSITIVE)));
         }
         if (wk1 != null) {
             if (!wk1.isEmpty()) conditions.add(new BasicDBObject("wk1", compile(quote(wk1), CASE_INSENSITIVE)));
@@ -111,7 +108,7 @@ public class AttendanceDao {
             if (!wk10.isEmpty()) conditions.add(new BasicDBObject("wk10", compile(quote(wk10), CASE_INSENSITIVE)));
         }
         if (tutorialId != null) {
-            if (!tutorialId.isEmpty()) conditions.add(new BasicDBObject("tutorialid", compile(quote(tutorialId), CASE_INSENSITIVE)));
+            if (!tutorialId.isEmpty()) conditions.add(new BasicDBObject("tutorialId", compile(quote(tutorialId), CASE_INSENSITIVE)));
         }
         if (conditions.size() == 0) {
             cursor = collection.find();
@@ -127,9 +124,9 @@ public class AttendanceDao {
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
             ObjectId refStudentIdResult = (ObjectId)result.get("_id");
-            int studentIdResult = (int)result.get("studentid");
-            String firstNameResult = (String)result.get("firstname");
-            String lastNameResult = (String)result.get("lastname");
+            int studentIdResult = (int)result.get("studentId");
+            String firstNameResult = (String)result.get("firstName");
+            String lastNameResult = (String)result.get("lastName");
             String wk1Result = (String)result.get("wk1");
             String wk2Result = (String)result.get("wk2");
             String wk3Result = (String)result.get("wk3");
@@ -140,65 +137,11 @@ public class AttendanceDao {
             String wk8Result = (String)result.get("wk8");
             String wk9Result = (String)result.get("wk9");
             String wk10Result = (String)result.get("wk10");
-            String tutorialIdResult = (String)result.get("tutorialid");
+            String tutorialIdResult = (String)result.get("tutorialId");
             attendances[count] = new Attendance(refStudentIdResult, studentIdResult, firstNameResult, lastNameResult, wk1Result, wk2Result, wk3Result, wk4Result, wk5Result, wk6Result, wk7Result, wk8Result, wk9Result, wk10Result, tutorialIdResult);
             count ++;
         }
         return attendances;
-    }
-    
-    //grabs the attendance record of a student according to their refStudentId
-    public Attendance getSingleAttendance (ObjectId refStudentId){
-        BasicDBObject query = new BasicDBObject();
-        query.put("_id", refStudentId);
-        DBCursor cursor = collection.find(query);
-        DBObject result = cursor.one();
-        if (result != null) {
-            int studentId = (int)result.get("studentId");
-            String firstName = (String)result.get("firstName");
-            String lastName = (String)result.get("lastName");
-            String wk1 = (String)result.get("wk1");
-            String wk2 = (String)result.get("wk2");
-            String wk3 = (String)result.get("wk3");
-            String wk4 = (String)result.get("wk4");
-            String wk5 = (String)result.get("wk5");
-            String wk6 = (String)result.get("wk6");
-            String wk7 = (String)result.get("wk7");
-            String wk8 = (String)result.get("wk8");
-            String wk9 = (String)result.get("wk9");
-            String wk10 = (String)result.get("wk10");
-            String tutorialId = (String)result.get("tutorialId");
-            return new Attendance(refStudentId, studentId, firstName, lastName, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, tutorialId);
-
-        }
-        return null;
-    }
-    
-    public Attendance getClassAttendance (String tutId){
-        BasicDBObject query = new BasicDBObject();
-        query.put("tutorialId", tutId);
-        DBCursor cursor = collection.find(query);
-        while (cursor.hasNext()) {
-            DBObject result = cursor.next();
-            ObjectId refStudentId = (ObjectId)result.get("refStudentId");
-            int studentId = (int)result.get("studentId");
-            String firstName = (String)result.get("firstName");
-            String lastName = (String)result.get("lastName");
-            String wk1 = (String)result.get("wk1");
-            String wk2 = (String)result.get("wk2");
-            String wk3 = (String)result.get("wk3");
-            String wk4 = (String)result.get("wk4");
-            String wk5 = (String)result.get("wk5");
-            String wk6 = (String)result.get("wk6");
-            String wk7 = (String)result.get("wk7");
-            String wk8 = (String)result.get("wk8");
-            String wk9 = (String)result.get("wk9");
-            String wk10 = (String)result.get("wk10");
-            String tutorialId = (String)result.get("tutorialId");
-            return new Attendance(refStudentId, studentId, firstName, lastName, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, tutorialId);
-
-        }
-        return null;
     }
     
     public boolean editAttendance(Attendance attendance) {

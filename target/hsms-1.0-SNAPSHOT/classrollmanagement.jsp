@@ -82,8 +82,8 @@
                                 <td><%=tutSize%></td>
                                 <td>
                                     <form action="classrolledit.jsp" method="post">
-                                        <input type="hidden" name="tutorialId" value="<%=tutorialId%>">
-                                        <a class="btn btn-outline-info" href="classrolledit.jsp" role="button">Edit</a>
+                                        <input type="hidden" name="tutorialId" value="<%=tutorialId%>"> 
+                                        <button type="submit" class="btn btn-outline-info">Edit</button>
                                     </form>
                                 </td>
                             <%

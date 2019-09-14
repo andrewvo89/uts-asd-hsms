@@ -63,14 +63,14 @@ public class TutorialDao {
         DBCursor cursor;
         if (refId != null) conditions.add(new BasicDBObject("_id", refId));
         if (tutorialId != null) {
-            if (!tutorialId.isEmpty()) conditions.add(new BasicDBObject("tutorialid", compile(quote(tutorialId), CASE_INSENSITIVE)));
+            if (!tutorialId.isEmpty()) conditions.add(new BasicDBObject("tutorialId", compile(quote(tutorialId), CASE_INSENSITIVE)));
         }
         if (department != null) {
             if (!department.isEmpty()) conditions.add(new BasicDBObject("department", compile(quote(department), CASE_INSENSITIVE)));
         }
         if (grade != 0) conditions.add(new BasicDBObject("grade", grade));
-        if (userId != null) conditions.add(new BasicDBObject("userid", userId));
-        if (tutSize != 0) conditions.add(new BasicDBObject("tutsize", tutSize));
+        if (userId != null) conditions.add(new BasicDBObject("userId", userId));
+        if (tutSize != 0) conditions.add(new BasicDBObject("tutSize", tutSize));
         
         if (conditions.size() == 0) {
             cursor = collection.find();
@@ -85,11 +85,11 @@ public class TutorialDao {
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
             ObjectId refIdResult = (ObjectId)result.get("_id");
-            String tutorialIdResult = (String)result.get("tutorialid");
+            String tutorialIdResult = (String)result.get("tutorialId");
             String departmentResult = (String)result.get("department");
             int gradeResult = (int)result.get("grade");
-            ObjectId userIdResult = (ObjectId)result.get("userid");
-            int tutSizeResult = (int)result.get("tutsize");
+            ObjectId userIdResult = (ObjectId)result.get("userId");
+            int tutSizeResult = (int)result.get("tutSize");
             tutorials[count] = new Tutorial(refIdResult, tutorialIdResult, departmentResult, gradeResult, userIdResult, tutSizeResult);
             count ++;
         }
