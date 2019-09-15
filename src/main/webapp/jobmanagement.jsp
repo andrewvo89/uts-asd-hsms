@@ -1,5 +1,5 @@
 <%-- 
-    Document   : jobboard
+    Document   : jobmanagement
     Created on : 06 Sep. 2019, 5:53:34 pm
     Author     : Andrew
 --%>
@@ -26,7 +26,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
-        <title>Job Board</title>
+        <title>Job Management</title>
     </head>
     <body>
     <%//Check if there is a valid user in the session
@@ -233,7 +233,7 @@
                             <td><%=closeDate%></td>
                             <td>
                                 <form action="jobreview.jsp" method="post">
-                                    <input type="hidden" name="jobid" value="<%=jobId%>">
+                                    <input type="hidden" name="jobId" value="<%=jobId%>">
                                     <button type="submit" class="btn btn-info" <%=reviewButtonDisabled%>>Review</button>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jobEditModal<%=x%>">Edit</button>                                
                                     <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#jobDeleteModal<%=x%>">Delete</button>      
@@ -249,7 +249,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="JobServlet" method="post">
+                                                <form action="JobManagementServlet" method="post">
                                                     <div class="form-group row">
                                                         <label class="col-sm-4 col-form-label">Title</label>
                                                         <div class="col-sm-8">
@@ -332,7 +332,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <input type="hidden" name="jodIdEdit" value="<%=jobId%>">
+                                                        <input type="hidden" name="jobIdEdit" value="<%=jobId%>">
                                                         <input type="hidden" name="action" value="edit">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary">Confirm</button>
@@ -347,12 +347,12 @@
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="jobDeleteModalLabel<%=x%>">Delete <%=title%></h5>
+                                                <h5 class="modal-title">Delete <%=title%></h5>
                                                 <button type="button" class="close" data-dismiss="modal">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>                                            
-                                            <form action="JobServlet" method="post">
+                                            <form action="JobManagementServlet" method="post">
                                                 <div class="modal-body">
                                                     <p>Are you sure you want to delete this Job Post?</p>
                                                     <p>This action cannot be undone.</p>
@@ -388,7 +388,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="post" action="JobServlet"> 
+                                <form method="post" action="JobManagementServlet"> 
                                     <div class="form-group row">
                                         <label class="col-sm-4 col-form-label">Title</label>
                                         <div class="col-sm-8 firstName">

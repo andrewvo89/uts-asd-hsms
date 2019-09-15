@@ -23,7 +23,7 @@ import uts.asd.hsms.model.dao.JobDao;
  *
  * @author Andrew
  */
-public class JobServlet extends HttpServlet {
+public class JobManagementServlet extends HttpServlet {
     private JobDao jobDao;
     private ObjectId jobId;
     private String title, description, workType, department, status;

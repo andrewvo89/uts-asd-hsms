@@ -4,6 +4,7 @@
     Author     : Andrew
 --%>
 
+<%@page import="com.mongodb.BasicDBObject"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="uts.asd.hsms.controller.JobBoardController"%>
 <%@page import="org.bson.types.ObjectId"%>
@@ -49,7 +50,8 @@
         String departmentSelection = request.getParameter("departmentSearch");
         String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);     
         //Return search results in the form of Jobs for populating the table
-        Job[] jobs = controller.getJobs(null, titleSearch, null, workTypeSelection, departmentSelection, "Open", null, null, "postdate", -1);
+        Job[] openJobs = controller.getJobs(null, titleSearch, null, workTypeSelection, departmentSelection, "Open", null, null, "postdate", -1);
+        Job[] appliedJobs = controller.getAppliedJobs(user.getUserId());
         %>
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
@@ -60,12 +62,14 @@
                         <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Job Board</li>
                     </ol>
-                </nav>
+                </nav>                          
+                <%--Collapsable Search for Open Jobs--%>            
                 <div class="card">
                     <div class="card-header">
                         <form action="jobboard.jsp" method="post">
                             <div class="float-left">
-                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=jobs.length%>)</a>
+                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseApplied" aria-expanded="false" aria-controls="collapseApplied">Applied Jobs (<%=appliedJobs.length%>)</a>
+                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=openJobs.length%>)</a>
                                 <input type="hidden" name="titleSearch" value="">
                                 <input type="hidden" name="workTypeSearch" value="">
                                 <input type="hidden" name="departmentSearch" value="">
@@ -156,14 +160,57 @@
                             </form> 
                         </div>
                     </div>
+                    <!--APPLIED JOBS COLLAPSIBLE CARD-->
+                    <div class="collapse" id="collapseApplied">
+                        <div class="card-body" style="background-color: #eeeeee">
+                            <%
+                                for (int x = 0; x < appliedJobs.length; x++) {
+                                    String title = appliedJobs[x].getTitle();
+                                    JobApplication appliedJobApplication = controller.getJobApplications(null, appliedJobs[x].getJobId(), user.getUserId(), null, null, "_id", 1)[0];
+                                    BasicDBObject appliedJobApplicationStatus = appliedJobApplication.getStatus();
+                                    String coverLetter = controller.processLineBreaks(appliedJobApplication.getCoverLetter());
+                                    String currentStatusString = (String) controller.getStatusStringDate(appliedJobApplicationStatus).get(0);
+                                    Date currentStatusDate = (Date) controller.getStatusStringDate(appliedJobApplicationStatus).get(1);
+                                    String[] statusButtonOutline = controller.getStatusButtonOutline(appliedJobApplicationStatus);
+                                    String[] statusButtonLabel = controller.getStatusButtonLabel(appliedJobApplicationStatus);
+                                    String statusFooterLabel = controller.getStatusFooterLabel(currentStatusString, currentStatusDate);
+                            %>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title"><%=title%></h4>
+                                    <p class="card-text"><%=coverLetter%></p>
+                                    <form action="JobReviewServlet" method="post" class="inline-form">
+                                        <button type="button" class="btn btn<%=statusButtonOutline[0]%>-primary" disabled><%=statusButtonLabel[0]%></button>
+                                        <strong>>></strong>
+                                    </form>
+                                    <form action="JobReviewServlet" method="post" class="inline-form">
+                                        <button type="button" class="btn btn<%=statusButtonOutline[1]%>-warning"><%=statusButtonLabel[1]%></button>
+                                        <strong>>></strong>
+                                    </form>
+                                    <form action="JobReviewServlet" method="post" class="inline-form">
+                                        <button type="button" class="btn btn<%=statusButtonOutline[2]%>-danger"><%=statusButtonLabel[2]%></button>
+                                        <strong>>></strong>
+                                    </form>
+                                    <form action="JobReviewServlet" method="post" class="inline-form">
+                                        <button type="button" class="btn btn<%=statusButtonOutline[3]%>-success"><%=statusButtonLabel[3]%></button>
+                                    </form>                        
+                                </div>
+                                <div class="card-footer text-muted"><%=statusFooterLabel%></div>
+                            </div>
+                            <br>
+                            <%
+                                }
+                            %>
+                        </div>
+                    </div>  
                 </div> 
                 <%
                     //Loop through results of MongoDB search result and place them in a table
-                    for (int x = 0; x < jobs.length; x++) {
-                        Job currentJob = jobs[x];
+                    for (int x = 0; x < openJobs.length; x++) {
+                        Job currentJob = openJobs[x];
                         ObjectId jobId = currentJob.getJobId();
                         String title = currentJob.getTitle();
-                        String description = currentJob.getDescription();
+                        String description = controller.processLineBreaks(currentJob.getDescription());
                         String workType = currentJob.getWorkType();
                         String department = currentJob.getDepartment();
                         ObjectId userId = user.getUserId();
@@ -199,7 +246,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>    
                             </div>         
-                            <form method="post" action="JobApplicationServlet">                    
+                            <form method="post" action="JobBoardServlet">                    
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <p class="font-weight-bold"><%=firstName%> <%=lastName%></p>
