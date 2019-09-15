@@ -83,7 +83,7 @@
                                 <td>
                                     <form action="classrolledit.jsp" method="post">
                                         <input type="hidden" name="tutorialId" value="<%=tutorialId%>"> 
-                                        <button type="submit" class="btn btn-outline-info">Edit</button>
+                                        <button type="submit" class="btn btn-outline-info" id="attendanceEditButton<%=x%>">Edit</button>
                                     </form>
                                 </td>
                             <%

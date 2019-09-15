@@ -24,7 +24,7 @@ import uts.asd.hsms.model.*;
  * @author Griffin
  */
 public class AttendanceServlet extends HttpServlet {
-    private AttendanceController attendanceController;
+  //  private AttendanceController attendanceController;
     private HttpSession session;
     private AttendanceDao attendanceDao;
     private ArrayList<String> message;
@@ -32,7 +32,7 @@ public class AttendanceServlet extends HttpServlet {
     private HttpServletResponse response;
     private ObjectId refStudentId;
     private String firstName, lastName, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, tutorialId;
-    private int studentId;
+    private int studentId, arrayPos;
     private AttendanceValidator attendanceValidator;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,15 +40,16 @@ public class AttendanceServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         session = request.getSession();
-        attendanceController = new AttendanceController(session);
+      //  attendanceController = new AttendanceController(session);
         attendanceDao = (AttendanceDao)session.getAttribute("attendanceDao");
         message = new ArrayList<String>();
         this.response = response;
         this.request = request;
         //Processes the post from the classrolledit.jsps 
-        String action = request.getParameter("action");
-        if (action.equals("edit")) editAttendance();
-        else response.sendRedirect("classrolledit.jsp");
+        //String action = request.getParameter("action");
+        //if (action.equals("edit")) editAttendance();
+        //else response.sendRedirect("classrolledit.jsp");
+        editAttendance();
     }
     /*
     public void editAttendance() throws ServletException, IOException {
@@ -89,11 +90,12 @@ public class AttendanceServlet extends HttpServlet {
         wk9 = request.getParameter("wk9Edit").trim();
         wk10 = request.getParameter("wk10Edit").trim();
         tutorialId = request.getParameter("postTutorialId").trim();
-        String editModalErrorMessage = "";
-        Boolean editSuccess = false;
-        message.add("Edit Attendance Result");
+        arrayPos = Integer.parseInt(request.getParameter("arrayPos").trim());
+       // String editModalErrorMessage = "";
+       // Boolean editSuccess = false;
+       // message.add("Edit Attendance Result");
         
-            if (attendanceDao.getAttendance(refStudentId, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, "lastName", 1)[0] != null) {
+        /**    if (attendanceDao.getAttendance(refStudentId, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, "lastName", 1)[0] != null) {
                 oldAttendance = attendanceDao.getAttendance(refStudentId, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, "lastName", 1)[0];
                 newAttendance = new Attendance(refStudentId, studentId, firstName, lastName, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, tutorialId);
                 attendanceValidator = new AttendanceValidator(newAttendance);
@@ -112,7 +114,14 @@ public class AttendanceServlet extends HttpServlet {
                 message.add(editModalErrorMessage); message.add("danger");
             }
             session.setAttribute("message", message); //Sets success or failure to be displayed
-            response.sendRedirect("classrolledit.jsp?postTutorialId=" + tutorialId.toString());
+            response.sendRedirect("classrolledit.jsp?postTutorialId=" + tutorialId.toString()); **/
+        
+            oldAttendance = attendanceDao.getAttendance(refStudentId, 0, null, null, null, null, null, null, null, null, null, null, null, null, null, "lastName", 1)[arrayPos];
+            newAttendance = new Attendance(refStudentId, studentId, firstName, lastName, wk1, wk2, wk3, wk4, wk5, wk6, wk7, wk8, wk9, wk10, tutorialId);
+            attendanceDao.editAttendance(newAttendance);
+          
+        response.sendRedirect("classrolledit.jsp?tutorialId=" + tutorialId.toString());
+            
     }
     
     public String toProperCase(String input) {

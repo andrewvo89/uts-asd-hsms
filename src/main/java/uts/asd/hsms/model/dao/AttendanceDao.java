@@ -149,6 +149,9 @@ public class AttendanceDao {
         BasicDBObject query = new BasicDBObject().append("_id", attendance.getRefStudentId());
         BasicDBObject records = new BasicDBObject();
         BasicDBObject update = new BasicDBObject();
+        if (attendance.getStudentId() != 0) records.append("studentId", attendance.getStudentId());
+        if (attendance.getFirstName() != null) records.append("firstName", attendance.getFirstName());
+        if (attendance.getLastName() != null) records.append("lastName", attendance.getLastName());
         if (attendance.getWk1() != null) records.append("wk1", attendance.getWk1());
         if (attendance.getWk1() != null) records.append("wk2", attendance.getWk2());
         if (attendance.getWk1() != null) records.append("wk3", attendance.getWk3());
@@ -159,6 +162,7 @@ public class AttendanceDao {
         if (attendance.getWk1() != null) records.append("wk8", attendance.getWk8());
         if (attendance.getWk1() != null) records.append("wk9", attendance.getWk9());
         if (attendance.getWk1() != null) records.append("wk10", attendance.getWk10());
+        if (attendance.getTutorialId() != null) records.append("tutorialId", attendance.getTutorialId());
         update.append("$set", records);
         collection.update(query, update);
         }

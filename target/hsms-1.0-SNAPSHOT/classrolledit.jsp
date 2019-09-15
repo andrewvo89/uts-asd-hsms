@@ -40,10 +40,14 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             AttendanceController controllera = new AttendanceController(session);
+            ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
+            //Initialise notification messages for errors 1.message header 2.message body 3.message type
+        if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }
             
             String tutorialId = new String(request.getParameter("tutorialId"));
             Attendance[] attendances = controllera.getStudentByClass(null, 0, null, null, null, null, null, null, null, null, null, null, null, null, tutorialId, "lastName", 1);
         %> 
+        <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>"
         <div class="main">
             <div class="container">
                 <h1><%=tutorialId%> Class-roll</h1>
@@ -65,6 +69,7 @@
                                     <th scope="col">Wk 8</th>
                                     <th scope="col">Wk 9</th>
                                     <th scope="col">Wk 10</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -87,59 +92,68 @@
                                         String wk10 = currentAttendance.getWk10();
                                 %>
                                 <tr>
-                                    <td name="firstName"><%=firstName%></td>
-                                    <td name="lastName"><%=lastName%></td>
+                                    <td><%=firstName%></td>
+                                    <td><%=lastName%></td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk1" type="text" class="form-control" name="wk1Edit" maxlength="1">
+                                            <input for="wk1" type="text" class="form-control" id="wk1EditField<%=x%>" name="wk1Edit" value="<%=wk1%>" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk2" type="text" class="form-control" name="wk2Edit" maxlength="1">
+                                            <input for="wk2" type="text" class="form-control" name="wk2Edit" value="<%=wk2%>" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk3" type="text" class="form-control" name="wk3Edit" maxlength="1">
+                                            <input for="wk3" type="text" class="form-control" name="wk3Edit" value="<%=wk3%>" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk4" type="text" class="form-control" name="wk4Edit" maxlength="1">
+                                            <input for="wk4" type="text" class="form-control" name="wk4Edit" value="<%=wk4%>" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk5" type="text" class="form-control" name="wk5Edit" maxlength="1">
+                                            <input for="wk5" type="text" class="form-control" name="wk5Edit" value="<%=wk5%>" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk6" type="text" class="form-control" name="wk6Edit" maxlength="1">
+                                            <input for="wk6" type="text" class="form-control" name="wk6Edit" value="<%=wk6%>" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk7" type="text" class="form-control" name="wk7Edit" maxlength="1">
+                                            <input for="wk7" type="text" class="form-control" name="wk7Edit" value="<%=wk7%>" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk8" type="text" class="form-control" name="wk8Edit" maxlength="1">
+                                            <input for="wk8" type="text" class="form-control" name="wk8Edit" value="<%=wk8%>" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk9" type="text" class="form-control" name="wk9Edit" maxlength="1">
+                                            <input for="wk9" type="text" class="form-control" name="wk9Edit" value="<%=wk9%>" maxlength="1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group col-xs-1">
-                                            <input for="wk10" type="text" class="form-control" name="wk10Edit" maxlength="1">
+                                            <input for="wk10" type="text" class="form-control" name="wk10Edit" value="<%=wk10%>" maxlength="1">
                                         </div>
                                     </td>
-
+                                    <td>
+                                        <input type="hidden" name="postRefStudentId" value="<%=refStudentId%>">
+                                        <input type="hidden" name="postStudentId" value="<%=studentId%>">
+                                        <input type="hidden"  name="postFirstName" value="<%=firstName%>">
+                                        <input type="hidden"  name="postLastName" value="<%=lastName%>">
+                                        <input type="hidden" name="postTutorialId" value="<%=tutorialId%>">
+                                        <input type="hidden" name="arrayPos" value="<%=x%>"
+                                        <input type="hidden" name="action" value="edit">
+                                        <button type="submit" class="btn btn-primary" id="attendanceEditConfirmButton<%=x%>">Save</button>
+                                    </td>
                     <%
                         }
                     %>
@@ -147,11 +161,7 @@
                             </tbody>
                         </table>
                         <div class="float-right">
-                            <input type="hidden" name="action" value="edit">
-                            <button type="submit" class="btn btn-success">Save</button>
-                        </div>
-                        <div class="float-right">
-                            <a href="classrollmanagement.jsp"><button type="button" class="btn btn-secondary">Cancel</button></a>
+                            <a href="classrollmanagement.jsp"><button type="button" class="btn btn-secondary">Close</button></a>
                         </div>
                     </form>            
                                 
