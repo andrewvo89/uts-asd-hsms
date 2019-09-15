@@ -17,11 +17,14 @@
         <link rel="stylesheet" href="css/main.css">
         <title>High School Management System</title>
         
+        
     </head>
     <body>
+        
+        <div class="container">
         <h1>Leave Applications</h1>
         
-        <h3>Apply for leave: <button class="button" type="button" onclick="location.href = 'leave_form.jsp'" > Apply </button></h3>
+        <h3>Apply for leave: <button class="button" type="button" onclick="location.href = 'leaveform.jsp'" > Apply </button></h3>
                 
         <table>
             <tr><td><h3>Applications Pending:</h3></td></tr>
@@ -48,6 +51,15 @@
             <tr><td>Sick</td><td>8/6/19 - 8/7/19</td><td>Approved</td></tr><br>
         </table>
         <br>
-        <button class="button" type="button" onclick="location.href = 'index.jsp'" > Home </button>
+        <button class="button" type="button" onclick="location.href = 'index.jsp'" > Home </button> 
+    </div>
+        
+        <%@ include file="/WEB-INF/jspf/footer.jspf" %>  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        
     </body>
 </html>
+
