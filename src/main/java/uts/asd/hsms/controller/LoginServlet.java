@@ -9,14 +9,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.mail.MessagingException;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.bson.types.ObjectId;
 import uts.asd.hsms.model.User;
+import uts.asd.hsms.model.UserAudit;
+import uts.asd.hsms.model.dao.AuditLogDAO;
 import uts.asd.hsms.model.dao.UserDao;
 
 /**
@@ -83,6 +88,11 @@ public class LoginServlet extends HttpServlet {
             if (userDao.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1) != null)
                 loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1)[0];
             Boolean authenticated = false;
+            //sukonrat
+            AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");        
+            String firstName = request.getParameter("firstName");
+            Date loginTime = new Date();
+            //String loginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
             
             try {  
                 if (loginUser != null) if (PasswordEncrypt.validatePassword(password, loginUser.getPassword())) authenticated = true;
@@ -116,7 +126,8 @@ public class LoginServlet extends HttpServlet {
                     }//If smtp.gmail.com email server fails to send the email
                     catch (MessagingException ex) {session.setAttribute("errorMessage", ex.getMessage());}
                 }
-                
+                //sukonrat            
+                auditLogDao.addLoginTime(firstName, loginTime);
             }
             //Redirect to any page on the website depending on where the log in request came from
             if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   

@@ -15,29 +15,29 @@ import org.bson.types.ObjectId;
  */
 public class UserAudit implements Serializable{
 
-    public static ObjectId getUserID;
-    private ObjectId userID;
+    public static String getFirstName;  
+    private ObjectId logID;
     private String firstName;
-    private String timeStamp;
+    private Date loginTime;
    
-    public UserAudit(ObjectId userID, String firstName, String timeStamp){
-        this.userID = userID;
+    public UserAudit(ObjectId logID, String firstName, Date loginTime){
+        this.logID = logID;
         this.firstName = firstName;
-        this.timeStamp = timeStamp;
+        this.loginTime = loginTime;
         
     }
 
     public UserAudit() {
        
     }
-    
-    public void setUserID(ObjectId userID){
-    this.userID = userID;
+    public void setLogID(ObjectId logID){
+    this.logID = logID;
     }
     
-    public ObjectId getUserID(){
-    return userID;
+    public ObjectId getLogID(){
+    return logID;
     }
+   
     
     public void setFirstName(String firstName){
     this.firstName = firstName;
@@ -46,17 +46,13 @@ public class UserAudit implements Serializable{
     return firstName;
     }
    
-    public void setTimeStamp(String date){
-    this.timeStamp = timeStamp;
+    public void setLoginTime(Date loginTime){
+    this.loginTime = loginTime;
     }
  
-    public String getTimeStamp(){
-    return timeStamp;
+    public Date getLoginTime(){
+    return loginTime;
     
-    }
-
-    public void setUserID(String userID) {
-       
     }
  
 }
