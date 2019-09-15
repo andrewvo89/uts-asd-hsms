@@ -42,7 +42,6 @@
             AttendanceController controllera = new AttendanceController(session);
             
             String tutorialId = new String(request.getParameter("tutorialId"));
-            System.out.println(tutorialId);
             Attendance[] attendances = controllera.getStudentByClass(null, 0, null, null, null, null, null, null, null, null, null, null, null, null, tutorialId, "lastName", 1);
         %> 
         <div class="main">
@@ -160,6 +159,10 @@
                 </div> 
             </div>
         </div>
+        <%
+            //Clear error message from Session
+            session.removeAttribute("message");
+        %>
           
         
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>  
