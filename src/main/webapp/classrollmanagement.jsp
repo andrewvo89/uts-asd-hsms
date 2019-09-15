@@ -27,6 +27,8 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Class Roll Management</title>
+    </head>    
+    <body>
         <%
             User user = (User)session.getAttribute("user");
             if (user == null) {
@@ -42,9 +44,6 @@
             //Prefill variable
             Tutorial[] tutorials = controllerb.getTutorials(null, null, null, 0, user.getUserId(), 0, "department", 1);
         %> 
-    </head>
-    
-    <body>
         <div class="main">
             <div class="container">
                 <nav>

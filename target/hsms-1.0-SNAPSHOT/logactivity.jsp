@@ -19,6 +19,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Log Activity</title>
+    </head>
         <%//Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
@@ -34,7 +35,6 @@
         <%
             }
         %> 
-    </head>
     <body>
        <H3 style="color:#e0ac62; padding-top: 150px;" align="center">Search Log Activities</H3>
 <table style="padding-top: 150px;" width="600" border="1" align="center">

@@ -28,23 +28,27 @@
     </head>
     <body>
         <%//Check if there is a valid user in the session
-            User user = (User)session.getAttribute("user");
+            User user = (User) session.getAttribute("user");
             if (user == null) {
                 session.setAttribute("redirect", "jobreview");
         %>   
-                <jsp:include page="LoginServlet" flush="true" />
+        <jsp:include page="LoginServlet" flush="true" />
         <%
-            }
-            else {//Only Administrator & Principal Access
-                if (user.getUserRole() > 2) response.sendRedirect("index.jsp");
+        } else {//Only Administrator & Principal Access
+            if (user.getUserRole() > 2)
+                response.sendRedirect("index.jsp");
         %>
-                <%@ include file="/WEB-INF/jspf/header.jspf"%>
-        <%
-            }
+        <%@ include file="/WEB-INF/jspf/header.jspf"%>
+        <%            }
             JobReviewController controller = new JobReviewController(session);
-            ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
+            ArrayList<String> message = (ArrayList<String>) session.getAttribute("message");
             //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type
-            if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }      
+            if (message == null) {
+                message = new ArrayList<String>();
+                message.add("");
+                message.add("");
+                message.add("");
+            }
             ObjectId jobId = new ObjectId(request.getParameter("jobId"));//Jobid from jobmanagement.jsp
             Job job = controller.getJobs(jobId, null, null, null, null, null, null, null, "title", 1)[0];
             JobApplication[] jobApplications = controller.getJobApplications(null, jobId, null, null, null, "statusdate", -1);
@@ -62,7 +66,7 @@
                 </nav>
                 <%
                     //Loop through results of MongoDB search result and place them in a table
-                    for (int x = 0; x < jobApplications.length; x ++) {
+                    for (int x = 0; x < jobApplications.length; x++) {
                         ObjectId jobApplicationId = jobApplications[x].getJobApplicationId();
                         ObjectId userId = jobApplications[x].getUserId();
                         User currentUser = controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0];
@@ -97,7 +101,7 @@
                         <strong>>></strong>
                         <button type="button" class="btn btn<%=statusButtonOutline[3]%>-success" data-toggle="<%=statusButtonToggle[3]%>" data-target="#successModal<%=x%>"><%=statusButtonLabel[3]%></button>
                     </div>
-                        <div class="card-footer text-muted"><%=footerLabel%></div>
+                    <div class="card-footer text-muted"><%=footerLabel%></div>
                 </div>
                 <br>
                 <!--UNDER REVIEW CONFIRMATION MODAL-->                          
@@ -177,8 +181,8 @@
                         </div>
                     </div>
                 </div>
-                
-                <%        
+
+                <%
                     }
                 %>
                 <!--MESSAGE MODAL AFTER ADD, EDIT OR DELETE ACTION-->

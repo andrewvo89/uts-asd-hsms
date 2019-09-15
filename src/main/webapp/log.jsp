@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="org.bson.types.ObjectId"%>
-<%@page import="uts.asd.hsms.model.dao.AuditLogDAO"%>
+<%@page import="uts.asd.hsms.model.dao.AuditLogDao"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
@@ -24,6 +24,8 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Log</title>
+    </head>
+    <body>
         <%//Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
@@ -37,12 +39,6 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
-        %> 
-    </head>
-    <body>
-        
-        
-         <%
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); 
         %>
@@ -51,7 +47,7 @@
         
         
         <%
-                   AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
+                   AuditLogDao auditLogDao = (AuditLogDao)session.getAttribute("auditLogDao");
                     UserAudit[] userAudits = auditLogDao.getUserAudit();
                                 for (int x = 0; x < userAudits.length; x++) {
                                     UserAudit currentLog = userAudits[x];
