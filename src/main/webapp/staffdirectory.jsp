@@ -26,6 +26,8 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Staff Contact</title>
+            </head>
+            <body>
         <%
             User user = (User)session.getAttribute("user");
             if (user == null) {
@@ -41,170 +43,142 @@
         <%
             }
         %> 
-    </head>
+
     <%
-        UserDao userDao = (UserDao)session.getAttribute("userDao");
-        ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
-        if (message == null) {
-            message = new ArrayList<String>();//1.message header 2.message body 3.message type 4.modal trigger
-            message.add(""); message.add(""); message.add(""); message.add("");
-        }
-        //Prefill Add Data variables
-        String firstNameAdd = (String)session.getAttribute("firstNameAdd");
-        String lastNameAdd = (String)session.getAttribute("lastNameAdd");
-        String emailAdd = (String)session.getAttribute("emailAdd");
-        String passwordAdd = (String)session.getAttribute("passwordAdd");
-        String departmentAdd = (String)session.getAttribute("departmentAdd");
-        String depratmentAddAdministration = "", depratmentAddEnglish = "", depratmentAddMath = "", depratmentAddScience = "", depratmentAddArt = "";
-        String userRoleAddAdministrator = "", userRoleAddPrincipal = "", userRoleAddHeadTeacher = "", userRoleAddTeacher = "";
-        int userRoleAdd = 0;  
-        if (session.getAttribute("userRoleAdd") != null) {
-            try {
-                userRoleAdd = Integer.valueOf((session.getAttribute("userRoleAdd").toString()));
-            }
-            catch (NumberFormatException ex) {
-                userRoleAdd = 0;
-            }
-        }    
-        if (firstNameAdd == null) firstNameAdd = "";
-        if (lastNameAdd == null) lastNameAdd = "";
-        if (emailAdd == null) emailAdd = "";
-        if (passwordAdd == null) passwordAdd = "";
-        if (departmentAdd == null) departmentAdd = "";
-        if (departmentAdd.equals("English")) depratmentAddEnglish = "checked";
-        else if(departmentAdd.equals("Math")) depratmentAddMath = "checked";
-        else if(departmentAdd.equals("Science")) depratmentAddScience = "checked";
-        else if(departmentAdd.equals("Art")) depratmentAddArt = "checked";
-        else depratmentAddAdministration = "checked";
-        if(userRoleAdd == 2) userRoleAddPrincipal = "checked";
-        else if(userRoleAdd == 3) userRoleAddHeadTeacher = "checked";
-        else if(userRoleAdd == 4) userRoleAddTeacher = "checked";
-        else userRoleAddAdministrator = "checked";
-
+        UserController controller = new UserController(session);
+         ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
+        //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type
+        if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }
         //Prefill Search Data variables
-        String firstNameSearch = request.getParameter("firstNameSearch");
-        String lastNameSearch = request.getParameter("lastNameSearch");
-        String departmentSearch = request.getParameter("departmentSearch");
-        String emailSearch = request.getParameter("emailSearch");
-        String departmentSearchAdministration="", departmentSearchAll="", departmentSearchEnglish="", departmentSearchMath="", departmentSearchScience="", departmentSearchArt="";
-        String userRoleSearchAll="", userRoleSearchAdministrator="", userRoleSearchPrincipal="", userRoleSearchHeadTeacher="", userRoleSearchTeacher="";
-        int userRoleSearch = 0;    
+        String firstNameSearch = request.getParameter("firstNameSearch"); if (firstNameSearch == null) firstNameSearch = "";
+        String lastNameSearch = request.getParameter("lastNameSearch"); if (lastNameSearch == null) lastNameSearch = "";
+        String emailSearch = request.getParameter("emailSearch"); if (emailSearch == null) emailSearch = "";    
+        String departmentSelection = request.getParameter("departmentSearch"); 
+        String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);  
+        int userRoleSelection = 0;    
         if (request.getParameter("userRoleSearch") != null) {
-            try {
-                userRoleSearch = Integer.parseInt(request.getParameter("userRoleSearch"));
-            }
-            catch (NumberFormatException ex) {
-                userRoleSearch = 0;
-            }
+            try { userRoleSelection = Integer.parseInt(request.getParameter("userRoleSearch")); }
+            catch (NumberFormatException ex) { userRoleSelection = 0; }
         }
-        if (firstNameSearch == null) firstNameSearch = "";
-        if (lastNameSearch == null) lastNameSearch = "";
-        if (departmentSearch == null) departmentSearch = "";
-        if (emailSearch == null) emailSearch = "";    
-        if (departmentSearch.equals("English")) departmentSearchEnglish = "checked";
-        else if(departmentSearch.equals("Math")) departmentSearchMath = "checked";
-        else if(departmentSearch.equals("Science")) departmentSearchScience = "checked";
-        else if(departmentSearch.equals("Art")) departmentSearchArt = "checked";
-        else if(departmentSearch.equals("Administration")) departmentSearchAdministration = "checked";
-        else departmentSearchAll = "checked";    
-        if (userRoleSearch == 1) userRoleSearchAdministrator = "checked";
-        else if(userRoleSearch == 2) userRoleSearchPrincipal = "checked";
-        else if(userRoleSearch == 3) userRoleSearchHeadTeacher = "checked";
-        else if(userRoleSearch == 4) userRoleSearchTeacher = "checked";
-        else userRoleSearchAll = "checked";
-
-         User[] users = userDao.getUsers(null, firstNameSearch, lastNameSearch, null, null, emailSearch, null, departmentSearch, userRoleSearch);
+        String[] userRoleSearch = controller.getUserRoleSearch(userRoleSelection);  
+        //Return search results in the form of Users for populating the table
+        User[] users = controller.getUsers(null, firstNameSearch, lastNameSearch, null, null, emailSearch, null, departmentSelection, userRoleSelection, "firstname", 1);
     %>
-    <body>
+
         <div class="main">
             <div class="container"><br>
                 <h1>Staff Directory</h1>
-                 <!--Filter--> 
-                  <div class="card" style="margin-top:25px">
+                
+                              <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">User Management</li>
+                    </ol>
+                </nav>              
+                <div class="card">
                     <div class="card-header">
                         <form action="staffdirectory.jsp" method="post">
-                            <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
-                            <input type="hidden" name="firstNameSearch" value="">
-                            <input type="hidden" name="lastNameSearch" value="">
-                            <input type="hidden" name="departmentSearch" value="">
-                            <input type="hidden" name="userRoleSearch" value="">
-                            <button type="submit" class="btn btn-outline-secondary">Clear Filter</button>                            
+                            <div class="float-left">
+                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=users.length%>)</a>
+                                <input type="hidden" name="firstNameSearch" value="">
+                                <input type="hidden" name="lastNameSearch" value="">
+                                <input type="hidden" name="departmentSearch" value="">
+                                <input type="hidden" name="userRoleSearch" value="">
+                                <button type="submit" class="btn btn-outline-secondary">Clear Filter</button>
+                            </div>
+                            <div class="float-right align-items-center py-2">
+                                <span>Quick Filters:</span>
+                                <button id="userRoleButtonAdministrator" class="btn btn-outline-info badge badge-pill" type="button">Administrator</button>
+                                <button id="userRoleButtonPrincipal" class="btn btn-outline-info badge badge-pill" type="button">Principal</button>
+                                <button id="userRoleButtonHeadTeacher" class="btn btn-outline-info badge badge-pill" type="button">Head Teacher</button>
+                                <button id="userRoleButtonTeacher" class="btn btn-outline-info badge badge-pill" type="button">Teacher</button>
+                                <button id="departmentButtonAdministration" class="btn btn-outline-warning badge badge-pill" type="button">Administration</button>
+                                <button id="departmentButtonEnglish" class="btn btn-outline-warning badge badge-pill" type="button">English</button>
+                                <button id="departmentButtonMath" class="btn btn-outline-warning badge badge-pill" type="button">Math</button>
+                                <button id="departmentButtonScience" class="btn btn-outline-warning badge badge-pill" type="button">Science</button>
+                                <button id="departmentButtonArt" class="btn btn-outline-warning badge badge-pill" type="button">Art</button>
+                            </div>                            
                         </form>
                     </div>
+                    <!--SEARCH COLLAPSIBLE CARD-->
                     <div class="collapse" id="collapseSearch">
                         <div class="card-body">
-                            <form action="staffdirectory.jsp" method="post">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="firstNameSearch">First Name</label>
-                                    <input type="text" class="form-control" name="firstNameSearch" placeholder="First Name" value="<%=firstNameSearch%>">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="lastNameSearch">Last Name</label>
-                                    <input type="text" class="form-control" name="lastNameSearch" placeholder="Last Name" value="<%=lastNameSearch%>">
-                                </div>
-                            </div>
+                            <form action="usermanagement.jsp" method="post">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="departmentSearch">Department</label>
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" name="firstNameSearch" placeholder="First Name" value="<%=firstNameSearch%>">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control" name="lastNameSearch" placeholder="Last Name" value="<%=lastNameSearch%>">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Department</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="All" <%=departmentSearchAll%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" value="All" <%=departmentSearch[0]%>>
                                                 <label class="form-check-label">All</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Administration" <%=departmentSearchAdministration%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchAdministration" value="Administration" <%=departmentSearch[1]%>>
                                                 <label class="form-check-label">Administration</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="English" <%=departmentSearchEnglish%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchEnglish" value="English" <%=departmentSearch[2]%>>
                                                 <label class="form-check-label">English</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Math" <%=departmentSearchMath%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchMath" value="Math" <%=departmentSearch[3]%>>
                                                 <label class="form-check-label">Math</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Science" <%=departmentSearchScience%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchScience" value="Science" <%=departmentSearch[4]%>>
                                                 <label class="form-check-label">Science</label>
                                             </div>   
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="Art" <%=departmentSearchArt%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchArt" value="Art" <%=departmentSearch[5]%>>
                                                 <label class="form-check-label">Art</label>
                                             </div>                                               
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="departmant">Staff Role</label>
+                                        <label>Permission Level</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="0" <%=userRoleSearchAll%>>
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="0" <%=userRoleSearch[0]%>>
                                                 <label class="form-check-label">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="1" <%=userRoleSearchAdministrator%>>
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" id="userRoleSearchAdministrator" value="1" <%=userRoleSearch[1]%>>
                                                 <label class="form-check-label">Administrator</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="2" <%=userRoleSearchPrincipal%>>
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" id="userRoleSearchPrincipal" value="2" <%=userRoleSearch[2]%>>
                                                 <label class="form-check-label">Principal</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="3" <%=userRoleSearchHeadTeacher%>>
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" id="userRoleSearchHeadTeacher" value="3" <%=userRoleSearch[3]%>>
                                                 <label class="form-check-label">Head Teacher</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="userRoleSearch" value="4" <%=userRoleSearchTeacher%>>
+                                                <input class="form-check-input" type="radio" name="userRoleSearch" id="userRoleSearchTeacher" value="4" <%=userRoleSearch[4]%>>
                                                 <label class="form-check-label">Teacher</label>
                                             </div>                                               
                                         </div>
                                     </div>
                                 </div> 
-                                <button type="submit" class="btn btn-primary mb-2">Search</button>
+                                <button id="searchButton" type="submit" class="btn btn-primary mb-2">Search</button>
                             </form> 
                         </div>
                     </div>
                 </div>
+
+                
+                
+                
 
                                                 
                 <table class="table">
@@ -224,14 +198,17 @@
                             //Loop through results of MongoDB search result and place them in a table
                             for (int x = 0; x < users.length; x++) {
                                 User currentUser = users[x];
-                                String userId = currentUser.getUserId().toString();
+                                ObjectId userId = currentUser.getUserId();
                                 String firstName = currentUser.getFirstName();
                                 String lastName = currentUser.getLastName();
                                 String phone = currentUser.getPhone();
                                 String location = currentUser.getLocation();
                                 String email = currentUser.getEmail();
                                 String department = currentUser.getDepartment();
-                                String userRoleString = currentUser.getUserRoleString();
+                                String[] departmentEdit = controller.getDepartmentEdit(department);
+                                int userRole = currentUser.getUserRole();
+                                String userRoleString = controller.getUserRoleString(userRole);
+                                String[] userRoleEdit = controller.getUserRoleEdit(userRole);
                         %>
                         <tr>
                             <td><%=firstName%></td>
@@ -272,11 +249,11 @@
         </div>
      
 
-        <%@ include file="/WEB-INF/jspf/footer.jspf" %>  
+        <%@ include file="/WEB-INF/jspf/footer.jspf" %> 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </body>
-            <%@ include file="/WEB-INF/jspf/footer.jspf" %>     
+ 
 </html>
