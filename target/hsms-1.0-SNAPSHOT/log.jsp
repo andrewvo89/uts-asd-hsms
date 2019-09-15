@@ -57,7 +57,6 @@
 <tr>
     <th> <div align="center">LogID </div></th>
 
-<th> <div align="center">Name </div></th>
 
 <th> <div align="center">Last Logged In </div></th>
 </tr>
@@ -75,7 +74,7 @@
 <tr>
  <td><%=logID%></td>
 
-<td><%=firstName%></td>
+
 
 <td><%=loginTime%>"</td>
 

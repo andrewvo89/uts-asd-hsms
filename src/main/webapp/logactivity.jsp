@@ -40,6 +40,11 @@
     <body>
        <H1 style="color:#e0ac62; padding-top: 150px;" align="center">Search Log Activities</H1>
 <table style="padding-top: 150px;" width="600" border="1" align="center">
+    <tr>
+  <h3 align="center">User First Name : </h3>
+  
+<th> <div align="center">Date </div></th>
+</tr>
     <% 
             
             AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
@@ -50,17 +55,14 @@
                                 Date loginTime = currentLog.getLoginTime();
                           
       %>
-    <h3 align="center">User First Name : <%=firstName%></h3>
-<tr>
     
-<th> <div align="center">Date </div></th>
-</tr>
-
+<%=firstName%>
 <tr>
-<td><%=loginTime%>"</td></tr>
+<td><%=loginTime%>"</td>
 <%
                         }
                    %>
+                   </tr>
 </table>  
         
          <%@ include file="/WEB-INF/jspf/footer.jspf" %>            
