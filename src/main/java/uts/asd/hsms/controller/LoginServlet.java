@@ -88,12 +88,8 @@ public class LoginServlet extends HttpServlet {
             if (userDao.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1) != null)
                 loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1)[0];
             Boolean authenticated = false;
-           AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
-           
-            String firstName = request.getParameter("firstName");
-            
-        //  String loginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
-          Date loginTime = new Date();
+            AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
+            Date loginTime = new Date();
             try {  
                 if (loginUser != null) if (PasswordEncrypt.validatePassword(password, loginUser.getPassword())) authenticated = true;
             }//Keep authenticated = false
@@ -103,7 +99,7 @@ public class LoginServlet extends HttpServlet {
             if (authenticated) {//Login success
                 session.setAttribute("user", loginUser);
                 session.removeAttribute("errorMessage");
-              auditLogDao.addLoginTime(firstName, loginTime);
+                auditLogDao.addLoginTime(loginUser.getFirstName(),loginTime);
             }
             //Redirect to any page on the website depending on where the log in request came from
             if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   

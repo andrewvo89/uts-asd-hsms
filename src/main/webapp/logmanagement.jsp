@@ -3,6 +3,9 @@
     Created on : Aug 16, 2019, 9:30:37 PM
     Author     : Sukonrat
 --%>
+<%@page import="java.util.Date"%>
+<%@page import="org.bson.types.ObjectId"%>
+<%@page import="uts.asd.hsms.model.dao.AuditLogDAO"%>
 <%@page import="uts.asd.hsms.model.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/ConnServlet" flush="true" />
@@ -39,14 +42,29 @@
 <H3 style="color:#e0ac62; padding-top: 100px;" align="center">Log Activities</H3>
 <table style="padding-top: 250px;" width="600" border="1" align="center">
 <tr>
-<th><div align="center">UserID </div></th>
+    <th><div align="center">LogID </div></th>
 <th><div align="center">UserName</div></th>
 <th><div align="center">Last LoggedIn</div></th>
 </tr>
+    <% 
+            
+            AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
+                    UserAudit[] userAudits = auditLogDao.getUserAudit();
+                          for (int x = 0; x < userAudits.length; x++) {
+                          UserAudit currentLog = userAudits[x];
+                                ObjectId logID = currentLog.getLogID();
+                                String firstName =  currentLog.getFirstName();
+                                Date loginTime = currentLog.getLoginTime();
+                          
+      %>
+
 <tr>
-<td><div align="center" value="${userAudit.userID}</div></td>
-<td><div align="center" value="${userAudit.firstName}"></div></td>
-<td><div align="center" value="${userAudit.timeStamp}"></div></td>
+<td><%=logID%></td>
+<td><%=firstName%></td>
+<td><%=loginTime%>"</td>
+<%
+                        }
+                   %>
 </tr>
 
 </table>      
