@@ -96,6 +96,28 @@ public class MavenJUnitTest {
         System.out.println("<-- Test #105 - Test Passed -->");
         printDivider();
     }
+        @Test
+    public void test106() throws UnknownHostException {
+        printDivider();
+        System.out.println("<-- Test #106 - Fetch All staff details from MongoDB -->");
+        printDivider();
+        Assert.assertNotNull("Cannot fetch all staff from Users collection of MongoDB", userDao.getUsers(null, null, null, null, null, null, null, null, 0, "firstname", 1)[0]);
+        printDivider();
+        System.out.println("<-- Test #106 - Test Passed -->");
+        printDivider();
+    }
+            @Test
+    public void test107() throws UnknownHostException {
+        User user = new User(null, "Teststaff", "staff", "12345678", "test", "teststaff@hsms.edu.au", "Teststaff!", "Administration", 1);
+        printDivider();
+        System.out.println("<-- Test #107 - Add a Staff contact to MongoDB -->");
+        printDivider();
+        Assert.assertTrue("Cannot add a new staff contact to Users collection of MongoDB", userDao.addUser(user));
+        printDivider();
+        System.out.println("<-- Test #107 - Test Passed -->");
+        printDivider();
+        }
+    
     @AfterClass
     public static void tearDownClass() {
         System.out.println("--------------------------------------------------------------------------");

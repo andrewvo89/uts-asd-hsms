@@ -103,7 +103,7 @@
                     <!--SEARCH COLLAPSIBLE CARD-->
                     <div class="collapse" id="collapseSearch">
                         <div class="card-body">
-                            <form action="usermanagement.jsp" method="post">
+                            <form action="staffdirectory.jsp" method="post">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>First Name</label>
