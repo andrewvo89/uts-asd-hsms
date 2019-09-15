@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="org.bson.types.ObjectId"%>
-<%@page import="uts.asd.hsms.model.dao.AuditLogDao"%>
+<%@page import="uts.asd.hsms.model.dao.AuditLogDAO"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
@@ -47,7 +47,7 @@
         
         
         <%
-                   AuditLogDao auditLogDao = (AuditLogDao)session.getAttribute("auditLogDao");
+                   AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
                     UserAudit[] userAudits = auditLogDao.getUserAudit();
                                 for (int x = 0; x < userAudits.length; x++) {
                                     UserAudit currentLog = userAudits[x];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="0" name="TestRunner" time="58.546" errors="0" skipped="0">
+<testsuite tests="5" failures="0" name="TestRunner" time="69.305" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="12.0.2+10"/>
@@ -61,9 +61,9 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="U102" name="Start editing a user" time="14.794"/>
-  <testcase classname="U102" name="Start editing a user" time="10.304"/>
-  <testcase classname="U102" name="Start editing a user" time="11.785"/>
-  <testcase classname="U102" name="Start editing a user" time="10.917"/>
-  <testcase classname="U102" name="Start editing a user" time="10.746"/>
+  <testcase classname="U102" name="Start editing a user" time="15.906"/>
+  <testcase classname="U102" name="Start editing a user" time="14.7"/>
+  <testcase classname="U102" name="Start editing a user" time="14.571"/>
+  <testcase classname="U102" name="Start editing a user" time="12.263"/>
+  <testcase classname="U102" name="Start editing a user" time="11.865"/>
 </testsuite>
