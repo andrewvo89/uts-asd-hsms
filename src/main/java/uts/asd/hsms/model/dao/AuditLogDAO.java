@@ -10,6 +10,10 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import java.util.ArrayList;
+import static java.util.Arrays.sort;
+import java.util.Date;
+import java.util.List;
 import org.bson.types.ObjectId;
 import uts.asd.hsms.model.UserAudit;
 
@@ -22,23 +26,20 @@ public class AuditLogDAO {
     MongoClient mongoClient;
     DB database;
     DBCollection collection; 
-    private int userRole;
-    private boolean checkedRole;
     
-    public AuditLogDAO(MongoClient mongoClient, DBObject[] logList) {
+    public AuditLogDAO(MongoClient mongoClient) {
         this.mongoClient = mongoClient;        
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("logs");  
     }
-
     
     public DB getDatabase() {
         return database;
     }
     // get single userlog
-    public UserAudit[] getUserAudit() { 
+public UserAudit[] getUserAudit() { 
         DBCursor cursor = collection.find();
-        System.out.println("COUNT: " + cursor.count());
+        cursor.sort(new BasicDBObject(("logId"), 1));
         UserAudit[] userAudits = new UserAudit[cursor.count()];
         int count = 0;
         while (cursor.hasNext()) {
@@ -46,68 +47,76 @@ public class AuditLogDAO {
             ObjectId logId = (ObjectId)result.get("_id");
             ObjectId userId = (ObjectId)result.get("userID");
             String firstName = (String)result.get("firstName");
-            String timeStamp = (String)result.get("date");
-            userAudits[count] = new UserAudit(userId, firstName, timeStamp);
+            Date loginTime = (Date)result.get("date");
+            userAudits[count] = new UserAudit(logId, firstName, loginTime);
             count ++;
         }
         return userAudits; 
     }
     
     // get all userlogs
-    public UserAudit[] getAllUserAudit(){
-       
-      if(checkedRole)  {
-       DBCursor cursor = collection.find();
-        System.out.println("COUNT: " + cursor.count());
-       UserAudit[] userAudits = new UserAudit[cursor.count()];
+    public UserAudit[] getAllUserAudit(ObjectId logId, String firstName, Date loginTime){
+       List<BasicDBObject> conditions = new ArrayList<>();
         BasicDBObject query = new BasicDBObject();
-         DBObject result = cursor.one();
-       if(result != null){
-          ObjectId logId = (ObjectId)result.get("_id");
-            ObjectId userId = (ObjectId)result.get("userID");
-            String firstName = (String)result.get("firstName");
-            String timeStamp = (String)result.get("date");
-           
-       return userAudits; 
-       }
-      else
-        return null;
-      }
-      else
-     return null;
+        DBCursor cursor;
+       
+        if (logId != null){
+       conditions.add(new BasicDBObject("_id", logId));
+        }
+        if (firstName != null) {
+            if (!firstName.isEmpty()) conditions.add(new BasicDBObject("firstname", firstName));
+        }
+        if(loginTime != null){
+             conditions.add(new BasicDBObject("loginTime", loginTime));
+        }
+        if (conditions.size() == 0) {
+            cursor = collection.find();            
+        }
+        else {
+            query.put("$and", conditions);
+            cursor = collection.find(query);
+        }    
+         //  cursor.sort(new BasicDBObject(sort, order));
+           UserAudit[] userAudits = new UserAudit[cursor.count()];
+        int count = 0;
+        while (cursor.hasNext()) {
+            DBObject result = cursor.next();
+            ObjectId logIdResult = (ObjectId)result.get("_id");
+            String firstNameResult = (String)result.get("firstname");
+            Date dateResult = (Date)result.get("loginTime");
+            userAudits[count] = new UserAudit(logIdResult, firstNameResult, dateResult);
+            count ++;
+        }
+        return userAudits; 
     }
     
     // get userlogs by date  
-    public UserAudit[] searchByDate(String timeStamp){
+    public UserAudit[] searchByDate(String loginTime){
          DBCursor cursor = collection.find();
             BasicDBObject query = new BasicDBObject();
          UserAudit[] userAudits = new UserAudit[cursor.count()];
-             query.put("timeStamp", timeStamp);
+             query.put("loginTime", loginTime);
               DBObject result = cursor.one();
               
              if (result != null){
              ObjectId logId = (ObjectId)result.get("_id");
             ObjectId userId = (ObjectId)result.get("userID");
             String firstName = (String)result.get("firstName");
-           
+            
        return userAudits;
              }
              return null;
     }
     
     // add timestamp of user login 
-   public void addLoginTime(ObjectId userId,String timeStamp) {
-        BasicDBObject records = new BasicDBObject();
-        records.append("userId", userId).append("date", timeStamp);
+
+    public void addLoginTime(String firstName, Date loginTime) {
+         BasicDBObject records = new BasicDBObject();
+        records.append("firstName", firstName).append("loginTime", loginTime);
         collection.insert(records);
-    }  
-   
-   // checked authorized of user to access through log management 
-    public boolean checkedRole(){
-        if(userRole == 1){
-           return true; 
-        }
-           return false;
     }
+   
+  
+    
 }
 

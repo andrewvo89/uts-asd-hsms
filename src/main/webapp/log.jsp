@@ -4,6 +4,8 @@
     Author     : Sukonrat
 --%>
 
+<%@page import="org.bson.types.ObjectId"%>
+<%@page import="uts.asd.hsms.model.dao.AuditLogDAO"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
@@ -38,28 +40,51 @@
         %> 
     </head>
     <body>
- <%
-  Date date = new Date();
-  DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); 
-%>
+        
+        
+         <%
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); 
+        %>
         <br><p style="text-align:right; padding-top: 100px;"> Logged on <%= dateFormat.format(date) %></p>       
   
         
         
+        <%
+                   AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
+                    UserAudit[] userAudits = auditLogDao.getUserAudit();
+                                for (int x = 0; x < userAudits.length; x++) {
+                                    UserAudit currentLog = userAudits[x];
+                                    ObjectId logId = currentLog.getLogID();
+                                    String firstName = currentLog.getFirstName(); 
+                                    Date loginTime = currentLog.getLoginTime();
+                               
+      %>
+
 <H3 style="color:#e0ac62; padding-top: 50px;" align="center">Log Activities</H3>
-<table style="padding-top: 100px;" width="600" border="1" align="center">
+<table action="LogServlet" method="post" style="padding-top: 100px;" width="600" border="1" align="center">
 <tr>
-<th> <div align="center">UserID </div></th>
+    <th> <div align="center">LogID </div></th>
+
+<th> <div align="center">Name </div></th>
+
 <th> <div align="center">Last Logged In </div></th>
 </tr>
 
 <tr>
-<td><div align="center" value="${userAudit.userID}"></div></td>
-<td><div align="center" value="${userAudit.timeStamp}"></div></td>
+ <td><div align="center" value="<%=logId%>"></div></td>
+
+<td><div align="center" value="<%=firstName%>"></div></td>
+
+<td><div align="center" value="<%=loginTime%>"></div></td>
+
+                    <%
+                        }
+                   %>
 </tr>
 </table> 
 
-<form action ="logmanagement.jsp" target="" method="post" style="padding-top: 100px; text-align:center;">
+<form action ="logactivity.jsp" target="" method="post" style="padding-top: 100px; text-align:center;">
             <table style="margin: 0 auto; padding-top: 100px; padding-bottom: 20px; text-align: left;">              
                 <H3 style="color:#e0ac62;" >Search Login Records</H3>
                 <tr>

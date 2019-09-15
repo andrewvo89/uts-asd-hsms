@@ -28,6 +28,10 @@
         <servlet-name>JobBoardServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.JobBoardServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LogServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.LogServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ConnServlet</servlet-name>
         <url-pattern>/ConnServlet</url-pattern>
@@ -51,6 +55,10 @@
     <servlet-mapping>
         <servlet-name>JobBoardServlet</servlet-name>
         <url-pattern>/JobBoardServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogServlet</servlet-name>
+        <url-pattern>/LogServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

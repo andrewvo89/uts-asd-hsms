@@ -14,7 +14,7 @@ import uts.asd.hsms.model.UserAudit;
 
 /**
  *
- * @author jean
+ * @author Sukonrat
  */
 public class LogValidator {
     private UserAudit userAudit;

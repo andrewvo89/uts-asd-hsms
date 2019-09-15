@@ -5,13 +5,8 @@
  */
 package uts.asd.hsms.controller;
 
-import com.mongodb.MongoClient;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 
@@ -31,17 +26,16 @@ import uts.asd.hsms.model.dao.AuditLogDAO;
 public class LogServlet extends HttpServlet {
     
 private HttpSession session;
-    private AuditLogDao auditLogDao;
-    private ArrayList<String> logList;
+    private AuditLogDAO auditLogDao;
     private HttpServletRequest request;
     private HttpServletResponse response;
-    private ObjectId userId;
+    private ArrayList<String> userAudits;
     
 @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
          
-        
-     /*   String userID = request.getParameter("userID");	
+  /*      
+     String userID = request.getParameter("userID");	
         String date = request.getParameter("date");
         
         UserAudit userAudit = new UserAudit();
@@ -57,25 +51,24 @@ private HttpSession session;
         
         dispatcher.forward(request,response);
         
-     //   HttpSession session = request.getSession(true);
-    //    String session_counter = (String)session.getAttribute("counter");
-    //    out.println("login" + DateFormat.getDateTimeInstance().format(new Date(session.getMaxInactiveInterval()))); */
+       HttpSession session = request.getSession(true);
+        String session_counter = (String)session.getAttribute("counter");
+        out.println("login" + DateFormat.getDateTimeInstance().format(new Date(session.getMaxInactiveInterval()))); */
    
     }
 
 @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response)
          throws ServletException, IOException {
-         session = request.getSession();
-        auditLogDao = (AuditLogDao)session.getAttribute("auditLogDao");
-        logList = new ArrayList<String>();
+       
+        session = request.getSession();
+        auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
+        userAudits = new ArrayList<String>();
         this.response = response;
         this.request = request;
-        
-        RequestDispatcher dispatcher = request.getRequestDispatcher("log.jsp");
-        dispatcher.forward(request,response);
-        // response.sendRedirect("index.jsp"); 
-        // doGet(request, response);
+     
+        response.sendRedirect("log.jsp"); 
+       
    }
 
     private static class AuditLogDao {
