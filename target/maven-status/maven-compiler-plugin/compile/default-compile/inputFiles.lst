@@ -2,6 +2,7 @@ D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\J
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\AttendanceValidator.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\ValidatorGroupF.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\PasswordEncrypt.java
+D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\LeaveController.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\UserAudit.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\JobBoardServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\JobDao.java
@@ -16,6 +17,7 @@ D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\ValidatorGroupD.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\ValidatorGroupG.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\UserController.java
+D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\LeaveDao.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\UserServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\JobManagementServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\User.java
@@ -45,6 +47,7 @@ D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\JobValidator.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\AuditLogDAO.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\AttendanceServlet.java
+D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\Leave.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\Job.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\LogServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\MongoDBConnector.java
