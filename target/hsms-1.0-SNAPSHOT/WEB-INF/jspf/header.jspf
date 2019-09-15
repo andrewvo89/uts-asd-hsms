@@ -51,10 +51,10 @@
                                 <a class="dropdown-item" href="usermanagement.jsp">User Management</a>
                                 <a class="dropdown-item" href="complaintbacklog.jsp">Review HR Feedback</a>
                                 <a class="dropdown-item" href="log.jsp">View User Logs</a>
+                                <a class="dropdown-item" href="jobmanagement.jsp">Job Management</a>
                                 <%
                                     }
                                 %>
-                                <a class="dropdown-item" href="jobmanagement.jsp">Job Management</a>
                                 <a class="dropdown-item" href="leaveapproval.jsp">Leave Approval</a>  
                             </div>
                         </li>
