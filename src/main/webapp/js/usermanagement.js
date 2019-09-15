@@ -11,7 +11,7 @@ $(window).on("load", function() {
 //Password Confirm field valition
 $("#passwordAdd, #passwordConfirmAdd").on("keyup", function () {
     var passwordAdd = document.getElementById("passwordAdd");
-    var passwordConfirmAdd = document.getElementById("passwordConfirmAdd")
+    var passwordConfirmAdd = document.getElementById("passwordConfirmAdd");
     if (passwordAdd.value !== passwordConfirmAdd.value) {
       passwordConfirmAdd.setCustomValidity("Passwords don't match");
     } 
