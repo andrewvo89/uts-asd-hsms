@@ -41,7 +41,7 @@ public class JobManagementController {
         }
     }
     public String getReviewButtonDisabled(ObjectId jobId) {
-        JobApplication[] jobApplications = jobApplicationDao.getJobApplications(null, jobId, null, null, null, "jobid", 1);
+        JobApplication[] jobApplications = jobApplicationDao.getJobApplications(null, jobId, null, null, null, null, "jobid", 1);
         if (jobApplications.length == 0) return "disabled";
         else return "";
     }

@@ -24,9 +24,9 @@ public class Job implements Serializable {
         + "Cannot be blank<br>"
         + "No more than 50 Characters<hr>", groups = ValidatorGroupA.class)
     private String title;
-    @Pattern(regexp = "^[.\\s\\S]{1,2000}$", message = "<h5 class=\"alert-heading\">Description Error</h5><hr>"
+    @Pattern(regexp = "^.{1,500}$", message = "<h5 class=\"alert-heading\">Description Error</h5><hr>"
         + "Cannot be blank<br>"
-        + "No more than 2000 Characters<hr>", groups = ValidatorGroupB.class)
+        + "No more than 500 Characters<hr>", groups = ValidatorGroupB.class)
     private String description;
     private String workType;
     private String department;

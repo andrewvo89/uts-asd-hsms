@@ -18,7 +18,6 @@ import java.util.List;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.compile;
 import static java.util.regex.Pattern.quote;
-import org.bson.Document;
 import org.bson.types.ObjectId;
 import uts.asd.hsms.model.*;
 
@@ -45,12 +44,10 @@ public class JobApplicationDao {
         return collection;
     }
         
-    public JobApplication[] getJobApplications(ObjectId jobApplicationId, ObjectId jobId, ObjectId userId, String coverLetter, BasicDBObject status, String sort, int order) {  
+    public JobApplication[] getJobApplications(ObjectId jobApplicationId, ObjectId jobId, ObjectId userId, String coverLetter, String status, Date statusDate, String sort, int order) {  
         List<BasicDBObject> conditions = new ArrayList<>();
         BasicDBObject query = new BasicDBObject();
-        Document statusDocument = new Document();
         DBCursor cursor;//If the parameter fields are NULL, do not include them in query
-        Date zeroDate = new Date(); zeroDate.setTime(0);
         if (jobApplicationId != null) {
             conditions.add(new BasicDBObject("_id", jobApplicationId));
         }
@@ -64,20 +61,11 @@ public class JobApplicationDao {
             if (!coverLetter.isEmpty()) conditions.add(new BasicDBObject("title", compile(quote(coverLetter), CASE_INSENSITIVE)));
         }
         if (status != null) {
-            if ((Date)status.get("applied") != zeroDate) {
-                conditions.add(new BasicDBObject("status.applied", compile(quote(yearDateFormat.format((Date)status.get("applied"))), CASE_INSENSITIVE)));
-            }
-            if ((Date)status.get("review") != zeroDate) {
-                conditions.add(new BasicDBObject("status.review", compile(quote(yearDateFormat.format((Date)status.get("review"))), CASE_INSENSITIVE)));
-            }
-            if ((Date)status.get("rejected") != zeroDate) {
-                conditions.add(new BasicDBObject("status.rejected", compile(quote(yearDateFormat.format((Date)status.get("rejected"))), CASE_INSENSITIVE)));
-            }
-            if ((Date)status.get("successful") != zeroDate) {
-                conditions.add(new BasicDBObject("status.successful", compile(quote(yearDateFormat.format((Date)status.get("successful"))), CASE_INSENSITIVE)));
-            }
+            if (!status.isEmpty()) conditions.add(new BasicDBObject("description", compile(quote(status), CASE_INSENSITIVE)));
         }
-
+        if (statusDate != null) {
+            if (!statusDate.toString().isEmpty()) conditions.add(new BasicDBObject("postdate", compile(quote(yearDateFormat.format(statusDate)), CASE_INSENSITIVE)));
+        }
         if (conditions.size() == 0) {
             cursor = collection.find();            
         }
@@ -95,8 +83,9 @@ public class JobApplicationDao {
             ObjectId jobIdResult = (ObjectId)result.get("jobid");
             ObjectId userIdResult = (ObjectId)result.get("userid");
             String coverLetterResult = (String)result.get("coverletter");
-            BasicDBObject statusResult = (BasicDBObject)result.get("status");
-            jobApplications[count] = new JobApplication(jobApplicationIdResult, jobIdResult, userIdResult, coverLetterResult, statusResult);
+            String statusResult = (String)result.get("status");
+            Date statusDateResult = (Date)result.get("statusdate");;
+            jobApplications[count] = new JobApplication(jobApplicationIdResult, jobIdResult, userIdResult, coverLetterResult, statusResult, statusDateResult);
             count ++;
         }
         return jobApplications;
@@ -109,6 +98,7 @@ public class JobApplicationDao {
             newRecord.put("userid", jobApplication.getUserId());
             newRecord.put("coverletter", jobApplication.getCoverLetter());
             newRecord.put("status", jobApplication.getStatus());
+            newRecord.put("statusdate", jobApplication.getStatusDate());
             collection.insert(newRecord);  
             jobApplication.setJobApplicationId((ObjectId)newRecord.get("_id"));
         }
@@ -126,6 +116,7 @@ public class JobApplicationDao {
             if (jobApplication.getUserId() != null) records.append("userid", jobApplication.getUserId());
             if (jobApplication.getCoverLetter() != null) records.append("coverletter", jobApplication.getCoverLetter());
             if (jobApplication.getStatus() != null) records.append("status", jobApplication.getStatus());
+            if (jobApplication.getStatusDate() != null) records.append("statusdate", jobApplication.getStatusDate());
             update.append("$set", records);
             collection.update(query, update);
         }

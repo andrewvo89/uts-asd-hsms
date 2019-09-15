@@ -12,12 +12,11 @@ D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\ValidatorSequence.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\LoginServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\JobManagementController.java
-D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\JobReviewServlet.java
+D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\JobServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\ValidatorGroupD.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\ValidatorGroupG.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\UserController.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\UserServlet.java
-D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\JobManagementServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\User.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\TutorialDao.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\Staff.java

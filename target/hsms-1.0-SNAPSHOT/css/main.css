@@ -96,12 +96,8 @@ div.main {
      color:#4183D7;
 }
 .breadcrumb {
-    background-color: #eeeeee;
+    background-color: transparent;
 }
 .userprofile {
     width: 750px
-}
-.inline-form {
-    float: left;
-    padding: 1px;
 }
