@@ -15,8 +15,12 @@ import javax.servlet.http.HttpSession;
 
 public class ConnServlet extends HttpServlet {
     private MongoDBConnector mongoDbConnector;  
-    private UserDao userDao;
     private MongoClient mongoClient;
+    private UserDao userDao;
+    private JobDao jobDao;
+    private JobApplicationDao jobApplicationDao;
+    private TutorialDao tutorialDao;
+    private AttendanceDao attendanceDao;
      
     @Override //Create and instance of DBConnector for the deployment session
     public void init() {
@@ -33,7 +37,15 @@ public class ConnServlet extends HttpServlet {
         HttpSession session = request.getSession();
         
         userDao = new UserDao(mongoClient);        
-        session.setAttribute("userDao", userDao);
+        session.setAttribute("userDao", userDao);        
+        jobDao = new JobDao(mongoClient);        
+        session.setAttribute("jobDao", jobDao);
+        jobApplicationDao = new JobApplicationDao(mongoClient);
+        session.setAttribute("jobApplicationDao", jobApplicationDao);
+        tutorialDao = new TutorialDao(mongoClient);
+        session.setAttribute("tutorialDao", tutorialDao);        
+        attendanceDao = new AttendanceDao(mongoClient);
+        session.setAttribute("attendanceDao", attendanceDao);
         
     }
     

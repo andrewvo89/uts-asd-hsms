@@ -4,13 +4,15 @@
     Author     : Griffin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="org.bson.types.ObjectId"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="uts.asd.hsms.model.dao.*"%>
 <%@page import="uts.asd.hsms.model.*"%>
-<%
-    User user = (User)session.getAttribute("user");
-%>
+<%@page import="uts.asd.hsms.controller.*"%>
+<%@page import="java.io.*,java.lang.*,java.util.*,java.net.*,java.util.*,java.text.*"%>
+<%@page import="javax.activation.*,javax.mail.*"%>
+<%@page import="javax.servlet.http.*,javax.servlet.*"%>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,21 +26,26 @@
         <link rel="stylesheet" href="css/main.css">
         <title>Class Roll Management</title>
         <%
-        if (user == null) {
-            response.sendRedirect("index.jsp?redirect=classrollmanagement");
-        }
-        else {
-        %>
-            <%@ include file="/WEB-INF/jspf/header-loggedin.jspf" %>
+            User user = (User)session.getAttribute("user");
+            if (user == null) {
+                session.setAttribute("redirect", "classrollmanagement");
+        %>   
+                <jsp:include page="LoginServlet" flush="true" />
         <%
-        }
+            }
         %>
+                <%@ include file="/WEB-INF/jspf/header.jspf"%>
+        <%
+            
+        %> 
     </head>
     
     <body>
         <div class="main">
             <div class="container">
                 <h1>Class-roll Management</h1>
+                
+                <!-- Div for filter section -->
                 <div class="card" style="margin-top:25px">
                     <div class="card-header">
                         <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
@@ -97,47 +104,54 @@
                     </div>
                 </div>
                 
-                    <br><table class="table" id="tutTable">
+                    <br><table class="table table-hover" id="tutTable">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Class ID</th>
                                 <th scope="col">Department</th>
                                 <th scope="col">Grade</th>
-                                <th scope="col">Teacher</th>
                                 <th scope="col">Class Size</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr data-toggle="modal" data-target="#editRollModal">
-                                <td>M1010</td>
-                                <td>Math</td>
-                                <td>8</td>
-                                <td>Andrew</td>
-                                <td>23</td>
-                            </tr>
+                        <tbody> 
+                            <%
+                                TutorialDao tutorialDao = (TutorialDao)session.getAttribute("tutorialDao");
+                                Tutorial[] tutorials = tutorialDao.getTutorials();
+                                for (int x = 0; x < tutorials.length; x++) {
+                                    Tutorial currentTut = tutorials[x];
+                                    String refId = currentTut.getRefIdString(); 
+                                    String tutorialId = currentTut.getTutorialId();
+                                    String department = currentTut.getDepartment();
+                                    int grade = currentTut.getGrade();
+                                    String userId = currentTut.getUserIdString();
+                                    int tutSize = currentTut.getTutSize();  
+                            %>
                             <tr>
-                                <td>M1137</td>
-                                <td>Math</td>
-                                <td>11</td>
-                                <td>Andrew</td>
-                                <td>15</td>
-                            </tr>
-                            <tr>
-                                <td>E4120</td>
-                                <td>Economics</td>
-                                <td>12</td>
-                                <td>Andrew</td>
-                                <td>20</td>
-                            </tr>
+                                <td><%=tutorialId%></td>
+                                <td><%=department%></td>
+                                <td><%=grade%></td>
+                                <td><%=tutSize%></td>
+                                <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editRollModal" role="button" data-tutorial-id="<%=tutorialId%>">Edit</button>         
+                                </td>
+                            <%
+                                }
+                            %>
+                            </tr> 
+                        <button type="button" class="btn btn-primary"><a  href="classrolledit.jsp">Test</a></button>
                         </tbody>
                     </table>
             </div>   
             
+            
+            <!--Div for roll edit -->
             <div class="modal fade" id="editRollModal" tabindex="-1" role="dialog" aria-labelledby="editRoll" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
+                
+                                    <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="editRollModalLabel">M1010 Math Year 8</h5>
+                                                <h5 class="modal-title" id="editRollModalLabel"></h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -147,98 +161,109 @@
                                                     <table class="table">
                                                         <thead class="thead-light">
                                                             <tr>
-                                                                <th class="col-sm-6">Student</th>
-                                                                <th class="col-sm-2">Week 1</th>
-                                                                <th class="col-sm-2">Week 2</th>
-                                                                <th class="col-sm-2">Week 3</th>
-                                                                <th class="col-sm-2">Week 4</th>
-                                                                <th class="col-sm-2">Week 5</th>
+                                                                <th scope="col">First Name</th>
+                                                                <th scope="col">Last Name</th>
+                                                                <th scope="col">Wk 1</th>
+                                                                <th scope="col">Wk 2</th>
+                                                                <th scope="col">Wk 3</th>
+                                                                <th scope="col">Wk 4</th>
+                                                                <th scope="col">Wk 5</th>
+                                                                <th scope="col">Wk 6</th>
+                                                                <th scope="col">Wk 7</th>
+                                                                <th scope="col">Wk 8</th>
+                                                                <th scope="col">Wk 9</th>
+                                                                <th scope="col">Wk 10</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                                    <%
+                                    AttendanceDao attendanceDao = (AttendanceDao)session.getAttribute("attendanceDao");
+                                    Attendance[] attendance = attendanceDao.getAttendance();
+                                    for (int x = 0; x < attendance.length; x++) {
+                                    Attendance currentAttendance = attendance[x];
+                                    int studentId = currentAttendance.getStudentId(); 
+                                    String firstName = currentAttendance.getFirstName();
+                                    String lastName = currentAttendance.getLastName();
+                                    String wk1 = currentAttendance.getWk1();
+                                    String wk2 = currentAttendance.getWk2();
+                                    String wk3 = currentAttendance.getWk3();
+                                    String wk4 = currentAttendance.getWk4();
+                                    String wk5 = currentAttendance.getWk5();
+                                    String wk6 = currentAttendance.getWk6();
+                                    String wk7 = currentAttendance.getWk7();
+                                    String wk8 = currentAttendance.getWk8();
+                                    String wk9 = currentAttendance.getWk9();
+                                    String wk10 = currentAttendance.getWk10();
+                                    String tutorialId = currentAttendance.getTutorialId();
+                                                                    %>
                                                             <tr>
-                                                                <td>Jessica Simpson</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
+                                                                <td><%=firstName%></td>
+                                                                <td><%=lastName%></td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk1" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk2" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk3" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk4" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk5" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk6" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk7" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk8" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk9" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-xs-1">
+                                                                        <input for="wk1" type="text" class="form-control" name="wk10" maxlength="1">
+                                                                    </div>
+                                                                </td>
+                                                                
+                                                <%
+                                                    }
+                                                %>
                                                             </tr>
-                                                            <tr>
-                                                                <td>Lil Nas X</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Shawn Mendes</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Camila (Senorita) Cabello</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Beyonce</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Barack Obama</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Taika Waititi</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Sandra Oh</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Kahlme Anithyme</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Sia Laytor</td>
-                                                                <td><input class="form-check-input" type="radio" name="week1" id="w1"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week2" id="w2"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week3" id="w3"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week4" id="w4"></td>
-                                                                <td><input class="form-check-input" type="radio" name="week5" id="w5"></td>
-                                                            </tr>
+                                                            
                                                         </tbody>
-                                                        <button type="save" class="btn btn-primary mb-2">Save</button>
                                                     </table>
+                                                            
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="action" value="edit">
+                                                        <input type="hidden" name="redirect" value="classrollmanagement">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -246,10 +271,11 @@
             </div>
         </div>
             
-        <%@ include file="/WEB-INF/jspf/footer-static.jspf" %>        
+        <%@ include file="/WEB-INF/jspf/footer.jspf" %>  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="js/main.js"></script>
+        <script src="js/classrollmanagement.js"></script>
     </body>
 </html>

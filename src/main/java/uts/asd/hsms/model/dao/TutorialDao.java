@@ -12,7 +12,10 @@ import com.mongodb.DBObject;
 import uts.asd.hsms.model.*;
 import com.mongodb.MongoClient;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import static java.util.regex.Pattern.*;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 /**
@@ -27,24 +30,28 @@ public class TutorialDao {
     
     public TutorialDao(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
-        
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("classes");
     }
     
+    public DB getDatabase() {
+        return database;
+    }
+    
     public Tutorial[] getTutorials() {
         DBCursor cursor = collection.find();
-        System.out.println("COUNT: " + cursor.count());
+        cursor.sort(new BasicDBObject(("tutorialId"), 1));
         Tutorial[] tutorials = new Tutorial[cursor.count()];
         int count = 0;
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
-            ObjectId tutorialId = (ObjectId)result.get("_id");
-            String department = (String)result.get("firstName");
-            int grade = (int)result.get("lastName");
-            ObjectId userId = (ObjectId)result.get("department");
-            int tutSize = (int)result.get("email");
-            tutorials[count] = new Tutorial(tutorialId, department, grade, userId, tutSize);
+            ObjectId refId = (ObjectId)result.get("_id");
+            String tutorialId = (String)result.get("tutorialId");
+            String department = (String)result.get("department");
+            int grade = (int)result.get("grade");
+            ObjectId userId = (ObjectId)result.get("userId");
+            int tutSize = (int)result.get("tutSize");
+            tutorials[count] = new Tutorial(refId, tutorialId, department, grade, userId, tutSize);
             count ++;
         }
         return tutorials;

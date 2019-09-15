@@ -18,12 +18,13 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
-        <title>High School Management System</title>
-
+        <title>High School Management System</title>   
+    </head>
+    <body>
         <%//Check if there is a valid user in the session
-            User user = (User)session.getAttribute("user");
-            if (user == null) {
-                session.setAttribute("redirect", "index");
+        User user = (User)session.getAttribute("user");
+        if (user == null) {
+            session.setAttribute("redirect", "index");
         %>
                 <jsp:include page="LoginServlet" flush="true" />
         <%
@@ -33,13 +34,10 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
-        %>      
-    </head>
-    <body>
+        %>   
         <div class="main" role="main">
             <div class="container">
-                <h2 id="welcome">Welcome back <%=user.getFirstName()%> <%=user.getLastName()%></h2>
-                <div class="box" style="margin-top:-60px">
+                <h2>Dashboard</h2>
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="box-part text-center">
@@ -111,8 +109,7 @@
                                 <a href="#">Show More</a>
                             </div>
                         </div>
-                    </div>		
-                </div>
+                    </div>	
             </div>
         </div>
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>        
