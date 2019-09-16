@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.bson.types.ObjectId;
-import uts.asd.hsms.model.dao.*;
 import uts.asd.hsms.model.*;
 
 /**
@@ -24,9 +23,8 @@ import uts.asd.hsms.model.*;
  * @author Andrew
  */
 public class UserServlet extends HttpServlet {
-    private UserController userController;
+    private UserController controller;
     private HttpSession session;
-    private UserDao userDao;
     private ArrayList<String> message;
     private HttpServletRequest request;
     private HttpServletResponse response;
@@ -40,21 +38,30 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         session = request.getSession();         
-        userController = new UserController(session);
-        userDao = (UserDao)session.getAttribute("userDao");
-        message = new ArrayList<String>();
+        controller = new UserController(session);
+        message = new ArrayList<>();
         this.response = response;
         this.request = request;
         //Process POST from usermanagement.jsp or userprofile.jsp
         String action = request.getParameter("action");             
-        if (action.equals("add")) addUser();
-        else if (action.equals("edit")) editUser();
-        else if (action.equals("delete")) deleteUser();
-        else response.sendRedirect("usermanagement.jsp");        
+        switch (action) {
+            case "add":
+                addUser();
+                break;        
+            case "edit":
+                editUser();
+                break;
+            case "delete":
+                deleteUser();
+                break;
+            default:
+                response.sendRedirect("usermanagement.jsp");
+                break;
+        }
     }
     public void addUser() throws ServletException, IOException {//Initializing variables and cleaning up with Proper Case and trim()
-        firstName = userController.toProperCase(request.getParameter("firstNameAdd").trim());
-        lastName = userController.toProperCase(request.getParameter("lastNameAdd").trim());
+        firstName = controller.toProperCase(request.getParameter("firstNameAdd").trim());
+        lastName = controller.toProperCase(request.getParameter("lastNameAdd").trim());
         phone = request.getParameter("phoneAdd").trim();
         location = request.getParameter("locationAdd").trim();
         department = request.getParameter("departmentAdd").trim();
@@ -74,7 +81,7 @@ public class UserServlet extends HttpServlet {
         else {//No Errors
             try {
                 newUser.setPassword(PasswordEncrypt.generateStorngPasswordHash(password));
-                if (userDao.addUser(newUser)) addSuccess = true;
+                if (controller.addUser(newUser)) addSuccess = true;
             }
             catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
                 addModalErrorMessage = ex.getMessage();
@@ -96,8 +103,8 @@ public class UserServlet extends HttpServlet {
         User oldUser = null, newUser = null;
         User sessionUser = (User)session.getAttribute("user");//Initialize current session user, original user details, and new user details
         userId = new ObjectId(request.getParameter("userIdEdit"));
-        firstName = userController.toProperCase(request.getParameter("firstNameEdit").trim());
-        lastName = userController.toProperCase(request.getParameter("lastNameEdit").trim());
+        firstName = controller.toProperCase(request.getParameter("firstNameEdit").trim());
+        lastName = controller.toProperCase(request.getParameter("lastNameEdit").trim());
         phone = request.getParameter("phoneEdit").trim();
         location = request.getParameter("locationEdit").trim();
         department = request.getParameter("departmentEdit").trim();
@@ -110,10 +117,10 @@ public class UserServlet extends HttpServlet {
         message.add("Edit User Result");        
         
         //Only proceed if the _userId in question exists in the database
-        if (userDao.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0] != null) {
-            oldUser = userDao.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0];
+        if (controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0] != null) {
+            oldUser = controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0];
             newUser = new User(userId, firstName, lastName, phone, location, email, password, department, userRole);
-            UserValidator userValidator = new UserValidator(newUser);
+            userValidator = new UserValidator(newUser);
             String tempEmail = null;
             try {
                 //Clause to eliminate duplicate email flag on validateUser() if email is unchanged
@@ -131,7 +138,7 @@ public class UserServlet extends HttpServlet {
                 //If Errors
                 if (errorMessages != null) editModalErrorMessage = errorMessages[0];
                 else {//If no problems with editing user on a database level
-                    if (userDao.editUser(newUser)) editSuccess = true;
+                    if (controller.editUser(newUser)) editSuccess = true;
                     else editModalErrorMessage = "Failed to edit User: Database issue";
                 }
             }
@@ -157,15 +164,22 @@ public class UserServlet extends HttpServlet {
     }
         public void deleteUser() throws ServletException, IOException {
             userId = new ObjectId(request.getParameter("userIdDelete"));//Only perform if userid is found in database
+            User sessionUser = (User)session.getAttribute("user");
             boolean deleteSuccess = false;
             message.add("Delete User Result");
-            if (userDao.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0] != null) {
-                User user = userDao.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0];
+            if (controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0] != null) {
+                User user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0];
                 String deletedUser = user.getFirstName() + " " + user.getLastName();
-                if (userDao.deleteUser(userId)) message.add(String.format("%s deleted successfully", deletedUser)); message.add("success"); deleteSuccess = true;
+                if (controller.deleteUser(userId)) message.add(String.format("%s deleted successfully", deletedUser)); message.add("success"); deleteSuccess = true;
             }
             if (!deleteSuccess) message.add("Failed to delete user"); message.add("danger");
-            session.setAttribute("message", message);
-            response.sendRedirect("usermanagement.jsp");
+            //If you deleted yourself, must log you out as session user does not exist anymore, cannot use this account anymore
+            if (userId.equals(sessionUser.getUserId())) {
+                response.sendRedirect("LogoutServlet");
+            }
+            else {
+                session.setAttribute("message", message);
+                response.sendRedirect("usermanagement.jsp");
+            }
         }
 }

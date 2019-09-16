@@ -166,6 +166,8 @@
                             <%
                                 for (int x = 0; x < appliedJobs.length; x++) {
                                     String title = appliedJobs[x].getTitle();
+                                    String jobStatus = appliedJobs[x].getStatus();
+                                    String jobStatusColor = controller.getJobStatusColor(jobStatus);
                                     JobApplication appliedJobApplication = controller.getJobApplications(null, appliedJobs[x].getJobId(), user.getUserId(), null, null, "_id", 1)[0];
                                     BasicDBObject appliedJobApplicationStatus = appliedJobApplication.getStatus();
                                     String coverLetter = controller.processLineBreaks(appliedJobApplication.getCoverLetter());
@@ -175,7 +177,10 @@
                                     String[] statusButtonLabel = controller.getStatusButtonLabel(appliedJobApplicationStatus);
                                     String statusFooterLabel = controller.getStatusFooterLabel(currentStatusString, currentStatusDate);
                             %>
-                            <div class="card">
+                            <div class="card">                        
+                                <div class="card-header float-right align-items-center py-2">
+                                    <span class="btn-<%=jobStatusColor%> badge badge-pill"><%=jobStatus%></span>
+                                </div>
                                 <div class="card-body">
                                     <h4 class="card-title"><%=title%></h4>
                                     <p class="card-text"><%=coverLetter%></p>

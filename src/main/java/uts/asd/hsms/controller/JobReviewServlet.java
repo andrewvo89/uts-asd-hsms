@@ -139,7 +139,10 @@ public class JobReviewServlet extends HttpServlet {
                     Logger.getLogger(JobReviewServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }    
+        }
+        //Set status of the job to Closed, so it is not displayed on the Job Board anymore
+        job.setStatus("Closed");
+        controller.editJob(job);
     }
     public void sendEmail(String firstName, String jobTitle, String jobApplicationStatus) throws MessagingException {
         emailNotifier.sendEmail("uts.asd.hsms@gmail.com", "Job Application: " + jobTitle, String.format("Dear %s,\n\n"

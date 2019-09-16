@@ -18,28 +18,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.bson.types.ObjectId;
 import uts.asd.hsms.model.User;
 import uts.asd.hsms.model.UserAudit;
 import uts.asd.hsms.model.dao.AuditLogDAO;
-import uts.asd.hsms.model.dao.UserDao;
 
 /**
  *
  * @author Andrew
  */
 public class LoginServlet extends HttpServlet {
+    private LoginController controller;
+    private HttpSession session;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doLogin(request, response);
+        this.request = request;
+        this.response = response;
+        doLogin();
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        loginAuth(request, response);
+        this.request = request;
+        this.response = response;
+        session = request.getSession();
+        controller = new LoginController(session);
+        authenticateLogin();
     }
     
-    protected void doLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+    protected void doLogin() throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             out.println("   <header>");
@@ -53,9 +61,9 @@ public class LoginServlet extends HttpServlet {
             out.println("           <div class=\"container\">");
             out.println("               <form class=\"form-signin\" method=\"post\" action=\"LoginServlet\">");
             out.println("                   <p><img src=\"images/logo.jpg\" alt=\"HSMS Logo\" style=\"width:100%; height:100%;\" class=\"rounded mx-auto d-block\"></p>");
-            out.println("                   <label for=\"inputEmail\" class=\"sr-only\">Email address</label>");
+            out.println("                   <label class=\"sr-only\">Email address</label>");
             out.println("                   <input name=\"email\"  id=\"email\" type=\"text\" class=\"form-control\" placeholder=\"teacher@hsms.edu.au\" required autofocus>");
-            out.println("                   <label for=\"inputPassword\" class=\"sr-only\">Password</label>");
+            out.println("                   <label class=\"sr-only\">Password</label>");
             out.println("                   <input name=\"password\" id=\"password\" type=\"password\" class=\"form-control pwd\" placeholder=\"password\" required>");
             out.println("                   <button name=\"submit\" id=\"submit\" class=\"btn btn-lg btn-primary btn-block\" type=\"submit\">Sign In</button>");  
             if (session.getAttribute("errorMessage") != null) out.println("<div class=\"alert alert-danger mr-auto\" role=\"alert\" style=\"text-align: center; margin-top: 10px\">"+session.getAttribute("errorMessage")+"</div>");
@@ -76,73 +84,61 @@ public class LoginServlet extends HttpServlet {
         }
         
     }
-        protected void loginAuth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            HttpSession session = request.getSession();
-            EmailNotifier emailNotification = new EmailNotifier();
-            String redirect = (String)session.getAttribute("redirect");
-            UserDao userDao = (UserDao)session.getAttribute("userDao");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            User loginUser = null;
-            ArrayList<String> failedLogins;
-            if (userDao.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1) != null)
-                loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1)[0];
-            Boolean authenticated = false;
-            //sukonrat
-            AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");        
-            String firstName = request.getParameter("firstName");
-            Date loginTime = new Date();
-            //String loginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
-            
+    protected void authenticateLogin() throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String redirect = (String)session.getAttribute("redirect");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        User loginUser = null;
+        ArrayList<String> failedLogins;
+        Boolean authenticated = false;
+        //sukonrat
+        AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");        
+        String firstName = request.getParameter("firstName");
+        Date loginTime = new Date();
+        //String loginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
+
+        //Does email exist?
+        if (controller.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1).length != 0) {
+            loginUser = controller.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1)[0];
             try {  
                 if (loginUser != null) if (PasswordEncrypt.validatePassword(password, loginUser.getPassword())) authenticated = true;
             }//Keep authenticated = false
             catch (NoSuchAlgorithmException | InvalidKeySpecException | NumberFormatException ex) { authenticated = false; }
-            //session.setAttribute("user", new User(new ObjectId("5d58b31df28d4f28c41f0908"), "Backdoor", "Backdoor", "Backdoor", "Backdoor", "Backdoor", 1));
-            //Authentication Passed
-            if (authenticated) {//Login success
-                session.setAttribute("user", loginUser);
-                session.removeAttribute("errorMessage");
-                session.removeAttribute("failedLogins");
-            }//Authentication Failed
-            else {//If attribute failedLogins exists, get the attribute, otherwise initialize a new one
-                if (session.getAttribute("failedLogins") != null) failedLogins = (ArrayList<String>)session.getAttribute("failedLogins");
-                else failedLogins = new ArrayList<String>();
-                if (loginUser != null) {//If email exists in database, add it to failed logins count (logging up to 5 counts)
-                    failedLogins.add(email); //Add the failed email to the ArrayList for processing
-                    try {
-                        if (checkFailedLogins(email, failedLogins)) {// Email found > 5 times in ArrayList
-                            String recipient = "uts.asd.hsms@gmail.com", subject = "Suspicous Activity detected on HSMS", 
-                                    body = "Dear " + loginUser.getFirstName() + ",\n\nYour email has had over 5 failed log in attempts.\n"
-                                    + "If this was not you, please log into your account to change your password here: https://uts-asd-hsms.herokuapp.com/userprofile.jsp. \n"
-                                    + "Or contact a HSMS Administrator immediately for assistance: administrator@hsms.edu.au.\n\n"
-                                    + "Kind Regards,\n"
-                                    + "The HSMS Team";
-                            session.setAttribute("errorMessage", String.format("%s has had over 5 failed log in attempts. An Administrator has been notified.", email));
-                            emailNotification.sendEmail(recipient, subject, body);
-                        }
-                        else session.setAttribute("errorMessage", "Username or Password Incorrect");
-                        session.setAttribute("failedLogins", failedLogins);//Add new ArrayList fo the session to keep count of failed logins
-                    }//If smtp.gmail.com email server fails to send the email
-                    catch (MessagingException ex) {session.setAttribute("errorMessage", ex.getMessage());}
-                }
-                //sukonrat            
-                auditLogDao.addLoginTime(firstName, loginTime);
+        }
+        //session.setAttribute("user", new User(new ObjectId("5d58b31df28d4f28c41f0908"), "Backdoor", "Backdoor", "Backdoor", "Backdoor", "Backdoor", 1));
+        //Authentication Passed
+        if (authenticated) {//Login success
+            session.setAttribute("user", loginUser);
+            session.removeAttribute("errorMessage");
+            session.removeAttribute("failedLogins");
+        }//Authentication Failed
+        else {//If attribute failedLogins exists, get the attribute, otherwise initialize a new one
+            session.setAttribute("errorMessage", "Username or Password Incorrect");
+            if (session.getAttribute("failedLogins") != null) failedLogins = (ArrayList<String>)session.getAttribute("failedLogins");
+            else failedLogins = new ArrayList<String>();
+            if (loginUser != null) {//If email exists in database, add it to failed logins count (logging up to 5 counts)
+                failedLogins.add(email); //Add the failed email to the ArrayList for processing
+                try {
+                    if (controller.checkFailedLogins(email, failedLogins)) {// Email found > 5 times in ArrayList
+                        String recipient = "uts.asd.hsms@gmail.com", subject = "Suspicous Activity detected on HSMS", 
+                                body = "Dear " + loginUser.getFirstName() + ",\n\nYour email has had over 5 failed log in attempts.\n"
+                                + "If this was not you, please log into your account to change your password here: https://uts-asd-hsms.herokuapp.com/userprofile.jsp. \n"
+                                + "Or contact a HSMS Administrator immediately for assistance: administrator@hsms.edu.au.\n\n"
+                                + "Kind Regards,\n"
+                                + "The HSMS Team";
+                        session.setAttribute("errorMessage", String.format("%s has had over 5 failed log in attempts. An Administrator has been notified.", email));
+                        controller.sendEmail(recipient, subject, body);
+                    }
+                    session.setAttribute("failedLogins", failedLogins);//Add new ArrayList fo the session to keep count of failed logins
+                }//If smtp.gmail.com email server fails to send the email
+                catch (MessagingException ex) {session.setAttribute("errorMessage", ex.getMessage());}
             }
-            //Redirect to any page on the website depending on where the log in request came from
-            if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   
-            else response.sendRedirect(redirect + ".jsp");
+            //sukonrat            
+            auditLogDao.addLoginTime(firstName, loginTime);
         }
-        
-        protected boolean checkFailedLogins(String email, ArrayList<String> failedLogins) {
-            int count = 0;
-            for(String failedLogin: failedLogins) {
-                if (failedLogin.equals(email)) count ++;
-            }//If email is found more then 5 times in the ArrayList, return true
-            if (count >= 5) return true;
-            return false;
-        }
-        
-        
-
+        //Redirect to any page on the website depending on where the log in request came from
+        if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   
+        else response.sendRedirect(redirect + ".jsp");
+    }
 }

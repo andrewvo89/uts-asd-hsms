@@ -57,13 +57,27 @@ public class JobBoardController {
         if (department.equals("Art")) departmentSearch[5] = "checked";
         return departmentSearch;
     }
+    //Get all jobs that this user has applied for
     public Job[] getAppliedJobs(ObjectId userId) {
-        JobApplication[] jobApplicationSearch = getJobApplications(null, null, userId, null, null, "jobid", 1);
-        Job[] appliedJobs = new Job[jobApplicationSearch.length];//Crete array of jobs length of search above
-        for (int x = 0; x < jobApplicationSearch.length; x ++) {
-            appliedJobs[x] = getJobs(jobApplicationSearch[x].getJobId(), null, null, null, null, null, null, null, "title", 1)[0];
+        JobApplication[] jobApplicationSearch = getJobApplications(null, null, userId, null, null, "_id", 1);
+        //Remove any jobs that have status of "Draft"
+        ArrayList<Job> appliedJobsFinal = new ArrayList<>();
+        for (JobApplication jobApplication : jobApplicationSearch) {
+            Job appliedJob = getJobs(jobApplication.getJobId(), null, null, null, null, null, null, null, "title", 1)[0];
+            if (!appliedJob.getStatus().equals("Draft")) appliedJobsFinal.add(appliedJob);
+        }
+        //Crete array of jobs and copy filtered results from ArrayList
+        Job[] appliedJobs = new Job[appliedJobsFinal.size()];
+        for (int x = 0; x < appliedJobsFinal.size(); x ++) {
+            appliedJobs[x] = appliedJobsFinal.get(x);
         }
         return appliedJobs;
+    }
+    //Change the colour of the Applied Job pills in the header for Applied Jobs Cards
+    public String getJobStatusColor(String jobStatus) {
+        if (jobStatus.equals("Open")) return "success";
+        else if (jobStatus.equals("Closed")) return "danger";
+        else return "info";
     }
     public String getButtonLabel(ObjectId jobId, ObjectId userId) {
         String buttonLabel = "";

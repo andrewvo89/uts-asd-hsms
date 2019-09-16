@@ -115,9 +115,18 @@ public class JobManagementController {
         calendar.add(Calendar.MONTH, 1);
         return yearDateFormat.format(calendar.getTime());
     }
-    //Talk to Dao to get all jobs
+    //Talk to Dao so that Servlet can talk to the database via the Controller
     public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, String sort, int order) {
         return jobDao.getJobs(jobId, title, description, workType, department, status, postDate, closeDate, sort, order);
+    }
+    public boolean addJob(Job job) {
+        return jobDao.addJob(job);
+    }
+    public boolean editJob(Job job) {
+        return jobDao.editJob(job);
+    }
+    public boolean deleteJob(ObjectId jobId) {
+        return jobDao.deleteJob(jobId);
     }
     
 }

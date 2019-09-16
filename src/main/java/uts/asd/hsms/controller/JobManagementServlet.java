@@ -24,7 +24,7 @@ import uts.asd.hsms.model.dao.JobDao;
  * @author Andrew
  */
 public class JobManagementServlet extends HttpServlet {
-    private JobDao jobDao;
+    private JobManagementController controller;
     private ObjectId jobId;
     private String title, description, workType, department, status;
     private Date postDate, closeDate;
@@ -44,7 +44,7 @@ public class JobManagementServlet extends HttpServlet {
         this.response = response;
         this.request = request;    
         session = request.getSession();
-        jobDao = (JobDao)session.getAttribute("jobDao");
+        controller = new JobManagementController(session);
         message = new ArrayList<String>();
         String action = request.getParameter("action");             
         if (action.equals("add")) addJob();
@@ -87,7 +87,7 @@ public class JobManagementServlet extends HttpServlet {
             addModalErrorMessage = errorMessages[0]; 
         }
         else {
-            if (jobDao.addJob(job)) addSuccess = true;
+            if (controller.addJob(job)) addSuccess = true;
             else addModalErrorMessage = "Failed to add Job: Database issue";
         }//Add OK
         if (addSuccess) {
@@ -118,8 +118,8 @@ public class JobManagementServlet extends HttpServlet {
         Boolean editSuccess = false;
         message.add("Edit User Result");
         
-         if (jobDao.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0] != null) {
-            oldJob = jobDao.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0];
+         if (controller.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0] != null) {
+            oldJob = controller.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0];
             newJob = new Job(jobId, title, description, workType, department, status, postDate, closeDate);
             //If post is published from Draft to Open, or Re-opened from Closed to Open, set new Post Date to now
             if (!oldJob.getStatus().equals("Open") && newJob.getStatus().equals("Open")) newJob.setPostDate(new Date());
@@ -135,7 +135,7 @@ public class JobManagementServlet extends HttpServlet {
             if (tempDate != null) newJob.setCloseDate(tempDate);//Set close date back to the past after validation
             if (errorMessages != null) editModalErrorMessage = errorMessages[0];//Errors from validation
             else {//If validation errors
-                if (jobDao.editJob(newJob)) editSuccess = true;
+                if (controller.editJob(newJob)) editSuccess = true;
                 else editModalErrorMessage = "Failed to edit Job: Database issue";
             }
         }
@@ -155,9 +155,9 @@ public class JobManagementServlet extends HttpServlet {
         jobId =  new ObjectId(request.getParameter("jobIdDelete"));
         boolean deleteSuccess = false;
         message.add("Delete User Result");//If the Job exists in databased based on jobId
-        if (jobDao.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0] != null) {
-             Job job = jobDao.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0];//If successful, set success flags
-             if (jobDao.deleteJob(jobId)) message.add(String.format("%s deleted successfully", job.getTitle())); message.add("success"); deleteSuccess = true;
+        if (controller.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0] != null) {
+             Job job = controller.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0];//If successful, set success flags
+             if (controller.deleteJob(jobId)) message.add(String.format("%s deleted successfully", job.getTitle())); message.add("success"); deleteSuccess = true;
          }//If fail delete, set failure flags
         if (!deleteSuccess) message.add("Failed to delete user"); message.add("danger");
         session.setAttribute("message", message);

@@ -100,6 +100,9 @@ public class JobReviewController {
     public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, String sort, int order) {
         return jobDao.getJobs(jobId, title, description, workType, department, status, postDate, closeDate, sort, order);
     }
+    public boolean editJob(Job job) {
+        return jobDao.editJob(job);
+    }
     //Talk to Dao to get all job applications
     public JobApplication[] getJobApplications(ObjectId jobApplicationId, ObjectId jobId, ObjectId userId, String coverLetter, BasicDBObject status, String sortBy, int orderBy) {
         return jobApplicationDao.getJobApplications(jobApplicationId, jobId, userId, coverLetter, status, sortBy, orderBy);
