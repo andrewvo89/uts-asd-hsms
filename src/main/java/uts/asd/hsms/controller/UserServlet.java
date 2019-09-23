@@ -168,9 +168,9 @@ public class UserServlet extends HttpServlet {
             boolean deleteSuccess = false;
             message.add("Delete User Result");
             if (controller.getUsers(userId, null, null, null, null, null, null, null, 0, true, "firstname", 1).length != 0) {
-                User user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, true, "firstname", 1)[0];
-                String deletedUser = user.getFirstName() + " " + user.getLastName();
-                if (controller.deleteUser(user)) message.add(String.format("%s deleted successfully", deletedUser)); message.add("success"); deleteSuccess = true;
+                User user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, null, "_id", 1)[0];
+                user.setActive(false);
+                if (controller.editUser(user)) message.add(String.format("%s %s deleted successfully", user.getFirstName(), user.getLastName())); message.add("success"); deleteSuccess = true;
             }
             if (!deleteSuccess) message.add("Failed to delete user"); message.add("danger");
             //If you deleted yourself, must log you out as session user does not exist anymore, cannot use this account anymore
