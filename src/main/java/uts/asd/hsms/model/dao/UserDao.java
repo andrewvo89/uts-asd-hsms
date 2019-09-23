@@ -137,13 +137,11 @@ public class UserDao {
         return true;
     } 
     
-    public boolean deleteUser(User user) { //Set user status to Not Active to preserve user in Databse for references
+    public boolean deleteUser(User user) { //Hard delete from MongoDB
         try {
-            BasicDBObject query = new BasicDBObject().append("_id", user.getUserId());
-            BasicDBObject records = new BasicDBObject().append("active", false);
-            BasicDBObject update = new BasicDBObject().append("$set", records);
-            collection.update(query, update);
-        }
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", user.getUserId());
+            collection.remove(query);}
         catch (Exception ex) {
             return false;
         }
