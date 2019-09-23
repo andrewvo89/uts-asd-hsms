@@ -42,7 +42,7 @@ public class JobDao {
     }
     
     
-    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, String sort, int order) {  
+    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, Boolean active, String sort, int order) {  
         List<BasicDBObject> conditions = new ArrayList<>();
         BasicDBObject query = new BasicDBObject();
         DBCursor cursor;//If the parameter fields are NULL, do not include them in query
@@ -76,6 +76,9 @@ public class JobDao {
         if (closeDate != null) {
             if (!closeDate.toString().isEmpty()) conditions.add(new BasicDBObject("closedate", compile(quote(dateFormat.format(closeDate)), CASE_INSENSITIVE)));
         }
+        if (active != null) {
+            conditions.add(new BasicDBObject("active", active));
+        }
         if (conditions.size() == 0) {
             cursor = collection.find();            
         }
@@ -97,7 +100,8 @@ public class JobDao {
             String statusResult = (String)result.get("status");
             Date postDateResult = (Date)result.get("postdate");
             Date closeDateResult = (Date)result.get("closedate");
-            jobs[count] = new Job(jobIdResult, titleResult, descriptionResult, workTypeResult, departmentResult, statusResult, postDateResult, closeDateResult);
+            Boolean activeResult = (Boolean)result.get("active");
+            jobs[count] = new Job(jobIdResult, titleResult, descriptionResult, workTypeResult, departmentResult, statusResult, postDateResult, closeDateResult, activeResult);
             count ++;
         }
         return jobs;
@@ -113,6 +117,7 @@ public class JobDao {
             newRecord.put("status", job.getStatus());
             newRecord.put("postdate", new Date());
             newRecord.put("closedate", job.getCloseDate());
+            newRecord.put("active", true);
             collection.insert(newRecord);  
             job.setJobId((ObjectId)newRecord.get("_id"));
         }
@@ -131,8 +136,8 @@ public class JobDao {
             if (job.getWorkType() != null) records.append("worktype", job.getWorkType());
             if (job.getDepartment() != null) records.append("department", job.getDepartment());
             if (job.getStatus() != null) records.append("status", job.getStatus());
-            //Need to do a check if status change so old date turns into new date
             if (job.getCloseDate() != null) records.append("closedate", job.getCloseDate());
+            if (job.getActive() != null) records.append("active", job.getActive());
             update.append("$set", records);
             collection.update(query, update);
         }
@@ -142,11 +147,15 @@ public class JobDao {
         return true;
     } 
     
-    public boolean deleteJob(ObjectId jobId) { //Simple Delete from Database, based on _id
+    public boolean deleteJob(Job job) { //Make Job inactive, DO NOT DELTE so no references are lost
         try {
-            BasicDBObject query = new BasicDBObject();
-            query.put("_id", jobId);
-            collection.remove(query);}
+            BasicDBObject query = new BasicDBObject().append("_id", job.getJobId());
+            BasicDBObject records = new BasicDBObject();
+            records.append("active", false);
+            records.append("status", "Closed");
+            BasicDBObject update = new BasicDBObject().append("$set", records);
+            collection.update(query, update);
+        }
         catch (Exception ex) {
             return false;
         }

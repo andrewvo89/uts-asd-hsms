@@ -37,8 +37,9 @@ public class Job implements Serializable {
     @FutureOrPresent(message = "<h5 class=\"alert-heading\">Close Date Error</h5><hr>"
             + "Must be in the future unless in Draft mode or Closed", groups = ValidatorGroupD.class)
     private Date closeDate;
+    private Boolean active;
 
-    public Job(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate) {
+    public Job(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, Boolean active) {
         this.jobId = jobId;
         this.title = title;
         this.description = description;
@@ -47,6 +48,7 @@ public class Job implements Serializable {
         this.status = status;
         this.postDate = postDate;
         this.closeDate = closeDate;
+        this.active = active;
     }
 
     public ObjectId getJobId() {
@@ -111,6 +113,14 @@ public class Job implements Serializable {
 
     public void setCloseDate(Date closeDate) {
         this.closeDate = closeDate;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
     
 }

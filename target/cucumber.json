@@ -11,7 +11,7 @@
         "steps": [
           {
             "result": {
-              "duration": 13956894700,
+              "duration": 9675025500,
               "status": "passed"
             },
             "line": 8,
@@ -24,7 +24,7 @@
         ]
       },
       {
-        "start_timestamp": "2019-09-20T06:57:33.735Z",
+        "start_timestamp": "2019-09-23T07:40:01.165Z",
         "line": 16,
         "name": "Start editing a user",
         "description": "",
@@ -34,7 +34,7 @@
         "steps": [
           {
             "result": {
-              "duration": 91102800,
+              "duration": 60785300,
               "status": "passed"
             },
             "line": 11,
@@ -46,7 +46,7 @@
           },
           {
             "result": {
-              "duration": 2172612800,
+              "duration": 1561438600,
               "status": "passed"
             },
             "line": 12,
@@ -68,7 +68,7 @@
           },
           {
             "result": {
-              "duration": 156508900,
+              "duration": 71620200,
               "status": "passed"
             },
             "line": 13,
@@ -100,7 +100,7 @@
         "steps": [
           {
             "result": {
-              "duration": 9299581900,
+              "duration": 9561380800,
               "status": "passed"
             },
             "line": 8,
@@ -113,7 +113,7 @@
         ]
       },
       {
-        "start_timestamp": "2019-09-20T06:57:50.153Z",
+        "start_timestamp": "2019-09-23T07:40:12.565Z",
         "line": 17,
         "name": "Start editing a user",
         "description": "",
@@ -123,7 +123,7 @@
         "steps": [
           {
             "result": {
-              "duration": 84461000,
+              "duration": 62337300,
               "status": "passed"
             },
             "line": 11,
@@ -135,7 +135,7 @@
           },
           {
             "result": {
-              "duration": 1661805300,
+              "duration": 1298390000,
               "status": "passed"
             },
             "line": 12,
@@ -157,7 +157,7 @@
           },
           {
             "result": {
-              "duration": 125048600,
+              "duration": 70262400,
               "status": "passed"
             },
             "line": 13,
@@ -189,7 +189,7 @@
         "steps": [
           {
             "result": {
-              "duration": 9837954300,
+              "duration": 8740784800,
               "status": "passed"
             },
             "line": 8,
@@ -202,7 +202,7 @@
         ]
       },
       {
-        "start_timestamp": "2019-09-20T06:58:01.327Z",
+        "start_timestamp": "2019-09-23T07:40:23.559Z",
         "line": 18,
         "name": "Start editing a user",
         "description": "",
@@ -212,7 +212,7 @@
         "steps": [
           {
             "result": {
-              "duration": 87969300,
+              "duration": 58521300,
               "status": "passed"
             },
             "line": 11,
@@ -224,7 +224,7 @@
           },
           {
             "result": {
-              "duration": 1805223600,
+              "duration": 1472400300,
               "status": "passed"
             },
             "line": 12,
@@ -246,7 +246,7 @@
           },
           {
             "result": {
-              "duration": 125434900,
+              "duration": 63861000,
               "status": "passed"
             },
             "line": 13,
@@ -278,7 +278,7 @@
         "steps": [
           {
             "result": {
-              "duration": 9672024200,
+              "duration": 8760192100,
               "status": "passed"
             },
             "line": 8,
@@ -291,7 +291,7 @@
         ]
       },
       {
-        "start_timestamp": "2019-09-20T06:58:13.185Z",
+        "start_timestamp": "2019-09-23T07:40:33.896Z",
         "line": 19,
         "name": "Start editing a user",
         "description": "",
@@ -301,7 +301,7 @@
         "steps": [
           {
             "result": {
-              "duration": 71511600,
+              "duration": 60862000,
               "status": "passed"
             },
             "line": 11,
@@ -313,7 +313,7 @@
           },
           {
             "result": {
-              "duration": 1671782300,
+              "duration": 1469784200,
               "status": "passed"
             },
             "line": 12,
@@ -335,7 +335,7 @@
           },
           {
             "result": {
-              "duration": 117614200,
+              "duration": 62085600,
               "status": "passed"
             },
             "line": 13,
@@ -367,7 +367,7 @@
         "steps": [
           {
             "result": {
-              "duration": 9782487700,
+              "duration": 8913886800,
               "status": "passed"
             },
             "line": 8,
@@ -380,7 +380,7 @@
         ]
       },
       {
-        "start_timestamp": "2019-09-20T06:58:24.721Z",
+        "start_timestamp": "2019-09-23T07:40:44.251Z",
         "line": 20,
         "name": "Start editing a user",
         "description": "",
@@ -390,7 +390,7 @@
         "steps": [
           {
             "result": {
-              "duration": 72870100,
+              "duration": 59876800,
               "status": "passed"
             },
             "line": 11,
@@ -402,7 +402,7 @@
           },
           {
             "result": {
-              "duration": 2391533700,
+              "duration": 1452599600,
               "status": "passed"
             },
             "line": 12,
@@ -424,7 +424,7 @@
           },
           {
             "result": {
-              "duration": 115041100,
+              "duration": 63101500,
               "status": "passed"
             },
             "line": 13,

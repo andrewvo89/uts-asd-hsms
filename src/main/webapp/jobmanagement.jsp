@@ -61,7 +61,7 @@
         //Set any job applications past the close date to "Closed" status
         controller.setClosedStatus();
         //Return search results in the form of Job for populating the table
-        Job[] jobs = controller.getJobs(jobIdSearch, titleSearch, null, workTypeSelection, departmentSelection, statusSelection, null, null, "closedate", -1);
+        Job[] jobs = controller.getJobs(jobIdSearch, titleSearch, null, workTypeSelection, departmentSelection, statusSelection, null, null, true, "closedate", -1);
     %>
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">

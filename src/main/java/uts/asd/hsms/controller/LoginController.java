@@ -43,7 +43,7 @@ public class LoginController {
     }
     
     //Talk to Dao direct to Servlet has to go through Controller
-    public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, String sort, int order) {
-        return userDao.getUsers(userId, firstName, lastName, phone, location, email, password, department, userRole, sort, order);
+    public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, Boolean active, String sort, int order) {
+        return userDao.getUsers(userId, firstName, lastName, phone, location, email, password, department, userRole, active, sort, order);
     }
 }

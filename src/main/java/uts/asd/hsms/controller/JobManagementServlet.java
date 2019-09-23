@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
 import org.bson.types.ObjectId;
 import uts.asd.hsms.controller.validator.JobValidator;
 import uts.asd.hsms.model.Job;
-import uts.asd.hsms.model.dao.JobDao;
 /**
  *
  * @author Andrew
@@ -67,7 +66,7 @@ public class JobManagementServlet extends HttpServlet {
             closeDate = new Date();
         }
         //Job to be added into the Database
-        Job job = new Job(null, title, description, workType, department, status, postDate, closeDate);
+        Job job = new Job(null, title, description, workType, department, status, postDate, closeDate, true);
         Date tempDate = null;
         if (job.getStatus().equals("Draft") && job.getCloseDate().before(new Date())) {
             tempDate = job.getCloseDate();//Bypass validation for Close Date if the post is already Closed or still in Draft mode
@@ -118,9 +117,9 @@ public class JobManagementServlet extends HttpServlet {
         Boolean editSuccess = false;
         message.add("Edit User Result");
         
-         if (controller.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0] != null) {
-            oldJob = controller.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0];
-            newJob = new Job(jobId, title, description, workType, department, status, postDate, closeDate);
+         if (controller.getJobs(jobId, null, null, null, null, null, null, null, true, "closedate", 1).length != 0) {
+            oldJob = controller.getJobs(jobId, null, null, null, null, null, null, null, true, "closedate", 1)[0];
+            newJob = new Job(jobId, title, description, workType, department, status, postDate, closeDate, true);
             //If post is published from Draft to Open, or Re-opened from Closed to Open, set new Post Date to now
             if (!oldJob.getStatus().equals("Open") && newJob.getStatus().equals("Open")) newJob.setPostDate(new Date());
             //Going from closed to open should wipe everyone's job application's to make it a fresh Job Post
@@ -156,9 +155,9 @@ public class JobManagementServlet extends HttpServlet {
         jobId =  new ObjectId(request.getParameter("jobIdDelete"));
         boolean deleteSuccess = false;
         message.add("Delete User Result");//If the Job exists in databased based on jobId
-        if (controller.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0] != null) {
-             Job job = controller.getJobs(jobId, null, null, null, null, null, null, null, "closedate", 1)[0];//If successful, set success flags
-             if (controller.deleteJob(jobId)) message.add(String.format("%s deleted successfully", job.getTitle())); message.add("success"); deleteSuccess = true;
+        if (controller.getJobs(jobId, null, null, null, null, null, null, null, true, "closedate", 1).length != 0) {
+             Job job = controller.getJobs(jobId, null, null, null, null, null, null, null, true, "closedate", 1)[0];//If successful, set success flags
+             if (controller.deleteJob(job)) message.add(String.format("%s deleted successfully", job.getTitle())); message.add("success"); deleteSuccess = true;
          }//If fail delete, set failure flags
         if (!deleteSuccess) message.add("Failed to delete user"); message.add("danger");
         session.setAttribute("message", message);

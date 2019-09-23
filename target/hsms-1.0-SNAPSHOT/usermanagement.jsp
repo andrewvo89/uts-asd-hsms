@@ -56,7 +56,7 @@
         }
         String[] userRoleSearch = controller.getUserRoleSearch(userRoleSelection);  
         //Return search results in the form of Users for populating the table
-        User[] users = controller.getUsers(null, firstNameSearch, lastNameSearch, null, null, emailSearch, null, departmentSelection, userRoleSelection, "firstname", 1);
+        User[] users = controller.getUsers(null, firstNameSearch, lastNameSearch, null, null, emailSearch, null, departmentSelection, userRoleSelection, true, "firstname", 1);
     %>
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">

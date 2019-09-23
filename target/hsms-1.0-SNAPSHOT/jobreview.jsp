@@ -50,7 +50,7 @@
                 message.add("");
             }
             ObjectId jobId = new ObjectId(request.getParameter("jobId"));//Jobid from jobmanagement.jsp
-            Job job = controller.getJobs(jobId, null, null, null, null, null, null, null, "title", 1)[0];
+            Job job = controller.getJobs(jobId, null, null, null, null, null, null, null, true, "title", 1)[0];
             JobApplication[] jobApplications = controller.getJobApplications(null, jobId, null, null, null, "statusdate", -1);
         %>
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
@@ -69,7 +69,7 @@
                     for (int x = 0; x < jobApplications.length; x++) {
                         ObjectId jobApplicationId = jobApplications[x].getJobApplicationId();
                         ObjectId userId = jobApplications[x].getUserId();
-                        User currentUser = controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0];
+                        User currentUser = controller.getUsers(userId, null, null, null, null, null, null, null, 0, null, "firstname", 1)[0];
                         String firstName = currentUser.getFirstName();
                         String lastname = currentUser.getLastName();
                         String email = currentUser.getEmail();

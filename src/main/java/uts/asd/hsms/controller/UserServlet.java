@@ -69,7 +69,7 @@ public class UserServlet extends HttpServlet {
         password = request.getParameter("passwordAdd");
         userRole = Integer.parseInt(request.getParameter("userRoleAdd").trim());
         //User to be added into the Database
-        User newUser = new User(null, firstName, lastName, phone, location, email, password, department, userRole);
+        User newUser = new User(null, firstName, lastName, phone, location, email, password, department, userRole, true);
         userValidator = new UserValidator(newUser);//Server Side validations
         String[] errorMessages = userValidator.validateUser();//If Server Side validations have errors
         String addModalErrorMessage = "";
@@ -117,9 +117,9 @@ public class UserServlet extends HttpServlet {
         message.add("Edit User Result");        
         
         //Only proceed if the _userId in question exists in the database
-        if (controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0] != null) {
-            oldUser = controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0];
-            newUser = new User(userId, firstName, lastName, phone, location, email, password, department, userRole);
+        if (controller.getUsers(userId, null, null, null, null, null, null, null, 0, true, "firstname", 1).length != 0) {
+            oldUser = controller.getUsers(userId, null, null, null, null, null, null, null, 0, true, "firstname", 1)[0];
+            newUser = new User(userId, firstName, lastName, phone, location, email, password, department, userRole, true);
             userValidator = new UserValidator(newUser);
             String tempEmail = null;
             try {
@@ -167,10 +167,10 @@ public class UserServlet extends HttpServlet {
             User sessionUser = (User)session.getAttribute("user");
             boolean deleteSuccess = false;
             message.add("Delete User Result");
-            if (controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0] != null) {
-                User user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0];
+            if (controller.getUsers(userId, null, null, null, null, null, null, null, 0, true, "firstname", 1).length != 0) {
+                User user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, true, "firstname", 1)[0];
                 String deletedUser = user.getFirstName() + " " + user.getLastName();
-                if (controller.deleteUser(userId)) message.add(String.format("%s deleted successfully", deletedUser)); message.add("success"); deleteSuccess = true;
+                if (controller.deleteUser(user)) message.add(String.format("%s deleted successfully", deletedUser)); message.add("success"); deleteSuccess = true;
             }
             if (!deleteSuccess) message.add("Failed to delete user"); message.add("danger");
             //If you deleted yourself, must log you out as session user does not exist anymore, cannot use this account anymore

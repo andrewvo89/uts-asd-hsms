@@ -30,12 +30,12 @@ public class JobManagementController {
     }
     //Close off any jobs past its date
     public void setClosedStatus() {
-        Job[] jobs = jobDao.getJobs(null, null, null, null, null, null, null, null, "title", 1);
+        Job[] jobs = jobDao.getJobs(null, null, null, null, null, null, null, null, true, "title", 1);
         for (Job job : jobs) {
             if (job.getStatus().equals("Open")) {//If close date is in the past, set Status of entry to Closed.
                 if (job.getCloseDate().before(new Date())) {
                     job.setStatus("Closed");
-                    jobDao.editJob(new Job(job.getJobId(), null, null, null, null, "Closed", null, null));            
+                    jobDao.editJob(new Job(job.getJobId(), null, null, null, null, "Closed", null, null, true));            
                 }
             }
         }
@@ -116,8 +116,8 @@ public class JobManagementController {
         return yearDateFormat.format(calendar.getTime());
     }
     //Talk to Dao so that Servlet can talk to the database via the Controller
-    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, String sort, int order) {
-        return jobDao.getJobs(jobId, title, description, workType, department, status, postDate, closeDate, sort, order);
+    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, Boolean active, String sort, int order) {
+        return jobDao.getJobs(jobId, title, description, workType, department, status, postDate, closeDate, active, sort, order);
     }
     public boolean addJob(Job job) {
         return jobDao.addJob(job);
@@ -125,8 +125,8 @@ public class JobManagementController {
     public boolean editJob(Job job) {
         return jobDao.editJob(job);
     }
-    public boolean deleteJob(ObjectId jobId) {
-        return jobDao.deleteJob(jobId);
+    public boolean deleteJob(Job job) {
+        return jobDao.deleteJob(job);
     }
     
 }
