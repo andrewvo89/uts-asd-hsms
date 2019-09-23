@@ -123,6 +123,7 @@ public class JobManagementServlet extends HttpServlet {
             newJob = new Job(jobId, title, description, workType, department, status, postDate, closeDate);
             //If post is published from Draft to Open, or Re-opened from Closed to Open, set new Post Date to now
             if (!oldJob.getStatus().equals("Open") && newJob.getStatus().equals("Open")) newJob.setPostDate(new Date());
+            //Going from closed to open should wipe everyone's job application's to make it a fresh Job Post
             Date tempDate = null;
             if (!newJob.getStatus().equals("Open") && newJob.getCloseDate().before(new Date())) {
                 tempDate = newJob.getCloseDate();//Bypass validation for Close Date if the post is already Closed or still in Draft mode

@@ -8,9 +8,6 @@ package uts.asd.hsms.model;
 import uts.asd.hsms.controller.validator.EmailConstraint;
 import java.io.Serializable;
 import org.bson.types.ObjectId;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import uts.asd.hsms.controller.validator.*;
 

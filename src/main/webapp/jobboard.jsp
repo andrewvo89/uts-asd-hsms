@@ -185,19 +185,19 @@
                                     <h4 class="card-title"><%=title%></h4>
                                     <p class="card-text"><%=coverLetter%></p>
                                     <form action="JobReviewServlet" method="post" class="inline-form">
-                                        <button type="button" class="btn btn<%=statusButtonOutline[0]%>-primary" disabled><%=statusButtonLabel[0]%></button>
+                                        <button type="button" class="btn btn<%=statusButtonOutline[0]%>-primary no-hover" disabled><%=statusButtonLabel[0]%></button>
                                         <strong>>></strong>
                                     </form>
                                     <form action="JobReviewServlet" method="post" class="inline-form">
-                                        <button type="button" class="btn btn<%=statusButtonOutline[1]%>-warning"><%=statusButtonLabel[1]%></button>
+                                        <button type="button" class="btn btn<%=statusButtonOutline[1]%>-warning no-hover"><%=statusButtonLabel[1]%></button>
                                         <strong>>></strong>
                                     </form>
                                     <form action="JobReviewServlet" method="post" class="inline-form">
-                                        <button type="button" class="btn btn<%=statusButtonOutline[2]%>-danger"><%=statusButtonLabel[2]%></button>
+                                        <button type="button" class="btn btn<%=statusButtonOutline[2]%>-danger no-hover"><%=statusButtonLabel[2]%></button>
                                         <strong>>></strong>
                                     </form>
                                     <form action="JobReviewServlet" method="post" class="inline-form">
-                                        <button type="button" class="btn btn<%=statusButtonOutline[3]%>-success"><%=statusButtonLabel[3]%></button>
+                                        <button type="button" class="btn btn<%=statusButtonOutline[3]%>-success no-hover"><%=statusButtonLabel[3]%></button>
                                     </form>                        
                                 </div>
                                 <div class="card-footer text-muted"><%=statusFooterLabel%></div>
