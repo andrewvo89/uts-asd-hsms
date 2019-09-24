@@ -24,9 +24,13 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Log</title>
+<<<<<<< HEAD
     </head>
     <body>
         <%//Check if there is a valid user in the session
+=======
+        <%-- //Check if there is a valid user in the session
+>>>>>>> 1ef0914b71f918c58fd3a42470c579c0f38c4beb
             User user = (User)session.getAttribute("user");
             if (user == null) {
                 session.setAttribute("redirect", "log");
@@ -39,6 +43,15 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
+<<<<<<< HEAD
+=======
+        --%> 
+    </head>
+    <body>
+        
+        
+         <%
+>>>>>>> 1ef0914b71f918c58fd3a42470c579c0f38c4beb
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); 
         %>
@@ -46,33 +59,33 @@
   
         
         
-        <%
-                   AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
-                    UserAudit[] userAudits = auditLogDao.getUserAudit();
-                                for (int x = 0; x < userAudits.length; x++) {
-                                    UserAudit currentLog = userAudits[x];
-                                    ObjectId logId = currentLog.getLogID();
-                                    String firstName = currentLog.getFirstName(); 
-                                    Date loginTime = currentLog.getLoginTime();
-                               
-      %>
+       
 
 <H3 style="color:#e0ac62; padding-top: 50px;" align="center">Log Activities</H3>
-<table action="LogServlet" method="post" style="padding-top: 100px;" width="600" border="1" align="center">
+<table style="padding-top: 100px;" width="600" border="1" align="center">
 <tr>
     <th> <div align="center">LogID </div></th>
+<th><div align="center">UserName</div></th>
 
-<th> <div align="center">Name </div></th>
 
 <th> <div align="center">Last Logged In </div></th>
 </tr>
-
+ <% 
+            
+            AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
+                    UserAudit[] userAudits = auditLogDao.getAllUserAudit();
+                      for (int x = 0; x < userAudits.length; x++) {
+                          UserAudit userAudit = userAudits[x];
+                                ObjectId logID = userAudit.getLogID();
+                                String firstName =  userAudit.getFirstName();
+                                Date loginTime = userAudit.getLoginTime();
+                          
+      %>
 <tr>
- <td><div align="center" value="<%=logId%>"></div></td>
+ <td><%=logID%></td>
 
-<td><div align="center" value="<%=firstName%>"></div></td>
-
-<td><div align="center" value="<%=loginTime%>"></div></td>
+<td><%=firstName%></td>
+<td><%=loginTime%>"</td>
 
                     <%
                         }
@@ -82,14 +95,11 @@
 
 <form action ="logactivity.jsp" target="" method="post" style="padding-top: 100px; text-align:center;">
             <table style="margin: 0 auto; padding-top: 100px; padding-bottom: 20px; text-align: left;">              
-                <H3 style="color:#e0ac62;" >Search Login Records</H3>
+                <H3 style="color:#e0ac62;" >Search Log Activities</H3>
+                
                 <tr>
-                    <th> Date: </th>
-                    <th><input type="text" name="DATETIME"></th>
-                </tr>
-                <tr>
-                    <th> userID: </th>
-                    <th><input type="text" name="USERID"></th>
+                    <th> User Name: </th>
+                    <th><input type="text" name="firstName"></th>
                 </tr>
             </table>
             <input type="submit" value="Search">

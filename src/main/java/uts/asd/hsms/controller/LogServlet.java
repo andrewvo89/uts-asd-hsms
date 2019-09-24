@@ -64,6 +64,7 @@ private HttpSession session;
         session = request.getSession();
         auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
         userAudits = new ArrayList<String>();
+        
         this.response = response;
         this.request = request;
      

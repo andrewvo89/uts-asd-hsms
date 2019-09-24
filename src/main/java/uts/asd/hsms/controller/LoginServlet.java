@@ -84,6 +84,7 @@ public class LoginServlet extends HttpServlet {
         }
         
     }
+<<<<<<< HEAD
     protected void authenticateLogin() throws ServletException, IOException {
         HttpSession session = request.getSession();
         String redirect = (String)session.getAttribute("redirect");
@@ -101,10 +102,39 @@ public class LoginServlet extends HttpServlet {
         //Does email exist?
         if (controller.getUsers(null, null, null, null, null, email, null, null, 0, true, "firstname", 1).length != 0) {
             loginUser = controller.getUsers(null, null, null, null, null, email, null, null, 0, true, "firstname", 1)[0];
+=======
+        protected void loginAuth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            HttpSession session = request.getSession();
+            EmailNotifier emailNotification = new EmailNotifier();
+            String redirect = (String)session.getAttribute("redirect");
+            UserDao userDao = (UserDao)session.getAttribute("userDao");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            User loginUser = null;
+            ArrayList<String> failedLogins;
+            if (userDao.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1) != null)
+                loginUser = userDao.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1)[0];
+            Boolean authenticated = false;
+            AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
+            Date loginTime = new Date();
+>>>>>>> 1ef0914b71f918c58fd3a42470c579c0f38c4beb
             try {  
                 if (loginUser != null) if (PasswordEncrypt.validatePassword(password, loginUser.getPassword())) authenticated = true;
             }//Keep authenticated = false
             catch (NoSuchAlgorithmException | InvalidKeySpecException | NumberFormatException ex) { authenticated = false; }
+<<<<<<< HEAD
+=======
+            //session.setAttribute("user", new User(new ObjectId("5d58b31df28d4f28c41f0908"), "Backdoor", "Backdoor", "Backdoor", "Backdoor", "Backdoor", 1));
+            //Authentication Passed
+            if (authenticated) {//Login success
+                session.setAttribute("user", loginUser);
+                session.removeAttribute("errorMessage");
+                auditLogDao.addLoginTime(loginUser.getFirstName(),loginTime);
+            }
+            //Redirect to any page on the website depending on where the log in request came from
+            if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   
+            else response.sendRedirect(redirect + ".jsp");
+>>>>>>> 1ef0914b71f918c58fd3a42470c579c0f38c4beb
         }
         //session.setAttribute("user", new User(new ObjectId("5d58b31df28d4f28c41f0908"), "Backdoor", "Backdoor", "Backdoor", "Backdoor", "Backdoor", 1));
         //Authentication Passed
