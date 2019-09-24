@@ -32,14 +32,13 @@
     <%//Check if there is a valid user in the session
         User user = (User)session.getAttribute("user");
         if (user == null) {
-            session.setAttribute("redirect", "usermanagement");
+            session.setAttribute("redirect", "jobmanagement");
     %>   
             <jsp:include page="LoginServlet" flush="true" />
     <%
         }
         else {//Only Administrator & Principal Access
-            if (user.getUserRole() > 2) response.sendRedirect("index.jsp");
-    %>
+            if (user.getUserRole() > 2) %><jsp:include page="LoginDeniedServlet" flush="true" />
             <%@ include file="/WEB-INF/jspf/header.jspf"%>
     <%
         }
@@ -223,6 +222,7 @@
                                 String postDate = dayDateFormat.format(currentJob.getPostDate());
                                 String closeDate = dayDateFormat.format(currentJob.getCloseDate());
                                 String reviewButtonDisabled = controller.getReviewButtonDisabled(jobId);
+                                String reviewButtonLabel = controller.getReviewButtonLabel(jobId);
                         %>
                         <tr>
                             <td><%=title%></td>
@@ -234,7 +234,7 @@
                             <td>
                                 <form action="jobreview.jsp" method="post">
                                     <input type="hidden" name="jobId" value="<%=jobId%>">
-                                    <button type="submit" class="btn btn-info" <%=reviewButtonDisabled%>>Review</button>
+                                    <button type="submit" class="btn btn-info" <%=reviewButtonDisabled%>><%=reviewButtonLabel%></button>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jobEditModal<%=x%>">Edit</button>                                
                                     <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#jobDeleteModal<%=x%>">Delete</button>      
                                 </form>

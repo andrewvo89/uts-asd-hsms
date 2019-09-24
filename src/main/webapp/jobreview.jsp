@@ -35,11 +35,10 @@
         <jsp:include page="LoginServlet" flush="true" />
         <%
         } else {//Only Administrator & Principal Access
-            if (user.getUserRole() > 2)
-                response.sendRedirect("index.jsp");
-        %>
+            if (user.getUserRole() > 2 || request.getParameter("jobId") == null) %><jsp:include page="LoginDeniedServlet" flush="true" />        
         <%@ include file="/WEB-INF/jspf/header.jspf"%>
-        <%            }
+        <%            
+            }
             JobReviewController controller = new JobReviewController(session);
             ArrayList<String> message = (ArrayList<String>) session.getAttribute("message");
             //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type

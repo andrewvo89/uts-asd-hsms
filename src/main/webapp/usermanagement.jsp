@@ -33,9 +33,8 @@
             <jsp:include page="LoginServlet" flush="true" />
     <%
         }
-        else {
-            if (user.getUserRole() > 2) response.sendRedirect("index.jsp");
-    %>
+        else {//If user is not Principal or Adminstrator role
+            if (user.getUserRole() > 2) %><jsp:include page="LoginDeniedServlet" flush="true" />
             <%@ include file="/WEB-INF/jspf/header.jspf"%>
     <%
         }
