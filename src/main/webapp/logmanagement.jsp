@@ -43,7 +43,6 @@
 <table style="padding-top: 250px;" width="600" border="1" align="center">
 <tr>
     <th><div align="center">LogID </div></th>
-<th><div align="center">UserName</div></th>
 <th><div align="center">Last LoggedIn</div></th>
 </tr>
     <% 
@@ -60,7 +59,7 @@
 
 <tr>
 <td><%=logID%></td>
-<td><%=firstName%></td>
+
 <td><%=loginTime%>"</td>
 <%
                         }

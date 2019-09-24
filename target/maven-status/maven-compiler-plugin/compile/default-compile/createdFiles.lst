@@ -2,11 +2,13 @@ uts/asd/hsms/controller/validator/EmailValidator.class
 uts/asd/hsms/controller/PasswordEncrypt.class
 uts/asd/hsms/controller/validator/ValidatorSequence.class
 uts/asd/hsms/controller/LogServlet.class
+uts/asd/hsms/model/Message.class
 uts/asd/hsms/controller/LogoutServlet.class
 uts/asd/hsms/controller/StaffValidator.class
 uts/asd/hsms/controller/AttendanceServlet.class
 uts/asd/hsms/controller/JobBoardServlet.class
 uts/asd/hsms/controller/validator/ValidatorGroupF.class
+uts/asd/hsms/controller/MessagesServlet.class
 uts/asd/hsms/controller/LogValidator.class
 uts/asd/hsms/controller/StaffdirectoryServlet.class
 uts/asd/hsms/controller/JobServlet.class
@@ -16,12 +18,14 @@ uts/asd/hsms/controller/JobManagementController.class
 uts/asd/hsms/controller/AttendanceValidator.class
 uts/asd/hsms/controller/validator/ValidatorGroupE.class
 uts/asd/hsms/controller/validator/ValidatorGroupB.class
+uts/asd/hsms/controller/MessageController.class
 uts/asd/hsms/model/Job.class
 uts/asd/hsms/controller/JobBoardController.class
 uts/asd/hsms/model/Staff.class
 uts/asd/hsms/model/dao/AttendanceDao.class
 uts/asd/hsms/controller/UserServlet.class
 uts/asd/hsms/model/dao/JobDao.class
+uts/asd/hsms/model/dao/MessageDao.class
 uts/asd/hsms/controller/validator/EmailConstraint.class
 uts/asd/hsms/controller/LogServlet$AuditLogDao.class
 uts/asd/hsms/controller/UserController.class
@@ -43,6 +47,7 @@ uts/asd/hsms/model/JobApplication.class
 uts/asd/hsms/controller/ConnServlet.class
 uts/asd/hsms/controller/validator/ValidatorGroupC.class
 uts/asd/hsms/model/dao/UserDao.class
+uts/asd/hsms/controller/MessageValidator.class
 uts/asd/hsms/model/User.class
 uts/asd/hsms/resources/JavaEE8Resource.class
 uts/asd/hsms/model/UserAudit.class

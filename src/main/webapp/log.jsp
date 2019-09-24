@@ -24,7 +24,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Log</title>
-        <% //Check if there is a valid user in the session
+        <%-- //Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
                 session.setAttribute("redirect", "log");
@@ -37,7 +37,7 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
-        %> 
+        --%> 
     </head>
     <body>
         
@@ -56,6 +56,7 @@
 <table style="padding-top: 100px;" width="600" border="1" align="center">
 <tr>
     <th> <div align="center">LogID </div></th>
+<th><div align="center">UserName</div></th>
 
 
 <th> <div align="center">Last Logged In </div></th>
@@ -74,8 +75,7 @@
 <tr>
  <td><%=logID%></td>
 
-
-
+<td><%=firstName%></td>
 <td><%=loginTime%>"</td>
 
                     <%
