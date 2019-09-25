@@ -31,7 +31,7 @@ public class LoginDeniedServlet extends HttpServlet {
             out.println("       <div class=\"main\" role=\"main\">");
             out.println("           <div class=\"container\">");
             out.println("               <h2>Access Denied</h2>");
-            out.println("               <p>Redirecting to Home in 3 seconds</p>");
+            out.println("               <p>Redirecting to home...</p>");
             out.println("               <script>");
             out.println("               var timer = setTimeout(function() {");
             out.println("                   window.location='index.jsp'");
