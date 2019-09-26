@@ -144,79 +144,29 @@
                         String lastName = user.getLastName();
                         String email = user.getEmail();
                         String phone = user.getPhone();
-                        String buttonLabel = controller.getButtonLabel(jobId, userId);
-                        String buttonColor = controller.getButtonColor(buttonLabel);
-                        String buttonDisabled = controller.getButtonDisabled(buttonLabel);
                         String footerLabel = controller.getFooterLabel(currentJob.getPostDate());                        
                 %>
                 <br>
                 <div class="card">                        
                     <div class="card-header float-right align-items-center py-2">
+                       <div style="float: left"> 
                         <span class="btn-warning badge badge-pill"><%=department%></span>
+                        
+                        </div>
+                        <p style="float:center">Post date: <%=footerLabel%>      Author:</p>
+
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"><%=title%></h4>
                         <p class="card-text"><%=description%></p>
-                        <button type="button" class="btn btn-<%=buttonColor%>" data-toggle="modal" data-target="#jobApplyModal<%=x%>" <%=buttonDisabled%>><%=buttonLabel%></button>
                     </div>
                     <div class="card-footer text-muted"><%=footerLabel%></div>
                 </div>                
-                <!--JOB APPLY MODAL DIALOG-->        
-                <div class="modal fade" id="jobApplyModal<%=x%>" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title"><%=title%></h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>    
-                            </div>         
-                            <form method="post" action="JobApplicationServlet">                    
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <p class="font-weight-bold"><%=firstName%> <%=lastName%></p>
-                                        <%=email%><br><%=phone%>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <p class="font-weight-bold">Cover Letter</p>
-                                        <label>Briefly explain why you are suitable for this role. 
-                                            Consider your relevant skills, qualifications and related experience.</label>
-                                        <textarea class="form-control" name="coverLetter" rows="5"></textarea>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="hidden" name="userId" value="<%=userId.toString()%>">
-                                    <input type="hidden" name="jobId" value="<%=jobId.toString()%>">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Apply</button>
-                                </div>
-                            </form> 
-                       </div> 
-                    </div>   
-                </div>
+    
+
                 <%
                     }
-                %>   
-                <!--MESSAGE MODAL AFTER APPLYING FOR JOB-->
-                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title"><%=message.get(0)%></h5>
-                                <button type="button" class="close" data-dismiss="modal">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>    
-                            </div>                            
-                            <div class="modal-body">
-                                <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div> 
-                    </div>   
-                </div>     
+                %>        
             </div>
         </div>
         <%
