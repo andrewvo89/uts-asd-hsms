@@ -150,17 +150,19 @@
                 <div class="card">                        
                     <div class="card-header float-right align-items-center py-2">
                        <div style="float: left"> 
-                        <span class="btn-warning badge badge-pill"><%=department%></span>
+                        <span class="btn-warning badge badge-pill">Art</span>
                         
                         </div>
-                        <p style="float:center">Post date: <%=footerLabel%>      Author:</p>
+                        <p style="float:center">Post date:20-09-2019 Author:Alvin</p>
 
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title"><%=title%></h4>
-                        <p class="card-text"><%=description%></p>
+                        <h4 class="card-title">Eearly Student Feedback Survey - Feeback Loop</h4>
+                        <p class="card-text">Dear Students,
+
+Thanks for completing the early SFS survey and feedback. I take feedback seriously and always strive to continuously improve the teaching and learning.</p>
                     </div>
-                    <div class="card-footer text-muted"><%=footerLabel%></div>
+                    <div class="card-footer text-muted">10 days ago</div>
                 </div>                
     
 
