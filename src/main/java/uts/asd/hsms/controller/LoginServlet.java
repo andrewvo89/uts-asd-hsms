@@ -112,6 +112,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("user", loginUser);
             session.removeAttribute("errorMessage");
             session.removeAttribute("failedLogins");
+            auditLogDao.addLoginTime(loginUser.getFirstName(),loginTime);
         }//Authentication Failed
         else {//If attribute failedLogins exists, get the attribute, otherwise initialize a new one
             session.setAttribute("errorMessage", "Username or Password Incorrect");
