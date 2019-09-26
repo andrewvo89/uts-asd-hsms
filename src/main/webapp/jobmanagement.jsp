@@ -237,9 +237,9 @@
                             <td>
                                 <form action="jobreview.jsp" method="post">
                                     <input type="hidden" name="jobId" value="<%=jobIdString%>">
-                                    <button type="submit" class="btn btn-info" <%=reviewButtonDisabled%>><%=reviewButtonLabel%></button>
+                                    <button type="submit" class="btn btn-info" id="jobReviewButton<%=jobIdString%>" <%=reviewButtonDisabled%>><%=reviewButtonLabel%></button>
                                     <button type="button" class="btn btn-primary" id="jobEditButton<%=jobIdString%>" data-toggle="modal" data-target="#jobEditModal<%=jobIdString%>">Edit</button>                                
-                                    <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#jobDeleteModal<%=jobIdString%>">Delete</button>      
+                                    <button type="button" class="btn btn-danger"  id="jobDeleteButton<%=jobIdString%>" data-toggle="modal" data-target="#jobDeleteModal<%=jobIdString%>">Delete</button>      
                                 </form>
                                 <!--EDIT USER MODAL DIALOG-->        
                                 <div class="modal fade" id="jobEditModal<%=jobIdString%>" tabindex="-1" role="dialog" aria-hidden="true">
@@ -361,10 +361,10 @@
                                                     <p>This action cannot be undone.</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <input type="hidden" name="jobIdDelete" value="<%=jobId.toString()%>">
+                                                    <input type="hidden" name="jobIdDelete" value="<%=jobIdString%>">
                                                     <input type="hidden" name="action" value="delete">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary btn-danger">Confirm</button>
+                                                    <button type="submit" id="jobConfirmDeleteButton<%=jobIdString%>" class="btn btn-primary btn-danger">Confirm</button>
                                                 </div>
                                             </form>
                                         </div>

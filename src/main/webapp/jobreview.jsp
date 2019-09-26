@@ -98,7 +98,7 @@
                         <strong>>></strong>
                         <button type="button" class="btn btn<%=statusButtonOutline[2]%>-danger" data-toggle="<%=statusButtonToggle[2]%>" data-target="#rejectModal<%=x%>"><%=statusButtonLabel[2]%></button>
                         <strong>>></strong>
-                        <button type="button" class="btn btn<%=statusButtonOutline[3]%>-success" data-toggle="<%=statusButtonToggle[3]%>" data-target="#successModal<%=x%>"><%=statusButtonLabel[3]%></button>
+                        <button type="button" class="btn btn<%=statusButtonOutline[3]%>-success" data-toggle="<%=statusButtonToggle[3]%>" data-target="#successModal<%=x%>" id="successButton<%=x%>"><%=statusButtonLabel[3]%></button>
                     </div>
                     <div class="card-footer text-muted"><%=footerLabel%></div>
                 </div>
@@ -174,7 +174,7 @@
                                     <input type="hidden" name="jobApplicationId" value="<%=jobApplicationId%>">
                                     <input type="hidden" name="action" value="success">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>                 
-                                    <button type="submit" class="btn btn-primary btn-success">Confirm</button>
+                                    <button type="submit" id="successConfirmButton<%=x%>" class="btn btn-primary btn-success">Confirm</button>
                                 </div>
                             </form>
                         </div>

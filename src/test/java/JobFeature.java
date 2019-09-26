@@ -14,6 +14,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import static org.junit.Assert.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -48,7 +50,14 @@ public class JobFeature {
         driver.findElement(By.id("email")).sendKeys("sally@hsms.edu.au");
         driver.findElement(By.id("password")).sendKeys("Password!");
         driver.findElement(By.id("submit")).submit();
-    }       
+    }
+    @Given("^the job has been fulfilled$") 
+    public void NavigateJobReview() throws Throwable { 
+        NavigateJobManagement();
+        driver.findElement(By.id("jobReviewButton" + JobIdResult.jobIdResult)).submit();
+        driver.findElement(By.id("successButton0")).click();
+        driver.findElement(By.id("successConfirmButton0")).submit();
+    }   
     
     @When("^U104 I click on add job$") 
     public void U104ClickAdd() throws Throwable { 
@@ -56,7 +65,7 @@ public class JobFeature {
     }
     
     @And("^U104 I change the title to \"([^\"]*)\" description to \"([^\"]*)\" and close date to \"([^\"]*)\"$") 
-    public void U104AddJob(String title, String description, String closeDate) throws Throwable { 
+    public void U104AddJob(String title, String description, String closeDate) throws Throwable {
         WebElement titleAdd = driver.findElement(By.id("titleAdd")); 
         WebElement descriptionAdd = driver.findElement(By.id("descriptionAdd"));
         WebElement closeDateAdd = driver.findElement(By.id("closeDateAdd"));
@@ -123,5 +132,23 @@ public class JobFeature {
         String actualResult = driver.findElement(By.id("modalTrigger")).getAttribute("value");
         assertEquals(expectedResult, actualResult);
         driver.close();
-    } 
+    }
+    
+    @When("^U107 I click on delete job$") 
+    public void U107ClickDelete() throws Throwable {
+        driver.get("http://localhost:8080/uts-asd-hsms/jobmanagement.jsp");
+        driver.findElement(By.id("jobDeleteButton" + JobIdResult.jobIdResult)).click();
+    }
+    
+    @When("^U107 I confirm delete$") 
+    public void U107ConfirmDelete() throws Throwable {
+        driver.findElement(By.id("jobConfirmDeleteButton" + JobIdResult.jobIdResult)).submit();
+    }
+    
+    @Then("^U107 I should get message indicating \"([^\"]*)\"$") 
+    public void U107GetResult(String expectedResult) throws Throwable {
+        String actualResult = driver.findElement(By.id("modalTrigger")).getAttribute("value");
+        assertEquals(expectedResult, actualResult);
+        driver.close();
+    }
 }

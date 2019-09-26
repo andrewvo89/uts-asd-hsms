@@ -1,0 +1,528 @@
+[
+  {
+    "line": 2,
+    "elements": [
+      {
+        "line": 7,
+        "name": "Edit existing user",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 9332663800,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I am on the user management page",
+            "match": {
+              "location": "UserFeature.NavigateUserManagement()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2019-09-26T12:36:38.216Z",
+        "line": 20,
+        "name": "Start editing a user",
+        "description": "",
+        "id": "u102;start-editing-a-user;;2",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 61512600,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "U102 I click on edit",
+            "match": {
+              "location": "UserFeature.U102ClickEdit()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 1457733100,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "U102 I change phone to \"0297247764\" and email to \"aaron@hsms.edu.au\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "0297247764",
+                  "offset": 24
+                },
+                {
+                  "val": "aaron@hsms.edu.au",
+                  "offset": 50
+                }
+              ],
+              "location": "UserFeature.U102EditUser(String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 78867900,
+              "status": "passed"
+            },
+            "line": 13,
+            "name": "U102 I should get a message indicating \"success\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 40
+                }
+              ],
+              "location": "UserFeature.U102GetResult(String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@RunWith"
+          }
+        ]
+      }
+    ],
+    "name": "U102",
+    "description": "   As a principal\n   I want edit an existing teacher\n   In order to update their details",
+    "id": "u102",
+    "keyword": "Feature",
+    "uri": "file:src/test/java/U102.feature",
+    "tags": [
+      {
+        "name": "@RunWith",
+        "type": "Tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ]
+  },
+  {
+    "line": 2,
+    "elements": [
+      {
+        "line": 7,
+        "name": "Edit existing job role",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 12761673000,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I am on the job management page",
+            "match": {
+              "location": "JobFeature.NavigateJobManagement()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2019-09-26T12:36:49.182Z",
+        "line": 19,
+        "name": "Post a job role onto the job board",
+        "description": "",
+        "id": "u104;post-a-job-role-onto-the-job-board;;2",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 62878300,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "U104 I click on add job",
+            "match": {
+              "location": "JobFeature.U104ClickAdd()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 3830410200,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "U104 I change the title to \"Junior Science Teacher\" description to \"A senior science teacher is required immediately to start right away.\" and close date to \"30112020\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Junior Science Teacher",
+                  "offset": 28
+                },
+                {
+                  "val": "A senior science teacher is required immediately to start right away.",
+                  "offset": 68
+                },
+                {
+                  "val": "30112020",
+                  "offset": 158
+                }
+              ],
+              "location": "JobFeature.U104AddJob(String,String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 91447200,
+              "status": "passed"
+            },
+            "line": 13,
+            "name": "U104 I should get a message indicating \"success\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 40
+                }
+              ],
+              "location": "JobFeature.U104GetResult(String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@RunWith"
+          }
+        ]
+      }
+    ],
+    "name": "U104",
+    "description": "   As a principal\n   I want to post an internal job position onto the HSMS\n   In order for internal teachers to apply for job roles",
+    "id": "u104",
+    "keyword": "Feature",
+    "uri": "file:src/test/java/U104.feature",
+    "tags": [
+      {
+        "name": "@RunWith",
+        "type": "Tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ]
+  },
+  {
+    "line": 2,
+    "elements": [
+      {
+        "line": 7,
+        "name": "Apply for a job",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 17095511600,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I am on the job board page",
+            "match": {
+              "location": "JobFeature.NavigateJobBoard()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2019-09-26T12:37:05.933Z",
+        "line": 17,
+        "name": "Start applying for a job",
+        "description": "",
+        "id": "u105;start-applying-for-a-job;;2",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 63482500,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "U105 I click on apply",
+            "match": {
+              "location": "JobFeature.U105ClickApply()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 22089608800,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "U105 I write my cover letter as \"Hi Science Department,\nI am highly interested in this role and am ready to start immediately.\nPlease consider me for this role\n\nKind Regards, Sally.\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Hi Science Department,\nI am highly interested in this role and am ready to start immediately.\nPlease consider me for this role\n\nKind Regards, Sally.",
+                  "offset": 33
+                }
+              ],
+              "location": "JobFeature.U105ApplyJob(String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 71057200,
+              "status": "passed"
+            },
+            "line": 13,
+            "name": "U105 I should get a message indicating \"success\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 40
+                }
+              ],
+              "location": "JobFeature.U105GetResult(String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@RunWith"
+          }
+        ]
+      }
+    ],
+    "name": "U105",
+    "description": "   As a teacher\n   I want to apply for a job role on HSMS\n   In order fruther my teaching career",
+    "id": "u105",
+    "keyword": "Feature",
+    "uri": "file:src/test/java/U105.feature",
+    "tags": [
+      {
+        "name": "@RunWith",
+        "type": "Tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ]
+  },
+  {
+    "line": 2,
+    "elements": [
+      {
+        "line": 7,
+        "name": "Edit existing job role",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 13617632000,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I am on the job management page",
+            "match": {
+              "location": "JobFeature.NavigateJobManagement()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2019-09-26T12:37:45.258Z",
+        "line": 20,
+        "name": "Start editing a job role",
+        "description": "",
+        "id": "u106;start-editing-a-job-role;;2",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 56650200,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "U106 I click on edit job",
+            "match": {
+              "location": "JobFeature.U106ClickEdit()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 3616686900,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "U106 I change title to \"Senior Science Teacher\" and close date to \"25122019\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Senior Science Teacher",
+                  "offset": 24
+                },
+                {
+                  "val": "25122019",
+                  "offset": 67
+                }
+              ],
+              "location": "JobFeature.U106EditJob(String,String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 65152400,
+              "status": "passed"
+            },
+            "line": 13,
+            "name": "U106 I should get a job edit message indicating \"success\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 49
+                }
+              ],
+              "location": "JobFeature.U106GetResult(String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@RunWith"
+          }
+        ]
+      }
+    ],
+    "name": "U106",
+    "description": "   As a principal\n   I want edit an existing job role on the HSMS\n   In order for the details to be correct and accurate",
+    "id": "u106",
+    "keyword": "Feature",
+    "uri": "file:src/test/java/U106.feature",
+    "tags": [
+      {
+        "name": "@RunWith",
+        "type": "Tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ]
+  },
+  {
+    "line": 2,
+    "elements": [
+      {
+        "line": 7,
+        "name": "Delete an existing job role",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 23149972700,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "the job has been fulfilled",
+            "match": {
+              "location": "JobFeature.NavigateJobReview()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2019-09-26T12:38:02.646Z",
+        "line": 16,
+        "name": "Start deleting a job role",
+        "description": "",
+        "id": "u107;start-deleting-a-job-role;;2",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 6242953300,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "U107 I click on delete job",
+            "match": {
+              "location": "JobFeature.U107ClickDelete()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 6431385400,
+              "status": "passed"
+            },
+            "line": 12,
+            "name": "U107 I confirm delete",
+            "match": {
+              "location": "JobFeature.U107ConfirmDelete()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "status": "undefined"
+            },
+            "line": 13,
+            "name": "U107 I should get a message indicating \"success\"",
+            "match": {},
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@RunWith"
+          }
+        ]
+      }
+    ],
+    "name": "U107",
+    "description": "   As a principal\n   I want remove a job role once it has been fulfilled\n   In order for teachers to not apply for a job position that has already been filled",
+    "id": "u107",
+    "keyword": "Feature",
+    "uri": "file:src/test/java/U107.feature",
+    "tags": [
+      {
+        "name": "@RunWith",
+        "type": "Tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ]
+  }
+]
