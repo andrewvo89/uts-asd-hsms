@@ -53,7 +53,7 @@ public class JobManagementServlet extends HttpServlet {
     }
     
     public void addJob() throws ServletException, IOException {
-        title = request.getParameter("titleAdd").trim();
+        title = controller.toProperCase(request.getParameter("titleAdd").trim());
         description = request.getParameter("descriptionAdd").trim();
         workType = request.getParameter("workTypeAdd").trim();
         department = request.getParameter("departmentAdd").trim();
@@ -67,16 +67,8 @@ public class JobManagementServlet extends HttpServlet {
         }
         //Job to be added into the Database
         Job job = new Job(null, title, description, workType, department, status, postDate, closeDate, true);
-        Date tempDate = null;
-        if (job.getStatus().equals("Draft") && job.getCloseDate().before(new Date())) {
-            tempDate = job.getCloseDate();//Bypass validation for Close Date if the post is already Closed or still in Draft mode
-            Date tomorrowDate = new Date();
-            tomorrowDate.setTime(tomorrowDate.getTime() + 86400000);
-            job.setCloseDate(tomorrowDate);
-        }
         jobValidator = new JobValidator(job);//Server Side validations
         String[] errorMessages = jobValidator.validateJob();//If Server Side validations have errors
-        if (tempDate != null) job.setCloseDate(tempDate);//Set close date back to the past after validation
         String addModalErrorMessage = "";
         Boolean addSuccess = false;
         message.add("Add User Result"); 
@@ -86,14 +78,16 @@ public class JobManagementServlet extends HttpServlet {
             addModalErrorMessage = errorMessages[0]; 
         }
         else {
-            if (controller.addJob(job)) addSuccess = true;
+            if (controller.addJob(job)) {
+                addSuccess = true;
+            } 
             else addModalErrorMessage = "Failed to add Job: Database issue";
         }//Add OK
         if (addSuccess) {
             message.add(String.format("%s added successfully", title)); message.add("success"); 
             session.setAttribute("message", message);//Show search results with jobId to help indicate new record on View
-            jobId = job.getJobId();
-            response.sendRedirect("jobmanagement.jsp?jobIdSearch=" + jobId.toString());
+            session.setAttribute("jobIdResult", job.getJobId().toString());
+            response.sendRedirect("jobmanagement.jsp?jobIdSearch=" + job.getJobId().toString());
         }//Error from jobValidator
         else {
             message.add(addModalErrorMessage); message.add("danger");  
@@ -105,7 +99,7 @@ public class JobManagementServlet extends HttpServlet {
     public void editJob() throws ServletException, IOException {        
         Job oldJob = null, newJob = null;
         jobId =  new ObjectId(request.getParameter("jobIdEdit"));
-        title = request.getParameter("titleEdit").trim();
+        title = controller.toProperCase(request.getParameter("titleEdit").trim());
         description = request.getParameter("descriptionEdit").trim();
         workType = request.getParameter("workTypeEdit").trim();
         department = request.getParameter("departmentEdit").trim();
@@ -143,12 +137,13 @@ public class JobManagementServlet extends HttpServlet {
         //Final setting of Parameters depending on edit success of failure
         if (editSuccess) {
             message.add(String.format("%s edited successfully", newJob.getTitle())); message.add("success");
+            session.setAttribute("jobIdResult", newJob.getJobId().toString());
         }
         else {
             message.add(editModalErrorMessage); message.add("danger");
         }
         session.setAttribute("message", message);//Set success of failure message to display on next page
-        response.sendRedirect("jobmanagement.jsp?jobIdSearch=" + jobId.toString());
+        response.sendRedirect("jobmanagement.jsp?jobIdSearch=" + newJob.getJobId().toString());
     }
 
     public void deleteJob() throws ServletException, IOException {

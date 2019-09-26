@@ -214,6 +214,7 @@
                     for (int x = 0; x < openJobs.length; x++) {
                         Job currentJob = openJobs[x];
                         ObjectId jobId = currentJob.getJobId();
+                        String jobIdString = jobId.toString();
                         String title = currentJob.getTitle();
                         String description = controller.processLineBreaks(currentJob.getDescription());
                         String workType = currentJob.getWorkType();
@@ -237,12 +238,12 @@
                     <div class="card-body">
                         <h4 class="card-title"><%=title%></h4>
                         <p class="card-text"><%=description%></p>
-                        <button type="button" class="btn btn-<%=buttonColor%>" data-toggle="modal" data-target="#jobApplyModal<%=x%>" <%=buttonDisabled%>><%=buttonLabel%></button>
+                        <button type="button" class="btn btn-<%=buttonColor%>" data-toggle="modal" id="jobApplyButton<%=jobIdString%>" data-target="#jobApplyModal<%=jobIdString%>" <%=buttonDisabled%>><%=buttonLabel%></button>
                     </div>
                     <div class="card-footer text-muted"><%=footerLabel%></div>
                 </div>                
                 <!--JOB APPLY MODAL DIALOG-->        
-                <div class="modal fade" id="jobApplyModal<%=x%>" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade" id="jobApplyModal<%=jobIdString%>" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -262,14 +263,14 @@
                                         <p class="font-weight-bold">Cover Letter</p>
                                         <label>Briefly explain why you are suitable for this role. 
                                             Consider your relevant skills, qualifications and related experience.</label>
-                                        <textarea class="form-control" name="coverLetter" rows="5"></textarea>
+                                        <textarea class="form-control" name="coverLetter" id="coverLetter<%=jobIdString%>" rows="5"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <input type="hidden" name="userId" value="<%=userId.toString()%>">
-                                    <input type="hidden" name="jobId" value="<%=jobId.toString()%>">
+                                    <input type="hidden" name="jobId" value="<%=jobIdString%>">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Apply</button>
+                                    <button type="submit" class="btn btn-primary" id="jobApplyConfirmButton<%=jobIdString%>">Apply</button>
                                 </div>
                             </form> 
                        </div> 

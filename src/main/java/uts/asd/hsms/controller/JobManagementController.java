@@ -28,6 +28,18 @@ public class JobManagementController {
         jobDao = (JobDao)session.getAttribute("jobDao");
         jobApplicationDao = (JobApplicationDao)session.getAttribute("jobApplicationDao");
     }
+    //Set Title to Proper Case
+    public String toProperCase(String input) {
+        String properCase = "";
+        String previousLetter = "";
+        input = input.trim();
+        for (int x = 0; x < input.length(); x ++) {
+            if (x == 0 || previousLetter.equals("-") || previousLetter.equals(" ")) properCase += input.substring(x, x + 1).toUpperCase();
+            else properCase += input.substring(x, x + 1).toLowerCase();
+            previousLetter = input.substring(x, x + 1);
+        }
+        return properCase;
+    }
     //Close off any jobs past its date
     public void setClosedStatus() {
         Job[] jobs = jobDao.getJobs(null, null, null, null, null, null, null, null, true, "title", 1);
