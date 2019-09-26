@@ -23,7 +23,7 @@ import uts.asd.hsms.model.dao.MessageDao;
  *
  * @author Sukonrat
  */
-@WebServlet("/MessagesServlet")
+//@WebServlet("/MessagesServlet")
 
 public class MessagesServlet extends HttpServlet {
  private HttpSession session;

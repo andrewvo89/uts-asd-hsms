@@ -109,7 +109,7 @@
                                 <div class="text">
                                     <span>You have 2 new Messages.</span>
                                 </div>
-                                <a href="messages.jsp">Show More</a>
+                                <a href="message.jsp">Show More</a>
                             </div>
                         </div>
                     </div>	

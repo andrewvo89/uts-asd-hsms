@@ -31,11 +31,14 @@ D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\Staff
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\ConnServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\EmailValidator.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\JAXRSConfiguration.java
+D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\MessageController.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\ValidatorGroupC.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\JobBoardController.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\Attendance.java
+D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\Message.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\Tutorial.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\UserValidator.java
+D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\MessageValidator.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\EmailNotifier.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\StaffDao.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\StaffValidator.java
@@ -43,6 +46,7 @@ D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\AttendanceDao.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\LogValidator.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\JobApplication.java
+D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\MessagesServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\validator\JobApplicationValidator.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\LogoutServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\UserDao.java
@@ -53,5 +57,6 @@ D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\A
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\AttendanceServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\Leave.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\Job.java
+D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\MessageDao.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\controller\LogServlet.java
 D:\Google Drive\Study\GitHub\uts-asd-hsms\src\main\java\uts\asd\hsms\model\dao\MongoDBConnector.java

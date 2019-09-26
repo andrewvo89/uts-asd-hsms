@@ -5,6 +5,7 @@ uts\asd\hsms\model\dao\MongoDBConnector.class
 uts\asd\hsms\model\Attendance.class
 uts\asd\hsms\model\UserAudit.class
 uts\asd\hsms\controller\validator\ValidatorGroupA.class
+uts\asd\hsms\controller\MessageValidator.class
 uts\asd\hsms\model\dao\TutorialDao.class
 uts\asd\hsms\controller\LoginController.class
 uts\asd\hsms\controller\validator\ValidatorSequence.class
@@ -25,6 +26,7 @@ uts\asd\hsms\model\Job.class
 uts\asd\hsms\controller\UserController.class
 uts\asd\hsms\model\User.class
 uts\asd\hsms\controller\validator\ValidatorGroupG.class
+uts\asd\hsms\model\Message.class
 uts\asd\hsms\controller\validator\AttendanceValidator.class
 uts\asd\hsms\controller\TutorialController.class
 uts\asd\hsms\controller\LogServlet$AuditLogDao.class
@@ -44,14 +46,17 @@ uts\asd\hsms\model\dao\StaffDao.class
 uts\asd\hsms\model\Staff.class
 uts\asd\hsms\controller\validator\JobApplicationValidator.class
 uts\asd\hsms\controller\validator\ValidatorGroupC.class
+uts\asd\hsms\controller\MessagesServlet.class
 uts\asd\hsms\controller\LeaveController.class
 uts\asd\hsms\controller\validator\ValidatorGroupB.class
 uts\asd\hsms\controller\JobBoardController.class
 uts\asd\hsms\controller\LoginServlet.class
 uts\asd\hsms\controller\JobReviewServlet.class
+uts\asd\hsms\controller\MessageController.class
 uts\asd\hsms\controller\AttendanceController.class
 uts\asd\hsms\model\dao\JobApplicationDao.class
 uts\asd\hsms\controller\validator\ValidatorGroupE.class
+uts\asd\hsms\model\dao\MessageDao.class
 uts\asd\hsms\controller\IndexController.class
 uts\asd\hsms\controller\UserServlet.class
 uts\asd\hsms\controller\JobManagementServlet.class
