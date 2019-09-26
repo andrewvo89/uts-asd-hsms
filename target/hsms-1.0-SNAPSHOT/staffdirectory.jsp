@@ -103,7 +103,7 @@
                     <!--SEARCH COLLAPSIBLE CARD-->
                     <div class="collapse" id="collapseSearch">
                         <div class="card-body">
-                            <form action="usermanagement.jsp" method="post">
+                            <form action="staffdirectory.jsp" method="post">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>First Name</label>
@@ -231,15 +231,7 @@
                     
 
                         
-                                   <tr>
-                            <td>Alice</td>
-                            <td>Lo</td>
-                            <td>English</td>
-                            <td>Principal</td>
-                            <td>principal@hsms.edu.au</td>
-                            <td>0400000000</td>
-                            <td>CB11.02.011</td>
-                                   </tr>
+                                  
 
 
                         </tbody>
