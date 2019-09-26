@@ -156,6 +156,6 @@ public class JobManagementServlet extends HttpServlet {
          }//If fail delete, set failure flags
         if (!deleteSuccess) message.add("Failed to delete user"); message.add("danger");
         session.setAttribute("message", message);
-        response.sendRedirect("jobmanagement.jsp?jobIdSearch=");
+        response.sendRedirect("jobmanagement.jsp");
     }
 }
