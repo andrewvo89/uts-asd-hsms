@@ -53,10 +53,18 @@ public class JobFeature {
     }
     @Given("^the job has been fulfilled$") 
     public void NavigateJobReview() throws Throwable { 
-        NavigateJobManagement();
+        Class<? extends WebDriver> driverClass = ChromeDriver.class;
+        WebDriverManager.getInstance(driverClass).setup();
+        driver = driverClass.newInstance();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.get("https://uts-asd-hsms.herokuapp.com/jobmanagement.jsp");
+        driver.findElement(By.id("email")).sendKeys("aaron@hsms.edu.au");
+        driver.findElement(By.id("password")).sendKeys("Password!");
+        driver.findElement(By.id("submit")).submit();
         driver.findElement(By.id("jobReviewButton" + JobIdResult.jobIdResult)).submit();
         driver.findElement(By.id("successButton0")).click();
         driver.findElement(By.id("successConfirmButton0")).submit();
+        driver.get("https://uts-asd-hsms.herokuapp.com/jobmanagement.jsp");
     }   
     
     @When("^U104 I click on add job$") 
@@ -136,13 +144,12 @@ public class JobFeature {
     
     @When("^U107 I click on delete job$") 
     public void U107ClickDelete() throws Throwable {
-        driver.get("https://uts-asd-hsms.herokuapp.com/jobmanagement.jsp");
         driver.findElement(By.id("jobDeleteButton" + JobIdResult.jobIdResult)).click();
     }
     
     @When("^U107 I confirm delete$") 
     public void U107ConfirmDelete() throws Throwable {
-        driver.findElement(By.id("jobConfirmDeleteButton" + JobIdResult.jobIdResult)).submit();
+        driver.findElement(By.id("jobDeleteConfirmButton" + JobIdResult.jobIdResult)).submit();
     }
     
     @Then("^U107 I should get message indicating \"([^\"]*)\"$") 

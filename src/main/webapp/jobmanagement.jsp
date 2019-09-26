@@ -364,7 +364,7 @@
                                                     <input type="hidden" name="jobIdDelete" value="<%=jobIdString%>">
                                                     <input type="hidden" name="action" value="delete">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="submit" id="jobConfirmDeleteButton<%=jobIdString%>" class="btn btn-primary btn-danger">Confirm</button>
+                                                    <button type="submit" id="jobDeleteConfirmButton<%=jobIdString%>" class="btn btn-primary btn-danger">Confirm</button>
                                                 </div>
                                             </form>
                                         </div>

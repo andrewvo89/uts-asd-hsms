@@ -11,7 +11,7 @@
         "steps": [
           {
             "result": {
-              "duration": 9332663800,
+              "duration": 9553779500,
               "status": "passed"
             },
             "line": 8,
@@ -24,7 +24,7 @@
         ]
       },
       {
-        "start_timestamp": "2019-09-26T12:36:38.216Z",
+        "start_timestamp": "2019-09-26T20:29:06.727Z",
         "line": 20,
         "name": "Start editing a user",
         "description": "",
@@ -34,7 +34,7 @@
         "steps": [
           {
             "result": {
-              "duration": 61512600,
+              "duration": 59588600,
               "status": "passed"
             },
             "line": 11,
@@ -46,7 +46,7 @@
           },
           {
             "result": {
-              "duration": 1457733100,
+              "duration": 1376506400,
               "status": "passed"
             },
             "line": 12,
@@ -68,7 +68,7 @@
           },
           {
             "result": {
-              "duration": 78867900,
+              "duration": 81532500,
               "status": "passed"
             },
             "line": 13,
@@ -120,7 +120,7 @@
         "steps": [
           {
             "result": {
-              "duration": 12761673000,
+              "duration": 8545778900,
               "status": "passed"
             },
             "line": 8,
@@ -133,7 +133,7 @@
         ]
       },
       {
-        "start_timestamp": "2019-09-26T12:36:49.182Z",
+        "start_timestamp": "2019-09-26T20:29:17.837Z",
         "line": 19,
         "name": "Post a job role onto the job board",
         "description": "",
@@ -143,7 +143,7 @@
         "steps": [
           {
             "result": {
-              "duration": 62878300,
+              "duration": 75545600,
               "status": "passed"
             },
             "line": 11,
@@ -155,7 +155,7 @@
           },
           {
             "result": {
-              "duration": 3830410200,
+              "duration": 2403771000,
               "status": "passed"
             },
             "line": 12,
@@ -181,7 +181,7 @@
           },
           {
             "result": {
-              "duration": 91447200,
+              "duration": 85390800,
               "status": "passed"
             },
             "line": 13,
@@ -233,7 +233,7 @@
         "steps": [
           {
             "result": {
-              "duration": 17095511600,
+              "duration": 8385848900,
               "status": "passed"
             },
             "line": 8,
@@ -246,7 +246,7 @@
         ]
       },
       {
-        "start_timestamp": "2019-09-26T12:37:05.933Z",
+        "start_timestamp": "2019-09-26T20:29:28.954Z",
         "line": 17,
         "name": "Start applying for a job",
         "description": "",
@@ -256,7 +256,7 @@
         "steps": [
           {
             "result": {
-              "duration": 63482500,
+              "duration": 63355300,
               "status": "passed"
             },
             "line": 11,
@@ -268,7 +268,7 @@
           },
           {
             "result": {
-              "duration": 22089608800,
+              "duration": 5874157700,
               "status": "passed"
             },
             "line": 12,
@@ -286,7 +286,7 @@
           },
           {
             "result": {
-              "duration": 71057200,
+              "duration": 70153100,
               "status": "passed"
             },
             "line": 13,
@@ -338,7 +338,7 @@
         "steps": [
           {
             "result": {
-              "duration": 13617632000,
+              "duration": 8757645900,
               "status": "passed"
             },
             "line": 8,
@@ -351,7 +351,7 @@
         ]
       },
       {
-        "start_timestamp": "2019-09-26T12:37:45.258Z",
+        "start_timestamp": "2019-09-26T20:29:43.352Z",
         "line": 20,
         "name": "Start editing a job role",
         "description": "",
@@ -361,7 +361,7 @@
         "steps": [
           {
             "result": {
-              "duration": 56650200,
+              "duration": 61607500,
               "status": "passed"
             },
             "line": 11,
@@ -373,7 +373,7 @@
           },
           {
             "result": {
-              "duration": 3616686900,
+              "duration": 1294220100,
               "status": "passed"
             },
             "line": 12,
@@ -395,7 +395,7 @@
           },
           {
             "result": {
-              "duration": 65152400,
+              "duration": 69885400,
               "status": "passed"
             },
             "line": 13,
@@ -447,20 +447,20 @@
         "steps": [
           {
             "result": {
-              "duration": 23149972700,
+              "duration": 9868961000,
               "status": "passed"
             },
             "line": 8,
-            "name": "the job has been fulfilled",
+            "name": "I am on the job management page",
             "match": {
-              "location": "JobFeature.NavigateJobReview()"
+              "location": "JobFeature.NavigateJobManagement()"
             },
             "keyword": "Given "
           }
         ]
       },
       {
-        "start_timestamp": "2019-09-26T12:38:02.646Z",
+        "start_timestamp": "2019-09-26T20:29:53.570Z",
         "line": 16,
         "name": "Start deleting a job role",
         "description": "",
@@ -470,7 +470,7 @@
         "steps": [
           {
             "result": {
-              "duration": 6242953300,
+              "duration": 70983500,
               "status": "passed"
             },
             "line": 11,
@@ -482,7 +482,7 @@
           },
           {
             "result": {
-              "duration": 6431385400,
+              "duration": 758897700,
               "status": "passed"
             },
             "line": 12,
