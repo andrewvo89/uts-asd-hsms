@@ -34,7 +34,7 @@ public class JobFeature {
         WebDriverManager.getInstance(driverClass).setup();
         driver = driverClass.newInstance();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/uts-asd-hsms/jobmanagement.jsp");
+        driver.get("https://uts-asd-hsms.herokuapp.com/jobmanagement.jsp");
         driver.findElement(By.id("email")).sendKeys("aaron@hsms.edu.au");
         driver.findElement(By.id("password")).sendKeys("Password!");
         driver.findElement(By.id("submit")).submit();
@@ -46,7 +46,7 @@ public class JobFeature {
         WebDriverManager.getInstance(driverClass).setup();
         driver = driverClass.newInstance();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("http://localhost:8080/uts-asd-hsms/jobboard.jsp");
+        driver.get("https://uts-asd-hsms.herokuapp.com/jobboard.jsp");
         driver.findElement(By.id("email")).sendKeys("sally@hsms.edu.au");
         driver.findElement(By.id("password")).sendKeys("Password!");
         driver.findElement(By.id("submit")).submit();
@@ -136,7 +136,7 @@ public class JobFeature {
     
     @When("^U107 I click on delete job$") 
     public void U107ClickDelete() throws Throwable {
-        driver.get("http://localhost:8080/uts-asd-hsms/jobmanagement.jsp");
+        driver.get("https://uts-asd-hsms.herokuapp.com/jobmanagement.jsp");
         driver.findElement(By.id("jobDeleteButton" + JobIdResult.jobIdResult)).click();
     }
     
