@@ -80,6 +80,7 @@ public class JobFeature {
         }
         departmentAdd.click();
         statusAdd.click();
+        closeDateAdd.click();
         closeDateAdd.sendKeys(closeDate);
         driver.findElement(By.id("jobAddConfirmationButton")).submit();
     }
@@ -122,6 +123,7 @@ public class JobFeature {
         for (int x = 0; x < title.length(); x ++) {
             titleEdit.sendKeys(String.valueOf(title.charAt(x)));
         }
+        closeDateEdit.click();
         closeDateEdit.sendKeys(closeDate);
         driver.findElement(By.id("jobEditConfirmButton" + JobIdResult.jobIdResult)).submit();
     } 
