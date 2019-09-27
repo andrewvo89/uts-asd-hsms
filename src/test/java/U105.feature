@@ -13,5 +13,5 @@ Feature: U105
       Then U105 I should get a message indicating <result>
       Examples:
          |coverletter          |result     |
-#          |""                   |"danger"   |
+         |""                   |"danger"   |
          |"Hi Science Department,\nI am highly interested in this role and am ready to start immediately.\nPlease consider me for this role\n\nKind Regards, Sally."|"success"   |

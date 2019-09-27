@@ -13,7 +13,7 @@ Feature: U104
       Then U104 I should get a message indicating <result>
       Examples:
          |title            |description     |date       |result     |
-#          |""               |"A science teacher is required immediately to start right away."|"30112020" |"danger"   |
-#          |"Science Teacher"|""|"30112020" |"danger"   |
-#          |"Science Teacher"|"A science teacher is required immediately to start right away."|"30122018" |"danger"  |
+         |""               |"A science teacher is required immediately to start right away."|"30112020" |"danger"   |
+         |"Science Teacher"|""|"30112020" |"danger"   |
+         |"Science Teacher"|"A science teacher is required immediately to start right away."|"30122018" |"danger"  |
          |"Junior Science Teacher"|"A senior science teacher is required immediately to start right away."|"30112020" |"success"   |
