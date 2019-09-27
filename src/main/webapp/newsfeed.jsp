@@ -51,7 +51,7 @@
         String departmentSelection = request.getParameter("departmentSearch");
         String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);     
         //Return search results in the form of Jobs for populating the table
-        Job[] jobs = controller.getJobs(null, titleSearch, null, workTypeSelection, departmentSelection, "Open", null, null, "postdate", -1);
+        Job[] jobs = controller.getJobs(null, titleSearch, null, workTypeSelection, departmentSelection, "Open", null, null, true, "postdate", -1);
         %>
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">

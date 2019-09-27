@@ -5,7 +5,9 @@ uts\asd\hsms\model\dao\MongoDBConnector.class
 uts\asd\hsms\model\Attendance.class
 uts\asd\hsms\model\UserAudit.class
 uts\asd\hsms\controller\validator\ValidatorGroupA.class
+uts\asd\hsms\model\Feedback.class
 uts\asd\hsms\controller\MessageValidator.class
+uts\asd\hsms\controller\FeedbackController.class
 uts\asd\hsms\model\dao\TutorialDao.class
 uts\asd\hsms\controller\LoginController.class
 uts\asd\hsms\controller\validator\ValidatorSequence.class
@@ -37,6 +39,7 @@ uts\asd\hsms\controller\JobManagementController.class
 uts\asd\hsms\controller\PasswordEncrypt.class
 uts\asd\hsms\model\dao\AuditLogDAO.class
 uts\asd\hsms\controller\LogoutServlet.class
+uts\asd\hsms\controller\FeedbackServlet.class
 uts\asd\hsms\controller\validator\ValidatorGroupF.class
 uts\asd\hsms\resources\JavaEE8Resource.class
 uts\asd\hsms\JAXRSConfiguration.class
@@ -47,6 +50,7 @@ uts\asd\hsms\model\Staff.class
 uts\asd\hsms\controller\validator\JobApplicationValidator.class
 uts\asd\hsms\controller\validator\ValidatorGroupC.class
 uts\asd\hsms\controller\MessagesServlet.class
+uts\asd\hsms\controller\NewsFeedController.class
 uts\asd\hsms\controller\LeaveController.class
 uts\asd\hsms\controller\validator\ValidatorGroupB.class
 uts\asd\hsms\controller\JobBoardController.class
@@ -60,4 +64,5 @@ uts\asd\hsms\model\dao\MessageDao.class
 uts\asd\hsms\controller\IndexController.class
 uts\asd\hsms\controller\UserServlet.class
 uts\asd\hsms\controller\JobManagementServlet.class
+uts\asd\hsms\model\dao\FeedbackDao.class
 uts\asd\hsms\controller\validator\EmailValidator.class
