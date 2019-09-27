@@ -44,33 +44,33 @@ public class CalendarDao {
     public Calendar[] getCalendars(ObjectId calendarId, Date date, String eventName, String description, String eventTag) {
         List<BasicDBObject> conditions = new ArrayList<BasicDBObject>();
         BasicDBObject query = new BasicDBObject();
-        DBCursor cursor;
+        DBCursor cursor = collection.find();
         
-        if (calendarId != null) conditions.add(new BasicDBObject("_id", calendarId));
-        
-//        if (date != null) {
-//            if (!date.isEmpty()) conditions.add(new BasicDBObject("date", compile(quote(date), CASE_INSENSITIVE)));
+//        if (calendarId != null) conditions.add(new BasicDBObject("_id", calendarId));
+//        
+////        if (date != null) {
+////            if (!date.isEmpty()) conditions.add(new BasicDBObject("date", compile(quote(date), CASE_INSENSITIVE)));
+////        }
+//        
+//        if (eventName != null) {
+//            if (!eventName.isEmpty()) conditions.add(new BasicDBObject("eventName", compile(quote(eventName), CASE_INSENSITIVE)));
 //        }
-        
-        if (eventName != null) {
-            if (!eventName.isEmpty()) conditions.add(new BasicDBObject("eventName", compile(quote(eventName), CASE_INSENSITIVE)));
-        }
-        
-        if (description != null) {
-            if (!description.isEmpty()) conditions.add(new BasicDBObject("description", compile(quote(description), CASE_INSENSITIVE)));
-        }
-        
-        if (eventTag != null) {
-            if (!eventTag.isEmpty()) conditions.add(new BasicDBObject("eventTag", compile(quote(eventTag), CASE_INSENSITIVE)));
-        }
-        
-        if (conditions.size() == 0) {
-            cursor = collection.find();
-        }
-        else {
-            query.put("$and", conditions);
-            cursor = collection.find(query);
-        }
+//        
+//        if (description != null) {
+//            if (!description.isEmpty()) conditions.add(new BasicDBObject("description", compile(quote(description), CASE_INSENSITIVE)));
+//        }
+//        
+//        if (eventTag != null) {
+//            if (!eventTag.isEmpty()) conditions.add(new BasicDBObject("eventTag", compile(quote(eventTag), CASE_INSENSITIVE)));
+//        }
+//        
+//        if (conditions.size() == 0) {
+//            cursor = collection.find();
+//        }
+//        else {
+//            query.put("$and", conditions);
+//            cursor = collection.find(query);
+//        }
         cursor.sort(new BasicDBObject("date", 1));
         Calendar[] calendars = new Calendar[cursor.count()];//Initialize a User array, the size of the results returned
 

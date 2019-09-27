@@ -23,8 +23,6 @@
         <link rel="stylesheet" href="css/main.css">
 
         <title>Calendar</title>
-
-
     </head>
     <body>
         <div class="container">
@@ -41,15 +39,18 @@
                 </thead>
                 <tbody>
                     <%
-                        //Loop through results of MongoDB search result and place them in a table
-    //                    for (int i = 0; i < calendars.length; i++) {
-    //                        Calendar currentCalendar = calendars[i];
-    //                        ObjectId calendarId = currentCalendar.getCalendarId();
-    //                        Date date = currentCalendar.getDate();
-    //                        String eventName = currentCalendar.getEventName();
-    //                        String description = currentCalendar.getDescription();
-    //                        String eventTag = currentCalendar.getEventTag();
-%>
+//                        CalendarDao calendarDao = (CalendarDao)session.getAttribute("calendarDao");
+//                        Calendar[] calendars = calendarDao.getCalendars();
+//                        //Loop through results of MongoDB search result and place them in a table
+//                        for (int i = 0; i < calendars.length; i++) {
+//                            Calendar currentCalendar = calendars[i];
+//                            ObjectId calendarId = currentCalendar.getCalendarId();
+//                            Date date = currentCalendar.getDate();
+//                            String eventName = currentCalendar.getEventName();
+//                            String description = currentCalendar.getDescription();
+//                            String eventTag = currentCalendar.getEventTag();
+                    %>
+
 
                 </tbody>
             </table>
@@ -86,7 +87,7 @@
                                         <input type="tel" class="form-control" name="descriptionAdd" placeholder="Description">
                                     </div>
                                 </div>                                
-                               
+
                                 <div class="form-group row">
                                     <div class="col-sm-4">Event Tag</div>
                                     <div class="col-sm-8">

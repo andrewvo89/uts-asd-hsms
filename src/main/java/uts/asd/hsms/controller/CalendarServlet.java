@@ -7,7 +7,6 @@ package uts.asd.hsms.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.bson.types.ObjectId;
 import static uts.asd.hsms.controller.StaffdirectoryServlet.toProperCase;
+import uts.asd.hsms.model.Calendar;
 import uts.asd.hsms.model.dao.CalendarDao;
 
 /**
@@ -57,21 +57,21 @@ public class CalendarServlet extends HttpServlet {
         description = request.getParameter("departmentAdd");
         eventTag = request.getParameter("emailAdd").toLowerCase();
         
-//        Calendar calendar = new Calendar(null, date, eventName, description, eventTag) {};
-//        CalendarValidator calendarValidator = new CalendarValidator(calendar);
-//        String[] errorMessages = calendarValidator.validatecalendar();
-//        
-//        if (errorMessages != null) {
-//            session.setAttribute("dateAdd", date);
-//            session.setAttribute("eventNameAdd", eventName);
-//            session.setAttribute("descriptionAdd", description);
-//            session.setAttribute("eventTagAdd", eventTag);
-//            message.add("Add User Result");
-//        } else {
-//            calendarDao.addcalendar(date, eventName, description, eventTag);
-//            message.add("Add Calendar Event");
-//            session.setAttribute("message", message);
-//        }
+        Calendar calendar = new Calendar(null, date, eventName, description, eventTag) {};
+        CalendarValidator calendarValidator = new CalendarValidator(calendar);
+        String[] errorMessages = calendarValidator.validatecalendar();
+        
+        if (errorMessages != null) {
+            session.setAttribute("dateAdd", date);
+            session.setAttribute("eventNameAdd", eventName);
+            session.setAttribute("descriptionAdd", description);
+            session.setAttribute("eventTagAdd", eventTag);
+            message.add("Add User Result");
+        } else {
+            calendarDao.addcalendar(date, eventName, description, eventTag);
+            message.add("Add Calendar Event");
+            session.setAttribute("message", message);
+        }
     }
 
     private void editCalendar() {
