@@ -28,31 +28,92 @@
     </head>
     <body>
         <div class="container">
-        <h2>Calendar</h2>
-        <!--POPULATE TABLE WITH SEARCH RESULTS-->
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Event Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Event Tag</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%
-                    //Loop through results of MongoDB search result and place them in a table
-//                    for (int i = 0; i < calendars.length; i++) {
-//                        Calendar currentCalendar = calendars[i];
-//                        ObjectId calendarId = currentCalendar.getCalendarId();
-//                        Date date = currentCalendar.getDate();
-//                        String eventName = currentCalendar.getEventName();
-//                        String description = currentCalendar.getDescription();
-//                        String eventTag = currentCalendar.getEventTag();
-                %>
-               
-            </tbody>
-        </table>
+            <h2>Calendar</h2>
+            <!--Populate table from Mongo DB-->
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Event Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Event Tag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        //Loop through results of MongoDB search result and place them in a table
+    //                    for (int i = 0; i < calendars.length; i++) {
+    //                        Calendar currentCalendar = calendars[i];
+    //                        ObjectId calendarId = currentCalendar.getCalendarId();
+    //                        Date date = currentCalendar.getDate();
+    //                        String eventName = currentCalendar.getEventName();
+    //                        String description = currentCalendar.getDescription();
+    //                        String eventTag = currentCalendar.getEventTag();
+%>
+
+                </tbody>
+            </table>
+            <div class="float-left">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#eventAddModal">Add Event</button>
+            </div>
+
+            <div class="modal fade" id="eventAddModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Event</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="CalendarServlet"> 
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Date</label>
+                                    <div class="col-sm-8">
+                                        <input type="date" class="form-control" name="dateAdd" placeholder="Date">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Event Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="eventNameAdd" placeholder="Event Name">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Description</label>
+                                    <div class="col-sm-8">
+                                        <input type="tel" class="form-control" name="descriptionAdd" placeholder="Description">
+                                    </div>
+                                </div>                                
+                               
+                                <div class="form-group row">
+                                    <div class="col-sm-4">Event Tag</div>
+                                    <div class="col-sm-8">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="eventTagAdd" value="Personal" checked>
+                                            <label class="form-check-label">Personal</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="eventTagAdd" value="Work">
+                                            <label class="form-check-label">Work</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="eventTagAdd" value="School">
+                                            <label class="form-check-label">School</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="hidden" name="action" value="add">                                 
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary submit">Add</button>                                        
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+            </div>
         </div>
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>  
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
