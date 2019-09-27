@@ -15,5 +15,5 @@ Feature: U104
          |title            |description     |date       |result     |
          |""               |"A science teacher is required immediately to start right away."|"30112020" |"danger"   |
          |"Science Teacher"|""|"30112020" |"danger"   |
-         |"Science Teacher"|"A science teacher is required immediately to start right away."|"30122018" |"danger"  |
+         |"Science Teacher"|"A science teacher is required immediately to start right away."|"00000000" |"danger"  |
          |"Junior Science Teacher"|"A senior science teacher is required immediately to start right away."|"30112020" |"success"   |
