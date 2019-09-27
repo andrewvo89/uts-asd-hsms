@@ -88,13 +88,4 @@ public class UserController {
     public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, Boolean active, String sort, int order) {
         return userDao.getUsers(userId, firstName, lastName, phone, location, email, password, department, userRole, active, sort, order);
     }
-        public boolean addUser(User user) {
-        return userDao.addUser(user);
-    }
-    public boolean editUser(User user) {
-        return userDao.editUser(user);
-    }
-    public boolean deleteUser(User user) {
-        return userDao.deleteUser(user);
-    }
 }
