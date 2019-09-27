@@ -1,5 +1,6 @@
 uts/asd/hsms/controller/validator/EmailValidator.class
 uts/asd/hsms/controller/PasswordEncrypt.class
+uts/asd/hsms/model/dao/CalendarDao.class
 uts/asd/hsms/controller/validator/ValidatorSequence.class
 uts/asd/hsms/controller/LogServlet.class
 uts/asd/hsms/controller/LogoutServlet.class
@@ -14,6 +15,8 @@ uts/asd/hsms/controller/LogManagementServlet.class
 uts/asd/hsms/controller/EmailNotifier.class
 uts/asd/hsms/controller/JobManagementController.class
 uts/asd/hsms/controller/AttendanceValidator.class
+uts/asd/hsms/model/Calendar.class
+uts/asd/hsms/controller/CalendarServlet.class
 uts/asd/hsms/controller/validator/ValidatorGroupE.class
 uts/asd/hsms/controller/LeaveController.class
 uts/asd/hsms/controller/validator/ValidatorGroupB.class
@@ -21,6 +24,7 @@ uts/asd/hsms/model/Job.class
 uts/asd/hsms/controller/JobBoardController.class
 uts/asd/hsms/model/dao/LeaveDao.class
 uts/asd/hsms/model/Staff.class
+uts/asd/hsms/controller/CalendarController.class
 uts/asd/hsms/model/dao/AttendanceDao.class
 uts/asd/hsms/controller/UserServlet.class
 uts/asd/hsms/model/dao/JobDao.class
