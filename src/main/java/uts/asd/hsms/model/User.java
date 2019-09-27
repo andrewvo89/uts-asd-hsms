@@ -8,9 +8,6 @@ package uts.asd.hsms.model;
 import uts.asd.hsms.controller.validator.EmailConstraint;
 import java.io.Serializable;
 import org.bson.types.ObjectId;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import uts.asd.hsms.controller.validator.*;
 
@@ -65,8 +62,9 @@ public class User implements Serializable {
     private String password;
     private String department;
     private int userRole;
+    private Boolean active;
 
-    public User(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole) {
+    public User(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, Boolean active) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -76,6 +74,7 @@ public class User implements Serializable {
         this.password = password;
         this.department = department;
         this.userRole = userRole;
+        this.active = active;
         //userRole
         //1 = Administrator
         //2 = Principle
@@ -162,6 +161,14 @@ public class User implements Serializable {
     
     public String getUserIdString() {
         return userId.toString();
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
     
 }
