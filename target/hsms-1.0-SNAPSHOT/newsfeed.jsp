@@ -51,7 +51,7 @@
         String departmentSelection = request.getParameter("departmentSearch");
         String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);     
         //Return search results in the form of Jobs for populating the table
-        Job[] jobs = controller.getJobs(null, titleSearch, null, workTypeSelection, departmentSelection, "Open", null, null, "postdate", -1);
+        Job[] jobs = controller.getJobs(null, titleSearch, null, workTypeSelection, departmentSelection, "Open", null, null, true, "postdate", -1);
         %>
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
@@ -144,79 +144,31 @@
                         String lastName = user.getLastName();
                         String email = user.getEmail();
                         String phone = user.getPhone();
-                        String buttonLabel = controller.getButtonLabel(jobId, userId);
-                        String buttonColor = controller.getButtonColor(buttonLabel);
-                        String buttonDisabled = controller.getButtonDisabled(buttonLabel);
                         String footerLabel = controller.getFooterLabel(currentJob.getPostDate());                        
                 %>
                 <br>
                 <div class="card">                        
                     <div class="card-header float-right align-items-center py-2">
-                        <span class="btn-warning badge badge-pill"><%=department%></span>
+                       <div style="float: left"> 
+                        <span class="btn-warning badge badge-pill">Art</span>
+                        
+                        </div>
+                        <p style="float:center">Post date:20-09-2019 Author:Alvin</p>
+
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title"><%=title%></h4>
-                        <p class="card-text"><%=description%></p>
-                        <button type="button" class="btn btn-<%=buttonColor%>" data-toggle="modal" data-target="#jobApplyModal<%=x%>" <%=buttonDisabled%>><%=buttonLabel%></button>
+                        <h4 class="card-title">Eearly Student Feedback Survey - Feeback Loop</h4>
+                        <p class="card-text">Dear Students,
+
+Thanks for completing the early SFS survey and feedback. I take feedback seriously and always strive to continuously improve the teaching and learning.</p>
                     </div>
-                    <div class="card-footer text-muted"><%=footerLabel%></div>
+                    <div class="card-footer text-muted">10 days ago</div>
                 </div>                
-                <!--JOB APPLY MODAL DIALOG-->        
-                <div class="modal fade" id="jobApplyModal<%=x%>" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title"><%=title%></h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>    
-                            </div>         
-                            <form method="post" action="JobApplicationServlet">                    
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <p class="font-weight-bold"><%=firstName%> <%=lastName%></p>
-                                        <%=email%><br><%=phone%>
-                                    </div>
-                                    <hr>
-                                    <div class="form-group">
-                                        <p class="font-weight-bold">Cover Letter</p>
-                                        <label>Briefly explain why you are suitable for this role. 
-                                            Consider your relevant skills, qualifications and related experience.</label>
-                                        <textarea class="form-control" name="coverLetter" rows="5"></textarea>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="hidden" name="userId" value="<%=userId.toString()%>">
-                                    <input type="hidden" name="jobId" value="<%=jobId.toString()%>">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Apply</button>
-                                </div>
-                            </form> 
-                       </div> 
-                    </div>   
-                </div>
+    
+
                 <%
                     }
-                %>   
-                <!--MESSAGE MODAL AFTER APPLYING FOR JOB-->
-                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title"><%=message.get(0)%></h5>
-                                <button type="button" class="close" data-dismiss="modal">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>    
-                            </div>                            
-                            <div class="modal-body">
-                                <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div> 
-                    </div>   
-                </div>     
+                %>        
             </div>
         </div>
         <%

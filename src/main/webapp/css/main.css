@@ -96,8 +96,16 @@ div.main {
      color:#4183D7;
 }
 .breadcrumb {
-    background-color: transparent;
+    background-color: #eeeeee;
 }
 .userprofile {
     width: 750px
+}
+.inline-form {
+    float: left;
+    padding: 1px;
+}
+/*Disable hover for buttons*/
+.no-hover{
+    pointer-events: none;
 }

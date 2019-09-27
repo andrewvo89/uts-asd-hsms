@@ -19,6 +19,8 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Submit Complaint</title>
+    </head>
+    <body>
         <%
             User user = (User)session.getAttribute("user");
             if (user == null) {
@@ -34,8 +36,6 @@
         <%
             }
         %> 
-    </head>
-    <body>
         <div class="main">
             <div class="container">
                 <h1>Submit Feedback</h1><br>

@@ -28,22 +28,40 @@ public class JobManagementController {
         jobDao = (JobDao)session.getAttribute("jobDao");
         jobApplicationDao = (JobApplicationDao)session.getAttribute("jobApplicationDao");
     }
+    //Set Title to Proper Case
+    public String toProperCase(String input) {
+        String properCase = "";
+        String previousLetter = "";
+        input = input.trim();
+        for (int x = 0; x < input.length(); x ++) {
+            if (x == 0 || previousLetter.equals("-") || previousLetter.equals(" ")) properCase += input.substring(x, x + 1).toUpperCase();
+            else properCase += input.substring(x, x + 1).toLowerCase();
+            previousLetter = input.substring(x, x + 1);
+        }
+        return properCase;
+    }
     //Close off any jobs past its date
     public void setClosedStatus() {
-        Job[] jobs = jobDao.getJobs(null, null, null, null, null, null, null, null, "title", 1);
+        Job[] jobs = jobDao.getJobs(null, null, null, null, null, null, null, null, true, "title", 1);
         for (Job job : jobs) {
             if (job.getStatus().equals("Open")) {//If close date is in the past, set Status of entry to Closed.
                 if (job.getCloseDate().before(new Date())) {
                     job.setStatus("Closed");
-                    jobDao.editJob(new Job(job.getJobId(), null, null, null, null, "Closed", null, null));            
+                    jobDao.editJob(new Job(job.getJobId(), null, null, null, null, "Closed", null, null, true));            
                 }
             }
         }
     }
+    //Disabled Review button if no one has applied for this job yet
     public String getReviewButtonDisabled(ObjectId jobId) {
-        JobApplication[] jobApplications = jobApplicationDao.getJobApplications(null, jobId, null, null, null, null, "jobid", 1);
+        JobApplication[] jobApplications = jobApplicationDao.getJobApplications(null, jobId, null, null, null, "jobid", 1);
         if (jobApplications.length == 0) return "disabled";
         else return "";
+    }
+    //Display how many people have applied for the job and display it on the review button
+    public String getReviewButtonLabel(ObjectId jobId) {
+        JobApplication[] jobApplications = jobApplicationDao.getJobApplications(null, jobId, null, null, null, "jobid", 1);
+        return String.format("Review (%s)", jobApplications.length);
     }
     //Pre-fill work type radio buttons
     public String[] getWorkTypeSearch(String workType) {
@@ -115,9 +133,18 @@ public class JobManagementController {
         calendar.add(Calendar.MONTH, 1);
         return yearDateFormat.format(calendar.getTime());
     }
-    //Talk to Dao to get all jobs
-    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, String sort, int order) {
-        return jobDao.getJobs(jobId, title, description, workType, department, status, postDate, closeDate, sort, order);
+    //Talk to Dao so that Servlet can talk to the database via the Controller
+    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, Boolean active, String sort, int order) {
+        return jobDao.getJobs(jobId, title, description, workType, department, status, postDate, closeDate, active, sort, order);
+    }
+    public boolean addJob(Job job) {
+        return jobDao.addJob(job);
+    }
+    public boolean editJob(Job job) {
+        return jobDao.editJob(job);
+    }
+    public boolean deleteJob(Job job) {
+        return jobDao.deleteJob(job);
     }
     
 }

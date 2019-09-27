@@ -4,22 +4,17 @@
  * and open the template in the editor.
  */
 package uts.asd.hsms.model.dao;
-import static com.google.appengine.repackaged.org.joda.time.format.ISODateTimeFormat.date;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCursor;
-
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import org.bson.Document;
 import org.bson.types.ObjectId;
-import uts.asd.hsms.model.User;
 import uts.asd.hsms.model.UserAudit;
 
 /**
@@ -32,38 +27,81 @@ public class AuditLogDAO {
     DB database;
     DBCollection collection; 
     
-    public AuditLogDAO(MongoClient mongoClient, DBObject[] logList) {
+    public AuditLogDAO(MongoClient mongoClient) {
         this.mongoClient = mongoClient;        
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("logs");  
     }
-
-    public AuditLogDAO() {
-       
+    
+    public DB getDatabase() {
+        return database;
     }
-
-    public UserAudit[] getUserAudit() { 
-        DBCursor cursor = collection.find();
+    
+    // get single userlog
+public UserAudit[] getUserAudit() { 
+       DBCursor cursor = collection.find();
+    // cursor.sort(new BasicDBObject(("logId"), 1));
+       UserAudit[] userAudits = new UserAudit[cursor.count()];
+        int count = 0;
+       while (cursor.hasNext()) {
+           DBObject result = cursor.next();
+          ObjectId logId = (ObjectId)result.get("_id");
+        ObjectId userId = (ObjectId)result.get("userID");
+          String firstName = (String)result.get("firstName");
+         Date loginTime = (Date)result.get("loginTime");
+           userAudits[count] = new UserAudit(logId, firstName, loginTime);
+          count ++;
+        }
+        return userAudits; 
+        
+        
+    }
+    
+    // get all userlogs
+    public UserAudit[] getAllUserAudit(){
+       DBCursor cursor = collection.find();
         System.out.println("COUNT: " + cursor.count());
         UserAudit[] userAudits = new UserAudit[cursor.count()];
         int count = 0;
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
-            ObjectId logId = (ObjectId)result.get("_id");
-            ObjectId userId = (ObjectId)result.get("userID");
-            String firstName = (String)result.get("firstName");
-            String timeStamp = (String)result.get("date");
-            userAudits[count] = new UserAudit(userId, firstName, timeStamp);
+            ObjectId logIdResult = (ObjectId)result.get("_id");
+            String firstNameResult = (String)result.get("firstName");
+            Date dateResult = (Date)result.get("loginTime");
+            userAudits[count] = new UserAudit(logIdResult, firstNameResult, dateResult);
             count ++;
+           
         }
+         System.out.print(userAudits);
         return userAudits; 
     }
     
-    public void addLoginTime(ObjectId userId,String timeStamp) {
-        BasicDBObject records = new BasicDBObject();
-        records.append("userId", userId).append("date", timeStamp);
+    // get userlogs by name  
+    public UserAudit[] searchByName(String firstName){
+         DBCursor cursor = collection.find();
+            BasicDBObject query = new BasicDBObject();
+         UserAudit[] userAudits = new UserAudit[cursor.count()];
+             query.put("firstName", firstName);
+              DBObject result = cursor.one();
+              
+             if (result != null){
+             ObjectId logId = (ObjectId)result.get("_id");
+            ObjectId userId = (ObjectId)result.get("userID");
+            Date loginTime = (Date)result.get("date");
+            
+       return userAudits;
+             }
+             return null;
+    }
+    
+    // add timestamp of user login 
+    public void addLoginTime(String firstName, Date loginTime) {
+         BasicDBObject records = new BasicDBObject();
+        records.append("firstName", firstName).append("loginTime", loginTime);
         collection.insert(records);
-    }  
-
+    }
    
+    
+    
 }
+

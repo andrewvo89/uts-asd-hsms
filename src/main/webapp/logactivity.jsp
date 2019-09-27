@@ -4,6 +4,8 @@
     Author     : Sukonrat
 --%>
 
+<%@page import="uts.asd.hsms.model.dao.AuditLogDAO"%>
+<%@page import="java.util.Date"%>
 <%@page import="uts.asd.hsms.model.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="/ConnServlet" flush="true" />
@@ -19,6 +21,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Log Activity</title>
+    </head>
         <%//Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
@@ -34,21 +37,32 @@
         <%
             }
         %> 
-    </head>
     <body>
-       <H3 style="color:#e0ac62; padding-top: 150px;" align="center">Search Log Activities</H3>
+       <H1 style="color:#e0ac62; padding-top: 150px;" align="center">Search Log Activities</H1>
 <table style="padding-top: 150px;" width="600" border="1" align="center">
-<tr>
+    <tr>
+  <h3 align="center">User First Name : </h3>
+  
 <th> <div align="center">Date </div></th>
-<th> <div align="center">UserID</div></th>
-<th> <div align="center">FirstName</div></th>
 </tr>
-
+    <% 
+            
+            AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
+                    UserAudit[] userAudits = auditLogDao.getUserAudit();
+                          for (int x = 0; x < userAudits.length; x++) {
+                          UserAudit currentLog = userAudits[x];
+                                String firstName =  currentLog.getFirstName();
+                                Date loginTime = currentLog.getLoginTime();
+                          
+      %>
+    
+<%=firstName%>
 <tr>
-<td><div align="center" value="${userAudit.timeStamp}"></div></td>
-<td><div align="center" value="${userAudit.userID}"></div></td>
-<td><div align="center" value="${userAudit.firtName}"></div></td>
-</tr>
+<td><%=loginTime%>"</td>
+<%
+                        }
+                   %>
+                   </tr>
 </table>  
         
          <%@ include file="/WEB-INF/jspf/footer.jspf" %>            

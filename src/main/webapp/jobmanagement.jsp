@@ -1,5 +1,5 @@
 <%-- 
-    Document   : jobboard
+    Document   : jobmanagement
     Created on : 06 Sep. 2019, 5:53:34 pm
     Author     : Andrew
 --%>
@@ -26,20 +26,19 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
-        <title>Job Board</title>
+        <title>Job Management</title>
     </head>
     <body>
     <%//Check if there is a valid user in the session
         User user = (User)session.getAttribute("user");
         if (user == null) {
-            session.setAttribute("redirect", "usermanagement");
+            session.setAttribute("redirect", "jobmanagement");
     %>   
             <jsp:include page="LoginServlet" flush="true" />
     <%
         }
         else {//Only Administrator & Principal Access
-            if (user.getUserRole() > 2) response.sendRedirect("index.jsp");
-    %>
+            if (user.getUserRole() > 2) %><jsp:include page="LoginDeniedServlet" flush="true" />
             <%@ include file="/WEB-INF/jspf/header.jspf"%>
     <%
         }
@@ -48,7 +47,8 @@
         SimpleDateFormat yearDateFormat = new SimpleDateFormat("yyyy-MM-dd");   
         ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
         //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type
-        if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }        
+        if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }   
+        String jobIdResult = (String)session.getAttribute("jobIdResult");
         //Prefill Search Data variables
         ObjectId jobIdSearch = null; if (request.getParameter("jobIdSearch") != null) jobIdSearch = new ObjectId(request.getParameter("jobIdSearch"));
         String titleSearch = request.getParameter("titleSearch"); if (titleSearch == null) titleSearch = ""; 
@@ -57,13 +57,14 @@
         String departmentSelection = request.getParameter("departmentSearch");
         String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);
         String statusSelection = request.getParameter("statusSearch");
-        String[] statusSearch = controller.getStatusSearch(statusSelection);        
+        String[] statusSearch = controller.getStatusSearch(statusSelection);
         //Set any job applications past the close date to "Closed" status
         controller.setClosedStatus();
         //Return search results in the form of Job for populating the table
-        Job[] jobs = controller.getJobs(jobIdSearch, titleSearch, null, workTypeSelection, departmentSelection, statusSelection, null, null, "closedate", -1);
+        Job[] jobs = controller.getJobs(jobIdSearch, titleSearch, null, workTypeSelection, departmentSelection, statusSelection, null, null, true, "title", 1);
     %>
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
+        <input type="hidden" id="jobIdResult" value="<%=jobIdResult%>">
         <div class="main">
             <div class="container">
                 <h2>Job Management</h2>
@@ -212,6 +213,7 @@
                             for (int x = 0; x < jobs.length; x++) {
                                 Job currentJob = jobs[x];
                                 ObjectId jobId = currentJob.getJobId();
+                                String jobIdString = jobId.toString();
                                 String title = currentJob.getTitle();
                                 String description = currentJob.getDescription();
                                 String workType = currentJob.getWorkType();
@@ -223,6 +225,7 @@
                                 String postDate = dayDateFormat.format(currentJob.getPostDate());
                                 String closeDate = dayDateFormat.format(currentJob.getCloseDate());
                                 String reviewButtonDisabled = controller.getReviewButtonDisabled(jobId);
+                                String reviewButtonLabel = controller.getReviewButtonLabel(jobId);
                         %>
                         <tr>
                             <td><%=title%></td>
@@ -233,13 +236,13 @@
                             <td><%=closeDate%></td>
                             <td>
                                 <form action="jobreview.jsp" method="post">
-                                    <input type="hidden" name="jobid" value="<%=jobId%>">
-                                    <button type="submit" class="btn btn-info" <%=reviewButtonDisabled%>>Review</button>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jobEditModal<%=x%>">Edit</button>                                
-                                    <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#jobDeleteModal<%=x%>">Delete</button>      
+                                    <input type="hidden" name="jobId" value="<%=jobIdString%>">
+                                    <button type="submit" class="btn btn-info" id="jobReviewButton<%=jobIdString%>" <%=reviewButtonDisabled%>><%=reviewButtonLabel%></button>
+                                    <button type="button" class="btn btn-primary" id="jobEditButton<%=jobIdString%>" data-toggle="modal" data-target="#jobEditModal<%=jobIdString%>">Edit</button>                                
+                                    <button type="button" class="btn btn-danger"  id="jobDeleteButton<%=jobIdString%>" data-toggle="modal" data-target="#jobDeleteModal<%=jobIdString%>">Delete</button>      
                                 </form>
                                 <!--EDIT USER MODAL DIALOG-->        
-                                <div class="modal fade" id="jobEditModal<%=x%>" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal fade" id="jobEditModal<%=jobIdString%>" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -249,11 +252,11 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="JobServlet" method="post">
+                                                <form action="JobManagementServlet" method="post">
                                                     <div class="form-group row">
                                                         <label class="col-sm-4 col-form-label">Title</label>
                                                         <div class="col-sm-8">
-                                                            <input type="text" class="form-control" name="titleEdit" placeholder="Title" value="<%=title%>">
+                                                            <input type="text" class="form-control" name="titleEdit" id="titleEdit<%=jobIdString%>" placeholder="Title" value="<%=title%>">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -328,14 +331,14 @@
                                                     <div class="form-group row">
                                                         <label class="col-sm-4 col-form-label">Close Date</label>
                                                         <div class="col-sm-8 closedate">
-                                                            <input type="date" class="form-control" name="closeDateEdit" value="<%=yearDateFormat.format(currentJob.getCloseDate())%>">
+                                                            <input type="date" class="form-control" name="closeDateEdit" id="closeDateEdit<%=jobIdString%>" value="<%=yearDateFormat.format(currentJob.getCloseDate())%>">
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <input type="hidden" name="jodIdEdit" value="<%=jobId%>">
+                                                        <input type="hidden" name="jobIdEdit" value="<%=jobIdString%>">
                                                         <input type="hidden" name="action" value="edit">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                                        <button type="submit" class="btn btn-primary" id="jobEditConfirmButton<%=jobIdString%>">Confirm</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -343,25 +346,25 @@
                                     </div>
                                 </div>                        
                                 <!--DELETE CONFIRMATION MODAL-->                          
-                                <div class="modal fade" id="jobDeleteModal<%=x%>" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal fade" id="jobDeleteModal<%=jobIdString%>" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="jobDeleteModalLabel<%=x%>">Delete <%=title%></h5>
+                                                <h5 class="modal-title">Delete <%=title%></h5>
                                                 <button type="button" class="close" data-dismiss="modal">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>                                            
-                                            <form action="JobServlet" method="post">
+                                            <form action="JobManagementServlet" method="post">
                                                 <div class="modal-body">
                                                     <p>Are you sure you want to delete this Job Post?</p>
                                                     <p>This action cannot be undone.</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <input type="hidden" name="jobIdDelete" value="<%=jobId.toString()%>">
+                                                    <input type="hidden" name="jobIdDelete" value="<%=jobIdString%>">
                                                     <input type="hidden" name="action" value="delete">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary btn-danger">Confirm</button>
+                                                    <button type="submit" id="jobDeleteConfirmButton<%=jobIdString%>" class="btn btn-primary btn-danger">Confirm</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -375,7 +378,7 @@
                     </tbody>
                 </table>
                 <div class="float-right">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#jobAddModal">Add Job Post</button>
+                    <button type="button" class="btn btn-success" id="jobAddButton" data-toggle="modal" data-target="#jobAddModal">Add Job Post</button>
                 </div>                
                 <!--ADD USER MODAL DIALOG-->   
                 <div class="modal fade" id="jobAddModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -388,17 +391,17 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="post" action="JobServlet"> 
+                                <form method="post" action="JobManagementServlet"> 
                                     <div class="form-group row">
                                         <label class="col-sm-4 col-form-label">Title</label>
                                         <div class="col-sm-8 firstName">
-                                            <input type="text" class="form-control" name="titleAdd" placeholder="Title">
+                                            <input type="text" class="form-control" name="titleAdd" id="titleAdd" placeholder="Title">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-4 col-form-label">Description</label>
                                         <div class="col-sm-8 description">
-                                            <textarea class="form-control" name="descriptionAdd" rows="5" placeholder="Description"></textarea>
+                                            <textarea class="form-control" name="descriptionAdd" id="descriptionAdd" rows="5" placeholder="Description"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -438,7 +441,7 @@
                                                 <label class="form-check-label">Math</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Science">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" id="departmentAddScience" value="Science">
                                                 <label class="form-check-label">Science</label>
                                             </div>
                                             <div class="form-check">
@@ -455,7 +458,7 @@
                                                 <label class="form-check-label">Draft</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="statusAdd" value="Open">
+                                                <input class="form-check-input" type="radio" name="statusAdd" id="statusAddOpen" value="Open">
                                                 <label class="form-check-label">Open</label>
                                             </div>
                                         </div>
@@ -463,13 +466,13 @@
                                     <div class="form-group row">
                                         <label class="col-sm-4 col-form-label">Close Date</label>
                                         <div class="col-sm-8 closedate">
-                                            <input type="date" class="form-control" name="closeDateAdd" value="<%=controller.getMonthDate()%>">
+                                            <input type="date" class="form-control" name="closeDateAdd" id="closeDateAdd" value="<%=controller.getMonthDate()%>">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <input type="hidden" name="action" value="add">                                 
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary submit">Confirm</button>                                        
+                                        <button type="submit" id="jobAddConfirmationButton" class="btn btn-primary submit">Confirm</button>                                        
                                     </div>
                                 </form>
                             </div>

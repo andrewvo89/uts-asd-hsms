@@ -24,9 +24,9 @@ public class Job implements Serializable {
         + "Cannot be blank<br>"
         + "No more than 50 Characters<hr>", groups = ValidatorGroupA.class)
     private String title;
-    @Pattern(regexp = "^.{1,500}$", message = "<h5 class=\"alert-heading\">Description Error</h5><hr>"
+    @Pattern(regexp = "^[.\\s\\S]{1,2000}$", message = "<h5 class=\"alert-heading\">Description Error</h5><hr>"
         + "Cannot be blank<br>"
-        + "No more than 500 Characters<hr>", groups = ValidatorGroupB.class)
+        + "No more than 2000 Characters<hr>", groups = ValidatorGroupB.class)
     private String description;
     private String workType;
     private String department;
@@ -37,8 +37,9 @@ public class Job implements Serializable {
     @FutureOrPresent(message = "<h5 class=\"alert-heading\">Close Date Error</h5><hr>"
             + "Must be in the future unless in Draft mode or Closed", groups = ValidatorGroupD.class)
     private Date closeDate;
+    private Boolean active;
 
-    public Job(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate) {
+    public Job(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, Boolean active) {
         this.jobId = jobId;
         this.title = title;
         this.description = description;
@@ -47,6 +48,7 @@ public class Job implements Serializable {
         this.status = status;
         this.postDate = postDate;
         this.closeDate = closeDate;
+        this.active = active;
     }
 
     public ObjectId getJobId() {
@@ -111,6 +113,14 @@ public class Job implements Serializable {
 
     public void setCloseDate(Date closeDate) {
         this.closeDate = closeDate;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
     
 }

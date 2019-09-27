@@ -9,6 +9,7 @@ package uts.asd.hsms.model;
  *
  * @author Andrew
  */
+import com.mongodb.BasicDBObject;
 import java.io.Serializable;
 import java.util.Date;
 import org.bson.types.ObjectId;
@@ -19,20 +20,18 @@ public class JobApplication implements Serializable {
     private ObjectId jobApplicationId;
     private ObjectId jobId;
     private ObjectId userId;
-    @Pattern(regexp = "^.{1,2000}$", message = "<h5 class=\"alert-heading\">Cover Letter Error</h5><hr>"
+    @Pattern(regexp = "^[.\\s\\S]{1,2000}$", message = "<h5 class=\"alert-heading\">Cover Letter Error</h5><hr>"
     + "Cannot be blank<br>"
     + "No more than 2000 Characters<hr>", groups = ValidatorGroupA.class)
     private String coverLetter;
-    private String status;
-    private Date statusDate;
+    private BasicDBObject status;
 
-    public JobApplication(ObjectId jobApplicationId, ObjectId jobId, ObjectId userId, String coverLetter, String status, Date statusDate) {
+    public JobApplication(ObjectId jobApplicationId, ObjectId jobId, ObjectId userId, String coverLetter, BasicDBObject status) {
         this.jobApplicationId = jobApplicationId;
         this.jobId = jobId;
         this.userId = userId;
         this.coverLetter = coverLetter;
         this.status = status;
-        this.statusDate = statusDate;
     }
 
     public ObjectId getJobApplicationId() {
@@ -67,20 +66,12 @@ public class JobApplication implements Serializable {
         this.coverLetter = coverLetter;
     }
 
-    public String getStatus() {
+    public BasicDBObject getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(BasicDBObject status) {
         this.status = status;
-    }
-
-    public Date getStatusDate() {
-        return statusDate;
-    }
-
-    public void setStatusDate(Date statusDate) {
-        this.statusDate = statusDate;
     }
     
 }
