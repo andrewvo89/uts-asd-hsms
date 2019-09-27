@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +22,7 @@ import uts.asd.hsms.model.dao.MessageDao;
  *
  * @author Sukonrat
  */
-@WebServlet("/MessagesServlet")
+
 
 public class MessagesServlet extends HttpServlet {
  private HttpSession session;
@@ -33,7 +32,7 @@ public class MessagesServlet extends HttpServlet {
     private ArrayList<String> messages; 
     private ObjectId messageID;
     private String sender, recipient, title, content;
-    private Date sendDate;
+ 
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -84,11 +83,10 @@ public class MessagesServlet extends HttpServlet {
         recipient = request.getParameter("recipient");
         title = request.getParameter("title");
         content = request.getParameter("content");
-        sendDate = new Date();
+       // Date sendDate = new Date();
         
-        Message message = new Message(messageID, sender, recipient, title, content, sendDate);
-        messageDao = (MessageDao)session.getAttribute("messageDao");
-        messageDao.sendMessage(sender, recipient, title, content, sendDate);
+        Message message = new Message(messageID, sender, recipient, title, content);
+        messageDao.sendMessage(message.getSender(), message.getRecipient(), message.getTitle(), message.getContent());
         
         System.out.print("message has been sent successfully");  
         response.sendRedirect("messageview.jsp");

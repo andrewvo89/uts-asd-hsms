@@ -11,7 +11,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import java.util.Date;
+import java.util.ArrayList;
+import static java.util.Arrays.sort;
+import java.util.List;
 import org.bson.types.ObjectId;
 import uts.asd.hsms.model.Message;
 
@@ -24,10 +26,11 @@ public class MessageDao {
     DB database;
     DBCollection collection; 
     
-    public MessageDao(MongoClient mongoClient){
+    public MessageDao (MongoClient mongoClient){
+        
         this.mongoClient = mongoClient;        
         database = mongoClient.getDB("heroku_r0hsk6vb");
-        collection = database.getCollection("messages"); 
+        collection = database.getCollection("messages");     
     }
     
     public DB getDatabase() {
@@ -35,32 +38,32 @@ public class MessageDao {
     }
     
     public Message[] getMessage(){
-        
-       DBCursor cursor = collection.find();
-        System.out.println("COUNT: " + cursor.count());
-        Message[] messages = new Message[cursor.count()];
+  
+      DBCursor cursor = collection.find();
+     System.out.println("COUNT: " + cursor.count());      
+       Message[] messages = new Message[cursor.count()];
         int count = 0;
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
-            ObjectId messageIDResult = (ObjectId)result.get("_id");
-            String senderResult = (String)result.get("sender");
-            String recipientResult = (String)result.get("recipient");
-            String titleResult = (String)result.get("title");
-            String contentResult = (String)result.get("content");
-           Date dateResult = (Date)result.get("createDate");
-            messages[count] = new Message(messageIDResult, senderResult, recipientResult, titleResult, contentResult, dateResult);
+            ObjectId messageID = (ObjectId)result.get("_id");
+            String sender = (String)result.get("sender");
+            String recipient = (String)result.get("recipient");
+            String title = (String)result.get("title");
+            String content = (String)result.get("content");
+         
+            messages[count] = new Message(messageID, sender, recipient, title, content);
             count ++;
         }
         System.out.print(messages);
         return messages;
-    
+   
     }
     
     
-    public void sendMessage(String sender, String recipient, String title, String content, Date createDate){
+    public void sendMessage(String sender, String recipient, String title, String content){
         
         BasicDBObject records = new BasicDBObject();
-        records.append("sender", sender).append("recipient", recipient).append("title", title).append("content", content).append("createDate", createDate);
+        records.append("sender", sender).append("recipient", recipient).append("title", title).append("content", content);
         collection.insert(records);
     }
     
@@ -70,5 +73,5 @@ public class MessageDao {
     
     public void editMessage(){
     
-    }
+    }   
 }

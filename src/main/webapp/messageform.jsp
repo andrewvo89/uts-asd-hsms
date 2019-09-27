@@ -4,6 +4,7 @@
     Author     : Sukonrat
 --%>
 
+<%@page import="uts.asd.hsms.model.User"%>
 <%@page import="java.util.Date"%>
 <%@page import="uts.asd.hsms.model.Message"%>
 <%@page import="uts.asd.hsms.model.dao.MessageDao"%>
@@ -20,7 +21,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Message form</title>
-        <%-- //Check if there is a valid user in the session
+        <%--//Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
                 session.setAttribute("redirect", "log"); 
@@ -36,35 +37,40 @@
         --%> 
     </head>
     <body>
-        <% 
-          
-           MessageDao messageDao = (MessageDao)session.getAttribute("messageDao");
-         
+        <%  
+            MessageDao messageDao = (MessageDao)session.getAttribute("messageDao");
+            
+         /*   String recipient = request.getParameter("recipient");
+            String sender = request.getParameter("sender");
             String title = request.getParameter("title");
-            String description = request.getParameter("description");   
-            Date createDate = new Date();
-      
+            String content = request.getParameter("description");   
+         //   Date sendDate = new Date();
+           
+            messageDao.sendMessage(sender, recipient, title, content);
+*/
         %>
       
-        <form action="uts.asd.hsms.controller.MessagesServlet" method="post">
+        <form action="messages.jsp" method="post">
       
-            <caption ><h2>Message Form</h2></caption>     
+            <caption ><h2 style="padding-top: 100px;" align="center">Message Form</h2></caption>     
       
-       <table border="0" width="35%" align="center">
-            
-              
+       <table style="padding-top: 100px;" border="0" width="35%" align="center">
             
             <tr>
                 <td width="50%">Recipient</td>
                 <td><input type="text" name="recipient" size="50"/></td>
             </tr>
             <tr>
+                <td width="50%">From</td>
+                <td><input type="text" name="sender" size="50"/></td>
+            </tr>
+            <tr>
                 <td>Subject </td>
-                <td><input type="text" name="subject" size="50"/></td>
+                <td><input type="text" name="title" size="50"/></td>
             </tr>
             <tr>
                 <td>Content </td>
-                <td><textarea rows="10" cols="39" name="content"></textarea> </td>
+                <td><textarea rows="10" cols="50" name="content"></textarea> </td>
             </tr>
             <tr>
                 <td colspan="2" align="center"><input type="submit" value="Send"/></td>
