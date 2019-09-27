@@ -18,6 +18,7 @@ uts\asd\hsms\controller\validator\JobValidator.class
 uts\asd\hsms\model\dao\JobDao.class
 uts\asd\hsms\controller\validator\UserValidator.class
 uts\asd\hsms\model\dao\UserDao.class
+uts\asd\hsms\model\Calendar.class
 uts\asd\hsms\controller\validator\ValidatorGroupD.class
 uts\asd\hsms\model\dao\AttendanceDao.class
 uts\asd\hsms\model\JobApplication.class
@@ -42,6 +43,7 @@ uts\asd\hsms\controller\LogoutServlet.class
 uts\asd\hsms\controller\FeedbackServlet.class
 uts\asd\hsms\controller\validator\ValidatorGroupF.class
 uts\asd\hsms\resources\JavaEE8Resource.class
+uts\asd\hsms\controller\CalendarServlet.class
 uts\asd\hsms\JAXRSConfiguration.class
 uts\asd\hsms\model\Leave.class
 uts\asd\hsms\controller\AttendanceServlet.class
@@ -50,7 +52,9 @@ uts\asd\hsms\model\Staff.class
 uts\asd\hsms\controller\validator\JobApplicationValidator.class
 uts\asd\hsms\controller\validator\ValidatorGroupC.class
 uts\asd\hsms\controller\MessagesServlet.class
+uts\asd\hsms\controller\CalendarController.class
 uts\asd\hsms\controller\NewsFeedController.class
+uts\asd\hsms\model\dao\CalendarDao.class
 uts\asd\hsms\controller\LeaveController.class
 uts\asd\hsms\controller\validator\ValidatorGroupB.class
 uts\asd\hsms\controller\JobBoardController.class
