@@ -14,7 +14,7 @@ Feature: U106
       Examples:
          |title                                                 |date       |result     |
          |""                                                    |"00000000" |"danger"   |
-         |"_art head teacher"                                   |"06112019" |"success"  |
+         |"art head teacher"                                    |"06112019" |"success"  |
          |"123456789012345678901234567890123456789012345678901" |"25122019" |"danger"   |
-         |"Junior Art Teacher"                                  |"25122018" |"danger"   |
+         |"Junior Art Teacher"                                  |"00000000" |"danger"   |
          |"Senior Science Teacher"                              |"25122019" |"success"  |
