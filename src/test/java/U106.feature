@@ -17,4 +17,4 @@ Feature: U106
          |"_art head teacher"                                   |"06112019" |"success"  |
          |"123456789012345678901234567890123456789012345678901" |"25122019" |"danger"   |
          |"Junior Art Teacher"                                  |"25122018" |"danger"   |
-         |"Senior Science Teacher"                                     |"25122019" |"success"  |
+         |"Senior Science Teacher"                              |"25122019" |"success"  |
