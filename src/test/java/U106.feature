@@ -13,8 +13,8 @@ Feature: U106
       Then U106 I should get a message indicating <result>
       Examples:
          |title                                                 |date       |result     |
-         |""                                                    |"00000000" |"danger"   |
-         |"art head teacher"                                    |"06112019" |"success"  |
+         |""                                                    |"25122019" |"danger"   |
+         |"art head teacher"                                    |"25122019" |"success"  |
          |"123456789012345678901234567890123456789012345678901" |"25122019" |"danger"   |
          |"Junior Art Teacher"                                  |"00000000" |"danger"   |
          |"Senior Science Teacher"                              |"25122019" |"success"  |
