@@ -10,7 +10,7 @@ Feature: U106
    Scenario Outline: Start editing a job role
       When U106 I click on edit job
       And U106 I change title to <title> and close date to <date>
-      Then U106 I should get a job edit message indicating <result>
+      Then U106 I should get a message indicating <result>
       Examples:
          |title                                                 |date       |result     |
 #          |""                                                    |"00000000" |"danger"   |

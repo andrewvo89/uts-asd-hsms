@@ -1,6 +1,8 @@
-uts\asd\hsms\model\dao\MavenJUnitRunner.class
-uts\asd\hsms\model\dao\MavenJUnitTest.class
+uts\asd\hsms\model\dao\JobIdResult.class
+uts\asd\hsms\model\dao\UserFeatureSkip.class
 UserFeature.class
+JobFeature.class
+uts\asd\hsms\model\dao\MavenJUnitRunner.class
+uts\asd\hsms\model\dao\JobFeatureTest.class
 JobIdResult.class
 TestRunner.class
-JobFeature.class
