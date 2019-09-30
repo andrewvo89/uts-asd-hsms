@@ -1,2 +1,8 @@
 .DS_Store
-/target/
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.logs
+*.iml
