@@ -25,19 +25,7 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Class Roll Management</title>
-        <%
-            User user = (User)session.getAttribute("user");
-            if (user == null) {
-                session.setAttribute("redirect", "classrollmanagement");
-        %>   
-                <jsp:include page="LoginServlet" flush="true" />
-        <%
-            }
-        %>
-                <%@ include file="/WEB-INF/jspf/header.jspf"%>
-        <%
-            
-        %> 
+        
     </head>
     
     <body>

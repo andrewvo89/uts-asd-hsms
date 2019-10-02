@@ -66,8 +66,6 @@ public class Calendar implements Serializable {
 
     public void setEventTag(String eventTag) {
         this.eventTag = eventTag;
-    }
-    
-    
+    }  
 }
 

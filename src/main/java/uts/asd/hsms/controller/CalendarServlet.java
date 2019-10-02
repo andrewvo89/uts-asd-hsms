@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.bson.types.ObjectId;
-import static uts.asd.hsms.controller.StaffdirectoryServlet.toProperCase;
 import uts.asd.hsms.model.Calendar;
 import uts.asd.hsms.model.dao.CalendarDao;
 
@@ -23,6 +22,7 @@ import uts.asd.hsms.model.dao.CalendarDao;
  * @author MatthewHellmich
  */
 public class CalendarServlet extends HttpServlet {
+
     private HttpSession session;
     private CalendarDao calendarDao;
     private ArrayList<String> message;
@@ -31,36 +31,43 @@ public class CalendarServlet extends HttpServlet {
     private ObjectId calendarId;
     private Date date;
     private String eventName, description, eventTag;
-    
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
-    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        session = request.getSession();         
+        this.response = response;
+        this.request = request;
+        session = request.getSession();
         //calendarController = new UserController(session);
         calendarDao = (CalendarDao)session.getAttribute("calendarDao");
         message = new ArrayList<String>();
-        this.response = response;
-        this.request = request;
 
-        String action = request.getParameter("action");             
-        if (action.equals("add")) addCalendar();
-        else if (action.equals("edit")) editCalendar();
-        else if (action.equals("delete")) deleteCalendar();
-        else response.sendRedirect("calendar.jsp");        
+        String action = request.getParameter("action");
+        if (action.equals("add")) {
+            addCalendar();
+        } else if (action.equals("edit")) {
+            editCalendar();
+        } else if (action.equals("delete")) {
+            deleteCalendar();
+        } else {
+            response.sendRedirect("calendar.jsp");
+        }
     }
 
     private void addCalendar() throws ServletException, IOException {
-        //date = request.getParameter("dateAdd");
-        eventName = toProperCase(request.getParameter("lastNameAdd"));
+        date = new Date();
+        eventName = request.getParameter("lastNameAdd");
         description = request.getParameter("departmentAdd");
         eventTag = request.getParameter("emailAdd").toLowerCase();
-        
-        Calendar calendar = new Calendar(null, date, eventName, description, eventTag) {};
+
+        Calendar calendar = new Calendar(null, date, eventName, description, eventTag) {
+        };
         CalendarValidator calendarValidator = new CalendarValidator(calendar);
         String[] errorMessages = calendarValidator.validatecalendar();
-        
+
         if (errorMessages != null) {
             session.setAttribute("dateAdd", date);
             session.setAttribute("eventNameAdd", eventName);
@@ -86,4 +93,3 @@ public class CalendarServlet extends HttpServlet {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
-
