@@ -4,6 +4,8 @@
     Author     : MatthewHellmich
 --%>
 
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="uts.asd.hsms.model.Calendar"%>
 <%@page import="java.util.Date"%>
@@ -26,32 +28,7 @@
         <title>Calendar</title>
     </head>
     <body>
-        <%
-//            CalendarController controller = new CalendarController(session);
-//            ArrayList<String> message = (ArrayList<String>) session.getAttribute("message");
-//            if (message == null) {
-//                message = new ArrayList<String>();
-//                message.add("");
-//                message.add("");
-//                message.add("");
-//            }
-//            Date dateSearch = new Date();
-//            String eventNameSearch = request.getParameter("eventNameSearch");
-//            if (eventNameSearch == null) {
-//                eventNameSearch = "";
-//            }
-//            String descriptionSearch = request.getParameter("descriptionSearch");
-//            if (descriptionSearch == null) {
-//                descriptionSearch = "";
-//            }
-//            String emailSearch = request.getParameter("emailSearch");
-//            if (emailSearch == null) {
-//                emailSearch = "";
-//            }
-//            String eventTagSelection = request.getParameter("eventTagSearch"); 
-//            String[] eventTagSearch = controller.getEventTagSearch(eventTagSelection);
-//            Calendar[] calendars = controller.getCalendars(null, dateSearch, eventNameSearch, descriptionSearch, eventTagSelection);
-        %>
+
         <div class="container">
             <h2>Calendar</h2>
             <!--Populate table from Mongo DB-->
@@ -67,7 +44,7 @@
                 <tbody>
                     <%
                         CalendarDao calendarDao = (CalendarDao) session.getAttribute("calendarDao");
-                        Calendar[] calendars = calendarDao.getAllCalendar();
+                        Calendar[] calendars = calendarDao.getCalendar();
                         for (int i = 0; i < calendars.length; i++) {
                             Calendar currentCalendar = calendars[i];
                             ObjectId calendarId = currentCalendar.getCalendarId();
@@ -75,8 +52,6 @@
                             String eventName = currentCalendar.getEventName();
                             String description = currentCalendar.getDescription();
                             String eventTag = currentCalendar.getEventTag();
-
-
                     %>
                     <tr>
                         <td><%=date%></td>

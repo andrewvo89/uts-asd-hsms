@@ -73,7 +73,7 @@ public class CalendarServlet extends HttpServlet {
             session.setAttribute("eventNameAdd", eventName);
             session.setAttribute("descriptionAdd", description);
             session.setAttribute("eventTagAdd", eventTag);
-            message.add("Add User Result");
+            message.add("Add Calendar Result");
         } else {
             calendarDao.addcalendar(date, eventName, description, eventTag);
             message.add("Add Calendar Event");
