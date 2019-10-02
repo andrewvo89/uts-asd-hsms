@@ -7,10 +7,12 @@
 <%@page import="uts.asd.hsms.model.User"%>
 <%@page import="java.util.Date"%>
 <%@page import="uts.asd.hsms.model.Message"%>
-<%@page import="uts.asd.hsms.model.dao.MessageDao"%>
+<%@page import="uts.asd.hsms.model.dao.MessagesDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" />
+
 <!DOCTYPE html>
-<html>
+<html lang="en">   
     <head>
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,10 +23,10 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Message form</title>
-        <%--//Check if there is a valid user in the session
+        <%//Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
-                session.setAttribute("redirect", "log"); 
+                session.setAttribute("redirect", "messageform"); 
         %>   
                 <jsp:include page="LoginServlet" flush="true" />
         <%
@@ -34,35 +36,36 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
-        --%> 
+        %> 
     </head>
     <body>
         <%  
-            MessageDao messageDao = (MessageDao)session.getAttribute("messageDao");
-            
-         /*   String recipient = request.getParameter("recipient");
-            String sender = request.getParameter("sender");
+           MessagesDao messageDao = (MessagesDao)session.getAttribute("messageDao");
+            String firstName = user.getFirstName();
+            String sender = user.getEmail();
+            String recipient = request.getParameter("recipient");
+          //  String from = request.getParameter("sender");
             String title = request.getParameter("title");
             String content = request.getParameter("description");   
-         //   Date sendDate = new Date();
-           
-            messageDao.sendMessage(sender, recipient, title, content);
-*/
+            Date date = new Date();
+           // Message message = new Message(messageID, sender, recipient, title, content, date);
+         //   messageDao.sendMessage(sender, recipient, title, content, date);
+
         %>
       
-        <form action="messages.jsp" method="post">
+        <form action="MessagesServlet" method="post">
       
             <caption ><h2 style="padding-top: 100px;" align="center">Message Form</h2></caption>     
       
-       <table style="padding-top: 100px;" border="0" width="35%" align="center">
+            <table style="padding-top: 100px;" border="0" width="35%" align="center">
             
             <tr>
-                <td width="50%">Recipient</td>
+                <td width="50%">To</td>
                 <td><input type="text" name="recipient" size="50"/></td>
             </tr>
             <tr>
                 <td width="50%">From</td>
-                <td><input type="text" name="sender" size="50"/></td>
+                <td><%=sender%></td>
             </tr>
             <tr>
                 <td>Subject </td>
@@ -73,7 +76,10 @@
                 <td><textarea rows="10" cols="50" name="content"></textarea> </td>
             </tr>
             <tr>
-                <td colspan="2" align="center"><input type="submit" value="Send"/></td>
+                <td colspan="2" align="center">
+                    <input type="submit" name="action" value="Send"/>
+                    <input type="submit" name="action" value="Cancel"/>
+                </td>
             </tr>
         </table>
         </form>

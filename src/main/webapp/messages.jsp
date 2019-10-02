@@ -4,18 +4,18 @@
     Author     : Sukonrat
 --%>
 
-<%@page import="uts.asd.hsms.model.dao.AuditLogDAO"%>
-<%@page import="uts.asd.hsms.model.UserAudit"%>
 <%@page import="java.util.Date"%>
+<%@page import="uts.asd.hsms.model.dao.AuditLogDAO"%>
 <%@page import="uts.asd.hsms.model.Message"%>
 <%@page import="org.bson.types.ObjectId"%>
 <%@page import="uts.asd.hsms.controller.UserController"%>
-<%@page import="uts.asd.hsms.model.User"%>
-
-<%@page import="uts.asd.hsms.model.dao.MessageDao"%>
+<%@page import="uts.asd.hsms.model.*"%>
+<%@page import="uts.asd.hsms.model.dao.MessagesDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" />
+
 <!DOCTYPE html>
-<html>
+<html lang="en">   
     <head>
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -26,10 +26,10 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Messages</title>
-        <%-- //Check if there is a valid user in the session
+        <% //Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
-                session.setAttribute("redirect", "log");
+                session.setAttribute("redirect", "messages");
         %>   
                 <jsp:include page="LoginServlet" flush="true" />
         <%
@@ -39,59 +39,59 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
-       --%> 
+       %> 
     </head>
     <body>
       
-      <form action="messageform.jsp">
-           <caption ><h2 style="padding-top: 100px;" align="center">Messages</h2></caption>     
-          <table style="padding-top: 100px;"border="0" width="70%" align="center">
+        <form action="MessagesServlet" method="post">
+            <caption ><h2 style="padding-top: 100px;" align="center">Messages</h2></caption>  
+           <table border="0" width="70%" align="center">
+            <tr>
+                <td colspan="2" align="right"><input type="submit" name="action" value="New Message"/></td> 
+            </tr>  
             <% 
-            
-                  
-                   MessageDao messageDao = (MessageDao)session.getAttribute("messageDao");
-                    
-           /*   Message[] messages = messageDao.getMessage();
-                  for(int i = 0; i < messages.length; i++) {
-                          
-                       Message message = messages[i];
-                       
+                   MessagesDao messageDao = (MessagesDao)session.getAttribute("messageDao"); 
+                 String email = user.getEmail();
+                   //Message[] messages = messageDao.getMessage();
+               Message[] messages = messageDao.getMessage(email);
+                    for(int i = 0; i < messages.length; i++) {
+                        Message message = messages[i];
                         ObjectId messageID = message.getMessageID();
+                    //    String firstName = user.getFirstName();
                         String sender = message.getSender();
                         String recipient = message.getRecipient();
                         String title =  message.getTitle();
                         String content = message.getContent();
-             */
-                          
+                        Date date = message.getDate();
              %>
-            <tr>
-                <td>Message ID: <%--=messageID--%></td><br>
-            </tr>
-            <tr>
-               <td>Recipient: <%--=recipient--%></td><br>
-            </tr>
              <tr>
-                <td>Sender: <%--=sender--%></td><br>
+                <td>From : <%=sender%></td>
               </tr>
-             <tr>
-                 <td>Message Title: <%--=title--%></td><br>
+            <tr>
+               <td>To: <%=recipient%></td>
+            </tr>
+              <tr>
+                  <td>On: <%=date%></td>
               </tr>
-             <tr>
-                 <td>Message Content: <%--=content--%></td><br>
-        <br>
-        <br>
-        
-        
-        
-        <%--
-            }
-        --%>
-        </tr>
-        <tr>
             
-                <td colspan="2" align="right"><input type="submit" value="New Message"/></td> 
+             <tr>
+                 <td>Title: <%=title%></td>
+              </tr>
+             <tr>
+                 <td>Content: <%=content%></td>
+              <tr>
+                <td colspan="3" align="right">
+                    <input type="submit" name="action" value="Forward"/>
+                    <input type="submit" name="action" value="Delete"/>
+                </td>
             </tr>
-            <br>
+        
+        <%
+            }
+        
+         %>
+        </tr>
+    
           </table>
       </form>
         

@@ -15,17 +15,17 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
-import uts.asd.hsms.model.dao.MessageDao;
+import uts.asd.hsms.model.dao.MessagesDao;
 
 /**
  *
  * @author Sukonrat
  */
 public class MessageController {
-    private MessageDao messageDao;
+    private MessagesDao messageDao;
     
     public MessageController(HttpSession session){
-    messageDao = (MessageDao)session.getAttribute("messageDao");
+    messageDao = (MessagesDao)session.getAttribute("messageDao");
     
     }
 }
