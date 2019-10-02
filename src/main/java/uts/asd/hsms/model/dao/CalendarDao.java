@@ -28,10 +28,10 @@ import uts.asd.hsms.model.Calendar;
  */
 public class CalendarDao {
 
-    private MongoClient mongoClient;
-    private DB database;
-    private DBCollection collection;
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    MongoClient mongoClient;
+    DB database;
+    DBCollection collection;
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public CalendarDao(MongoClient mongoClient) {
         this.mongoClient = mongoClient;

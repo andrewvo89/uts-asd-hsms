@@ -62,7 +62,6 @@
                             <%
                                 }
                             %>
-
                 </tbody>
             </table>
             <div class="float-left">
