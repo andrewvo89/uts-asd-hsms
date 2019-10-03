@@ -35,11 +35,10 @@
         <jsp:include page="LoginServlet" flush="true" />
         <%
         } else {//Only Administrator & Principal Access
-            if (user.getUserRole() > 2)
-                response.sendRedirect("index.jsp");
-        %>
+            if (user.getUserRole() > 2 || request.getParameter("jobId") == null) %><jsp:include page="LoginDeniedServlet" flush="true" />        
         <%@ include file="/WEB-INF/jspf/header.jspf"%>
-        <%            }
+        <%            
+            }
             JobReviewController controller = new JobReviewController(session);
             ArrayList<String> message = (ArrayList<String>) session.getAttribute("message");
             //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type
@@ -50,8 +49,8 @@
                 message.add("");
             }
             ObjectId jobId = new ObjectId(request.getParameter("jobId"));//Jobid from jobmanagement.jsp
-            Job job = controller.getJobs(jobId, null, null, null, null, null, null, null, "title", 1)[0];
-            JobApplication[] jobApplications = controller.getJobApplications(null, jobId, null, null, null, "statusdate", -1);
+            Job job = controller.getJobs(jobId, null, null, null, null, null, null, null, true, "title", 1)[0];
+            JobApplication[] jobApplications = controller.getJobApplications(null, jobId, null, null, null, "_id", -1);
         %>
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
@@ -69,7 +68,7 @@
                     for (int x = 0; x < jobApplications.length; x++) {
                         ObjectId jobApplicationId = jobApplications[x].getJobApplicationId();
                         ObjectId userId = jobApplications[x].getUserId();
-                        User currentUser = controller.getUsers(userId, null, null, null, null, null, null, null, 0, "firstname", 1)[0];
+                        User currentUser = controller.getUsers(userId, null, null, null, null, null, null, null, 0, null, "firstname", 1)[0];
                         String firstName = currentUser.getFirstName();
                         String lastname = currentUser.getLastName();
                         String email = currentUser.getEmail();
@@ -99,7 +98,7 @@
                         <strong>>></strong>
                         <button type="button" class="btn btn<%=statusButtonOutline[2]%>-danger" data-toggle="<%=statusButtonToggle[2]%>" data-target="#rejectModal<%=x%>"><%=statusButtonLabel[2]%></button>
                         <strong>>></strong>
-                        <button type="button" class="btn btn<%=statusButtonOutline[3]%>-success" data-toggle="<%=statusButtonToggle[3]%>" data-target="#successModal<%=x%>"><%=statusButtonLabel[3]%></button>
+                        <button type="button" class="btn btn<%=statusButtonOutline[3]%>-success" data-toggle="<%=statusButtonToggle[3]%>" data-target="#successModal<%=x%>" id="successButton<%=x%>"><%=statusButtonLabel[3]%></button>
                     </div>
                     <div class="card-footer text-muted"><%=footerLabel%></div>
                 </div>
@@ -175,7 +174,7 @@
                                     <input type="hidden" name="jobApplicationId" value="<%=jobApplicationId%>">
                                     <input type="hidden" name="action" value="success">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>                 
-                                    <button type="submit" class="btn btn-primary btn-success">Confirm</button>
+                                    <button type="submit" id="successConfirmButton<%=x%>" class="btn btn-primary btn-success">Confirm</button>
                                 </div>
                             </form>
                         </div>

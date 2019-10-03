@@ -56,8 +56,8 @@ public class JobBoardServlet extends HttpServlet {
         userId = new ObjectId(request.getParameter("userId"));
         jobId = new ObjectId(request.getParameter("jobId"));
         coverLetter = request.getParameter("coverLetter").trim();
-        job = controller.getJobs(jobId, null, null, null, null, null, null, null, "_id", 1)[0];
-        user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, "_id", 1)[0];
+        job = controller.getJobs(jobId, null, null, null, null, null, null, null, true, "_id", 1)[0];
+        user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, null, "_id", 1)[0];
         Date zeroDate = new Date();
         zeroDate.setTime(0);
         status = new BasicDBObject();

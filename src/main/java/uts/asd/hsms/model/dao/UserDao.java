@@ -35,7 +35,7 @@ public class UserDao {
         return database;
     }
     
-    public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, String sort, int order) {
+    public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, Boolean active, String sort, int order) {
         List<BasicDBObject> conditions = new ArrayList<BasicDBObject>();
         BasicDBObject query = new BasicDBObject();
         DBCursor cursor;//If the parameter fields are NULL, do not include them in query
@@ -64,6 +64,7 @@ public class UserDao {
             }
         }
         if (userRole != 0) conditions.add(new BasicDBObject("userrole", userRole));
+        if (active != null) conditions.add(new BasicDBObject("active", active));
         if (conditions.size() == 0) {
             cursor = collection.find();
         }
@@ -86,7 +87,8 @@ public class UserDao {
             String passwordResult = (String)result.get("password");
             String departmentResult = (String)result.get("department");
             int userRoleResult = (int)result.get("userrole");
-            users[count] = new User(userIdResult, firstNameResult, lastNameResult, phoneResult, locationResult, emailResult, passwordResult, departmentResult, userRoleResult);
+            Boolean activeResult = (Boolean)result.get("active");
+            users[count] = new User(userIdResult, firstNameResult, lastNameResult, phoneResult, locationResult, emailResult, passwordResult, departmentResult, userRoleResult, activeResult);
             count ++;
         }
         return users;
@@ -103,6 +105,7 @@ public class UserDao {
             newRecord.put("password", user.getPassword());
             newRecord.put("department", user.getDepartment());
             newRecord.put("userrole", user.getUserRole());
+            newRecord.put("active", user.getActive());
             collection.insert(newRecord);
         }
         catch (Exception ex) {
@@ -121,9 +124,10 @@ public class UserDao {
             if (user.getPhone() != null) records.append("phone", user.getPhone());
             if (user.getLocation() != null) records.append("location", user.getLocation());
             if (user.getEmail() != null) records.append("email", user.getEmail());
+            if (user.getPassword() != null) records.append("password", user.getPassword());    
             if (user.getDepartment() != null) records.append("department", user.getDepartment());
-            if (user.getUserRole() != 0) records.append("userrole", user.getUserRole());  
-            if (user.getPassword() != null) records.append("password", user.getPassword());        
+            if (user.getUserRole() != 0) records.append("userrole", user.getUserRole());
+            if (user.getActive() != null) records.append("active", user.getActive());
             update.append("$set", records);
             collection.update(query, update);
         }
@@ -133,10 +137,10 @@ public class UserDao {
         return true;
     } 
     
-    public boolean deleteUser(ObjectId userId) { //Simple Delete from Database, based on _userId
+    public boolean deleteUser(User user) { //Hard delete from MongoDB
         try {
             BasicDBObject query = new BasicDBObject();
-            query.put("_id", userId);
+            query.put("_id", user.getUserId());
             collection.remove(query);}
         catch (Exception ex) {
             return false;

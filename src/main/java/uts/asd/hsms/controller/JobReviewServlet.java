@@ -70,8 +70,8 @@ public class JobReviewServlet extends HttpServlet {
             jobId = jobApplication.getJobId();
             userId = jobApplication.getUserId();
             status = jobApplication.getStatus();
-            job = controller.getJobs(jobId, null, null, null, null, null, null, null, "_id", 1)[0];
-            user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, "_id", 1)[0];
+            job = controller.getJobs(jobId, null, null, null, null, null, null, null, true, "_id", 1)[0];
+            user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, null, "_id", 1)[0];
             //Depending on which button got pressed on the previous page
             switch (action) {
                 case "review":
@@ -125,7 +125,7 @@ public class JobReviewServlet extends HttpServlet {
         for (JobApplication rejecetedJobApplication : jobApplications) {
             if (!rejecetedJobApplication.getUserId().equals(userId)) {
                 //Get rejected User
-                User rejectedUser = controller.getUsers(rejecetedJobApplication.getUserId(), null, null, null, null, null, null, null, 0, "_id", 1)[0];
+                User rejectedUser = controller.getUsers(rejecetedJobApplication.getUserId(), null, null, null, null, null, null, null, 0, null, "_id", 1)[0];
                 //Edit all other users that's not current user in question
                 BasicDBObject tempStatus = rejecetedJobApplication.getStatus();
                 tempStatus.put("rejected", new Date());

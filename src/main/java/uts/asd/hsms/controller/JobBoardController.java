@@ -63,7 +63,7 @@ public class JobBoardController {
         //Remove any jobs that have status of "Draft"
         ArrayList<Job> appliedJobsFinal = new ArrayList<>();
         for (JobApplication jobApplication : jobApplicationSearch) {
-            Job appliedJob = getJobs(jobApplication.getJobId(), null, null, null, null, null, null, null, "title", 1)[0];
+            Job appliedJob = getJobs(jobApplication.getJobId(), null, null, null, null, null, null, null, null, "title", 1)[0];
             if (!appliedJob.getStatus().equals("Draft")) appliedJobsFinal.add(appliedJob);
         }
         //Crete array of jobs and copy filtered results from ArrayList
@@ -90,7 +90,7 @@ public class JobBoardController {
             buttonLabel = statusString + " on " + longDate.format(statusDate);  
         }
         else {//Job not yet applied, therefore no record in database. Search for job id and get close date
-            Job[] jobSearch = getJobs(jobId, null, null, null, null, null, null, null, "title", 1);
+            Job[] jobSearch = getJobs(jobId, null, null, null, null, null, null, null, true, "title", 1);
             if (jobSearch.length == 1) {//Record found
                 Date closeDate = jobSearch[0].getCloseDate();
                 buttonLabel = "Apply by " + longDate.format(closeDate);
@@ -194,8 +194,8 @@ public class JobBoardController {
         return coverLetter;
     }
     //Talk to Dao to get all jobs
-    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, String sort, int order) {
-        return jobDao.getJobs(jobId, title, description, workType, department, status, postDate, closeDate, sort, order);
+    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, Boolean active, String sort, int order) {
+        return jobDao.getJobs(jobId, title, description, workType, department, status, postDate, closeDate, active, sort, order);
     }
     //Talk to Dao to get all job applications
     public JobApplication[] getJobApplications(ObjectId jobApplicationId, ObjectId jobId, ObjectId userId, String coverLetter, BasicDBObject status, String sortBy, int orderBy) {
@@ -204,8 +204,8 @@ public class JobBoardController {
     public boolean addJobApplication(JobApplication jobApplication) {
         return jobApplicationDao.addJobApplication(jobApplication);
     }
-    public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, String sort, int order) {
-        return userDao.getUsers(userId, firstName, lastName, phone, location, email, password, department, userRole, sort, order);
+    public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, Boolean active, String sort, int order) {
+        return userDao.getUsers(userId, firstName, lastName, phone, location, email, password, department, userRole, active, sort, order);
     }
     
 }

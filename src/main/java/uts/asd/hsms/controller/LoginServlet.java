@@ -99,8 +99,8 @@ public class LoginServlet extends HttpServlet {
         //String loginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
 
         //Does email exist?
-        if (controller.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1).length != 0) {
-            loginUser = controller.getUsers(null, null, null, null, null, email, null, null, 0, "firstname", 1)[0];
+        if (controller.getUsers(null, null, null, null, null, email, null, null, 0, true, "firstname", 1).length != 0) {
+            loginUser = controller.getUsers(null, null, null, null, null, email, null, null, 0, true, "firstname", 1)[0];
             try {  
                 if (loginUser != null) if (PasswordEncrypt.validatePassword(password, loginUser.getPassword())) authenticated = true;
             }//Keep authenticated = false
@@ -112,6 +112,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("user", loginUser);
             session.removeAttribute("errorMessage");
             session.removeAttribute("failedLogins");
+            auditLogDao.addLoginTime(loginUser.getFirstName(),loginTime);
         }//Authentication Failed
         else {//If attribute failedLogins exists, get the attribute, otherwise initialize a new one
             session.setAttribute("errorMessage", "Username or Password Incorrect");

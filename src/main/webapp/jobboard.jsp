@@ -50,7 +50,7 @@
         String departmentSelection = request.getParameter("departmentSearch");
         String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);     
         //Return search results in the form of Jobs for populating the table
-        Job[] openJobs = controller.getJobs(null, titleSearch, null, workTypeSelection, departmentSelection, "Open", null, null, "postdate", -1);
+        Job[] openJobs = controller.getJobs(null, titleSearch, null, workTypeSelection, departmentSelection, "Open", null, null, true, "postdate", -1);
         Job[] appliedJobs = controller.getAppliedJobs(user.getUserId());
         %>
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
@@ -185,19 +185,19 @@
                                     <h4 class="card-title"><%=title%></h4>
                                     <p class="card-text"><%=coverLetter%></p>
                                     <form action="JobReviewServlet" method="post" class="inline-form">
-                                        <button type="button" class="btn btn<%=statusButtonOutline[0]%>-primary" disabled><%=statusButtonLabel[0]%></button>
+                                        <button type="button" class="btn btn<%=statusButtonOutline[0]%>-primary no-hover" disabled><%=statusButtonLabel[0]%></button>
                                         <strong>>></strong>
                                     </form>
                                     <form action="JobReviewServlet" method="post" class="inline-form">
-                                        <button type="button" class="btn btn<%=statusButtonOutline[1]%>-warning"><%=statusButtonLabel[1]%></button>
+                                        <button type="button" class="btn btn<%=statusButtonOutline[1]%>-warning no-hover"><%=statusButtonLabel[1]%></button>
                                         <strong>>></strong>
                                     </form>
                                     <form action="JobReviewServlet" method="post" class="inline-form">
-                                        <button type="button" class="btn btn<%=statusButtonOutline[2]%>-danger"><%=statusButtonLabel[2]%></button>
+                                        <button type="button" class="btn btn<%=statusButtonOutline[2]%>-danger no-hover"><%=statusButtonLabel[2]%></button>
                                         <strong>>></strong>
                                     </form>
                                     <form action="JobReviewServlet" method="post" class="inline-form">
-                                        <button type="button" class="btn btn<%=statusButtonOutline[3]%>-success"><%=statusButtonLabel[3]%></button>
+                                        <button type="button" class="btn btn<%=statusButtonOutline[3]%>-success no-hover"><%=statusButtonLabel[3]%></button>
                                     </form>                        
                                 </div>
                                 <div class="card-footer text-muted"><%=statusFooterLabel%></div>
@@ -214,6 +214,7 @@
                     for (int x = 0; x < openJobs.length; x++) {
                         Job currentJob = openJobs[x];
                         ObjectId jobId = currentJob.getJobId();
+                        String jobIdString = jobId.toString();
                         String title = currentJob.getTitle();
                         String description = controller.processLineBreaks(currentJob.getDescription());
                         String workType = currentJob.getWorkType();
@@ -237,12 +238,12 @@
                     <div class="card-body">
                         <h4 class="card-title"><%=title%></h4>
                         <p class="card-text"><%=description%></p>
-                        <button type="button" class="btn btn-<%=buttonColor%>" data-toggle="modal" data-target="#jobApplyModal<%=x%>" <%=buttonDisabled%>><%=buttonLabel%></button>
+                        <button type="button" class="btn btn-<%=buttonColor%>" data-toggle="modal" id="jobApplyButton<%=jobIdString%>" data-target="#jobApplyModal<%=jobIdString%>" <%=buttonDisabled%>><%=buttonLabel%></button>
                     </div>
                     <div class="card-footer text-muted"><%=footerLabel%></div>
                 </div>                
                 <!--JOB APPLY MODAL DIALOG-->        
-                <div class="modal fade" id="jobApplyModal<%=x%>" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade" id="jobApplyModal<%=jobIdString%>" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -262,14 +263,14 @@
                                         <p class="font-weight-bold">Cover Letter</p>
                                         <label>Briefly explain why you are suitable for this role. 
                                             Consider your relevant skills, qualifications and related experience.</label>
-                                        <textarea class="form-control" name="coverLetter" rows="5"></textarea>
+                                        <textarea class="form-control" name="coverLetter" id="coverLetter<%=jobIdString%>" rows="5"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <input type="hidden" name="userId" value="<%=userId.toString()%>">
-                                    <input type="hidden" name="jobId" value="<%=jobId.toString()%>">
+                                    <input type="hidden" name="jobId" value="<%=jobIdString%>">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Apply</button>
+                                    <button type="submit" class="btn btn-primary" id="jobApplyConfirmButton<%=jobIdString%>">Apply</button>
                                 </div>
                             </form> 
                        </div> 

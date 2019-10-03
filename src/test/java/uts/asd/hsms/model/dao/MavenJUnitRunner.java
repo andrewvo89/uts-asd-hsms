@@ -14,7 +14,7 @@ import org.junit.runner.JUnitCore;
 public class MavenJUnitRunner {
     public static void main(String[] args) {
         System.out.println("- Testing MavenJUnitTest: ");
-        org.junit.runner.Result result = JUnitCore.runClasses(MavenJUnitTest.class);
+        org.junit.runner.Result result = JUnitCore.runClasses(JobFeatureTest.class);
         result.getFailures().forEach((failure) -> {
             System.out.println(failure.toString());
         });

@@ -97,8 +97,8 @@ public class JobReviewController {
         return coverLetter;
     }
     //Talk to Dao to get all jobs
-    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, String sort, int order) {
-        return jobDao.getJobs(jobId, title, description, workType, department, status, postDate, closeDate, sort, order);
+    public Job[] getJobs(ObjectId jobId, String title, String description, String workType, String department, String status, Date postDate, Date closeDate, Boolean active, String sort, int order) {
+        return jobDao.getJobs(jobId, title, description, workType, department, status, postDate, closeDate, active, sort, order);
     }
     public boolean editJob(Job job) {
         return jobDao.editJob(job);
@@ -112,7 +112,7 @@ public class JobReviewController {
         return jobApplicationDao.editJobApplication(jobApplication);
     }
     //Talk to Dao to get all job applications
-    public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, String sort, int order) {
-        return userDao.getUsers(userId, firstName, lastName, phone, location, email, password, department, userRole, sort, order);
+    public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, Boolean active, String sort, int order) {
+        return userDao.getUsers(userId, firstName, lastName, phone, location, email, password, department, userRole, active, sort, order);
     }
 }

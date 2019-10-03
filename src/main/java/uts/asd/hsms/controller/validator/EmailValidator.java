@@ -40,7 +40,7 @@ public class EmailValidator implements ConstraintValidator<EmailConstraint, Stri
         }  
         mongoClient = mongoDbConnector.openConnection();
         userDao = new UserDao(mongoClient);
-        User[] users = userDao.getUsers(null, null, null, null, null, null, null, null, 0, "firstname", 1);
+        User[] users = userDao.getUsers(null, null, null, null, null, null, null, null, 0, true, "firstname", 1);
         for (int x = 0; x < users.length; x ++) {
             if (users[x].getEmail().equals(email)){
                 mongoDbConnector.closeConnection();
