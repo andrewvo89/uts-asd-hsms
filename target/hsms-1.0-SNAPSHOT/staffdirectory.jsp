@@ -231,15 +231,7 @@
                     
 
                         
-                                   <tr>
-                            <td>Alice</td>
-                            <td>Lo</td>
-                            <td>English</td>
-                            <td>Principal</td>
-                            <td>principal@hsms.edu.au</td>
-                            <td>0400000000</td>
-                            <td>CB11.02.011</td>
-                                   </tr>
+                                  
 
 
                         </tbody>

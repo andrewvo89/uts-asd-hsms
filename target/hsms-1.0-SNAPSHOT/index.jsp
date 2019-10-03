@@ -7,6 +7,7 @@
 <%@page import="uts.asd.hsms.model.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="ConnServlet" flush="true" />
+<%@page import="uts.asd.hsms.controller.IndexController"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -23,6 +24,7 @@
     <body>
         <%//Check if there is a valid user in the session
         User user = (User)session.getAttribute("user");
+        IndexController controller = new IndexController(session);
         if (user == null) {
             session.setAttribute("redirect", "index");
         %>
@@ -34,6 +36,7 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
+            int jobsCount = controller.getJobs(null, null, null, null, null, "Open", null, null, true, "_id", 1).length;
         %>   
         <div class="main" role="main">
             <div class="container">
@@ -47,7 +50,7 @@
                                 <div class="text">
                                     <span>You have 1 event coming up.</span>
                                 </div>
-                                <a href="#">Show More</a>                        
+                                <a href="calendar.jsp">Show More</a>                        
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -72,7 +75,7 @@
                                     <span>Apply online for Annual Leave, Sick Leave, Maternity Leave or Long Service Leave.</span>
                                 </div>
                                 <div>
-                                    <a href="#">Show More</a>
+                                    <a href="leaveform.jsp">Show More</a>
                                 </div>
                             </div>
                         </div>	
@@ -82,9 +85,9 @@
                                     <h4>Job Board</h4>
                                 </div>
                                 <div class="text">
-                                    <span>4 new jobs on available.</span>
+                                    <span>Ready for new opportunities?<br><%=jobsCount%> Jobs are waiting for you to apply.</span>
                                 </div>
-                                <a href="#">Show More</a>
+                                <a href="jobboard.jsp">Show More</a>
                             </div>
                         </div>	 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -95,7 +98,7 @@
                                 <div class="text">
                                     <span>Your workplace experience is important to us. Send us feedback via HR Feedback.</span>
                                 </div>
-                                <a href="#">Show More</a>
+                                <a href="complaintfill.jsp">Show More</a>
                             </div>
                         </div>	
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -106,7 +109,7 @@
                                 <div class="text">
                                     <span>You have 2 new Messages.</span>
                                 </div>
-                                <a href="#">Show More</a>
+                                <a href="message.jsp">Show More</a>
                             </div>
                         </div>
                     </div>	
