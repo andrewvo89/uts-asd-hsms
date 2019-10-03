@@ -17,14 +17,14 @@ import uts.asd.hsms.model.dao.*;
  */
 public class FeedbackController {
     private FeedbackDao feedbackDao;
-    private SimpleDateFormat yearDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat dayDateFormat = new SimpleDateFormat("dd-MM-yyyy");
     
     public FeedbackController(HttpSession session) {
         feedbackDao = (FeedbackDao)session.getAttribute("feedbackDao");
     }
     
-    public Feedback[] getFeedbacks(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, boolean escalated, String sort, int order) {
-        return feedbackDao.getFeedback(refCommentId, commentId, commSubject, comment, commDate, escalated, sort, order);
+    public Feedback[] getFeedbacks(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, boolean escalated, boolean archived, String sort, int order) {
+        return feedbackDao.getFeedback(refCommentId, commentId, commSubject, comment, commDate, escalated, archived, sort, order);
     }
     
     public boolean addFeedback(Feedback feedback) {

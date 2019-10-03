@@ -21,14 +21,16 @@ public class Feedback implements Serializable{
     private String comment;
     private Date commDate;
     private boolean escalated;
+    private boolean archived;
     
-    public Feedback (ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, boolean escalated) {
+    public Feedback (ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, boolean escalated, boolean archived) {
         this.refCommentId = refCommentId;
         this.commentId = commentId;
         this.commSubject = commSubject;
         this.comment = comment;
         this.commDate = commDate;
         this.escalated = escalated;
+        this.archived = archived;
     }
     
     public ObjectId getRefCommentId() {
@@ -41,7 +43,7 @@ public class Feedback implements Serializable{
     public int getCommentId() {
         return commentId;
     }
-    public void setCommentId(int commId) {
+    public void setCommentId(int commentId) {
         this.commentId = commentId;
     }
     
@@ -73,4 +75,10 @@ public class Feedback implements Serializable{
         this.escalated = escalated;
     }
     
+    public boolean getArchived() {
+        return escalated;
+    }
+    public void setArchived(boolean escalated) {
+        this.escalated = escalated;
+    }
 }

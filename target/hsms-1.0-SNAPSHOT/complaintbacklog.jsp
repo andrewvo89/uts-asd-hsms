@@ -4,8 +4,16 @@
     Author     : Griffin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="uts.asd.hsms.controller.*"%>
+<%@page import="org.bson.types.ObjectId"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="uts.asd.hsms.model.dao.*"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="ConnServlet" flush="true" />
 <%@page import="uts.asd.hsms.model.*"%>
 <!DOCTYPE html>
 <html>
@@ -19,6 +27,9 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Complaint Backlog</title>
+    </head>
+    <body>
+        
         <%
             User user = (User)session.getAttribute("user");
             if (user == null) {
@@ -27,18 +38,27 @@
                 <jsp:include page="LoginServlet" flush="true" />
         <%
             }
-            else {
-                if (user.getUserRole() > 2) response.sendRedirect("index.jsp");
         %>
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
-            }
+            FeedbackController controllerc = new FeedbackController(session);
+            SimpleDateFormat dayDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            //Prefill variable
+            Feedback[] feedbacks = controllerc.getFeedbacks(null, 0, null, null, null, false, false, "commentId", 1);
         %> 
-    </head>
-    <body>
+        
         <div class="main">
             <div class="container">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Complaint Backlog</li>
+                    </ol>
+                </nav>
+                
                 <h1>Feedback Backlog</h1>
+                
+                <!-- Modal Filter Section -->
                 <div class="card" style="margin-top:25px">
                     <div class="card-header">
                         <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
@@ -72,8 +92,9 @@
                      </div>
                     </div>
                 </div>
-                
-                <br><table class="table">
+                <!-- END of Modal Filter Section -->
+                <div>
+                    <table class="table">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Comment ID</th>
@@ -81,38 +102,41 @@
                                 <th scope="col">Comment</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Escalated</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <%
+                                for (int x = 0; x < feedbacks.length; x++) {
+                                    Feedback currentFeedback = feedbacks[x];
+                                    ObjectId refCommentId = currentFeedback.getRefCommentId();
+                                    int commentId = currentFeedback.getCommentId();
+                                    String commSubject = currentFeedback.getCommSubject();
+                                    String comment = currentFeedback.getComment();
+                                    String commDate = dayDateFormat.format(currentFeedback.getCommDate());
+                                    boolean escalated = currentFeedback.getEscalated();
+                                    boolean archived = currentFeedback.getArchived();    
+                            %>
                             <tr>
-                                <td>1</td>
-                                <td>Facilities</td>
-                                <td>The toilets are filthy. Students have kept complaining to me how there are wet toilet paper balls all over the place. Put more funds into janitors please!</td>
-                                <td>17/8/2019</td>
+                                <td><%=commentId%></td>
+                                <td><%=commSubject%></td>
+                                <td><%=comment%></td>
+                                <td><%=commDate%></td>
+                                <td><%=escalated%></td>
                                 <td>
-                                    <select class="form-control" id="escalate">
-                                        <option>Yes</option>
-                                        <option>Under Revision</option>
-                                        <option selected>No</option>
-                                    </select>
+                                    <form action="" method="post">
+                                        <input type="hidden" name="refCommentId" value="<%=refCommentId%>"
+                                        <button type="submit" class="btn btn-outline-warning">Escalate </button>
+                                    </form>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Discrimination</td>
-                                <td>I can't stand this anymore. The students keep calling me names like "Moor" and "Donkey". If I hear anymore of this I'll go mad. - Othello</td>
-                                <td>17/3/1456</td>
-                                <td>
-                                    <select class="form-control" id="escalate">
-                                        <option>Yes</option>
-                                        <option>Ongoing</option>
-                                        <option selected>No</option>
-                                    </select>
-                                </td>
+                                
+                            <%
+                                }
+                            %>
                             </tr>
                         </tbody>
                     </table>
-                
+                </div>
             </div>        
                 
                 

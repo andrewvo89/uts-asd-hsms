@@ -39,7 +39,7 @@ public class FeedbackDao {
         return database;
     }
     
-    public Feedback[] getFeedback(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, boolean escalated, String sort, int order) {
+    public Feedback[] getFeedback(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, boolean escalated, boolean archived, String sort, int order) {
         List<BasicDBObject> conditions = new ArrayList<BasicDBObject>();
         BasicDBObject query = new BasicDBObject();
         DBCursor cursor;
@@ -55,6 +55,7 @@ public class FeedbackDao {
             if (!commDate.toString().isEmpty()) conditions.add(new BasicDBObject("commDate", compile(quote(dateFormat.format(commDate)), CASE_INSENSITIVE)));
         }
         if (escalated == true) conditions.add(new BasicDBObject("escalated", escalated));
+        if (archived == true) conditions.add(new BasicDBObject("archived", archived));
         
         if (conditions.size() == 0) {
             cursor = collection.find();
@@ -74,7 +75,8 @@ public class FeedbackDao {
             String commentResult = (String)result.get("comment");
             Date commDateResult = (Date)result.get("commDate");
             boolean escalatedResult = (boolean)result.get("escalated");
-            feedbacks[count] = new Feedback(refCommentIdResult, commentIdResult, commSubjectResult, commentResult, commDateResult, escalatedResult);
+            boolean archivedResult = (boolean)result.get("archived");
+            feedbacks[count] = new Feedback(refCommentIdResult, commentIdResult, commSubjectResult, commentResult, commDateResult, escalatedResult, archivedResult);
             count ++;
         }
         return feedbacks;
@@ -90,6 +92,7 @@ public class FeedbackDao {
             if (feedback.getComment() != null) records.append("comment", feedback.getComment());
             if (feedback.getCommDate() != null) records.append("commDate", feedback.getCommDate());
             if (feedback.getEscalated() != false) records.append("escalated", feedback.getEscalated());
+            if (feedback.getArchived() != false) records.append("archived", feedback.getArchived());
             update.append("$set", records);
             collection.update(query, update);
         }
