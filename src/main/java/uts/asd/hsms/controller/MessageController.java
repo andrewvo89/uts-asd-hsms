@@ -5,16 +5,11 @@
  */
 package uts.asd.hsms.controller;
 
-import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+
+import java.util.Date;
 import javax.servlet.http.HttpSession;
+import org.bson.types.ObjectId;
+import uts.asd.hsms.model.Message;
 import uts.asd.hsms.model.dao.MessagesDao;
 
 /**
@@ -26,7 +21,10 @@ public class MessageController {
     
     public MessageController(HttpSession session){
     messageDao = (MessagesDao)session.getAttribute("messageDao");
+    }
     
+    public Message[] getMessage(ObjectId messageID, String sender, String recipient, String title, String content, Date date){
+    return messageDao.getMessages(messageID, sender, recipient, title, content, date);
     }
 }
     

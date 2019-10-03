@@ -39,19 +39,20 @@ public class MessagesDao {
     }
     
     // get single message by its id
-    public Message getSingleMessage(ObjectId messageID){
-    BasicDBObject query = new BasicDBObject();
+    public Message getSingleMessage(ObjectId messageID, String sender, String recipient, String title, String content, Date date){
+       BasicDBObject query = new BasicDBObject();
             query.put("_id", messageID);
             DBCursor cursor = collection.find(query);
             DBObject result = cursor.one();
             if (result != null) {
-             String sender = (String)result.get("sender");
-            String recipient = (String)result.get("recipient");
-            String title = (String)result.get("title");
-            String content = (String)result.get("content");
-            Date date = (Date)result.get("date");  
+            String senderResult = (String)result.get("sender");
+            String recipientResult = (String)result.get("recipient");
+            String titleResult = (String)result.get("title");
+            String contentResult = (String)result.get("content");
+            Date dateResult = (Date)result.get("date");
             
-               return new Message(messageID, sender, recipient, title, content, date); 
+               return new Message(messageID, senderResult, recipientResult, titleResult, contentResult, dateResult); 
+               //ObjectId messageID, String sender, String recipient, String title, String content, Date date
             }
     return null;
     
@@ -83,7 +84,7 @@ public class MessagesDao {
 
     }
     // get all messages
-    public Message[] getMessages(){
+    public Message[] getMessages(ObjectId messageID, String sender, String recipient, String title, String content, Date date){
   
      DBCursor cursor = collection.find();
       // System.out.println("COUNT: " + cursor.count());
@@ -94,13 +95,13 @@ public class MessagesDao {
        
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
-            ObjectId messageID = (ObjectId)result.get("_id");
-            String sender = (String)result.get("sender");
-            String recipient = (String)result.get("recipient");
-            String title = (String)result.get("title");
-            String content = (String)result.get("content");
-            Date date = (Date)result.get("date");
-            messages[count] = new Message(messageID, sender, recipient, title, content, date);
+            ObjectId messageIDResult = (ObjectId)result.get("_id");
+            String senderResult = (String)result.get("sender");
+            String recipientResult = (String)result.get("recipient");
+            String titleResult = (String)result.get("title");
+            String contentResult = (String)result.get("content");
+            Date dateResult = (Date)result.get("date");
+            messages[count] = new Message(messageIDResult, senderResult, recipientResult, titleResult, contentResult, dateResult);
             count++;
         }
 //        System.out.print(messages);

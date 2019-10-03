@@ -61,7 +61,7 @@
             
             <tr>
                 <td width="50%">To</td>
-                <td><input type="text" name="recipient" size="50"/></td>
+                <td><input type="text" name="recipient" placeholder="Recipient" size="50"/></td>
             </tr>
             <tr>
                 <td width="50%">From</td>
@@ -69,11 +69,11 @@
             </tr>
             <tr>
                 <td>Subject </td>
-                <td><input type="text" name="title" size="50"/></td>
+                <td><input type="text" name="title" placeholder="Title" size="50"/></td>
             </tr>
             <tr>
                 <td>Content </td>
-                <td><textarea rows="10" cols="50" name="content"></textarea> </td>
+                <td><textarea rows="10" cols="50" name="content" placeholder="Content"></textarea> </td>
             </tr>
             <tr>
                 <td colspan="2" align="center">

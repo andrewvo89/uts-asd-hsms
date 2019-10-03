@@ -73,7 +73,6 @@
               <tr>
                   <td>On: <%=date%></td>
               </tr>
-            
              <tr>
                  <td>Title: <%=title%></td>
               </tr>
@@ -91,7 +90,6 @@
         
          %>
         </tr>
-    
           </table>
       </form>
         

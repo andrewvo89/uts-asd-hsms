@@ -41,20 +41,18 @@
     </head>
     <body>
         <%
-           MessagesDao messageDao = (MessagesDao)session.getAttribute("messageDao");
-           Message message = (Message)session.getAttribute("message");
-                  ObjectId messageID = message.getMessageID();
-             
-                     messageDao.getSingleMessage(messageID);
-                   // messageDao.forwardMessage(message);
-                       // String sender = user.getEmail();
-                        String sender = message.getSender();
-                        String recipient = message.getRecipient();
-                        String title =  message.getTitle();
-                        String content = message.getContent();
-                        Date date = message.getDate();
-                   
-                       
+                MessagesDao messageDao = (MessagesDao)session.getAttribute("messageDao");
+               
+                    ObjectId messageID = (ObjectId)session.getAttribute("messageID");
+                    String sender = user.getEmail();
+                    String recipient = (String)session.getAttribute("recipient"); 
+                    String title = (String)session.getAttribute("title"); 
+                    String content = (String)session.getAttribute("content"); 
+                    Date date = (Date)session.getAttribute("date");
+                    // Message message = (Message)session.getAttribute("message");
+               Message message = messageDao.getSingleMessage(messageID, sender, recipient, title, content, date); 
+     
+          
             %>
         
         <form action="MessagesServlet" method="post">

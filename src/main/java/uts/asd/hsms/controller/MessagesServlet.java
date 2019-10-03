@@ -73,7 +73,7 @@ public class MessagesServlet extends HttpServlet {
         
         if (action.equals("Send")) sendMessage();
         else if (action.equals("New Message")) messageForm();
-        else if (action.equals("Forward")) forwardMessage();
+        else if (action.equals("Forward")) messageForward();
         else if (action.equals("Delete")) deleteMessage();
         else if (action.equals("Cancel")) cancelMessage();
         else response.sendRedirect("messages.jsp"); 
@@ -105,34 +105,27 @@ public class MessagesServlet extends HttpServlet {
     }
 
     private void forwardMessage() throws ServletException, IOException {
-     //   Message oldmessage = null;
-    //   Message sessionMessage = (Message)session.getAttribute("message");
-      //  oldmessage = messageDao.getMessages();
-    // Message oldMessage = messageDao.getSingleMessage(messageID);
-        messageID = new ObjectId(request.getParameter("messageID"));
-        sender = request.getParameter("sender");
+     Message oldMessage = null;
+     Message newMessage = null;
+      User user = (User)session.getAttribute("user");
+ 
+     sender = user.getEmail();
+   
+    messageID = new ObjectId(request.getParameter("messageID"));
+  
         recipient = request.getParameter("recipient");
         title = request.getParameter("title");
         content = request.getParameter("content");
-        Date date = new Date();
-        Message sessionMessage = (Message)session.getAttribute("message");
-        Message oldMessage = messageDao.getSingleMessage(messageID);
-         Message newMessage = new Message(null, sender, recipient, title, content, date);
-         MessageValidator messageValidator = new MessageValidator(newMessage);
-// String redirect = request.getParameter("redirect"), redirectMessage;
-    //   messageDao.getMessage();
-          messageDao.forwardMessage(messageID, sender, recipient, title, content, date);
+         Date date = new Date();
       
-    //   
-       //  messageDao.sendMessage(newMessage.getSender(), newMessage.getRecipient(), newMessage.getTitle(), newMessage.getContent(), date);
-      //messageDao.forwardMessage(newMessage.getSender(), newMessage.getRecipient(), newMessage.getTitle(), newMessage.getContent(), date);
-        // messageDao.forwardMessage(newMessage);
-        
-      //  if(messageID.equals(sessionMessage.getMessageID()))
-           // session.setAttribute("message", newMessage);
-        //    messageDao.forwardMessage(newMessage.getRecipient(), newMessage.getSender(), newMessage.getTitle(), newMessage.getContent());
+     
+       oldMessage = messageDao.getSingleMessage(messageID, sender, recipient, title,  content, date);
+
+      newMessage = new Message(null, sender, recipient, title, content, date);
+    
+       messageDao.forwardMessage(newMessage.getMessageID() ,newMessage.getSender(),newMessage.getRecipient(), newMessage.getTitle(), newMessage.getContent(), date);
             
-       // redirectMessage = newMessage.getTitle();
+   
 
         
       response.sendRedirect("messages.jsp");
@@ -141,6 +134,10 @@ public class MessagesServlet extends HttpServlet {
 
     private void messageForm() throws ServletException, IOException {
         response.sendRedirect("messageform.jsp");
+    }
+    
+     private void messageForward() throws ServletException, IOException {
+        response.sendRedirect("messageforward.jsp");
     }
 
     private void cancelMessage() throws ServletException, IOException{
