@@ -33,18 +33,26 @@
         <%
             User user = (User)session.getAttribute("user");
             if (user == null) {
-                session.setAttribute("redirect", "usermanagement");
+                session.setAttribute("redirect", "complaintbacklog");
         %>   
                 <jsp:include page="LoginServlet" flush="true" />
         <%
             }
+            else {
+                if (user.getUserRole() > 2) response.sendRedirect("index.jsp");
         %>
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
-            FeedbackController controllerc = new FeedbackController(session);
+            }
+            FeedbackController controller = new FeedbackController(session);
             SimpleDateFormat dayDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            //Prefill variable
-            Feedback[] feedbacks = controllerc.getFeedbacks(null, 0, null, null, null, false, false, "commentId", 1);
+            //ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
+            //Initialise notification messages for pop up Modals 1.message ehader 2.message body 3.message type
+            //if (message == null) { message = new ArrayList<String>(); message.add(""); message.add(""); message.add(""); }
+            //Prefill Search variables
+            Feedback[] feedbacks = controller.getFeedback(null, 0, null, null, null, null, null, "commSubject", 1);
+            
+            
         %> 
         
         <div class="main">
@@ -93,7 +101,7 @@
                     </div>
                 </div>
                 <!-- END of Modal Filter Section -->
-                <div>
+                <br><div>
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
@@ -107,31 +115,31 @@
                         </thead>
                         <tbody>
                             <%
-                                for (int x = 0; x < feedbacks.length; x++) {
-                                    Feedback currentFeedback = feedbacks[x];
-                                    ObjectId refCommentId = currentFeedback.getRefCommentId();
-                                    int commentId = currentFeedback.getCommentId();
-                                    String commSubject = currentFeedback.getCommSubject();
-                                    String comment = currentFeedback.getComment();
-                                    String commDate = dayDateFormat.format(currentFeedback.getCommDate());
-                                    boolean escalated = currentFeedback.getEscalated();
-                                    boolean archived = currentFeedback.getArchived();    
+                                //for (int x = 0; x < feedbacks.length; x++) {
+                                //    Feedback currentFeedback = feedbacks[x];
+                                //    ObjectId refCommentId = currentFeedback.getRefCommentId();
+                                //    int commentId = currentFeedback.getCommentId();
+                                //    String commSubject = currentFeedback.getCommSubject();
+                                //    String comment = currentFeedback.getComment();
+                                //    String commDate = dayDateFormat.format(currentFeedback.getCommDate());
+                                //   String escalated = currentFeedback.getEscalated();
+                                //    String archived = currentFeedback.getArchived();    
                             %>
                             <tr>
-                                <td><%=commentId%></td>
-                                <td><%=commSubject%></td>
-                                <td><%=comment%></td>
-                                <td><%=commDate%></td>
-                                <td><%=escalated%></td>
+                                <td><%//=commentId%>Test</td>
+                                <td><%//=commSubject%>Test</td>
+                                <td><%//=comment%>Test</td>
+                                <td><%//=commDate%>Test</td>
+                                <td><%//=escalated%>Test</td>
                                 <td>
-                                    <form action="" method="post">
-                                        <input type="hidden" name="refCommentId" value="<%=refCommentId%>"
+                                 <!--   <form >
+                                        <input type="hidden" name="refCommentId" value="<%//=refCommentId%>" 
                                         <button type="submit" class="btn btn-outline-warning">Escalate </button>
-                                    </form>
+                                    </form>--> Test
                                 </td>
                                 
                             <%
-                                }
+                                //System.out.println(comment);}
                             %>
                             </tr>
                         </tbody>
@@ -145,6 +153,6 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="js/usermanagement.js"></script>
+        
     </body>
 </html>

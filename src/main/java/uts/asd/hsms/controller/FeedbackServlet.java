@@ -31,9 +31,8 @@ public class FeedbackServlet extends HttpServlet {
     private FeedbackController controller;
     private ObjectId refCommentId;
     private int commentId;
-    private String commSubject, comment;
+    private String commSubject, comment, escalated, archived;
     private Date commDate;
-    private boolean escalated, archived;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {       
     }
@@ -48,24 +47,24 @@ public class FeedbackServlet extends HttpServlet {
         String action = request.getParameter("action");
         switch (action) {
             case "add":
-                addFeedback();
+               // addFeedback();
                 break;
             case "delete":
-                deleteFeedback();
+               // deleteFeedback();
                 break;
             default:
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("complaintbacklog.jsp");
                 break;       
         }
     }
     
-    public void addFeedback() throws ServletException, IOException {
+    /* public void addFeedback() throws ServletException, IOException {
         commentId = Integer.parseInt(request.getParameter("commentId").trim());
         commSubject = request.getParameter("commSubject").trim();
         comment = request.getParameter("comment").trim();
         commDate = new Date();
-        escalated = false; 
-        archived = false;
+        escalated = request.getParameter("escalated").trim(); 
+        archived = request.getParameter("archived").trim();
         
         Feedback feedback = new Feedback(null, commentId, commSubject, comment, commDate, escalated, archived);
         //add your validation code
@@ -76,10 +75,10 @@ public class FeedbackServlet extends HttpServlet {
         refCommentId = new ObjectId(request.getParameter("refCommentIdDelete"));
         boolean deleteSuccess = false;
         message.add("Delete comment result"); //If the Feedback exists in database based on refCommentId
-        if (controller.getFeedbacks(refCommentId, 0, null, null, null, false, false, "commentId", 1)[0] != null){
-            Feedback feedback = controller.getFeedbacks(refCommentId, 0, null, null, null, false, false, "commentId", 1)[0];
+        if (controller.getFeedback(refCommentId, 0, null, null, null, null, null, "commentId", 1)[0] != null){
+            Feedback feedback = controller.getFeedback(refCommentId, 0, null, null, null, null, null, "commentId", 1)[0];
             if (controller.deleteFeedback(refCommentId)) message.add(String.format("%s deleted successfully", feedback.getCommentId())); message.add("success"); deleteSuccess = true;
         }
         response.sendRedirect("complaintbacklog.jsp");
-    }
+    } */
 }

@@ -5,7 +5,9 @@
  */
 package uts.asd.hsms.controller;
 
+import com.mongodb.BasicDBObject;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.servlet.http.HttpSession;
 import org.bson.types.ObjectId;
@@ -23,7 +25,7 @@ public class FeedbackController {
         feedbackDao = (FeedbackDao)session.getAttribute("feedbackDao");
     }
     
-    public Feedback[] getFeedbacks(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, boolean escalated, boolean archived, String sort, int order) {
+    public Feedback[] getFeedback(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, String escalated, String archived, String sort, int order) {
         return feedbackDao.getFeedback(refCommentId, commentId, commSubject, comment, commDate, escalated, archived, sort, order);
     }
     
@@ -34,4 +36,5 @@ public class FeedbackController {
     public boolean deleteFeedback(ObjectId refCommentId) {
         return feedbackDao.deleteJob(refCommentId);
     }
+    
 }
