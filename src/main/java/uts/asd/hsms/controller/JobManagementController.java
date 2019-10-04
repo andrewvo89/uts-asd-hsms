@@ -55,8 +55,7 @@ public class JobManagementController {
     //Disabled Review button if no one has applied for this job yet
     public String getReviewButtonDisabled(ObjectId jobId) {
         JobApplication[] jobApplications = jobApplicationDao.getJobApplications(null, jobId, null, null, null, "jobid", 1);
-        if (jobApplications.length == 0) return "disabled";
-        else return "";
+        return (jobApplications.length == 0) ? "disabled" : "";
     }
     //Display how many people have applied for the job and display it on the review button
     public String getReviewButtonLabel(ObjectId jobId) {
