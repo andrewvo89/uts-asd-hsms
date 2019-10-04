@@ -75,16 +75,17 @@ public class CalendarServlet extends HttpServlet {
         eventName = request.getParameter("eventNameAdd");
         description = request.getParameter("descriptionAdd");
         eventTag = request.getParameter("eventTagAdd");
-
+        
         Calendar calendar = new Calendar(null, date, eventName, description, eventTag);
         calendarDao.addCalendar(calendar);
-        response.sendRedirect("calendar.jsp");
+        response.sendRedirect("calendar.jsp");   
     }
 
+    
+    
+    
     private void editCalendar() throws ServletException, IOException {
-        Calendar oldCalendar = null;
         Calendar newCalendar = null;
-        Calendar sessionUser = (Calendar) session.getAttribute("calendar");
         calendarId = new ObjectId(request.getParameter("calendarIdEdit"));
         try {
             date = format.parse(request.getParameter("dateEdit"));
@@ -94,28 +95,16 @@ public class CalendarServlet extends HttpServlet {
         eventName = request.getParameter("eventNameEdit");
         description = request.getParameter("descriptionEdit");
         eventTag = request.getParameter("eventTagEdit");
-        String editModalErrorMessage = "";
-        Boolean editSuccess = false;
-        message.add("Edit User Result");
+        
+        newCalendar = new Calendar(calendarId, date, eventName, description, eventTag);
+        calendarDao.editCalendar(newCalendar);
+        response.sendRedirect("calendar.jsp");
     }
 
     private void deleteCalendar() throws ServletException, IOException {
-
-        calendarId = new ObjectId(request.getParameter("calendarIdDelete"));//Only perform if userid is found in database
+        calendarId = new ObjectId(request.getParameter("calendarIdDelete"));
         calendarDao.deleteCalendar(calendarId);
-            boolean deleteSuccess = false;
-            message.add("Delete Event Result");
-//            if (calendarDao.getCalendar(calendarId, null, null, null, null)[0] != null) {
-                Calendar calendar = calendarDao.getCalendar(calendarId, null, null, null, null)[0];
-                String deletedCalendar = calendar.getEventName() + " " + calendar.getDescription();
-                if (calendarDao.deleteCalendar(calendarId)) message.add(String.format("%s deleted successfully", deletedCalendar)); message.add("success"); deleteSuccess = true;
-//            }
-//            if (!deleteSuccess) message.add("Failed to delete event"); message.add("danger");
-            session.setAttribute("message", message);
-            response.sendRedirect("calendar.jsp");
+        response.sendRedirect("calendar.jsp");
     }
 
-    private Date Date(String parameter) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

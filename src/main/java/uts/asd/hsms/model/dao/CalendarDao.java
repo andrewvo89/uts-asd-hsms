@@ -54,7 +54,7 @@ public class CalendarDao {
             String eventNameResult = (String) result.get("eventName");
             String descriptionResult = (String) result.get("description");
             String eventTagResult = (String) result.get("eventTag");
-            calendars[count] = new Calendar(null, dateResult, eventNameResult, descriptionResult, eventTagResult);
+            calendars[count] = new Calendar(calendarIdResult, dateResult, eventNameResult, descriptionResult, eventTagResult);
             count++;
 
         }
@@ -133,24 +133,11 @@ public class CalendarDao {
         return true;
     }
 
-    public boolean deleteCalendar(ObjectId calendarId) {
-        try {
-            BasicDBObject query = new BasicDBObject();
-            query.put("_id", calendarId);
-            collection.remove(query);
-        } catch (Exception ex) {
-            return false;
-        }
-        return true;
-    }
 
-//    public void deleteCalendar(ObjectId calendarId) {
-//        BasicDBObject query = new BasicDBObject();
-//        query.put("_id", calendarId);
-//        collection.remove(query);
-//    }
-//    public void addcalendar(Date date, String eventName, String description, String eventTag) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
+    public void deleteCalendar(ObjectId calendarId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", calendarId);
+        collection.remove(query);
+    }
 
 }
