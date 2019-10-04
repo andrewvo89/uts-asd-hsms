@@ -56,7 +56,7 @@
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
             <div class="container">
-                <h1>Job Board</h1>
+                <h2>Job Board</h2>
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
