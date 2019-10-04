@@ -29,11 +29,12 @@ public class FeedbackServlet extends HttpServlet {
     private HttpServletRequest request;
     private HttpServletResponse response;
     private FeedbackController controller;
+    //private FeedbackDao feedbackDao;
     private ObjectId refCommentId;
     private int commentId;
     private String commSubject, comment;
+    private Boolean escalated, archived;
     private Date commDate;
-    private boolean escalated;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {       
     }
@@ -41,6 +42,7 @@ public class FeedbackServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         session = request.getSession();
         controller = new FeedbackController(session);
+        //feedbackDao = (FeedbackDao)session.getAttribute("feedbackDao");
         message = new ArrayList<String>();
         this.response = response;
         this.request = request;
@@ -54,31 +56,35 @@ public class FeedbackServlet extends HttpServlet {
                 deleteFeedback();
                 break;
             default:
-                response.sendRedirect("index.jsp");
-                break;       
+                response.sendRedirect("complaintbacklog.jsp");
+               break;       
         }
     }
     
-    public void addFeedback() throws ServletException, IOException {
-        commentId = Integer.parseInt(request.getParameter("commentId").trim());
-        commSubject = request.getParameter("commSubject").trim();
-        comment = request.getParameter("comment").trim();
+     public void addFeedback() throws ServletException, IOException {
+        Feedback lastFeedback = controller.getFeedback(null, 0, null, null, null, null, null, "commentId", -1)[0];
+        commentId = lastFeedback.getNewCommentId();
+        commSubject = request.getParameter("commSubjectAdd").trim();
+        comment = request.getParameter("commentAdd").trim();
         commDate = new Date();
-        escalated = false; 
+        System.out.println(commSubject);
+        System.out.println(commDate);
         
-        Feedback feedback = new Feedback(null, commentId, commSubject, comment, commDate, escalated);
+        Feedback feedback = new Feedback(null, commentId, commSubject, comment, commDate, false, false);
         //add your validation code
         controller.addFeedback(feedback);
+        
+        response.sendRedirect("complaintfill.jsp");
     }
     
     public void deleteFeedback() throws ServletException, IOException {
         refCommentId = new ObjectId(request.getParameter("refCommentIdDelete"));
         boolean deleteSuccess = false;
         message.add("Delete comment result"); //If the Feedback exists in database based on refCommentId
-        if (controller.getFeedbacks(refCommentId, 0, null, null, null, false, "commentId", 1)[0] != null){
-            Feedback feedback = controller.getFeedbacks(refCommentId, 0, null, null, null, false, "commentId", 1)[0];
+        if (controller.getFeedback(refCommentId, 0, null, null, null, null, null, "commentId", 1)[0] != null){
+            Feedback feedback = controller.getFeedback(refCommentId, 0, null, null, null, null, null, "commentId", 1)[0];
             if (controller.deleteFeedback(refCommentId)) message.add(String.format("%s deleted successfully", feedback.getCommentId())); message.add("success"); deleteSuccess = true;
         }
         response.sendRedirect("complaintbacklog.jsp");
-    }
+    } 
 }

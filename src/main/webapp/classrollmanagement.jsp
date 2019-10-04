@@ -40,9 +40,9 @@
         %>
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
-            TutorialController controllerb = new TutorialController(session);
+            TutorialController controller = new TutorialController(session);
             //Prefill variable
-            Tutorial[] tutorials = controllerb.getTutorials(null, null, null, 0, user.getUserId(), 0, "department", 1);
+            Tutorial[] tutorials = controller.getTutorials(null, null, null, 0, user.getUserId(), 0, "department", 1);
         %> 
         <div class="main">
             <div class="container">

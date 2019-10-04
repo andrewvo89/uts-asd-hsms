@@ -23,14 +23,13 @@ import static java.util.regex.Pattern.*;
  * @author Griffin
  */
 public class FeedbackDao {
-    MongoClient mongoClient;
-    DB database;
-    DBCollection collection;
+     MongoClient mongoClient;
+     DB database;
+     DBCollection collection;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     
-    public FeedbackDao (MongoClient mongoClient) {
+    public FeedbackDao(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
-        
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("feedback");
     }
@@ -39,10 +38,10 @@ public class FeedbackDao {
         return database;
     }
     
-    public Feedback[] getFeedback(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, boolean escalated, String sort, int order) {
+    public Feedback[] getFeedback(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, Boolean escalated, Boolean archived, String sort, int order) {
         List<BasicDBObject> conditions = new ArrayList<BasicDBObject>();
         BasicDBObject query = new BasicDBObject();
-        DBCursor cursor;
+        DBCursor cursor; //if the parameter fields are NULL, do not include them in query
         if (refCommentId != null) conditions.add(new BasicDBObject("_id", refCommentId));
         if (commentId != 0) conditions.add(new BasicDBObject("commentId", commentId));
         if (commSubject != null) {
@@ -54,7 +53,12 @@ public class FeedbackDao {
         if (commDate != null) {
             if (!commDate.toString().isEmpty()) conditions.add(new BasicDBObject("commDate", compile(quote(dateFormat.format(commDate)), CASE_INSENSITIVE)));
         }
-        if (escalated == true) conditions.add(new BasicDBObject("escalated", escalated));
+        if (escalated != null) {
+            conditions.add(new BasicDBObject("escalated", escalated));
+        }
+        if (archived != null) {
+            conditions.add(new BasicDBObject("archived", archived));
+        }
         
         if (conditions.size() == 0) {
             cursor = collection.find();
@@ -73,25 +77,24 @@ public class FeedbackDao {
             String commSubjectResult = (String)result.get("commSubject");
             String commentResult = (String)result.get("comment");
             Date commDateResult = (Date)result.get("commDate");
-            boolean escalatedResult = (boolean)result.get("escalated");
-            feedbacks[count] = new Feedback(refCommentIdResult, commentIdResult, commSubjectResult, commentResult, commDateResult, escalatedResult);
+            Boolean escalatedResult = (Boolean)result.get("escalated");
+            Boolean archivedResult = (Boolean)result.get("archived");
+            feedbacks[count] = new Feedback(refCommentIdResult, commentIdResult, commSubjectResult, commentResult, commDateResult, escalatedResult, archivedResult);
             count ++;
-        }
+        } 
         return feedbacks;
     }
     
     public boolean addFeedback (Feedback feedback) {
         try {
-            BasicDBObject query = new BasicDBObject().append("_id", feedback.getRefCommentId());
-            BasicDBObject records = new BasicDBObject();
-            BasicDBObject update = new BasicDBObject();
-            if (feedback.getCommentId() != 0) records.append("commentId", feedback.getCommentId());
-            if (feedback.getCommSubject() != null) records.append("commSubject", feedback.getCommSubject());
-            if (feedback.getComment() != null) records.append("comment", feedback.getComment());
-            if (feedback.getCommDate() != null) records.append("commDate", feedback.getCommDate());
-            if (feedback.getEscalated() != false) records.append("escalated", feedback.getEscalated());
-            update.append("$set", records);
-            collection.update(query, update);
+            BasicDBObject newRecord = new BasicDBObject();
+            newRecord.put("commentId", feedback.getCommentId());
+            newRecord.put("commSubject", feedback.getCommSubject());
+            newRecord.put("comment", feedback.getComment());
+            newRecord.put("commDate", feedback.getCommDate());
+            newRecord.put("escalated", feedback.getEscalated());
+            newRecord.put("archived", feedback.getArchived());
+            collection.insert(newRecord);
         }
         catch (Exception ex) {
             return false;
@@ -99,7 +102,7 @@ public class FeedbackDao {
         return true;
     }
     
-    public boolean deleteJob (ObjectId refCommentId) {
+    public boolean deleteFeedback (ObjectId refCommentId) {
         try {
             BasicDBObject query = new BasicDBObject();
             query.put("_id", refCommentId);

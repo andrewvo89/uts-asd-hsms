@@ -20,15 +20,17 @@ public class Feedback implements Serializable{
     private String commSubject;
     private String comment;
     private Date commDate;
-    private boolean escalated;
+    private Boolean escalated;
+    private Boolean archived;
     
-    public Feedback (ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, boolean escalated) {
+    public Feedback (ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, Boolean escalated, Boolean archived) {
         this.refCommentId = refCommentId;
         this.commentId = commentId;
         this.commSubject = commSubject;
         this.comment = comment;
         this.commDate = commDate;
         this.escalated = escalated;
+        this.archived = archived;
     }
     
     public ObjectId getRefCommentId() {
@@ -41,8 +43,11 @@ public class Feedback implements Serializable{
     public int getCommentId() {
         return commentId;
     }
-    public void setCommentId(int commId) {
+    public void setCommentId(int commentId) {
         this.commentId = commentId;
+    }
+    public int getNewCommentId() {
+        return commentId + 1;
     }
     
     public String getCommSubject() {
@@ -66,11 +71,23 @@ public class Feedback implements Serializable{
         this.commDate = commDate;
     }
     
-    public boolean getEscalated() {
+    public Boolean getEscalated() {
         return escalated;
     }
-    public void setEscalated(boolean escalated) {
+    public void setEscalated (Boolean escalated) {
         this.escalated = escalated;
+    }
+    
+    public Boolean getArchived() {
+        return archived;
+    }
+    public void setArchived (Boolean archived) {
+        this.archived = archived;
+    }
+    
+    public String getEscalatedString() {
+        if (escalated) return "Yes";
+        else return "No";
     }
     
 }

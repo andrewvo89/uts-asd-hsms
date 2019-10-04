@@ -18,7 +18,7 @@
                             <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Communication</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="newsfeed.jsp">News Feed</a>
-                                <a class="dropdown-item" href="message.jsp">Messages</a>
+                                <a class="dropdown-item" href="messages.jsp">Messages</a>
                                 <a class="dropdown-item" href="staffdirectory.jsp">Staff Contact</a>
                             </div>
                         </li>

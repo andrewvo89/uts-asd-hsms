@@ -10,8 +10,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Date;
 import java.util.List;
 import org.bson.types.ObjectId;

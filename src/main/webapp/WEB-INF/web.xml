@@ -37,6 +37,10 @@
         <servlet-class>uts.asd.hsms.controller.AttendanceServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>FeedbackServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.FeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>LogServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.LogServlet</servlet-class>
     </servlet>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>AttendanceServlet</servlet-name>
         <url-pattern>/AttendanceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackServlet</servlet-name>
+        <url-pattern>/FeedbackServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogServlet</servlet-name>
