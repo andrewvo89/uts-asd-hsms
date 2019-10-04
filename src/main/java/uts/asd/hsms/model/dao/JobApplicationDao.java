@@ -18,7 +18,6 @@ import java.util.List;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.compile;
 import static java.util.regex.Pattern.quote;
-import org.bson.Document;
 import org.bson.types.ObjectId;
 import uts.asd.hsms.model.*;
 
@@ -48,7 +47,6 @@ public class JobApplicationDao {
     public JobApplication[] getJobApplications(ObjectId jobApplicationId, ObjectId jobId, ObjectId userId, String coverLetter, BasicDBObject status, String sort, int order) {  
         List<BasicDBObject> conditions = new ArrayList<>();
         BasicDBObject query = new BasicDBObject();
-        Document statusDocument = new Document();
         DBCursor cursor;//If the parameter fields are NULL, do not include them in query
         Date zeroDate = new Date(); zeroDate.setTime(0);
         if (jobApplicationId != null) {

@@ -195,15 +195,15 @@
                     </div>
                 </div>
 
-                <table class="table">
+                <table class="table table-hover" id="jobTable">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">Title</th>
-                            <th scope="col">Work Type</th>
-                            <th scope="col">Department</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Post Date</th>
-                            <th scope="col">Close Date</th>
+                            <th class="sort" scope="col" onclick="sortTableString(0)" style="cursor: pointer;">Title</th>
+                            <th class="sort" scope="col" onclick="sortTableString(1)">Work Type</th>
+                            <th class="sort" scope="col" onclick="sortTableString(2)">Department</th>
+                            <th class="sort" scope="col" onclick="sortTableString(3)">Status</th>
+                            <th class="sort" scope="col" onclick="sortTableDate(4)">Post Date</th>
+                            <th class="sort" scope="col" onclick="sortTableDate(5)">Close Date</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>

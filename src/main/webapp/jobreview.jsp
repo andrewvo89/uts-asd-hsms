@@ -50,7 +50,7 @@
             }
             ObjectId jobId = new ObjectId(request.getParameter("jobId"));//Jobid from jobmanagement.jsp
             Job job = controller.getJobs(jobId, null, null, null, null, null, null, null, true, "title", 1)[0];
-            JobApplication[] jobApplications = controller.getJobApplications(null, jobId, null, null, null, "statusdate", -1);
+            JobApplication[] jobApplications = controller.getJobApplications(null, jobId, null, null, null, "_id", -1);
         %>
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">

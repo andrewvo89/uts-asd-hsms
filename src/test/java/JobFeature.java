@@ -14,8 +14,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import static org.junit.Assert.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -53,14 +51,7 @@ public class JobFeature {
     }
     @Given("^the job has been fulfilled$") 
     public void NavigateJobReview() throws Throwable { 
-        Class<? extends WebDriver> driverClass = ChromeDriver.class;
-        WebDriverManager.getInstance(driverClass).setup();
-        driver = driverClass.newInstance();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("https://uts-asd-hsms.herokuapp.com/jobmanagement.jsp");
-        driver.findElement(By.id("email")).sendKeys("aaron@hsms.edu.au");
-        driver.findElement(By.id("password")).sendKeys("Password!");
-        driver.findElement(By.id("submit")).submit();
+        NavigateJobManagement();
         driver.findElement(By.id("jobReviewButton" + JobIdResult.jobIdResult)).submit();
         driver.findElement(By.id("successButton0")).click();
         driver.findElement(By.id("successConfirmButton0")).submit();
@@ -89,6 +80,7 @@ public class JobFeature {
         }
         departmentAdd.click();
         statusAdd.click();
+        closeDateAdd.click();
         closeDateAdd.sendKeys(closeDate);
         driver.findElement(By.id("jobAddConfirmationButton")).submit();
     }
@@ -131,11 +123,12 @@ public class JobFeature {
         for (int x = 0; x < title.length(); x ++) {
             titleEdit.sendKeys(String.valueOf(title.charAt(x)));
         }
+        closeDateEdit.click();
         closeDateEdit.sendKeys(closeDate);
         driver.findElement(By.id("jobEditConfirmButton" + JobIdResult.jobIdResult)).submit();
     } 
 	
-    @Then("^U106 I should get a job edit message indicating \"([^\"]*)\"$") 
+    @Then("^U106 I should get a message indicating \"([^\"]*)\"$") 
     public void U106GetResult(String expectedResult) throws Throwable {
         String actualResult = driver.findElement(By.id("modalTrigger")).getAttribute("value");
         assertEquals(expectedResult, actualResult);
@@ -152,7 +145,7 @@ public class JobFeature {
         driver.findElement(By.id("jobDeleteConfirmButton" + JobIdResult.jobIdResult)).submit();
     }
     
-    @Then("^U107 I should get message indicating \"([^\"]*)\"$") 
+    @Then("^U107 I should get a message indicating \"([^\"]*)\"$") 
     public void U107GetResult(String expectedResult) throws Throwable {
         String actualResult = driver.findElement(By.id("modalTrigger")).getAttribute("value");
         assertEquals(expectedResult, actualResult);

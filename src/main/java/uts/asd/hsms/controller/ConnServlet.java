@@ -23,6 +23,7 @@ public class ConnServlet extends HttpServlet {
     private AttendanceDao attendanceDao;
     private AuditLogDAO auditLogDao;
     private MessageDao messageDao;
+    private CalendarDao calendarDao;
     
     @Override //Create and instance of DBConnector for the deployment session
     public void init() {
@@ -52,6 +53,9 @@ public class ConnServlet extends HttpServlet {
         session.setAttribute("auditLogDao", auditLogDao);
         messageDao = new MessageDao(mongoClient);
         session.setAttribute("messageDao", messageDao);
+        calendarDao = new CalendarDao(mongoClient);
+        session.setAttribute("calendarDao", calendarDao);
+        
     }
     
     @Override //Destroy the servlet and release the resources of the application
