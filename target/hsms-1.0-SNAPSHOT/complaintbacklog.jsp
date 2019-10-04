@@ -45,7 +45,7 @@
         <%
             }
             FeedbackController controllerc = new FeedbackController(session);
-            SimpleDateFormat dayDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat dayDateFormat = new SimpleDateFormat("MM-yyyy");
             ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
             //Initialise notification messages for pop up Modals 1.message ehader 2.message body 3.message type
             if (message == null) { message = new ArrayList<String>(); message.add(""); message.add(""); message.add(""); }
@@ -121,6 +121,7 @@
                                     String comment = currentFeedback.getComment();
                                     String commDate = dayDateFormat.format(currentFeedback.getCommDate());
                                     Boolean escalated = currentFeedback.getEscalated();
+                                    String escalatedString = currentFeedback.getEscalatedString();
                                     Boolean archived = currentFeedback.getArchived();    
                             %>
                             <tr>
@@ -128,7 +129,7 @@
                                 <td><%=commSubject%></td>
                                 <td><%=comment%></td>
                                 <td><%=commDate%></td>
-                                <td><%=escalated%></td>
+                                <td><%=escalatedString%></td>
                                 <td>
                                     <form >
                                         <input type="hidden" name="refCommentId" value="<%=refCommentId%>" 

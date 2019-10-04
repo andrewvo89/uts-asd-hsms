@@ -87,17 +87,14 @@ public class FeedbackDao {
     
     public boolean addFeedback (Feedback feedback) {
         try {
-            BasicDBObject query = new BasicDBObject().append("_id", feedback.getRefCommentId());
-            BasicDBObject records = new BasicDBObject();
-            BasicDBObject update = new BasicDBObject();
-            if (feedback.getCommentId() != 0) records.append("commentId", feedback.getCommentId());
-            if (feedback.getCommSubject() != null) records.append("commSubject", feedback.getCommSubject());
-            if (feedback.getComment() != null) records.append("comment", feedback.getComment());
-            if (feedback.getCommDate() != null) records.append("commDate", feedback.getCommDate());
-            if (feedback.getEscalated() != null) records.append("escalated", feedback.getEscalated());
-            if (feedback.getArchived() != null) records.append("archived", feedback.getArchived());
-            update.append("$set", records);
-            collection.update(query, update);
+            BasicDBObject newRecord = new BasicDBObject();
+            newRecord.put("commentId", feedback.getCommentId());
+            newRecord.put("commSubject", feedback.getCommSubject());
+            newRecord.put("comment", feedback.getComment());
+            newRecord.put("commDate", feedback.getCommDate());
+            newRecord.put("escalated", feedback.getEscalated());
+            newRecord.put("archived", feedback.getArchived());
+            collection.insert(newRecord);
         }
         catch (Exception ex) {
             return false;

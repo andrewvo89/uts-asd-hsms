@@ -46,6 +46,9 @@ public class Feedback implements Serializable{
     public void setCommentId(int commentId) {
         this.commentId = commentId;
     }
+    public int getNewCommentId() {
+        return commentId + 1;
+    }
     
     public String getCommSubject() {
         return commSubject;
@@ -81,4 +84,10 @@ public class Feedback implements Serializable{
     public void setArchived (Boolean archived) {
         this.archived = archived;
     }
+    
+    public String getEscalatedString() {
+        if (escalated) return "Yes";
+        else return "No";
+    }
+    
 }

@@ -50,10 +50,10 @@ public class FeedbackServlet extends HttpServlet {
         String action = request.getParameter("action");
         switch (action) {
             case "add":
-               // addFeedback();
+                addFeedback();
                 break;
             case "delete":
-               // deleteFeedback();
+                deleteFeedback();
                 break;
             default:
                 response.sendRedirect("complaintbacklog.jsp");
@@ -62,16 +62,19 @@ public class FeedbackServlet extends HttpServlet {
     }
     
      public void addFeedback() throws ServletException, IOException {
-        commentId = Integer.parseInt(request.getParameter("commentId").trim());
-        commSubject = request.getParameter("commSubject").trim();
-        comment = request.getParameter("comment").trim();
+        Feedback lastFeedback = controller.getFeedback(null, 0, null, null, null, null, null, "commentId", -1)[0];
+        commentId = lastFeedback.getNewCommentId();
+        commSubject = request.getParameter("commSubjectAdd").trim();
+        comment = request.getParameter("commentAdd").trim();
         commDate = new Date();
-        escalated = false;
-        archived = false;
+        System.out.println(commSubject);
+        System.out.println(commDate);
         
-        Feedback feedback = new Feedback(null, commentId, commSubject, comment, commDate, escalated, archived);
+        Feedback feedback = new Feedback(null, commentId, commSubject, comment, commDate, false, false);
         //add your validation code
         controller.addFeedback(feedback);
+        
+        response.sendRedirect("complaintfill.jsp");
     }
     
     public void deleteFeedback() throws ServletException, IOException {
