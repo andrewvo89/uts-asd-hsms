@@ -36,6 +36,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.request = request;
         this.response = response;
+        session = request.getSession();
         doLogin();
     }
     @Override
@@ -85,7 +86,6 @@ public class LoginServlet extends HttpServlet {
         
     }
     protected void authenticateLogin() throws ServletException, IOException {
-        HttpSession session = request.getSession();
         String redirect = (String)session.getAttribute("redirect");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
