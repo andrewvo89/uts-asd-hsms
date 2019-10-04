@@ -6,8 +6,14 @@
 package uts.asd.hsms.controller;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +29,7 @@ import uts.asd.hsms.model.dao.CalendarDao;
  */
 public class CalendarServlet extends HttpServlet {
 
+    private CalendarController calendarController;
     private HttpSession session;
     private CalendarDao calendarDao;
     private ArrayList<String> message;
@@ -31,6 +38,8 @@ public class CalendarServlet extends HttpServlet {
     private ObjectId calendarId;
     private Date date;
     private String eventName, description, eventTag;
+    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private CalendarValidator calendarValidator;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,12 +47,12 @@ public class CalendarServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        session = request.getSession();
+        calendarController = new CalendarController(session);
+        calendarDao = (CalendarDao) session.getAttribute("calendarDao");
+        message = new ArrayList<String>();
         this.response = response;
         this.request = request;
-        session = request.getSession();
-        //calendarController = new UserController(session);
-        calendarDao = (CalendarDao)session.getAttribute("calendarDao");
-        message = new ArrayList<String>();
 
         String action = request.getParameter("action");
         if (action.equals("add")) {
@@ -58,35 +67,52 @@ public class CalendarServlet extends HttpServlet {
     }
 
     private void addCalendar() throws ServletException, IOException {
-        date = new Date();
-        eventName = request.getParameter("lastNameAdd");
-        description = request.getParameter("departmentAdd");
-        eventTag = request.getParameter("emailAdd").toLowerCase();
-
-        Calendar calendar = new Calendar(null, date, eventName, description, eventTag) {
-        };
-        CalendarValidator calendarValidator = new CalendarValidator(calendar);
-        String[] errorMessages = calendarValidator.validatecalendar();
-
-        if (errorMessages != null) {
-            session.setAttribute("dateAdd", date);
-            session.setAttribute("eventNameAdd", eventName);
-            session.setAttribute("descriptionAdd", description);
-            session.setAttribute("eventTagAdd", eventTag);
-            message.add("Add Calendar Result");
-        } else {
-            calendarDao.addcalendar(date, eventName, description, eventTag);
-            message.add("Add Calendar Event");
-            session.setAttribute("message", message);
+        try {
+            date = format.parse(request.getParameter("dateAdd"));
+        } catch (ParseException ex) {
+            date = new Date();
         }
+        eventName = request.getParameter("eventNameAdd");
+        description = request.getParameter("descriptionAdd");
+        eventTag = request.getParameter("eventTagAdd");
+
+        Calendar calendar = new Calendar(null, date, eventName, description, eventTag);
+        calendarDao.addCalendar(calendar);
+        response.sendRedirect("calendar.jsp");
     }
 
-    private void editCalendar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void editCalendar() throws ServletException, IOException {
+        Calendar oldCalendar = null;
+        Calendar newCalendar = null;
+        Calendar sessionUser = (Calendar) session.getAttribute("calendar");
+        calendarId = new ObjectId(request.getParameter("calendarIdEdit"));
+        try {
+            date = format.parse(request.getParameter("dateEdit"));
+        } catch (ParseException ex) {
+            date = new Date();
+        }
+        eventName = request.getParameter("eventNameEdit");
+        description = request.getParameter("descriptionEdit");
+        eventTag = request.getParameter("eventTagEdit");
+        String editModalErrorMessage = "";
+        Boolean editSuccess = false;
+        message.add("Edit User Result");
     }
 
-    private void deleteCalendar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void deleteCalendar() throws ServletException, IOException {
+
+        calendarId = new ObjectId(request.getParameter("calendarIdDelete"));//Only perform if userid is found in database
+        calendarDao.deleteCalendar(calendarId);
+            boolean deleteSuccess = false;
+            message.add("Delete Event Result");
+//            if (calendarDao.getCalendar(calendarId, null, null, null, null)[0] != null) {
+                Calendar calendar = calendarDao.getCalendar(calendarId, null, null, null, null)[0];
+                String deletedCalendar = calendar.getEventName() + " " + calendar.getDescription();
+                if (calendarDao.deleteCalendar(calendarId)) message.add(String.format("%s deleted successfully", deletedCalendar)); message.add("success"); deleteSuccess = true;
+//            }
+//            if (!deleteSuccess) message.add("Failed to delete event"); message.add("danger");
+            session.setAttribute("message", message);
+            response.sendRedirect("calendar.jsp");
     }
 
     private Date Date(String parameter) {

@@ -31,7 +31,7 @@ public class CalendarValidator {
         this.calendar = calendar;
     }
     
-    public String[] validatecalendar() {
+    public String[] validateCalendar() {
         String[] messages;
         //Create ValidatorFactory which returns validator
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

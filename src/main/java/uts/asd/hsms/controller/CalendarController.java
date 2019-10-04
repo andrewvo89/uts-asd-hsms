@@ -20,13 +20,13 @@ public class CalendarController {
     private CalendarDao calendarDao;
 
     public CalendarController(HttpSession session) {
-        calendarDao = (CalendarDao)session.getAttribute("calendarDao");
+        calendarDao = (CalendarDao) session.getAttribute("calendarDao");
     }
 
     public String[] getEventTagSearch(String eventTag) {
         String[] eventTagSearch = new String[4];
-        for (int x = 0; x < eventTagSearch.length; x++) {
-            eventTagSearch[x] = "";
+        for (int i = 0; i < eventTagSearch.length; i++) {
+            eventTagSearch[i] = "";
         }
         if (eventTag == null) {
             eventTag = "";
@@ -44,7 +44,24 @@ public class CalendarController {
         return eventTagSearch;
     }
 
+    public String[] getEventTagEdit(String eventTag) {
+        String[] eventTagEdit = new String[3];
+        for (int i = 0; i < eventTagEdit.length; i++) {
+            eventTagEdit[i] = "";
+        }
+        if (eventTag.equals("Personal")) {
+            eventTagEdit[0] = "checked";
+        }
+        if (eventTag.equals("Work")) {
+            eventTagEdit[1] = "checked";
+        }
+        if (eventTag.equals("School")) {
+            eventTagEdit[2] = "checked";
+        }
+        return eventTagEdit;
+    }
+
 //    public Calendar[] getCalendars(ObjectId calendarId, Date date, String eventName, String description, String eventTag) {
 //        return calendarDao.getCalendars(calendarId, date, eventName, description, eventTag);
-//    }
+//  }
 }

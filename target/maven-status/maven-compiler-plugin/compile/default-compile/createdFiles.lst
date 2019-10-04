@@ -3,7 +3,6 @@ uts/asd/hsms/controller/PasswordEncrypt.class
 uts/asd/hsms/model/dao/CalendarDao.class
 uts/asd/hsms/controller/validator/ValidatorSequence.class
 uts/asd/hsms/controller/LogServlet.class
-uts/asd/hsms/controller/CalendarServlet$1.class
 uts/asd/hsms/controller/LogoutServlet.class
 uts/asd/hsms/controller/StaffValidator.class
 uts/asd/hsms/controller/AttendanceServlet.class
