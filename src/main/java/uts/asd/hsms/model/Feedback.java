@@ -20,10 +20,10 @@ public class Feedback implements Serializable{
     private String commSubject;
     private String comment;
     private Date commDate;
-    private String escalated;
-    private String archived;
+    private Boolean escalated;
+    private Boolean archived;
     
-    public Feedback (ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, String escalated, String archived) {
+    public Feedback (ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, Boolean escalated, Boolean archived) {
         this.refCommentId = refCommentId;
         this.commentId = commentId;
         this.commSubject = commSubject;
@@ -68,17 +68,17 @@ public class Feedback implements Serializable{
         this.commDate = commDate;
     }
     
-    public String getEscalated() {
+    public Boolean getEscalated() {
         return escalated;
     }
-    public void setEscalated (String escalated) {
+    public void setEscalated (Boolean escalated) {
         this.escalated = escalated;
     }
     
-    public String getArchived() {
+    public Boolean getArchived() {
         return archived;
     }
-    public void setArchived (String archived) {
+    public void setArchived (Boolean archived) {
         this.archived = archived;
     }
 }

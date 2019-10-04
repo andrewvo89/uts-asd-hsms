@@ -44,15 +44,13 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
-            FeedbackController controller = new FeedbackController(session);
+            FeedbackController controllerc = new FeedbackController(session);
             SimpleDateFormat dayDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            //ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
+            ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
             //Initialise notification messages for pop up Modals 1.message ehader 2.message body 3.message type
-            //if (message == null) { message = new ArrayList<String>(); message.add(""); message.add(""); message.add(""); }
+            if (message == null) { message = new ArrayList<String>(); message.add(""); message.add(""); message.add(""); }
             //Prefill Search variables
-            Feedback[] feedbacks = controller.getFeedback(null, 0, null, null, null, null, null, "commSubject", 1);
-            
-            
+            Feedback[] feedbacks = controllerc.getFeedback(null, 0, null, null, null, null, null, "commentId", 1);
         %> 
         
         <div class="main">
@@ -66,7 +64,7 @@
                 
                 <h1>Feedback Backlog</h1>
                 
-                <!-- Modal Filter Section -->
+                <!-- Modal Filter Section 
                 <div class="card" style="margin-top:25px">
                     <div class="card-header">
                         <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
@@ -100,7 +98,7 @@
                      </div>
                     </div>
                 </div>
-                <!-- END of Modal Filter Section -->
+                 END of Modal Filter Section -->
                 <br><div>
                     <table class="table">
                         <thead class="thead-light">
@@ -115,37 +113,37 @@
                         </thead>
                         <tbody>
                             <%
-                                //for (int x = 0; x < feedbacks.length; x++) {
-                                //    Feedback currentFeedback = feedbacks[x];
-                                //    ObjectId refCommentId = currentFeedback.getRefCommentId();
-                                //    int commentId = currentFeedback.getCommentId();
-                                //    String commSubject = currentFeedback.getCommSubject();
-                                //    String comment = currentFeedback.getComment();
-                                //    String commDate = dayDateFormat.format(currentFeedback.getCommDate());
-                                //   String escalated = currentFeedback.getEscalated();
-                                //    String archived = currentFeedback.getArchived();    
+                                for (int x = 0; x < feedbacks.length; x++) {
+                                    Feedback currentFeedback = feedbacks[x];
+                                    ObjectId refCommentId = currentFeedback.getRefCommentId();
+                                    int commentId = currentFeedback.getCommentId();
+                                    String commSubject = currentFeedback.getCommSubject();
+                                    String comment = currentFeedback.getComment();
+                                    String commDate = dayDateFormat.format(currentFeedback.getCommDate());
+                                    Boolean escalated = currentFeedback.getEscalated();
+                                    Boolean archived = currentFeedback.getArchived();    
                             %>
                             <tr>
-                                <td><%//=commentId%>Test</td>
-                                <td><%//=commSubject%>Test</td>
-                                <td><%//=comment%>Test</td>
-                                <td><%//=commDate%>Test</td>
-                                <td><%//=escalated%>Test</td>
+                                <td><%=commentId%></td>
+                                <td><%=commSubject%></td>
+                                <td><%=comment%></td>
+                                <td><%=commDate%></td>
+                                <td><%=escalated%></td>
                                 <td>
-                                 <!--   <form >
-                                        <input type="hidden" name="refCommentId" value="<%//=refCommentId%>" 
-                                        <button type="submit" class="btn btn-outline-warning">Escalate </button>
-                                    </form>--> Test
+                                    <form >
+                                        <input type="hidden" name="refCommentId" value="<%=refCommentId%>" 
+                                    </form><button type="submit" class="btn btn-outline-warning">Escalate </button>
                                 </td>
                                 
                             <%
-                                //System.out.println(comment);}
+                                }
                             %>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>        
+            </div>   
+        </div>
                 
                 
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>  
@@ -153,6 +151,6 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        
+        <!--<script src="js/classrollmanagement.js"></script>-->
     </body>
 </html>

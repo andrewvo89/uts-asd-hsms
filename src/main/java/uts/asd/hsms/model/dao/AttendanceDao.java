@@ -27,8 +27,7 @@ public class AttendanceDao {
     DBCollection collection;
     
     public AttendanceDao(MongoClient mongoClient) {
-        this.mongoClient = mongoClient;
-        
+        this.mongoClient = mongoClient;       
         database = mongoClient.getDB("heroku_r0hsk6vb");
         collection = database.getCollection("studentattendance");
     }

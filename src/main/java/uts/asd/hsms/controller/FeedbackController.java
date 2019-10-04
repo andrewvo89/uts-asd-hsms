@@ -25,7 +25,7 @@ public class FeedbackController {
         feedbackDao = (FeedbackDao)session.getAttribute("feedbackDao");
     }
     
-    public Feedback[] getFeedback(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, String escalated, String archived, String sort, int order) {
+    public Feedback[] getFeedback(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, Boolean escalated, Boolean archived, String sort, int order) {
         return feedbackDao.getFeedback(refCommentId, commentId, commSubject, comment, commDate, escalated, archived, sort, order);
     }
     
@@ -34,7 +34,7 @@ public class FeedbackController {
     }
     
     public boolean deleteFeedback(ObjectId refCommentId) {
-        return feedbackDao.deleteJob(refCommentId);
+        return feedbackDao.deleteFeedback(refCommentId);
     }
     
 }

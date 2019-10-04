@@ -29,9 +29,11 @@ public class FeedbackServlet extends HttpServlet {
     private HttpServletRequest request;
     private HttpServletResponse response;
     private FeedbackController controller;
+    //private FeedbackDao feedbackDao;
     private ObjectId refCommentId;
     private int commentId;
-    private String commSubject, comment, escalated, archived;
+    private String commSubject, comment;
+    private Boolean escalated, archived;
     private Date commDate;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {       
@@ -40,6 +42,7 @@ public class FeedbackServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         session = request.getSession();
         controller = new FeedbackController(session);
+        //feedbackDao = (FeedbackDao)session.getAttribute("feedbackDao");
         message = new ArrayList<String>();
         this.response = response;
         this.request = request;
@@ -54,17 +57,17 @@ public class FeedbackServlet extends HttpServlet {
                 break;
             default:
                 response.sendRedirect("complaintbacklog.jsp");
-                break;       
+               break;       
         }
     }
     
-    /* public void addFeedback() throws ServletException, IOException {
+     public void addFeedback() throws ServletException, IOException {
         commentId = Integer.parseInt(request.getParameter("commentId").trim());
         commSubject = request.getParameter("commSubject").trim();
         comment = request.getParameter("comment").trim();
         commDate = new Date();
-        escalated = request.getParameter("escalated").trim(); 
-        archived = request.getParameter("archived").trim();
+        escalated = false;
+        archived = false;
         
         Feedback feedback = new Feedback(null, commentId, commSubject, comment, commDate, escalated, archived);
         //add your validation code
@@ -80,5 +83,5 @@ public class FeedbackServlet extends HttpServlet {
             if (controller.deleteFeedback(refCommentId)) message.add(String.format("%s deleted successfully", feedback.getCommentId())); message.add("success"); deleteSuccess = true;
         }
         response.sendRedirect("complaintbacklog.jsp");
-    } */
+    } 
 }

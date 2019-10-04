@@ -44,6 +44,14 @@
         <servlet-name>LogServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.LogServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginDeniedServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.LoginDeniedServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MessagesServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.MessagesServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ConnServlet</servlet-name>
         <url-pattern>/ConnServlet</url-pattern>
@@ -83,6 +91,14 @@
     <servlet-mapping>
         <servlet-name>LogServlet</servlet-name>
         <url-pattern>/LogServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginDeniedServlet</servlet-name>
+        <url-pattern>/LoginDeniedServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MessagesServlet</servlet-name>
+        <url-pattern>/MessagesServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

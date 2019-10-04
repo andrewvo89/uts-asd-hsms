@@ -23,9 +23,9 @@ import static java.util.regex.Pattern.*;
  * @author Griffin
  */
 public class FeedbackDao {
-    private MongoClient mongoClient;
-    private DB database;
-    private DBCollection collection;
+     MongoClient mongoClient;
+     DB database;
+     DBCollection collection;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     
     public FeedbackDao(MongoClient mongoClient) {
@@ -38,7 +38,7 @@ public class FeedbackDao {
         return database;
     }
     
-    public Feedback[] getFeedback(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, String escalated, String archived, String sort, int order) {
+    public Feedback[] getFeedback(ObjectId refCommentId, int commentId, String commSubject, String comment, Date commDate, Boolean escalated, Boolean archived, String sort, int order) {
         List<BasicDBObject> conditions = new ArrayList<BasicDBObject>();
         BasicDBObject query = new BasicDBObject();
         DBCursor cursor; //if the parameter fields are NULL, do not include them in query
@@ -54,11 +54,12 @@ public class FeedbackDao {
             if (!commDate.toString().isEmpty()) conditions.add(new BasicDBObject("commDate", compile(quote(dateFormat.format(commDate)), CASE_INSENSITIVE)));
         }
         if (escalated != null) {
-            if (!escalated.isEmpty()) conditions.add(new BasicDBObject("escalated", compile(quote(escalated), CASE_INSENSITIVE)));
+            conditions.add(new BasicDBObject("escalated", escalated));
         }
         if (archived != null) {
-            if (!archived.isEmpty()) conditions.add(new BasicDBObject("archived", compile(quote(archived), CASE_INSENSITIVE)));
+            conditions.add(new BasicDBObject("archived", archived));
         }
+        
         if (conditions.size() == 0) {
             cursor = collection.find();
         } else {
@@ -67,7 +68,6 @@ public class FeedbackDao {
         }
         cursor.sort(new BasicDBObject(sort, order));
         Feedback[] feedbacks = new Feedback[cursor.count()];
-        System.out.println(cursor.count());
         
         int count = 0;
         while (cursor.hasNext()) {
@@ -77,11 +77,11 @@ public class FeedbackDao {
             String commSubjectResult = (String)result.get("commSubject");
             String commentResult = (String)result.get("comment");
             Date commDateResult = (Date)result.get("commDate");
-            String escalatedResult = (String)result.get("escalated");
-            String archivedResult = (String)result.get("archived");
+            Boolean escalatedResult = (Boolean)result.get("escalated");
+            Boolean archivedResult = (Boolean)result.get("archived");
             feedbacks[count] = new Feedback(refCommentIdResult, commentIdResult, commSubjectResult, commentResult, commDateResult, escalatedResult, archivedResult);
             count ++;
-        } System.out.println(count);
+        } 
         return feedbacks;
     }
     
@@ -105,7 +105,7 @@ public class FeedbackDao {
         return true;
     }
     
-    public boolean deleteJob (ObjectId refCommentId) {
+    public boolean deleteFeedback (ObjectId refCommentId) {
         try {
             BasicDBObject query = new BasicDBObject();
             query.put("_id", refCommentId);
