@@ -20,18 +20,20 @@ public class Message implements Serializable{
     private String recipient;
     private String title;
     private String content;
-    private Date createDate;
+    private Date date;
     
-    public Message(ObjectId messageID, String sender, String recipient, String title, String content, Date createDate){
+    
+    public Message(ObjectId messageID, String sender, String recipient, String title, String content, Date date){
         
         this.messageID=messageID;
         this.sender=sender;
         this.recipient=recipient;
         this.title=title;
         this.content=content;
-        this.createDate=createDate;
-        
+        this.date=date;
     }
+
+    
     public void setMessageID(ObjectId messageID){
         this.messageID=messageID;
     }
@@ -72,11 +74,10 @@ public class Message implements Serializable{
         return content;
     }
     
-    public void setCreateDate(Date createDate){
-        this.createDate=createDate;
+    public void setDate(Date date){
+        this.date=date;
     }
-    
-    public Date getCreateDate(){
-        return createDate;
+    public Date getDate(){
+        return date;
     }
 }
