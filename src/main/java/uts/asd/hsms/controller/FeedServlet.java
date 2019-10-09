@@ -38,6 +38,7 @@ public class FeedServlet extends HttpServlet {
     private User user;
     private FeedController controller;
     private ObjectId feedId, userId;
+    private int newsId;
     private String coverLetter;
     private BasicDBObject status;
     private HttpServletRequest request;
@@ -62,7 +63,7 @@ public class FeedServlet extends HttpServlet {
         userId = new ObjectId(request.getParameter("userId"));
         feedId = new ObjectId(request.getParameter("feedId"));
         coverLetter = request.getParameter("coverLetter").trim();
-        feed = controller.getFeeds(feedId, null, null, null, null, "_id", 1)[0];
+        feed = controller.getFeeds(feedId,0, null, null, null, null, "_id", 1)[0];
         user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, null, "_id", 1)[0];
         Date zeroDate = new Date();
         zeroDate.setTime(0);

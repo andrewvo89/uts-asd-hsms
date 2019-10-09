@@ -48,12 +48,15 @@ public class FeedDao {
     }
     
     
-    public Feed[] getFeeds(ObjectId feedId, String title, String body, String department, Date postDate, String sort, int order) {  
+    public Feed[] getFeeds(ObjectId feedId, int newsId, String title, String body,  String department,Date postDate, String sort, int order) {  
         List<BasicDBObject> conditions = new ArrayList<>();
         BasicDBObject query = new BasicDBObject();
         DBCursor cursor;//If the parameter fields are NULL, do not include them in query
         if (feedId != null) {
             conditions.add(new BasicDBObject("_id", feedId));
+        }
+        if (newsId != 0) {
+            conditions.add(new BasicDBObject("newsId", newsId));
         }
         if (title != null) {
             if (!title.isEmpty()) conditions.add(new BasicDBObject("title", compile(quote(title), CASE_INSENSITIVE)));
@@ -86,6 +89,7 @@ public class FeedDao {
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
             ObjectId feedIdResult = (ObjectId)result.get("_id");
+            int newsIdResult = (int)result.get("newsId");
             String titleResult = (String)result.get("title");
             String bodyResult = (String)result.get("body");
            // String workTypeResult = (String)result.get("worktype");
@@ -94,7 +98,7 @@ public class FeedDao {
             Date postDateResult = (Date)result.get("postdate");
           //  Date closeDateResult = (Date)result.get("closedate");
           //  Boolean activeResult = (Boolean)result.get("active");
-            feeds[count] = new Feed(feedIdResult, titleResult, bodyResult, departmentResult, postDateResult);
+            feeds[count] = new Feed(feedIdResult,newsIdResult, titleResult, bodyResult, departmentResult, postDateResult);
             count ++;
         }
         return feeds;
@@ -103,6 +107,7 @@ public class FeedDao {
     public boolean addFeed(Feed feed) {//Simple add to Mongo Database
         try {
             BasicDBObject newRecord = new BasicDBObject();
+            newRecord.put("newsId", feed.getNewsId());
             newRecord.put("title", feed.getTitle());
             newRecord.put("description", feed.getBody());
          //  newRecord.put("worktype", job.getWorkType());
@@ -124,6 +129,7 @@ public class FeedDao {
             BasicDBObject query = new BasicDBObject().append("_id", feed.getFeedId());
             BasicDBObject records = new BasicDBObject();
             BasicDBObject update = new BasicDBObject();
+            if (feed.getNewsId() != 0) records.append("newsId", feed.getNewsId());
             if (feed.getTitle() != null) records.append("title", feed.getTitle());
             if (feed.getBody() != null) records.append("body", feed.getBody());
           //  if (job.getWorkType() != null) records.append("worktype", job.getWorkType());

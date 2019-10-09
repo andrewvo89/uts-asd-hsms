@@ -26,9 +26,11 @@ import uts.asd.hsms.controller.validator.*;
 
 public class Feed implements Serializable {
     private ObjectId feedId;
+    private int newsId;
     @Pattern(regexp = "^.{1,50}$", message = "<h5 class=\"alert-heading\">Title Error</h5><hr>"
         + "Cannot be blank<br>"
         + "No more than 50 Characters<hr>", groups = ValidatorGroupA.class)
+    
     private String title;
     @Pattern(regexp = "^[.\\s\\S]{1,2000}$", message = "<h5 class=\"alert-heading\">Description Error</h5><hr>"
         + "Cannot be blank<br>"
@@ -45,8 +47,9 @@ public class Feed implements Serializable {
   //  private Date closeDate;
   //  private Boolean active;
 
-    public Feed(ObjectId feedId, String title, String body, String department, Date postDate) {
+    public Feed(ObjectId feedId,int newsId, String title, String body, String department, Date postDate) {
         this.feedId = feedId;
+         this.newsId = newsId;
         this.title = title;
         this.body = body;
       //  this.workType = workType;
@@ -63,6 +66,15 @@ public class Feed implements Serializable {
 
     public void setFeedId(ObjectId feedId) {
         this.feedId = feedId;
+    }
+        public int getNewsId() {
+        return newsId;
+    }
+    public void setNewsId(int newsId) {
+        this.newsId = newsId;
+    }
+    public int getNewNewsId() {
+        return newsId + 1;
     }
 
     public String getTitle() {
