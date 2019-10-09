@@ -40,7 +40,7 @@ public class FeedDao {
     public FeedDao(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
         database = mongoClient.getDB("heroku_r0hsk6vb");
-        collection = database.getCollection("jobs");
+        collection = database.getCollection("newsfeed");
     }
     
     public DB getDatabase() {
@@ -85,7 +85,7 @@ public class FeedDao {
         int count = 0;
         while (cursor.hasNext()) {
             DBObject result = cursor.next();
-            ObjectId jobIdResult = (ObjectId)result.get("_id");
+            ObjectId feedIdResult = (ObjectId)result.get("_id");
             String titleResult = (String)result.get("title");
             String bodyResult = (String)result.get("body");
            // String workTypeResult = (String)result.get("worktype");
@@ -94,7 +94,7 @@ public class FeedDao {
             Date postDateResult = (Date)result.get("postdate");
           //  Date closeDateResult = (Date)result.get("closedate");
           //  Boolean activeResult = (Boolean)result.get("active");
-            feeds[count] = new Feed(jobIdResult, titleResult, bodyResult, departmentResult, postDateResult);
+            feeds[count] = new Feed(feedIdResult, titleResult, bodyResult, departmentResult, postDateResult);
             count ++;
         }
         return feeds;

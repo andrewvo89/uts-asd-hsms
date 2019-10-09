@@ -208,8 +208,8 @@ public class FeedController {
     }
     */
     //Talk to Dao to get all jobs
-    public Feed[] getFeeds(ObjectId jobId, String title, String body,  String department,Date date, String sort, int order) {
-        return feedDao.getFeeds(jobId, title, body, department, date,sort, order);
+    public Feed[] getFeeds(ObjectId feedId, String title, String body,  String department,Date date, String sort, int order) {
+        return feedDao.getFeeds(feedId, title, body, department, date,sort, order);
     }
     /*
     //Talk to Dao to get all job applications
