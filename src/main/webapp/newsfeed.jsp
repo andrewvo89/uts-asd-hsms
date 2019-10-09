@@ -132,39 +132,38 @@
                         </div>
                     </div>
                 </div>
+                                                
                 <%
                     //Loop through results of MongoDB search result and place them in a table
-                    for (int x = 0; x < jobs.length; x++) {
-                        Job currentJob = jobs[x];
-                        ObjectId jobId = currentJob.getJobId();
-                        String title = currentJob.getTitle();
-                        String description = currentJob.getDescription();
-                        String workType = currentJob.getWorkType();
-                        String department = currentJob.getDepartment();
+                    for (int x = 0; x < feeds.length; x++) {
+                        Feed currentFeed = feeds[x];
+                        ObjectId feedId = currentFeed.getFeedId();
+                        String title = currentFeed.getTitle();
+                        String body = currentFeed.getBody();
+                     //   String workType = currentJob.getWorkType();
+                        String department = currentFeed.getDepartment();
+                        String date = currentFeed.getPostDate().toString();
                         ObjectId userId = user.getUserId();
                         String firstName = user.getFirstName();
                         String lastName = user.getLastName();
                         String email = user.getEmail();
                         String phone = user.getPhone();
-                        String footerLabel = controller.getFooterLabel(currentJob.getPostDate());
+                        String footerLabel = controller.getFooterLabel(currentFeed.getPostDate());
                 %>
                 <br>
                 <div class="card">
                     <div class="card-header float-right align-items-center py-2">
                        <div style="float: left">
-                        <span class="btn-warning badge badge-pill">Art</span>
+                        <span class="btn-warning badge badge-pill"><%=department%></span>
 
                         </div>
-                        <p style="float:center">Post date:20-09-2019 Author:Alvin</p>
+                        <p style="float:center">Post date:<%=date%> Author:<%=firstName %><%=lastName%></p>
 
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Eearly Student Feedback Survey - Feeback Loop</h4>
-                        <p class="card-text">Dear Students,
-
-Thanks for completing the early SFS survey and feedback. I take feedback seriously and always strive to continuously improve the teaching and learning.</p>
-                    </div>
-                    <div class="card-footer text-muted">10 days ago</div>
+                        <h4 class="card-title"><%=title%></h4>
+                        <p class="card-text"><%=body%></div>
+                    <div class="card-footer text-muted"><%=footerLabel%></div>
                 </div>
 
 
@@ -177,6 +176,7 @@ Thanks for completing the early SFS survey and feedback. I take feedback serious
             //Clear error message from Session
             session.removeAttribute("message");
         %>
+        <!--
         <div class="main">
             <div class="container">
                 <h1>News Feed</h1>
@@ -192,7 +192,7 @@ Thanks for completing the early SFS survey and feedback. I take feedback serious
 
 
 
-        </div>
+        </div>-->
 
 
 
