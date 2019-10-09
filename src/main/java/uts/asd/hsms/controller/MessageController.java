@@ -23,8 +23,8 @@ public class MessageController {
     messageDao = (MessagesDao)session.getAttribute("messageDao");
     }
     
-    public Message[] getMessage(ObjectId messageID, String sender, String recipient, String title, String content, Date date){
-    return messageDao.getMessages(messageID, sender, recipient, title, content, date);
+    public Message[] getMessage(ObjectId messageID, String sender, String recipient, String content, Date date){
+    return messageDao.getMessages(messageID, sender, recipient, content, date);
     }
 }
     

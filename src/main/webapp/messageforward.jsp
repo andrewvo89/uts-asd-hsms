@@ -4,6 +4,7 @@
     Author     : sukonrat
 --%>
 
+<%@page import="uts.asd.hsms.controller.MessageController"%>
 <%@page import="org.bson.types.ObjectId"%>
 <%@page import="uts.asd.hsms.model.User"%>
 <%@page import="java.util.Date"%>
@@ -41,18 +42,16 @@
     </head>
     <body>
         <%
-                MessagesDao messageDao = (MessagesDao)session.getAttribute("messageDao");
-               
-                    ObjectId messageID = (ObjectId)session.getAttribute("messageID");
-                    String sender = user.getEmail();
+              MessagesDao messageDao = (MessagesDao)session.getAttribute("messageDao");
+         
+                  ObjectId messageID = (ObjectId)session.getAttribute("messageID");
+                    Message message = messageDao.getSingleMessage(messageID);
+                    String sender = user.getFirstName();
                     String recipient = (String)session.getAttribute("recipient"); 
                     String title = (String)session.getAttribute("title"); 
                     String content = (String)session.getAttribute("content"); 
                     Date date = (Date)session.getAttribute("date");
-                    // Message message = (Message)session.getAttribute("message");
-               Message message = messageDao.getSingleMessage(messageID, sender, recipient, title, content, date); 
-     
-          
+                  
             %>
         
         <form action="MessagesServlet" method="post">
@@ -82,6 +81,7 @@
                 <input type="submit" name="action" value="forward"/><input type="submit" name="action" value="cancel"/>
                 </td>
             </tr>
+            
              </table>
             
         </form>

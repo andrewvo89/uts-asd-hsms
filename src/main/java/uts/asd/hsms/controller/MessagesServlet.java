@@ -23,17 +23,15 @@ import uts.asd.hsms.model.dao.MessagesDao;
  *
  * @author Sukonrat
  */
-
-
 public class MessagesServlet extends HttpServlet {
-     private HttpSession session;
+
+    private HttpSession session;
     private MessagesDao messageDao;
     private HttpServletRequest request;
     private HttpServletResponse response;
-    private ArrayList<String> messages; 
+    private ArrayList<String> messages;    
     private ObjectId messageID;
-    private String sender, recipient, title, content;
- 
+    private String sender, recipient, content;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -49,13 +47,13 @@ public class MessagesServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
-          
+        
     }
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     //   processRequest(request, response);
+        //   processRequest(request, response);
     }
     
     @Override
@@ -63,85 +61,78 @@ public class MessagesServlet extends HttpServlet {
             throws ServletException, IOException {
         
         this.response = response;
-        this.request = request;   
+        this.request = request;        
         session = request.getSession();
-        messageDao = (MessagesDao)session.getAttribute("messageDao");
+        messageDao = (MessagesDao) session.getAttribute("messageDao");
         messages = new ArrayList<String>();
         
+        String action = request.getParameter("action");        
         
-        String action = request.getParameter("action");  
-        
-        if (action.equals("Send")) sendMessage();
-        else if (action.equals("New Message")) messageForm();
-        else if (action.equals("Forward")) messageForward();
-        else if (action.equals("Delete")) deleteMessage();
-        else if (action.equals("Cancel")) cancelMessage();
-        else response.sendRedirect("messages.jsp"); 
-     //   processRequest(request, response);
+        if (action.equals("Send")) {
+            sendMessage();
+        } else if (action.equals("New Message")) {
+            messageForm();
+        } else if (action.equals("Forward")) {
+            forwardMessage();
+        } else if (action.equals("Delete")) {
+            deleteMessage();
+        } else if (action.equals("Cancel")) {
+            cancelMessage();
+        } else {
+            response.sendRedirect("messages.jsp");
+        }
+        //   processRequest(request, response);
     }
-
+    
     private void sendMessage() throws ServletException, IOException {
-       User user = (User)session.getAttribute("user");
-        sender = user.getEmail();
+        User user = (User) session.getAttribute("user");
+        sender = user.getFirstName();
         recipient = request.getParameter("recipient");
-        title = request.getParameter("title");
         content = request.getParameter("content");
         Date date = new Date();
         
-        Message message = new Message(null, sender, recipient, title, content, date);
-        messageDao.sendMessage(message.getSender(), message.getRecipient(), message.getTitle(), message.getContent(), date);
-       // System.out.print("message has been sent successfully");  
+        Message message = new Message(null, sender, recipient, content, date);
+        messageDao.sendMessage(message.getSender(), message.getRecipient(), message.getContent(), date);
+        // System.out.print("message has been sent successfully");  
         response.sendRedirect("messages.jsp");
         
     }
-
-    private void deleteMessage() throws ServletException, IOException  {
+    
+    private void deleteMessage() throws ServletException, IOException {
         messageID = new ObjectId(request.getParameter("messageID"));
-     //   Message[] message = messageDao.getMessage();
-       
+        //   Message[] message = messageDao.getMessage();
+        
         messageDao.deleteMessage(messageID);
         
-         response.sendRedirect("messages.jsp");
+        response.sendRedirect("messages.jsp");
     }
-
-    private void forwardMessage() throws ServletException, IOException {
-     Message oldMessage = null;
-     Message newMessage = null;
-      User user = (User)session.getAttribute("user");
- 
-     sender = user.getEmail();
-   
-    messageID = new ObjectId(request.getParameter("messageID"));
-  
-        recipient = request.getParameter("recipient");
-        title = request.getParameter("title");
-        content = request.getParameter("content");
-         Date date = new Date();
-      
-     
-       oldMessage = messageDao.getSingleMessage(messageID, sender, recipient, title,  content, date);
-
-      newMessage = new Message(null, sender, recipient, title, content, date);
     
-       messageDao.forwardMessage(newMessage.getMessageID() ,newMessage.getSender(),newMessage.getRecipient(), newMessage.getTitle(), newMessage.getContent(), date);
-            
-   
-
+    private void forwardMessage() throws ServletException, IOException {
+        Message oldMessage = null;
+        Message newMessage = null;
+        User user = (User) session.getAttribute("user");  
+        sender = user.getFirstName();
+        messageID = new ObjectId(request.getParameter("messageID"));        
+        recipient = request.getParameter("recipient");
+        content = request.getParameter("content");
+        Date date = new Date();
         
-      response.sendRedirect("messages.jsp");
+       oldMessage = messageDao.getSingleMessage(messageID); 
+        newMessage = new Message(null, sender, recipient, content, date);
+
+     //    messageDao.forwardMessage(newMessage.getMessageID() ,newMessage.getSender(),newMessage.getRecipient(), newMessage.getContent(), date);
+        messageDao.forwardMessage(newMessage);
+        
+        response.sendRedirect("messages.jsp");
         
     }
-
+    
     private void messageForm() throws ServletException, IOException {
         response.sendRedirect("messageform.jsp");
     }
     
-     private void messageForward() throws ServletException, IOException {
-        response.sendRedirect("messageforward.jsp");
-    }
-
-    private void cancelMessage() throws ServletException, IOException{
+    private void cancelMessage() throws ServletException, IOException {
         response.sendRedirect("messages.jsp");
     }
-
+    
 }
