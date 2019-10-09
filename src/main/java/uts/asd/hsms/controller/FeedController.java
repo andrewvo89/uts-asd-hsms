@@ -11,9 +11,11 @@
 package uts.asd.hsms.controller;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import javax.servlet.http.HttpSession;
 import org.bson.types.ObjectId;
 import uts.asd.hsms.model.Feed;
@@ -60,10 +62,19 @@ public class FeedController {
         else if (days == 1) return "Yesterday";
         else return days + " days ago";
     }
-   
-    public Feed[] getFeeds(ObjectId feedId, int newsId, String title, String body,  String department,Date postDate, String sort, int order) {
-        return feedDao.getFeeds(feedId, newsId, title, body, department, postDate, sort, order);
+    
+   /*
+    public Feed[] getFeeds(ObjectId feedId, int newsId, String title, String body,  String department,Date postDate) {
+        return feedDao.getFeeds(feedId, newsId, title, body, department, postDate);
+    } 
+    */
+    
+    
+    public LinkedList<DBObject> getFeeds(){
+        return feedDao.getFeeds();
     }
+    
+    
 
     public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, Boolean active, String sort, int order) {
         return userDao.getUsers(userId, firstName, lastName, phone, location, email, password, department, userRole, active, sort, order);

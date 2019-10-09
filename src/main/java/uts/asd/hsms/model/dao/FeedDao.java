@@ -20,6 +20,7 @@ import com.mongodb.MongoClient;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.compile;
@@ -47,8 +48,38 @@ public class FeedDao {
         return database;
     }
     
+    public LinkedList<DBObject> getFeeds(){
+        
+        LinkedList<DBObject> results = new LinkedList<DBObject>();
+        
+         DBCursor cursor;
+      
+      cursor = collection.find(); // select * from collection;   
+         
+      //   DBCursor cursor = collection.find( query );
+     if( cursor.hasNext() ){
+     
+         DBObject result = cursor.next();
+         /*
+            ObjectId feedIdResult = (ObjectId)result.get("_id");
+            int newsIdResult = (int)result.get("newsId");
+            String titleResult = (String)result.get("title");
+            String bodyResult = (String)result.get("body");
+            String departmentResult = (String)result.get("department");
+            Date postDateResult = (Date)result.get("postdate");
+            */
+         
+         results.add(result);
+            
+     }
+     
+        
+        return results;
+        
+    }
     
-    public Feed[] getFeeds(ObjectId feedId, int newsId, String title, String body,  String department,Date postDate, String sort, int order) {  
+    /*
+    public Feed[] getFeeds(ObjectId feedId, int newsId, String title, String body,  String department,Date postDate) {  
         List<BasicDBObject> conditions = new ArrayList<>();
         BasicDBObject query = new BasicDBObject();
         DBCursor cursor;//If the parameter fields are NULL, do not include them in query
@@ -82,7 +113,7 @@ public class FeedDao {
             query.put("$and", conditions);
             cursor = collection.find(query);
         }    
-        cursor.sort(new BasicDBObject(sort, order));
+      //  cursor.sort(new BasicDBObject(sort, order));
         Feed[] feeds = new Feed[cursor.count()];//Initialize a User array, the size of the results returned
 
         int count = 0;
@@ -103,6 +134,8 @@ public class FeedDao {
         }
         return feeds;
     }
+    
+    */
     
     public boolean addFeed(Feed feed) {//Simple add to Mongo Database
         try {

@@ -34,7 +34,7 @@ import uts.asd.hsms.model.User;
  */
 public class FeedServlet extends HttpServlet {
   //  private JobApplication jobApplication;
-    private Feed feed;
+  //  private Feed feed;
     private User user;
     private FeedController controller;
     private ObjectId feedId, userId;
@@ -61,9 +61,11 @@ public class FeedServlet extends HttpServlet {
         controller = new FeedController(session);
         emailNotifier = new EmailNotifier();
         userId = new ObjectId(request.getParameter("userId"));
-        feedId = new ObjectId(request.getParameter("feedId"));
-        coverLetter = request.getParameter("coverLetter").trim();
-        feed = controller.getFeeds(feedId,0, null, null, null, null, "_id", 1)[0];
+     //   feedId = new ObjectId(request.getParameter("feedId"));
+    //    coverLetter = request.getParameter("coverLetter").trim();
+    //    feed = new Feed();
+        
+     //   feed = controller.getFeeds(feedId,0, null, null, null, null, "_id", 1)[0];
         user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, null, "_id", 1)[0];
         Date zeroDate = new Date();
         zeroDate.setTime(0);
@@ -100,6 +102,7 @@ public class FeedServlet extends HttpServlet {
     }
     
     */
+    /*
     public void sendEmail() throws MessagingException {
         //Send to Principal a notification
         emailNotifier.sendEmail("uts.asd.hsms@gmail.com", "Job Application: " + feed.getTitle(), String.format("Dear Principal,\n\n"
@@ -112,4 +115,5 @@ public class FeedServlet extends HttpServlet {
         + "To check your current Job Application's status, visit https://uts-asd-hsms.herokuapp.com/jobboard.jsp\n\n"              
         + "Kind Regards,\nThe HSMS Team", user.getFirstName(), feed.getTitle()));
     }
+    */
 }
