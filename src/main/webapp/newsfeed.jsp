@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="uts.asd.hsms.controller.FeedController"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="uts.asd.hsms.controller.JobBoardController"%>
 <%@page import="org.bson.types.ObjectId"%>
@@ -41,18 +42,18 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
-        JobBoardController controller = new JobBoardController(session);
+        FeedController controller = new FeedController(session);
         ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
         //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type
         if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }
         String titleSearch = request.getParameter("titleSearch"); if (titleSearch == null) titleSearch = "";
-        String workTypeSelection = request.getParameter("workTypeSearch");
-        String[] workTypeSearch = controller.getWorkTypeSearch(workTypeSelection);
+      //  String workTypeSelection = request.getParameter("workTypeSearch");
+     //   String[] workTypeSearch = controller.getWorkTypeSearch(workTypeSelection);
         String departmentSelection = request.getParameter("departmentSearch");
         String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);
         //Return search results in the form of Jobs for populating the table
-        Job[] openJobs = controller.getJobs(null, titleSearch, null, workTypeSelection, departmentSelection, "Open", null, null, true, "postdate", -1);
-        Job[] appliedJobs = controller.getAppliedJobs(user.getUserId());
+        Feed[] feeds = controller.getFeeds(null, titleSearch, null, departmentSelection,null, "postdate", -1);
+      //  Job[] appliedJobs = controller.getAppliedJobs(user.getUserId());
         %>
         <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
@@ -68,7 +69,7 @@
                     <div class="card-header">
                         <form action="newsfeed.jsp" method="post">
                             <div class="float-left">
-                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=jobs.length%>)</a>
+                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=feeds.length%>)</a>
                                 <input type="hidden" name="titleSearch" value="">
                                 <input type="hidden" name="workTypeSearch" value="">
                                 <input type="hidden" name="departmentSearch" value="">
