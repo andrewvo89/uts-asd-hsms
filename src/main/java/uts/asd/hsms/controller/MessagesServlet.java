@@ -32,6 +32,7 @@ public class MessagesServlet extends HttpServlet {
     private ArrayList<String> messages;    
     private ObjectId messageID;
     private String sender, recipient, content;
+    private Date date;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -81,47 +82,41 @@ public class MessagesServlet extends HttpServlet {
         } else {
             response.sendRedirect("messages.jsp");
         }
-        //   processRequest(request, response);
+     
     }
     
     private void sendMessage() throws ServletException, IOException {
+   
         User user = (User) session.getAttribute("user");
         sender = user.getFirstName();
         recipient = request.getParameter("recipient");
         content = request.getParameter("content");
         Date date = new Date();
-        
         Message message = new Message(null, sender, recipient, content, date);
+
         messageDao.sendMessage(message.getSender(), message.getRecipient(), message.getContent(), date);
-        // System.out.print("message has been sent successfully");  
         response.sendRedirect("messages.jsp");
         
     }
     
     private void deleteMessage() throws ServletException, IOException {
+  
         messageID = new ObjectId(request.getParameter("messageID"));
-        //   Message[] message = messageDao.getMessage();
-        
         messageDao.deleteMessage(messageID);
-        
         response.sendRedirect("messages.jsp");
     }
     
     private void forwardMessage() throws ServletException, IOException {
-        Message oldMessage = null;
-        Message newMessage = null;
+     
         User user = (User) session.getAttribute("user");  
-        sender = user.getFirstName();
-        messageID = new ObjectId(request.getParameter("messageID"));        
+        sender = user.getFirstName();     
         recipient = request.getParameter("recipient");
         content = request.getParameter("content");
         Date date = new Date();
         
-       oldMessage = messageDao.getSingleMessage(messageID); 
-        newMessage = new Message(null, sender, recipient, content, date);
-
-     //    messageDao.forwardMessage(newMessage.getMessageID() ,newMessage.getSender(),newMessage.getRecipient(), newMessage.getContent(), date);
-        messageDao.forwardMessage(newMessage);
+        Message oldMessage = messageDao.getSingleMessage(messageID); 
+        Message newMessage = new Message(messageID, sender, recipient, content, date);
+        messageDao.forwardMessage(newMessage.getSender(), newMessage.getRecipient(), newMessage.getContent(), date);
         
         response.sendRedirect("messages.jsp");
         

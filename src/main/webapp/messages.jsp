@@ -56,12 +56,13 @@
                Message[] messages = messageDao.getMessage(name);
                     for(int i = 0; i < messages.length; i++) {
                         Message message = messages[i];
-                        ObjectId messageID = message.getMessageID();
-                        String sender = user.getFirstName();
+                       ObjectId messageID = message.getMessageID();
+                        String sender = message.getSender();
                         String recipient = message.getRecipient();
                         String content = message.getContent();
                         Date date = message.getDate();
              %>
+             
              <tr>
                 <td>From : <%=sender%></td>
               </tr>
@@ -134,7 +135,7 @@
                                                     </div>
                    
                                             <div class="modal-footer">
-                                                        <input type="hidden" name="messageIdReply" value="<%=messageID%>">        
+                                                        <input type="hidden" name="messageID" value="<%=messageID%>">        
                                                         <input type="hidden" name="action" value="Send">
                                                         <input type="hidden" name="redirect" value="message">
                                                         <button type="submit" id="SendConfirmButton<%=i%>">Send</button>
@@ -186,11 +187,12 @@
                                                     <div class="form-group row">
                                                         <label class="col-sm-4 col-form-label">Content :</label>
                                                         <div class="col-sm-8"  align="left">
-                                                            <%=content%>
+                                                            <input type="text" name="content" placeholder="Content" value="<%=content%>">
+
                                                         </div>
                                                     </div>   
                                                   <div class="modal-footer">
-                                                        <input type="hidden" name="messageIdForward" value="<%=messageID%>">        
+                                                        <input type="hidden" name="messageID" value="<%=messageID%>">        
                                                         <input type="hidden" name="action" value="Forward">
                                                         <input type="hidden" name="redirect" value="message">
                                                         <button type="submit" id="forwardConfirmButton<%=i%>">Forward</button>
@@ -206,19 +208,21 @@
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Delete Message</h5>
+                                                <h5 class="modal-title" id="messageDeleteModalLabel<%=i%>">Delete Message</h5>
                                                 <button type="button" class="close" data-dismiss="modal">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>                                            
                                             <form action="MessagesServlet" method="post">
                                                 <div class="modal-body">
-                                                    <p>Successfully deleted message</p>
+                                                    <p>Do you want to delete this message ?</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <input type="hidden" name="messageIdDelete" value="<%=messageID%>">        
+                                                    <input type="hidden" name="messageID" value="<%=messageID%>">        
                                                     <input type="hidden" name="action" value="Delete">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                     <input type="hidden" name="redirect" value="message">
+                                                        <button type="submit" id="deleteConfirmButton<%=i%>">Delete</button>
+                                                    <button type="button" data-dismiss="modal">Close</button>
                                                 </div>
                                             </form>
                                         </div>
