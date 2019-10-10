@@ -47,9 +47,9 @@ System.out.print("Alvin Test: this is a test"+user.toString());
         <%
             }
         FeedController controller = new FeedController(session);
-        ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
+     //   ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
         //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type
-        if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }
+  //      if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }
         String titleSearch = request.getParameter("titleSearch"); if (titleSearch == null) titleSearch = "";
       //  String workTypeSelection = request.getParameter("workTypeSearch");
      //   String[] workTypeSearch = controller.getWorkTypeSearch(workTypeSelection);
@@ -62,7 +62,7 @@ System.out.print("Alvin Test: this is a test"+user.toString());
 
 //  Job[] appliedJobs = controller.getAppliedJobs(user.getUserId());
         %>
-        <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
+        <input type="hidden" id="modalTrigger" value="2<%//message.get(2)%>">
         <div class="main">
             <div class="container">
                 <h1>News Feed</h1>
