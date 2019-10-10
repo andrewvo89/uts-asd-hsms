@@ -53,11 +53,10 @@
 
         <%
             CalendarController controller = new CalendarController(session);
-            //CalendarDao calendarDao = (CalendarDao) session.getAttribute("calendarDao");
-            //Calendar[] calendars = calendarDao.getCalendar();
             SimpleDateFormat dayMonthYearFormat = new SimpleDateFormat("dd-MM-yyyy");
             SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+            //Date dateSearch = request.getParameter("dateSearch");
             String eventNameSearch = request.getParameter("eventNameSearch");
             if (eventNameSearch == null) {
                 eventNameSearch = "";
@@ -104,10 +103,7 @@
                         <div class="card-body">
                             <form action="calendar.jsp" method="post">
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label>Date</label>
-                                        <input type="date" class="form-control" name="dateSearch">
-                                    </div>
+                                 
                                     <div class="form-group col-md-6">
                                         <label>Event Name</label>
                                         <input type="text" class="form-control" name="eventNameSearch" placeholder="Event Name" value="<%=eventNameSearch%>">

@@ -70,14 +70,14 @@ public class CalendarDao {
             if (!date.toString().isEmpty()) conditions.add(new BasicDBObject("date", compile(quote(dateFormat.format(date)), CASE_INSENSITIVE)));
         }
         if (eventName != null) {
-            if (!eventName.isEmpty()) conditions.add(new BasicDBObject("eventname", compile(quote(eventName), CASE_INSENSITIVE)));
+            if (!eventName.isEmpty()) conditions.add(new BasicDBObject("eventName", compile(quote(eventName), CASE_INSENSITIVE)));
         }
         if (description != null) {
             if (!description.isEmpty()) conditions.add(new BasicDBObject("description", compile(quote(description), CASE_INSENSITIVE)));
         }
         if (eventTag != null) {
             if (!eventTag.isEmpty()) {
-                if (!eventTag.equals("All")) conditions.add(new BasicDBObject("eventtag", compile(quote(eventTag), CASE_INSENSITIVE)));
+                if (!eventTag.equals("All")) conditions.add(new BasicDBObject("eventTag", compile(quote(eventTag), CASE_INSENSITIVE)));
             }
         }
         if (conditions.size() == 0) {
