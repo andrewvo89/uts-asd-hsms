@@ -56,7 +56,10 @@
             SimpleDateFormat dayMonthYearFormat = new SimpleDateFormat("dd-MM-yyyy");
             SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            //Date dateSearch = request.getParameter("dateSearch");
+            //String dateSearch = request.getParameter("dateSearch");
+            //Date dateSearches = controller.getDateSearch(dateSearch);
+            
+            
             String eventNameSearch = request.getParameter("eventNameSearch");
             if (eventNameSearch == null) {
                 eventNameSearch = "";
@@ -65,7 +68,12 @@
             String eventTagSelection = request.getParameter("eventTagSearch");
             String[] eventTagSearch = controller.getEventTagSearch(eventTagSelection);
 
+            //System.out.println("***********" + dateSearch);
+
+            //System.out.println("##########" + dateSearch);
+
             Calendar[] calendars = controller.getCalendars(null, null, eventNameSearch, null, eventTagSelection, "date", 1);
+            
 
         %>
 
@@ -84,11 +92,11 @@
                     <div class="card-header">
                         <form action="calendar.jsp" method="post">
                             <div class="float-left">
-                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=calendars.length%>)</a>
+                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Event Name & Tag Search (<%=calendars.length%>)</a>
                                 <input type="hidden" name="dateSearch" value="">
                                 <input type="hidden" name="eventNameSearch" value="">
                                 <input type="hidden" name="eventTagSearch" value="">
-                                <button type="submit" class="btn btn-outline-secondary">Clear Filter</button>
+                                <button type="submit" class="btn btn-outline-secondary">Clear Filters</button>
                             </div>
                             <div class="float-right align-items-center py-2">
                                 <span>Quick Filters:</span>
@@ -103,7 +111,7 @@
                         <div class="card-body">
                             <form action="calendar.jsp" method="post">
                                 <div class="form-row">
-                                 
+
                                     <div class="form-group col-md-6">
                                         <label>Event Name</label>
                                         <input type="text" class="form-control" name="eventNameSearch" placeholder="Event Name" value="<%=eventNameSearch%>">
