@@ -81,9 +81,6 @@ public class CalendarServlet extends HttpServlet {
         response.sendRedirect("calendar.jsp");   
     }
 
-    
-    
-    
     private void editCalendar() throws ServletException, IOException {
         Calendar newCalendar = null;
         calendarId = new ObjectId(request.getParameter("calendarIdEdit"));

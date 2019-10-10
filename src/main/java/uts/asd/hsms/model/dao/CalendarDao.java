@@ -43,23 +43,23 @@ public class CalendarDao {
         return database;
     }
 
-    public Calendar[] getCalendar() {
-        DBCursor cursor = collection.find();
-        Calendar[] calendars = new Calendar[cursor.count()];
-        int count = 0;
-        while (cursor.hasNext()) {
-            DBObject result = cursor.next();
-            ObjectId calendarIdResult = (ObjectId) result.get("_id");
-            Date dateResult = (Date) result.get("date");
-            String eventNameResult = (String) result.get("eventName");
-            String descriptionResult = (String) result.get("description");
-            String eventTagResult = (String) result.get("eventTag");
-            calendars[count] = new Calendar(calendarIdResult, dateResult, eventNameResult, descriptionResult, eventTagResult);
-            count++;
-
-        }
-        return calendars;
-    }
+//    public Calendar[] getCalendar() {
+//        DBCursor cursor = collection.find();
+//        Calendar[] calendars = new Calendar[cursor.count()];
+//        int count = 0;
+//        while (cursor.hasNext()) {
+//            DBObject result = cursor.next();
+//            ObjectId calendarIdResult = (ObjectId) result.get("_id");
+//            Date dateResult = (Date) result.get("date");
+//            String eventNameResult = (String) result.get("eventName");
+//            String descriptionResult = (String) result.get("description");
+//            String eventTagResult = (String) result.get("eventTag");
+//            calendars[count] = new Calendar(calendarIdResult, dateResult, eventNameResult, descriptionResult, eventTagResult);
+//            count++;
+//
+//        }
+//        return calendars;
+//    }
     
         public Calendar[] getCalendar(ObjectId calendarId, Date date, String eventName, String description, String eventTag) {
         DBCursor cursor = collection.find();
@@ -79,20 +79,20 @@ public class CalendarDao {
         return calendars;
     }
 
-    public Calendar getCalendar(ObjectId calendarId) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("_id", calendarId);
-        DBCursor cursor = collection.find(query);
-        DBObject result = cursor.one();
-        if (result != null) {
-            Date date = (Date) result.get("date");
-            String eventName = (String) result.get("eventName");
-            String description = (String) result.get("description");
-            String eventTag = (String) result.get("eventTag");
-            return new Calendar(calendarId, date, eventName, description, eventTag);
-        }
-        return null;
-    }
+//    public Calendar getCalendar(ObjectId calendarId) {
+//        BasicDBObject query = new BasicDBObject();
+//        query.put("_id", calendarId);
+//        DBCursor cursor = collection.find(query);
+//        DBObject result = cursor.one();
+//        if (result != null) {
+//            Date date = (Date) result.get("date");
+//            String eventName = (String) result.get("eventName");
+//            String description = (String) result.get("description");
+//            String eventTag = (String) result.get("eventTag");
+//            return new Calendar(calendarId, date, eventName, description, eventTag);
+//        }
+//        return null;
+//    }
 
     public boolean addCalendar(Calendar calendar) {
         try {

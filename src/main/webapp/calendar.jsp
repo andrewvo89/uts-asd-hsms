@@ -15,6 +15,10 @@
 <%@page import="java.io.*,java.lang.*,java.util.*,java.net.*,java.util.*,java.text.*"%>
 <%@page import="uts.asd.hsms.model.dao.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.text.ParseException"%>
+
+<jsp:include page="ConnServlet" flush="true" />
+
 
 <!DOCTYPE html>
 <html>
@@ -46,9 +50,98 @@
         <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%            }
         %>
+
+        <%
+            CalendarController controller = new CalendarController(session);
+            //CalendarDao calendarDao = (CalendarDao) session.getAttribute("calendarDao");
+            //Calendar[] calendars = calendarDao.getCalendar();
+            SimpleDateFormat dayMonthYearFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            String eventNameSearch = request.getParameter("eventNameSearch");
+            if (eventNameSearch == null) {
+                eventNameSearch = "";
+            }
+
+            String eventTagSelection = request.getParameter("eventTagSearch");
+            String[] eventTagSearch = controller.getEventTagSearch(eventTagSelection);
+
+            Calendar[] calendars = controller.getCalendars(null, null, eventNameSearch, null, eventTagSelection);
+
+        %>
+
+        <input type="hidden" id="modalTrigger">
         <div class="main">
             <div class="container">
                 <h2>Calendar</h2>
+
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Calendar</li>
+                    </ol>
+                </nav> 
+                <div class="card">
+                    <div class="card-header">
+                        <form action="calendar.jsp" method="post">
+                            <div class="float-left">
+                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=calendars.length%>)</a>
+                                <input type="hidden" name="dateSearch" value="">
+                                <input type="hidden" name="eventNameSearch" value="">
+                                <input type="hidden" name="eventTagSearch" value="">
+                                <button type="submit" class="btn btn-outline-secondary">Clear Filter</button>
+                            </div>
+                            <div class="float-right align-items-center py-2">
+                                <span>Quick Filters:</span>
+                                <button id="eventTagButtonPersonal" class="btn btn-outline-info badge badge-pill" type="button">Personal</button>
+                                <button id="eventTagButtonWork" class="btn btn-outline-info badge badge-pill" type="button">Work</button>
+                                <button id="eventTagButtonSchool" class="btn btn-outline-info badge badge-pill" type="button">School</button>
+                            </div>                            
+                        </form>
+                    </div>
+
+                    <div class="collapse" id="collapseSearch">
+                        <div class="card-body">
+                            <form action="calendar.jsp" method="post">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Date</label>
+                                        <input type="date" class="form-control" name="dateSearch">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Event Name</label>
+                                        <input type="text" class="form-control" name="eventNameSearch" placeholder="Event Name" value="<%=eventNameSearch%>">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Event Tag</label>
+                                        <div class="form-check">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="eventTagSearch" value="All" <%=eventTagSearch[0]%>>
+                                                <label class="form-check-label">All</label>
+                                            </div>   
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="eventTagSearch" id="eventTagSearchPersonal" value="Personal" <%=eventTagSearch[1]%>>
+                                                <label class="form-check-label">Personal</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="eventTagSearch" id="eventTagSearchWork" value="Work" <%=eventTagSearch[2]%>>
+                                                <label class="form-check-label">Work</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="eventTagSearch" id="eventTagSearchSchool" value="School" <%=eventTagSearch[3]%>>
+                                                <label class="form-check-label">School</label>
+                                            </div>                                             
+                                        </div>
+                                    </div>
+                                </div> 
+                                <button id="searchButton" type="submit" class="btn btn-primary mb-2">Search</button>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+
                 <!--Populate table from Mongo DB-->
                 <table class="table">
                     <thead class="thead-light">
@@ -57,15 +150,11 @@
                             <th scope="col">Event Name</th>
                             <th scope="col">Description</th>
                             <th scope="col">Event Tag</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <%
-                            CalendarController controller = new CalendarController(session);
-                            CalendarDao calendarDao = (CalendarDao) session.getAttribute("calendarDao");
-                            Calendar[] calendars = calendarDao.getCalendar();
-                            SimpleDateFormat dayMonthYearFormat = new SimpleDateFormat("dd-MM-yyyy");
-                            SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat("yyyy-MM-dd");
                             for (int i = 0; i < calendars.length; i++) {
                                 Calendar currentCalendar = calendars[i];
                                 ObjectId calendarId = currentCalendar.getCalendarId();
@@ -183,6 +272,7 @@
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#eventAddModal">Add Event</button>
                 </div>
 
+
                 <!--ADD-->    
                 <div class="modal fade" id="eventAddModal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -248,5 +338,6 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="js/calendar.js"></script>
     </body>
 </html>
