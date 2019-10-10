@@ -237,8 +237,20 @@ function sortTableDate(n) {
         }
     }
 }
-//Convert date to a sortable format 05-12-2019 convert to 20191205f
+//Convert date to a sortable format 05-12-2019 convert to 20191205
 function convertDate(date) {
     var dateString = date.split("-");
     return (dateString[2] + dateString[1] + dateString[0]);
 }
+//JQuery functions to refresh page if idle for more than 10 seconds
+var time = new Date().getTime();
+$(document.body).bind("mousemove keypress", function (e) {
+    time = new Date().getTime();
+});
+function refresh() {
+    if (new Date().getTime() - time >= 10000)
+        window.location.reload(true);
+    else
+        setTimeout(refresh, 10000);
+}
+setTimeout(refresh, 10000);

@@ -34,8 +34,8 @@
         %>   
         <jsp:include page="LoginServlet" flush="true" />
         <%
-        } else {//Only Administrator & Principal Access
-            if (user.getUserRole() > 2 || request.getParameter("jobId") == null) %><jsp:include page="LoginDeniedServlet" flush="true" />        
+        } else {//Only Administrator, Principal & Head Teacher Access
+            if (user.getUserRole() > 3 || request.getParameter("jobId") == null) %><jsp:include page="LoginDeniedServlet" flush="true" />        
         <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%            
             }
