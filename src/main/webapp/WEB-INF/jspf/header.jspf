@@ -6,6 +6,8 @@
       //  int userRole = user.getUserRole();
         
         String userRoleString ="1";//= userController.getUserRoleString(userRole);
+        
+        int userRole = 2;
     %>
     
     <header>
