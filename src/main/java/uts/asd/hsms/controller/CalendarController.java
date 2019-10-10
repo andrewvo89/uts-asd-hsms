@@ -5,11 +5,13 @@
  */
 package uts.asd.hsms.controller;
 
+import java.text.ParseException;
 import java.util.Date;
 import javax.servlet.http.HttpSession;
 import org.bson.types.ObjectId;
 import uts.asd.hsms.model.Calendar;
 import uts.asd.hsms.model.dao.CalendarDao;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -61,7 +63,16 @@ public class CalendarController {
         return eventTagEdit;
     }
 
+    public Date getDateSearch(String dateSearch) throws ParseException {
+        SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat("yyyy-MM-dd");
+        if (dateSearch != null) {
+            Date dateSearches = yearMonthDayFormat.parse(dateSearch);
+            return dateSearches;
+        }
+        return null;
+    }
+
     public Calendar[] getCalendars(ObjectId calendarId, Date date, String eventName, String description, String eventTag, String sort, int order) {
         return calendarDao.getCalendar(calendarId, date, eventName, description, eventTag, sort, order);
-  }
+    }
 }
