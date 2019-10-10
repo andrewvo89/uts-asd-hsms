@@ -41,11 +41,11 @@
     <body>
         <%  
            MessagesDao messageDao = (MessagesDao)session.getAttribute("messageDao");
-            String firstName = user.getFirstName();
-            String sender = user.getEmail();
+           // String firstName = user.getFirstName();
+            String sender = user.getFirstName();
             String recipient = request.getParameter("recipient");
           //  String from = request.getParameter("sender");
-            String title = request.getParameter("title");
+          //  String title = request.getParameter("title");
             String content = request.getParameter("description");   
             Date date = new Date();
            // Message message = new Message(messageID, sender, recipient, title, content, date);
@@ -66,10 +66,6 @@
             <tr>
                 <td width="50%">From</td>
                 <td><%=sender%></td>
-            </tr>
-            <tr>
-                <td>Subject </td>
-                <td><input type="text" name="title" placeholder="Title" size="50"/></td>
             </tr>
             <tr>
                 <td>Content </td>

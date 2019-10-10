@@ -39,7 +39,8 @@ public class MessagesDao {
     }
     
     // get single message by its id
-    public Message getSingleMessage(ObjectId messageID, String sender, String recipient, String title, String content, Date date){
+    public Message getSingleMessage(ObjectId messageID){
+        
        BasicDBObject query = new BasicDBObject();
             query.put("_id", messageID);
             DBCursor cursor = collection.find(query);
@@ -47,50 +48,45 @@ public class MessagesDao {
             if (result != null) {
             String senderResult = (String)result.get("sender");
             String recipientResult = (String)result.get("recipient");
-            String titleResult = (String)result.get("title");
             String contentResult = (String)result.get("content");
             Date dateResult = (Date)result.get("date");
             
-               return new Message(messageID, senderResult, recipientResult, titleResult, contentResult, dateResult); 
-               //ObjectId messageID, String sender, String recipient, String title, String content, Date date
+            return new Message(messageID, senderResult, recipientResult, contentResult, dateResult); 
             }
     return null;
     
     }
     
     // get all messages of particular user
-    public Message[] getMessage(String email){
+    public Message[] getMessage(String name){
+        
          BasicDBObject query = new BasicDBObject();
-            query.put("recipient", email);
+            query.put("recipient", name);
             DBCursor cursor = collection.find(query);
             cursor.sort(new BasicDBObject("date", 1));
             Message[] messages = new Message[cursor.count()];
             int count = 0;
-        //    DBObject result = cursor.one();
-           // if (result != null) {
+      
            while (cursor.hasNext()) {
             DBObject result = cursor.next();
-            ObjectId messageID = (ObjectId)result.get("messageID");
+            ObjectId messageID = (ObjectId)result.get("_id");
             String sender = (String)result.get("sender");
             String recipient = (String)result.get("recipient");
-            String title = (String)result.get("title");
             String content = (String)result.get("content");
             Date date = (Date)result.get("date");
-            messages[count] = new Message(messageID, sender, recipient, title, content, date);
+            messages[count] = new Message(messageID, sender, recipient, content, date);
             count++;
            }
             
-    return messages;
+        return messages;
 
     }
     // get all messages
-    public Message[] getMessages(ObjectId messageID, String sender, String recipient, String title, String content, Date date){
+    public Message[] getMessages(ObjectId messageID, String sender, String recipient, String content, Date date){
   
-     DBCursor cursor = collection.find();
-      // System.out.println("COUNT: " + cursor.count());
-      cursor.sort(new BasicDBObject("date", 1));
-      //         Staff[] staff = new Staff[cursor.count()];
-         Message[] messages = new Message[cursor.count()];
+            DBCursor cursor = collection.find();
+            cursor.sort(new BasicDBObject("date", 1));
+            Message[] messages = new Message[cursor.count()];
         int count = 0;
        
         while (cursor.hasNext()) {
@@ -98,48 +94,36 @@ public class MessagesDao {
             ObjectId messageIDResult = (ObjectId)result.get("_id");
             String senderResult = (String)result.get("sender");
             String recipientResult = (String)result.get("recipient");
-            String titleResult = (String)result.get("title");
             String contentResult = (String)result.get("content");
             Date dateResult = (Date)result.get("date");
-            messages[count] = new Message(messageIDResult, senderResult, recipientResult, titleResult, contentResult, dateResult);
+            messages[count] = new Message(messageIDResult, senderResult, recipientResult, contentResult, dateResult);
             count++;
         }
-//        System.out.print(messages);
         Arrays.sort(messages, 0, 1);
         return messages;
    
     }
 
-    public void sendMessage(String sender, String recipient, String title, String content, Date date){
+    public void sendMessage(String name, String recipient, String content, Date date){
         
-        BasicDBObject records = new BasicDBObject();
-        records.append("sender", sender).append("recipient", recipient).append("title", title).append("content", content).append("date", date);
-        collection.insert(records);
+            BasicDBObject records = new BasicDBObject();
+            records.append("sender", name).append("recipient", recipient).append("content", content).append("date", date);
+            collection.insert(records);
     }
     
     public void deleteMessage(ObjectId messageID){
-        BasicDBObject query = new BasicDBObject();
+        
+            BasicDBObject query = new BasicDBObject();
             query.put("_id", messageID);
             collection.remove(query);
     }
     
-    public void forwardMessage(ObjectId messageID, String sender, String recipient, String title, String content, Date date){
-     /*   BasicDBObject query = new BasicDBObject().append("_id", message.getMessageID());
+    public void forwardMessage(String name, String recipient, String content, Date date){
+        
             BasicDBObject records = new BasicDBObject();
-            BasicDBObject update = new BasicDBObject();
-            if(message.getRecipient() != null) records.append("recipient", message.getRecipient());
-            if(message.getSender() != null) records.append("sender", message.getSender());
-            if(message.getTitle() != null) records.append("title", message.getTitle());
-            if(message.getContent() != null) records.append("content", message.getContent());
-            update.append("$set", records);
-            collection.update(query, update);
-    */
-      BasicDBObject query = new BasicDBObject();
-        query.put("_id", messageID);
-        BasicDBObject newRecord = new BasicDBObject(); 
-     newRecord.append("sender", sender).append("recipient", recipient).append("title", title).append("content", content).append("date", date);
-
-        collection.update(query, newRecord);        
+            records.append("sender", name).append("recipient", recipient).append("content", content).append("date", date);
+            collection.insert(records);
+   
     }
     
 }

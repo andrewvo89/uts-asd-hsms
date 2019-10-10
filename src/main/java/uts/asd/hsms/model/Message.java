@@ -18,17 +18,15 @@ public class Message implements Serializable{
     private ObjectId messageID;
     private String sender;
     private String recipient;
-    private String title;
     private String content;
     private Date date;
     
     
-    public Message(ObjectId messageID, String sender, String recipient, String title, String content, Date date){
+    public Message(ObjectId messageID, String sender, String recipient, String content, Date date){
         
         this.messageID=messageID;
         this.sender=sender;
         this.recipient=recipient;
-        this.title=title;
         this.content=content;
         this.date=date;
     }
@@ -56,14 +54,6 @@ public class Message implements Serializable{
     
     public String getRecipient(){
         return recipient;
-    }
-    
-    public void setTitle(String title){
-        this.title=title;
-    }
-    
-    public String getTitle(){
-        return title;
     }
     
     public void setContent(String content){
