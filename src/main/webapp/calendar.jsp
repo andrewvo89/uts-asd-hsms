@@ -43,7 +43,7 @@
         <jsp:include page="LoginServlet" flush="true" />
         <%
         } else {
-            if (user.getUserRole() > 2) {
+            if (user.getUserRole() > 5) {
                 response.sendRedirect("index.jsp");
             }
         %>
