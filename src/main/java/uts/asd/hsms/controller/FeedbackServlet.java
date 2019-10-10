@@ -52,6 +52,9 @@ public class FeedbackServlet extends HttpServlet {
             case "add":
                 addFeedback();
                 break;
+            case "archive":
+                archiveFeedback();
+                break;
             case "delete":
                 deleteFeedback();
                 break;
@@ -75,6 +78,28 @@ public class FeedbackServlet extends HttpServlet {
         controller.addFeedback(feedback);
         
         response.sendRedirect("complaintfill.jsp");
+    }
+     
+    public void archiveFeedback() throws ServletException, IOException {
+        Feedback oldFeedback = null, newFeedback = null;
+        refCommentId = new ObjectId(request.getParameter("postRefCommentId"));
+        commentId = Integer.parseInt(request.getParameter("postCommentId"));
+        commSubject = request.getParameter("postCommSubject").trim();
+        comment = request.getParameter("postComment").trim();
+        commDate = null;
+        escalated = false;
+        archived = true;
+        String editModalErrorMessage = "";
+        Boolean editSuccess = false;
+        message.add("Archive Feedback Result");
+        
+        if (controller.getFeedback(refCommentId, 0, null, null, null, null, null, "commentId", 1).length != 0) {
+            oldFeedback = controller.getFeedback(refCommentId, 0, null, null, null, null, null, "commentId", 1)[0];
+            newFeedback = new Feedback(refCommentId, commentId, commSubject, comment, commDate, escalated, archived);
+            
+            controller.archiveFeedback(newFeedback);
+            response.sendRedirect("complaintbacklog.jsp");
+        } else editModalErrorMessage = "Failed to archive feedback: no such feedback exists.";
     }
     
     public void deleteFeedback() throws ServletException, IOException {

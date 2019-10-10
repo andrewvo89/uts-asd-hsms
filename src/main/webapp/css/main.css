@@ -113,3 +113,14 @@ th.sort {
 .no-hover{
     pointer-events: none;
 }
+
+/*Vincent's things*/
+.rightalignparent{
+    height: 50px;
+    width: 100%;
+    margin: 0 auto;
+}
+.rightalign{
+    top: 10px;
+    right: 10px;
+}
