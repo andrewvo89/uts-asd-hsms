@@ -61,7 +61,7 @@ public class CalendarController {
         return eventTagEdit;
     }
 
-//    public Calendar[] getCalendars(ObjectId calendarId, Date date, String eventName, String description, String eventTag) {
-//        return calendarDao.getCalendars(calendarId, date, eventName, description, eventTag);
-//  }
+    public Calendar[] getCalendars(ObjectId calendarId, Date date, String eventName, String description, String eventTag, String sort, int order) {
+        return calendarDao.getCalendar(calendarId, date, eventName, description, eventTag, sort, order);
+  }
 }

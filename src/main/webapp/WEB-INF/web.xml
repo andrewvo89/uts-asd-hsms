@@ -52,6 +52,10 @@
         <servlet-name>MessagesServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.MessagesServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CalendarServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.CalendarServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ConnServlet</servlet-name>
         <url-pattern>/ConnServlet</url-pattern>
@@ -99,6 +103,10 @@
     <servlet-mapping>
         <servlet-name>MessagesServlet</servlet-name>
         <url-pattern>/MessagesServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CalendarServlet</servlet-name>
+        <url-pattern>/CalendarServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
