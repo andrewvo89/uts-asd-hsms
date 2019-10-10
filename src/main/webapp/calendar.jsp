@@ -66,7 +66,7 @@
             String eventTagSelection = request.getParameter("eventTagSearch");
             String[] eventTagSearch = controller.getEventTagSearch(eventTagSelection);
 
-            Calendar[] calendars = controller.getCalendars(null, null, eventNameSearch, null, eventTagSelection);
+            Calendar[] calendars = controller.getCalendars(null, null, eventNameSearch, null, eventTagSelection, "date", 1);
 
         %>
 
