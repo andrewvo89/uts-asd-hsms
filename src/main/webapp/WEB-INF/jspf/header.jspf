@@ -1,13 +1,14 @@
     <%@page import="uts.asd.hsms.model.User"%>
     
 <%
-      //  uts.asd.hsms.controller.UserController userController = new uts.asd.hsms.controller.UserController(session);
-      //  User user = (User)session.getAttribute("user");
-      //  int userRole = user.getUserRole();
+        uts.asd.hsms.controller.UserController userController = new uts.asd.hsms.controller.UserController(session);
+     
+        int userRole = user.getUserRole();
         
-        String userRoleString ="1";//= userController.getUserRoleString(userRole);
+     
+        String userRoleString = userController.getUserRoleString(userRole);
         
-        int userRole = 2;
+    
     %>
     
     <header>
