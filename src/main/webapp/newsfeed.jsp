@@ -40,6 +40,8 @@
         <%
             }
             else {
+
+System.out.print("Alvin Test: this is a test"+user.toString());
         %>
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
