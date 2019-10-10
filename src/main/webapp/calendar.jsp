@@ -56,8 +56,8 @@
             SimpleDateFormat dayMonthYearFormat = new SimpleDateFormat("dd-MM-yyyy");
             SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-            //String dateSearch = request.getParameter("dateSearch");
-            //Date dateSearches = controller.getDateSearch(dateSearch);
+            ////String dateSearch = request.getParameter("dateSearch");
+            ////Date dateSearches = controller.getDateSearch(dateSearch);
             
             
             String eventNameSearch = request.getParameter("eventNameSearch");
