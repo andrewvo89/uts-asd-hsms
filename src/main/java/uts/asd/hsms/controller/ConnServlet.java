@@ -18,6 +18,7 @@ public class ConnServlet extends HttpServlet {
     private MongoClient mongoClient;
     private UserDao userDao;
     private JobDao jobDao;
+    private FeedDao feedDao;
     private JobApplicationDao jobApplicationDao;
     private TutorialDao tutorialDao;
     private AttendanceDao attendanceDao;
@@ -45,6 +46,10 @@ public class ConnServlet extends HttpServlet {
         session.setAttribute("userDao", userDao);        
         jobDao = new JobDao(mongoClient);        
         session.setAttribute("jobDao", jobDao);
+        
+        feedDao = new FeedDao(mongoClient);
+         session.setAttribute("feedDao", feedDao);
+                
         jobApplicationDao = new JobApplicationDao(mongoClient);
         session.setAttribute("jobApplicationDao", jobApplicationDao);
         tutorialDao = new TutorialDao(mongoClient);
