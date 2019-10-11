@@ -159,7 +159,7 @@ System.out.println("Test:"+feeds.size());
                         DBObject result = feeds.get(x);
          //*
             ObjectId feedId = (ObjectId)result.get("_id");
-            int newsId = (int)result.get("newsId");
+     //       int newsId = (int)result.get("newsId");
             String title = (String)result.get("title");
             String body = (String)result.get("body");
             String department = (String)result.get("department");
