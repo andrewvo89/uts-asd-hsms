@@ -33,6 +33,10 @@ public class FeedbackController {
         return feedbackDao.addFeedback(feedback);
     }
     
+    public boolean archiveFeedback(Feedback feedback) {
+        return feedbackDao.editFeedback(feedback);
+    }
+    
     public boolean deleteFeedback(ObjectId refCommentId) {
         return feedbackDao.deleteFeedback(refCommentId);
     }

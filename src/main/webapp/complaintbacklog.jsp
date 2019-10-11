@@ -50,7 +50,8 @@
             //Initialise notification messages for pop up Modals 1.message ehader 2.message body 3.message type
             if (message == null) { message = new ArrayList<String>(); message.add(""); message.add(""); message.add(""); }
             //Prefill Search variables
-            Feedback[] feedbacks = controllerc.getFeedback(null, 0, null, null, null, null, null, "commentId", 1);
+            Feedback[] feedbacksNonArchived = controllerc.getFeedback(null, 0, null, null, null, null, false, "commentId", 1);
+            Feedback[] feedbacksArchived = controllerc.getFeedback(null, 0, null, null, null, null, true, "commentId", 1);
         %> 
         
         <div class="main">
@@ -63,42 +64,57 @@
                 </nav>
                 
                 <h1>Feedback Backlog</h1>
-                
-                <!-- Modal Filter Section 
-                <div class="card" style="margin-top:25px">
-                    <div class="card-header">
-                        <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
-                    </div>
-                    <div class="collapse" id="collapseExample">
-                        <div class="card-body">
-                            <form action="">
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="firstName">Key Word</label>
-                                    <input type="text" class="form-control" id="classId" placeholder="Key Word">
-                                </div>
+                <div class="rightalignparent position-relative">
+                    <button type="button" class="rightalign btn btn-info position-absolute" data-toggle="modal" data-target="#archiveButton">View Archived Feedback</button>
+                </div>
+                <!--View Archived Modal-->
+                <div class="modal fade" id="archiveButton" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Archived Feedback</h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-12">
-                                        <div class="form-group">
-                                            <label for="sell"><b>Subject</b></label>
-                                                <select class="form-control" id="sell">
-                                                    <option>Facilities</option>
-                                                    <option>Management</option>
-                                                    <option>Student Issues</option>
-                                                    <option>Harassment</option>
-                                                    <option>Discrimination</option>
-                                                    <option value="6">Other</option>
-                                                </select>
-                                        </div>
-                                    </div>
-                                </div> 
-                                <button type="submit" class="btn btn-primary mb-2">Search</button>
-                            </form> 
-                     </div>
+                        
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Comment ID</th>
+                                        <th scope="col">Subject</th>
+                                        <th scope="col">Comment</th>
+                                        <th scope="col">Date</th>
+                                    <tr>
+                                </thead>
+                                <tbody>
+                                <%
+                                for (int x = 0; x < feedbacksArchived.length; x++) {
+                                    Feedback currentFeedback = feedbacksArchived[x];
+                                    ObjectId refCommentId = currentFeedback.getRefCommentId();
+                                    int commentId = currentFeedback.getCommentId();
+                                    String commSubject = currentFeedback.getCommSubject();
+                                    String comment = currentFeedback.getComment();
+                                    String commDate = dayDateFormat.format(currentFeedback.getCommDate());
+                                    Boolean escalated = currentFeedback.getEscalated();
+                                    String escalatedString = currentFeedback.getEscalatedString();
+                                    Boolean archived = currentFeedback.getArchived();    
+                                %>    
+                                    <tr>
+                                        <td><%=commentId%></td>
+                                        <td><%=commSubject%></td>
+                                        <td><%=comment%></td>
+                                        <td><%=commDate%></td>
+                                    <tr>
+                                    <%
+                                        }
+                                    %>
+                                </tbody>
+                            </table>    
+                        </div>
                     </div>
                 </div>
-                 END of Modal Filter Section -->
+                
                 <br><div>
                     <table class="table">
                         <thead class="thead-light">
@@ -113,8 +129,8 @@
                         </thead>
                         <tbody>
                             <%
-                                for (int x = 0; x < feedbacks.length; x++) {
-                                    Feedback currentFeedback = feedbacks[x];
+                                for (int x = 0; x < feedbacksNonArchived.length; x++) {
+                                    Feedback currentFeedback = feedbacksNonArchived[x];
                                     ObjectId refCommentId = currentFeedback.getRefCommentId();
                                     int commentId = currentFeedback.getCommentId();
                                     String commSubject = currentFeedback.getCommSubject();
@@ -131,9 +147,15 @@
                                 <td><%=commDate%></td>
                                 <td><%=escalatedString%></td>
                                 <td>
-                                    <form >
-                                        <input type="hidden" name="refCommentId" value="<%=refCommentId%>" 
-                                    </form><button type="submit" class="btn btn-outline-warning">Escalate </button>
+                                    <form action="FeedbackServlet" method="post">
+                                        <input type="hidden" name="postRefCommentId" value="<%=refCommentId%>">
+                                        <input type="hidden" name="postCommentId" value="<%=commentId%>">
+                                        <input type="hidden" name="postCommSubject" value="<%=commSubject%>">
+                                        <input type="hidden" name="postComment" value="<%=comment%>">
+                                        <input type="hidden" name="action" value="archive">
+                                        <input type="hidden" name="redirect" value="complaintbacklog">
+                                        <button type="submit" class="btn btn-outline-info">Archive</button>
+                                    </form>
                                 </td>
                                 
                             <%
@@ -141,7 +163,7 @@
                             %>
                             </tr>
                         </tbody>
-                    </table>
+                    </table>       
                 </div>
             </div>   
         </div>
