@@ -86,7 +86,7 @@ System.out.println("Test:"+feeds.size());
                     <div class="card-header">
                         <form action="newsfeed.jsp" method="post">
                             <div class="float-left">
-                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (2)</a>
+                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=feeds.size()%>) </a>
                                 <input type="hidden" name="titleSearch" value="">
                                 <input type="hidden" name="workTypeSearch" value="">
                                 <input type="hidden" name="departmentSearch" value="">
