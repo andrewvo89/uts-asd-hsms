@@ -29,6 +29,10 @@
         <servlet-class>uts.asd.hsms.controller.JobBoardServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>FeedServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.FeedServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>JobReviewServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.JobReviewServlet</servlet-class>
     </servlet>
@@ -37,10 +41,15 @@
         <servlet-class>uts.asd.hsms.controller.AttendanceServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>FeedbackServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.FeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>LogServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.LogServlet</servlet-class>
     </servlet>
     <servlet>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <servlet-name>LoginDeniedServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.LoginDeniedServlet</servlet-class>
@@ -48,6 +57,18 @@
         <servlet-name>MessagesServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.MessagesServlet</servlet-class>
 >>>>>>> 1ef0914b71f918c58fd3a42470c579c0f38c4beb
+=======
+        <servlet-name>LoginDeniedServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.LoginDeniedServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MessagesServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.MessagesServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CalendarServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.CalendarServlet</servlet-class>
+>>>>>>> 4d49f54f062c44e4256c0dbc4f2f8e38f19fd269
     </servlet>
     <servlet-mapping>
         <servlet-name>ConnServlet</servlet-name>
@@ -82,10 +103,15 @@
         <url-pattern>/AttendanceServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>FeedbackServlet</servlet-name>
+        <url-pattern>/FeedbackServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>LogServlet</servlet-name>
         <url-pattern>/LogServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <servlet-name>LoginDeniedServlet</servlet-name>
         <url-pattern>/LoginDeniedServlet</url-pattern>
@@ -93,6 +119,18 @@
         <servlet-name>MessagesServlet</servlet-name>
         <url-pattern>/MessagesServlet</url-pattern>
 >>>>>>> 1ef0914b71f918c58fd3a42470c579c0f38c4beb
+=======
+        <servlet-name>LoginDeniedServlet</servlet-name>
+        <url-pattern>/LoginDeniedServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MessagesServlet</servlet-name>
+        <url-pattern>/MessagesServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CalendarServlet</servlet-name>
+        <url-pattern>/CalendarServlet</url-pattern>
+>>>>>>> 4d49f54f062c44e4256c0dbc4f2f8e38f19fd269
     </servlet-mapping>
     <session-config>
         <session-timeout>

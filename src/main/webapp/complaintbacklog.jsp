@@ -4,8 +4,16 @@
     Author     : Griffin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="uts.asd.hsms.controller.*"%>
+<%@page import="org.bson.types.ObjectId"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="uts.asd.hsms.model.dao.*"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="ConnServlet" flush="true" />
 <%@page import="uts.asd.hsms.model.*"%>
 <!DOCTYPE html>
 <html>
@@ -19,10 +27,13 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Complaint Backlog</title>
+    </head>
+    <body>
+        
         <%
             User user = (User)session.getAttribute("user");
             if (user == null) {
-                session.setAttribute("redirect", "usermanagement");
+                session.setAttribute("redirect", "complaintbacklog");
         %>   
                 <jsp:include page="LoginServlet" flush="true" />
         <%
@@ -33,47 +44,79 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
+            FeedbackController controllerc = new FeedbackController(session);
+            SimpleDateFormat dayDateFormat = new SimpleDateFormat("MM-yyyy");
+            ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
+            //Initialise notification messages for pop up Modals 1.message ehader 2.message body 3.message type
+            if (message == null) { message = new ArrayList<String>(); message.add(""); message.add(""); message.add(""); }
+            //Prefill Search variables
+            Feedback[] feedbacksNonArchived = controllerc.getFeedback(null, 0, null, null, null, null, false, "commentId", 1);
+            Feedback[] feedbacksArchived = controllerc.getFeedback(null, 0, null, null, null, null, true, "commentId", 1);
         %> 
-    </head>
-    <body>
+        
         <div class="main">
             <div class="container">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.jsp">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Complaint Backlog</li>
+                    </ol>
+                </nav>
+                
                 <h1>Feedback Backlog</h1>
-                <div class="card" style="margin-top:25px">
-                    <div class="card-header">
-                        <button type="button" class="btn btn-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="button">Filter</button>
-                    </div>
-                    <div class="collapse" id="collapseExample">
-                        <div class="card-body">
-                            <form action="">
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="firstName">Key Word</label>
-                                    <input type="text" class="form-control" id="classId" placeholder="Key Word">
-                                </div>
+                <div class="rightalignparent position-relative">
+                    <button type="button" class="rightalign btn btn-info position-absolute" data-toggle="modal" data-target="#archiveButton">View Archived Feedback</button>
+                </div>
+                <!--View Archived Modal-->
+                <div class="modal fade" id="archiveButton" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Archived Feedback</h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-12">
-                                        <div class="form-group">
-                                            <label for="sell"><b>Subject</b></label>
-                                                <select class="form-control" id="sell">
-                                                    <option>Facilities</option>
-                                                    <option>Management</option>
-                                                    <option>Student Issues</option>
-                                                    <option>Harassment</option>
-                                                    <option>Discrimination</option>
-                                                    <option value="6">Other</option>
-                                                </select>
-                                        </div>
-                                    </div>
-                                </div> 
-                                <button type="submit" class="btn btn-primary mb-2">Search</button>
-                            </form> 
-                     </div>
+                        
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Comment ID</th>
+                                        <th scope="col">Subject</th>
+                                        <th scope="col">Comment</th>
+                                        <th scope="col">Date</th>
+                                    <tr>
+                                </thead>
+                                <tbody>
+                                <%
+                                for (int x = 0; x < feedbacksArchived.length; x++) {
+                                    Feedback currentFeedback = feedbacksArchived[x];
+                                    ObjectId refCommentId = currentFeedback.getRefCommentId();
+                                    int commentId = currentFeedback.getCommentId();
+                                    String commSubject = currentFeedback.getCommSubject();
+                                    String comment = currentFeedback.getComment();
+                                    String commDate = dayDateFormat.format(currentFeedback.getCommDate());
+                                    Boolean escalated = currentFeedback.getEscalated();
+                                    String escalatedString = currentFeedback.getEscalatedString();
+                                    Boolean archived = currentFeedback.getArchived();    
+                                %>    
+                                    <tr>
+                                        <td><%=commentId%></td>
+                                        <td><%=commSubject%></td>
+                                        <td><%=comment%></td>
+                                        <td><%=commDate%></td>
+                                    <tr>
+                                    <%
+                                        }
+                                    %>
+                                </tbody>
+                            </table>    
+                        </div>
                     </div>
                 </div>
                 
-                <br><table class="table">
+                <br><div>
+                    <table class="table">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Comment ID</th>
@@ -81,39 +124,49 @@
                                 <th scope="col">Comment</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Escalated</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <%
+                                for (int x = 0; x < feedbacksNonArchived.length; x++) {
+                                    Feedback currentFeedback = feedbacksNonArchived[x];
+                                    ObjectId refCommentId = currentFeedback.getRefCommentId();
+                                    int commentId = currentFeedback.getCommentId();
+                                    String commSubject = currentFeedback.getCommSubject();
+                                    String comment = currentFeedback.getComment();
+                                    String commDate = dayDateFormat.format(currentFeedback.getCommDate());
+                                    Boolean escalated = currentFeedback.getEscalated();
+                                    String escalatedString = currentFeedback.getEscalatedString();
+                                    Boolean archived = currentFeedback.getArchived();    
+                            %>
                             <tr>
-                                <td>1</td>
-                                <td>Facilities</td>
-                                <td>The toilets are filthy. Students have kept complaining to me how there are wet toilet paper balls all over the place. Put more funds into janitors please!</td>
-                                <td>17/8/2019</td>
+                                <td><%=commentId%></td>
+                                <td><%=commSubject%></td>
+                                <td><%=comment%></td>
+                                <td><%=commDate%></td>
+                                <td><%=escalatedString%></td>
                                 <td>
-                                    <select class="form-control" id="escalate">
-                                        <option>Yes</option>
-                                        <option>Under Revision</option>
-                                        <option selected>No</option>
-                                    </select>
+                                    <form action="FeedbackServlet" method="post">
+                                        <input type="hidden" name="postRefCommentId" value="<%=refCommentId%>">
+                                        <input type="hidden" name="postCommentId" value="<%=commentId%>">
+                                        <input type="hidden" name="postCommSubject" value="<%=commSubject%>">
+                                        <input type="hidden" name="postComment" value="<%=comment%>">
+                                        <input type="hidden" name="action" value="archive">
+                                        <input type="hidden" name="redirect" value="complaintbacklog">
+                                        <button type="submit" class="btn btn-outline-info">Archive</button>
+                                    </form>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Discrimination</td>
-                                <td>I can't stand this anymore. The students keep calling me names like "Moor" and "Donkey". If I hear anymore of this I'll go mad. - Othello</td>
-                                <td>17/3/1456</td>
-                                <td>
-                                    <select class="form-control" id="escalate">
-                                        <option>Yes</option>
-                                        <option>Ongoing</option>
-                                        <option selected>No</option>
-                                    </select>
-                                </td>
+                                
+                            <%
+                                }
+                            %>
                             </tr>
                         </tbody>
-                    </table>
-                
-            </div>        
+                    </table>       
+                </div>
+            </div>   
+        </div>
                 
                 
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>  
@@ -121,6 +174,6 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="js/usermanagement.js"></script>
+        <!--<script src="js/classrollmanagement.js"></script>-->
     </body>
 </html>

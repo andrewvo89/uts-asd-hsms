@@ -4,12 +4,15 @@
     Author     : Sukonrat
 --%>
 
+<%@page import="uts.asd.hsms.model.User"%>
 <%@page import="java.util.Date"%>
 <%@page import="uts.asd.hsms.model.Message"%>
-<%@page import="uts.asd.hsms.model.dao.MessageDao"%>
+<%@page import="uts.asd.hsms.model.dao.MessagesDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/ConnServlet" flush="true" />
+
 <!DOCTYPE html>
-<html>
+<html lang="en">   
     <head>
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,10 +23,10 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Message form</title>
-        <%-- //Check if there is a valid user in the session
+        <%//Check if there is a valid user in the session
             User user = (User)session.getAttribute("user");
             if (user == null) {
-                session.setAttribute("redirect", "log"); 
+                session.setAttribute("redirect", "messageform"); 
         %>   
                 <jsp:include page="LoginServlet" flush="true" />
         <%
@@ -33,41 +36,46 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
-        --%> 
+        %> 
     </head>
     <body>
-        <% 
-          
-           MessageDao messageDao = (MessageDao)session.getAttribute("messageDao");
-         
-            String title = request.getParameter("title");
-            String description = request.getParameter("description");   
-            Date createDate = new Date();
-      
+        <%  
+           MessagesDao messageDao = (MessagesDao)session.getAttribute("messageDao");
+           // String firstName = user.getFirstName();
+            String sender = user.getFirstName();
+            String recipient = request.getParameter("recipient");
+          //  String from = request.getParameter("sender");
+          //  String title = request.getParameter("title");
+            String content = request.getParameter("description");   
+            Date date = new Date();
+           // Message message = new Message(messageID, sender, recipient, title, content, date);
+         //   messageDao.sendMessage(sender, recipient, title, content, date);
+
         %>
       
-        <form action="uts.asd.hsms.controller.MessagesServlet" method="post">
+        <form action="MessagesServlet" method="post">
       
-            <caption ><h2>Message Form</h2></caption>     
+            <caption ><h2 style="padding-top: 100px;" align="center">Message Form</h2></caption>     
       
-       <table border="0" width="35%" align="center">
-            
-              
+            <table style="padding-top: 100px;" border="0" width="35%" align="center">
             
             <tr>
-                <td width="50%">Recipient</td>
-                <td><input type="text" name="recipient" size="50"/></td>
+                <td width="50%">To</td>
+                <td><input type="text" name="recipient" placeholder="Recipient" size="50"/></td>
             </tr>
             <tr>
-                <td>Subject </td>
-                <td><input type="text" name="subject" size="50"/></td>
+                <td width="50%">From</td>
+                <td><%=sender%></td>
             </tr>
             <tr>
                 <td>Content </td>
-                <td><textarea rows="10" cols="39" name="content"></textarea> </td>
+                <td><textarea rows="10" cols="50" name="content" placeholder="Content"></textarea> </td>
             </tr>
             <tr>
-                <td colspan="2" align="center"><input type="submit" value="Send"/></td>
+                <td colspan="2" align="center">
+                    <input type="submit" name="action" value="Send"/>
+                    <input type="submit" name="action" value="Cancel"/>
+                </td>
             </tr>
         </table>
         </form>

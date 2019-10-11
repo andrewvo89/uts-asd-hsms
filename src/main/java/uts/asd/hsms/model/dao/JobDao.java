@@ -140,6 +140,7 @@ public class JobDao {
             if (job.getActive() != null) records.append("active", job.getActive());
             update.append("$set", records);
             collection.update(query, update);
+            job.setJobId((ObjectId)query.get("_id"));
         }
         catch (Exception ex) {
             return false;

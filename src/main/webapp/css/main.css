@@ -23,6 +23,10 @@ span{
 div.main {
     margin-top: 100px;
 }
+/*Change table headers mouse pointer to hand to indicate it can sort*/
+th.sort {
+    cursor: pointer;
+}
 /* Sign In Form - https://getbootstrap.com/docs/4.0/components/forms/ */
 .form-signin {
     width: 100%;
@@ -108,4 +112,15 @@ div.main {
 /*Disable hover for buttons*/
 .no-hover{
     pointer-events: none;
+}
+
+/*Vincent's things*/
+.rightalignparent{
+    height: 50px;
+    width: 100%;
+    margin: 0 auto;
+}
+.rightalign{
+    top: 10px;
+    right: 10px;
 }

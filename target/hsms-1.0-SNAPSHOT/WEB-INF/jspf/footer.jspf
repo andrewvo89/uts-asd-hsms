@@ -1,9 +1,0 @@
-    <footer class="text-muted dark-footer fixed-footer">
-        <div class="container">
-            <p class="float-right">
-                <a href="#">Back to top</a>
-            </p>
-            <p>High School Management System &copy; 2019</p>
-            <p>Please email the <a href="mailto:administrator@hsms.edu.au">Administrator</a> for help.</p>
-        </div>
-    </footer>
