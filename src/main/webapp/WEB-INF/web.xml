@@ -29,6 +29,10 @@
         <servlet-class>uts.asd.hsms.controller.JobBoardServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>FeedServlet</servlet-name>
+        <servlet-class>uts.asd.hsms.controller.FeedServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>JobReviewServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.JobReviewServlet</servlet-class>
     </servlet>

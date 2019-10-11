@@ -8,6 +8,7 @@
 <%@page import="java.util.LinkedList"%>
 <%@page import="com.mongodb.DBObject"%>
 <%@page import="uts.asd.hsms.controller.FeedController"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="uts.asd.hsms.controller.JobBoardController"%>
 <%@page import="org.bson.types.ObjectId"%>
@@ -42,36 +43,27 @@
             else {
 
 System.out.print("Alvin Test: this is a test"+user.toString());
-System.out.print("first name:"+user.getFirstName());
-System.out.print("last name:"+user.getLastName());
         %>
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
-
-//*
         FeedController controller = new FeedController(session);
- LinkedList<DBObject> feeds = controller.getFeeds();
-System.out.println("Test:"+feeds.size());
-
-/*
      //   ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
         //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type
   //      if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }
-        String titleSearch = request.getParameter("titleSearch"); if (titleSearch == null) titleSearch = "";
+     // String titleSearch = request.getParameter("titleSearch"); if (titleSearch == null) titleSearch = "";
       //  String workTypeSelection = request.getParameter("workTypeSearch");
      //   String[] workTypeSearch = controller.getWorkTypeSearch(workTypeSelection);
-        String departmentSelection = request.getParameter("departmentSearch");
-        String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);
+   //   String departmentSelection = request.getParameter("departmentSearch");
+   //   String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);
         //Return search results in the form of Jobs for populating the table
        // Feed[] feeds = controller.getFeeds(null,0, titleSearch, null, departmentSelection,null, "postdate", -1);
     //  LinkedList<DBObject> getFeeds(){
-        LinkedList<DBObject> feeds = controller.getFeeds();
+  //     LinkedList<DBObject> feeds = controller.getFeeds();
 
 //  Job[] appliedJobs = controller.getAppliedJobs(user.getUserId());
-
-*/
         %>
+      
         <input type="hidden" id="modalTrigger" value="2<%//message.get(2)%>">
         <div class="main">
             <div class="container">
@@ -82,11 +74,11 @@ System.out.println("Test:"+feeds.size());
                         <li class="breadcrumb-item active" aria-current="page">News Feed</li>
                     </ol>
                 </nav>
-                <div class="card">
+              <div class="card">
                     <div class="card-header">
                         <form action="newsfeed.jsp" method="post">
                             <div class="float-left">
-                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=feeds.size()%>) </a>
+                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=feeds.size()%>)</a>
                                 <input type="hidden" name="titleSearch" value="">
                                 <input type="hidden" name="workTypeSearch" value="">
                                 <input type="hidden" name="departmentSearch" value="">
@@ -104,41 +96,41 @@ System.out.println("Test:"+feeds.size());
                         </form>
                     </div>
                     <!--SEARCH COLLAPSIBLE CARD-->
-                    <div class="collapse" id="collapseSearch">
+              <!--      <div class="collapse" id="collapseSearch">
                         <div class="card-body">
                             <form action="newsfeed.jsp" method="post">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>Title</label>
-                                        <input type="text" class="form-control" name="titleSearch" placeholder="Title" value="test ">
+                                        <input type="text" class="form-control" name="titleSearch" placeholder="Title" value="<%//=titleSearch%>">
                                     </div>
                                 </div>
-                                <div class="form-row">title
+                                <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>Department</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="All" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch" value="All" <%//=departmentSearch[0]%>>
                                                 <label class="form-check-label">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchAdministration" value="Administration" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchAdministration" value="Administration" <%//=departmentSearch[1]%>>
                                                 <label class="form-check-label">Administration</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchEnglish" value="English" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchEnglish" value="English" <%//=departmentSearch[2]%>>
                                                 <label class="form-check-label">English</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch"  id="departmentSearchMath" value="Math" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch"  id="departmentSearchMath" value="Math" <%//=departmentSearch[3]%>>
                                                 <label class="form-check-label">Math</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchScience" value="Science" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchScience" value="Science" <%//=departmentSearch[4]%>>
                                                 <label class="form-check-label">Science</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchArt" value="Art" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchArt" value="Art" <%//=departmentSearch[5]%>>
                                                 <label class="form-check-label">Art</label>
                                             </div>
                                         </div>
@@ -148,23 +140,19 @@ System.out.println("Test:"+feeds.size());
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> -->
                                                 
                 <%
-                    
                     //Loop through results of MongoDB search result and place them in a table
                     for (int x = 0; x < feeds.size(); x++) {
-                        //*
-                        
                         DBObject result = feeds.get(x);
          //*
             ObjectId feedId = (ObjectId)result.get("_id");
-     //       int newsId = (int)result.get("newsId");
+            int newsId = (int)result.get("newsId");
             String title = (String)result.get("title");
             String body = (String)result.get("body");
             String department = (String)result.get("department");
             Date date = (Date)result.get("postdate");
-            String dateStr=date.toString();
            // */
                      
                         /*
@@ -182,7 +170,6 @@ System.out.println("Test:"+feeds.size());
                         String email = user.getEmail();
                         String phone = user.getPhone();
                         String footerLabel = controller.getFooterLabel(date);
-                       // */
                 %>
                 <br>
                 <div class="card">
@@ -191,7 +178,7 @@ System.out.println("Test:"+feeds.size());
                         <span class="btn-warning badge badge-pill"><%=department%></span>
 
                         </div>
-                        <p style="float:center">Post date:<%=dateStr%> Author:<%=firstName %><%=lastName%></p>
+                        <p style="float:center">Post date:<%=date%> Author:<%=firstName %><%=lastName%></p>
 
                     </div>
                     <div class="card-body">
@@ -208,7 +195,7 @@ System.out.println("Test:"+feeds.size());
         </div>
         <%
             //Clear error message from Session
-           // session.removeAttribute("message");
+            session.removeAttribute("message");
         %>
 
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>

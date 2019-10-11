@@ -37,7 +37,7 @@
         <%
             }
             else {
-                if (user.getUserRole() > 2) response.sendRedirect("index.jsp");
+                if (user.getUserRole() > 2) %><jsp:include page="LoginDeniedServlet" flush="true" />
         %>
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
@@ -62,7 +62,7 @@
         }
         String[] userRoleSearch = controller.getUserRoleSearch(userRoleSelection);  
         //Return search results in the form of Users for populating the table
-        User[] users = controller.getUsers(null, firstNameSearch, lastNameSearch, null, null, emailSearch, null, departmentSelection, userRoleSelection, "firstname", 1);
+User[] users = controller.getUsers(null, firstNameSearch, lastNameSearch, null, null, emailSearch, null, departmentSelection, userRoleSelection, true, "firstname", 1);
     %>
 
         <div class="main">
