@@ -164,6 +164,7 @@ System.out.println("Test:"+feeds.size());
             String body = (String)result.get("body");
             String department = (String)result.get("department");
             Date date = (Date)result.get("postdate");
+            String dateStr=date.toString();
            // */
                      
                         /*
@@ -174,29 +175,29 @@ System.out.println("Test:"+feeds.size());
                      //   String workType = currentJob.getWorkType();
                         String department = currentFeed.getDepartment();
                         String date = currentFeed.getPostDate().toString();
-                        *//*
+                        */
                         ObjectId userId = user.getUserId();
                         String firstName = user.getFirstName();
                         String lastName = user.getLastName();
                         String email = user.getEmail();
                         String phone = user.getPhone();
                         String footerLabel = controller.getFooterLabel(date);
-                        */
+                       // */
                 %>
                 <br>
                 <div class="card">
                     <div class="card-header float-right align-items-center py-2">
                        <div style="float: left">
-                        <span class="btn-warning badge badge-pill">Test Departent</span>
+                        <span class="btn-warning badge badge-pill"><%=department%></span>
 
                         </div>
-                        <p style="float:center">Post date:2019-10-11 Author:test</p>
+                        <p style="float:center">Post date:<%=dateStr%> Author:<%=firstName %><%=lastName%></p>
 
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">testtitle</h4>
-                        <p class="card-text">testbody</div>
-                    <div class="card-footer text-muted">testfooter</div>
+                        <h4 class="card-title"><%=title%></h4>
+                        <p class="card-text"><%=body%></div>
+                    <div class="card-footer text-muted"><%=footerLabel%></div>
                 </div>
 
 
