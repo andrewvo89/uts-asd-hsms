@@ -42,11 +42,19 @@
             else {
 
 System.out.print("Alvin Test: this is a test"+user.toString());
+System.out.print("first name:"+user.getFirstName());
+System.out.print("last name:"+user.getLastName());
         %>
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
+
+//*
         FeedController controller = new FeedController(session);
+ LinkedList<DBObject> feeds = controller.getFeeds();
+System.out.println("Test:"+feeds.size());
+
+/*
      //   ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
         //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type
   //      if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }
@@ -61,6 +69,8 @@ System.out.print("Alvin Test: this is a test"+user.toString());
         LinkedList<DBObject> feeds = controller.getFeeds();
 
 //  Job[] appliedJobs = controller.getAppliedJobs(user.getUserId());
+
+*/
         %>
         <input type="hidden" id="modalTrigger" value="2<%//message.get(2)%>">
         <div class="main">
@@ -76,7 +86,7 @@ System.out.print("Alvin Test: this is a test"+user.toString());
                     <div class="card-header">
                         <form action="newsfeed.jsp" method="post">
                             <div class="float-left">
-                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (<%=feeds.size()%>)</a>
+                                <a class="btn btn-secondary" data-toggle="collapse" href="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Filter (2)</a>
                                 <input type="hidden" name="titleSearch" value="">
                                 <input type="hidden" name="workTypeSearch" value="">
                                 <input type="hidden" name="departmentSearch" value="">
@@ -100,35 +110,35 @@ System.out.print("Alvin Test: this is a test"+user.toString());
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>Title</label>
-                                        <input type="text" class="form-control" name="titleSearch" placeholder="Title" value="<%=titleSearch%>">
+                                        <input type="text" class="form-control" name="titleSearch" placeholder="Title" value="test ">
                                     </div>
                                 </div>
-                                <div class="form-row">
+                                <div class="form-row">title
                                     <div class="form-group col-md-6">
                                         <label>Department</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="All" <%=departmentSearch[0]%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" value="All" >
                                                 <label class="form-check-label">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchAdministration" value="Administration" <%=departmentSearch[1]%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchAdministration" value="Administration" >
                                                 <label class="form-check-label">Administration</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchEnglish" value="English" <%=departmentSearch[2]%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchEnglish" value="English" >
                                                 <label class="form-check-label">English</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch"  id="departmentSearchMath" value="Math" <%=departmentSearch[3]%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch"  id="departmentSearchMath" value="Math" >
                                                 <label class="form-check-label">Math</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchScience" value="Science" <%=departmentSearch[4]%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchScience" value="Science" >
                                                 <label class="form-check-label">Science</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchArt" value="Art" <%=departmentSearch[5]%>>
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchArt" value="Art" >
                                                 <label class="form-check-label">Art</label>
                                             </div>
                                         </div>
@@ -141,8 +151,10 @@ System.out.print("Alvin Test: this is a test"+user.toString());
                 </div>
                                                 
                 <%
+                    
                     //Loop through results of MongoDB search result and place them in a table
                     for (int x = 0; x < feeds.size(); x++) {
+                        //*
                         
                         DBObject result = feeds.get(x);
          //*
@@ -162,28 +174,29 @@ System.out.print("Alvin Test: this is a test"+user.toString());
                      //   String workType = currentJob.getWorkType();
                         String department = currentFeed.getDepartment();
                         String date = currentFeed.getPostDate().toString();
-                        */
+                        *//*
                         ObjectId userId = user.getUserId();
                         String firstName = user.getFirstName();
                         String lastName = user.getLastName();
                         String email = user.getEmail();
                         String phone = user.getPhone();
                         String footerLabel = controller.getFooterLabel(date);
+                        */
                 %>
                 <br>
                 <div class="card">
                     <div class="card-header float-right align-items-center py-2">
                        <div style="float: left">
-                        <span class="btn-warning badge badge-pill"><%=department%></span>
+                        <span class="btn-warning badge badge-pill">Test Departent</span>
 
                         </div>
-                        <p style="float:center">Post date:<%=date%> Author:<%=firstName %><%=lastName%></p>
+                        <p style="float:center">Post date:2019-10-11 Author:test</p>
 
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title"><%=title%></h4>
-                        <p class="card-text"><%=body%></div>
-                    <div class="card-footer text-muted"><%=footerLabel%></div>
+                        <h4 class="card-title">testtitle</h4>
+                        <p class="card-text">testbody</div>
+                    <div class="card-footer text-muted">testfooter</div>
                 </div>
 
 
@@ -194,7 +207,7 @@ System.out.print("Alvin Test: this is a test"+user.toString());
         </div>
         <%
             //Clear error message from Session
-            session.removeAttribute("message");
+           // session.removeAttribute("message");
         %>
 
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>
