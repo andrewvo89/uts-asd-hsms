@@ -57,7 +57,7 @@ public class FeedDao {
       cursor = collection.find(); // select * from collection;   
          
       //   DBCursor cursor = collection.find( query );
-     if( cursor.hasNext() ){
+     while( cursor.hasNext() ){
      
          DBObject result = cursor.next();
          /*
