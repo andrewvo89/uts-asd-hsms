@@ -54,6 +54,10 @@ System.out.print("last name:"+user.getLastName());
  LinkedList<DBObject> feeds = controller.getFeeds();
 System.out.println("Test:"+feeds.size());
 
+        uts.asd.hsms.controller.UserController userController = new uts.asd.hsms.controller.UserController(session);
+        int userRole = user.getUserRole();
+        String userRoleString = userController.getUserRoleString(userRole);
+
 /*
      //   ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
         //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type
@@ -163,6 +167,7 @@ System.out.println("Test:"+feeds.size());
             String title = (String)result.get("title");
             String body = (String)result.get("body");
             String department = (String)result.get("department");
+            String[] departmentEdit = controller.getDepartmentEdit(department);
             Date date = (Date)result.get("postdate");
             String dateStr=date.toString();
            // */
@@ -189,9 +194,20 @@ System.out.println("Test:"+feeds.size());
                     <div class="card-header float-right align-items-center py-2">
                        <div style="float: left">
                         <span class="btn-warning badge badge-pill"><%=department%></span>
-
                         </div>
                         <p style="float:center">Post date:<%=dateStr%> Author:<%=firstName %><%=lastName%></p>
+                        
+                          <%
+                                    if (userRole <= 2) {
+                                %>
+                               <div style="float: right">
+                                <button type="button" class="btn btn-primary" id="feedEditButton<%=x%>" data-toggle="modal" data-target="#FeedEditModal<%=x%>">Edit</button>
+                                <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#FeedDeleteModal<%=x%>">Delete</button>
+                         </div>
+                                <%
+                                    }
+                                %>
+
 
                     </div>
                     <div class="card-body">
@@ -199,7 +215,89 @@ System.out.println("Test:"+feeds.size());
                         <p class="card-text"><%=body%></div>
                     <div class="card-footer text-muted"><%=footerLabel%></div>
                 </div>
+                
+                                                <!--EDIT USER MODAL DIALOG-->        
+                                <div class="modal fade" id="FeedEditModal<%=x%>" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit <%=title%> Post</h5>
+                                                <button type="button" class="close" data-dismiss="modal">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="FeedServlet" method="post">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">Title</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control" name="titleEdit" placeholder="Title" value="<%=title%>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">Main body</label>
+                                                        <div class="col-sm-12">
+                                                             <textarea class="form-control" rows="5" placeholder="Body"><%=body%></textarea>
+                                                        </div>
+                                                    </div>
 
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-4">Department</div>
+                                                        <div class="col-sm-8">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" value="Administration" <%=departmentEdit[0]%>>
+                                                                <label class="form-check-label">Administration</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" value="English" <%=departmentEdit[1]%>>
+                                                                <label class="form-check-label">English</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" value="Math" <%=departmentEdit[2]%>>
+                                                                <label class="form-check-label">Math</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" value="Science" <%=departmentEdit[3]%>>
+                                                                <label class="form-check-label">Science</label>
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" name="departmentEdit" value="Art" <%=departmentEdit[4]%>>
+                                                                <label class="form-check-labe">Art</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#FeedDeleteModal<%=x%>">Delete</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary" id="feedEditConfirmButton<%=x%>">Confirm</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>   
+                
+                                <!--DELETE CONFIRMATION MODAL-->
+                       <div class="modal fade" id="FeedDeleteModal<%=x%>" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                        
+                                            <form action="FeedServlet" method="post">
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to delete this Post?</p>
+                                                    <p>This action cannot be undone.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="hidden" name="feedIdDelete" value="<%=feedId.toString()%>">        
+                                                    <input type="hidden" name="action" value="delete">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary btn-danger">Confirm</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                
 
                 <%
                     }

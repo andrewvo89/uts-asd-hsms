@@ -63,6 +63,17 @@ public class FeedController {
         else return days + " days ago";
     }
     
+        public String[] getDepartmentEdit(String department) {
+        String[] departmentEdit = new String[5];
+        for (int x = 0; x < departmentEdit.length; x ++) { departmentEdit[x] = ""; }
+        if (department.equals("Administration")) departmentEdit[0] = "checked";
+        if (department.equals("English")) departmentEdit[1] = "checked";
+        if (department.equals("Math")) departmentEdit[2] = "checked";
+        if (department.equals("Science")) departmentEdit[3] = "checked";
+        if (department.equals("Art")) departmentEdit[4] = "checked";
+        return departmentEdit;
+    }
+    
    /*
     public Feed[] getFeeds(ObjectId feedId, int newsId, String title, String body,  String department,Date postDate) {
         return feedDao.getFeeds(feedId, newsId, title, body, department, postDate);
