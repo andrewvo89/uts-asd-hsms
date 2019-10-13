@@ -216,6 +216,69 @@ System.out.println("Test:"+feeds.size());
                     <div class="card-footer text-muted"><%=footerLabel%></div>
                 </div>
                 
+                
+                
+                                <!--ADD USER MODAL DIALOG-->         
+                <div class="modal fade" id="feedAddModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add Post</h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" action="FeedServlet"> 
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label">Title</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" name="titleAdd" placeholder="Title">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label">Main body</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" name="bodyAdd" placeholder="body">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">Department</div>
+                                        <div class="col-sm-8">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Administration" checked>
+                                                <label class="form-check-label">Administration</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="English">
+                                                <label class="form-check-label">English</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Math">
+                                                <label class="form-check-label">Math</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Science">
+                                                <label class="form-check-label">Science</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="departmentAdd" value="Art">
+                                                <label class="form-check-label">Art</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" name="action" value="add">                                 
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary submit">Confirm</button>                                        
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div> 
+                </div>   
+                
                                                 <!--EDIT USER MODAL DIALOG-->        
                                 <div class="modal fade" id="FeedEditModal<%=x%>" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -267,7 +330,7 @@ System.out.println("Test:"+feeds.size());
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#FeedDeleteModal<%=x%>">Delete</button>
+                                                        
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary" id="feedEditConfirmButton<%=x%>">Confirm</button>
                                                     </div>
@@ -308,6 +371,17 @@ System.out.println("Test:"+feeds.size());
             //Clear error message from Session
            // session.removeAttribute("message");
         %>
+         <br>
+                                   <%
+                                    if (userRole <= 2) {
+                                %>
+                <div align="center">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#feedAddModal">Add Post</button>
+                </div>  
+                                <%
+                                    }
+                                %>
+         
 
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
