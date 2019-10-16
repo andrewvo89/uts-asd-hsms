@@ -16,7 +16,6 @@ import java.util.Date;
 
 import org.bson.types.ObjectId;
 import uts.asd.hsms.model.Message;
-import uts.asd.hsms.model.User;
 
 /**
  *
@@ -61,7 +60,7 @@ public class MessagesDao {
     public Message[] getMessage(String name){
         
          BasicDBObject query = new BasicDBObject();
-            query.put("recipient", name);
+         query.put("recipient", name);
             DBCursor cursor = collection.find(query);
             cursor.sort(new BasicDBObject("date", 1));
             Message[] messages = new Message[cursor.count()];
@@ -104,26 +103,41 @@ public class MessagesDao {
    
     }
 
-    public void sendMessage(String name, String recipient, String content, Date date){
-        
+    public boolean sendMessage(String name, String recipient, String content, Date date){
+        try{
             BasicDBObject records = new BasicDBObject();
             records.append("sender", name).append("recipient", recipient).append("content", content).append("date", date);
             collection.insert(records);
+            
+        }
+       catch (Exception ex) {
+            return false;
+        }
+        return true; 
     }
     
-    public void deleteMessage(ObjectId messageID){
-        
+    public boolean deleteMessage(ObjectId messageID){
+        try{
             BasicDBObject query = new BasicDBObject();
             query.put("_id", messageID);
             collection.remove(query);
+        }
+        catch (Exception ex) {
+            return false;
+        }
+        return true; 
     }
     
-    public void forwardMessage(String name, String recipient, String content, Date date){
-        
+    public boolean forwardMessage(String name, String recipient, String content, Date date){
+        try{
             BasicDBObject records = new BasicDBObject();
             records.append("sender", name).append("recipient", recipient).append("content", content).append("date", date);
             collection.insert(records);
-   
+        }
+        catch (Exception ex) {
+            return false;
+        }
+        return true; 
     }
     
 }

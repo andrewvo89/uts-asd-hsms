@@ -85,10 +85,7 @@ public class LoginServlet extends HttpServlet {
         }
         
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 4d49f54f062c44e4256c0dbc4f2f8e38f19fd269
+
     protected void authenticateLogin() throws ServletException, IOException {
         String redirect = (String)session.getAttribute("redirect");
         String email = request.getParameter("email");
@@ -105,8 +102,7 @@ public class LoginServlet extends HttpServlet {
         //Does email exist?
         if (controller.getUsers(null, null, null, null, null, email, null, null, 0, true, "firstname", 1).length != 0) {
             loginUser = controller.getUsers(null, null, null, null, null, email, null, null, 0, true, "firstname", 1)[0];
-<<<<<<< HEAD
-=======
+
         protected void loginAuth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             HttpSession session = request.getSession();
             EmailNotifier emailNotification = new EmailNotifier();
@@ -121,16 +117,13 @@ public class LoginServlet extends HttpServlet {
             Boolean authenticated = false;
             AuditLogDAO auditLogDao = (AuditLogDAO)session.getAttribute("auditLogDao");
             Date loginTime = new Date();
->>>>>>> 1ef0914b71f918c58fd3a42470c579c0f38c4beb
-=======
->>>>>>> 4d49f54f062c44e4256c0dbc4f2f8e38f19fd269
+
+
             try {  
                 if (loginUser != null) if (PasswordEncrypt.validatePassword(password, loginUser.getPassword())) authenticated = true;
             }//Keep authenticated = false
             catch (NoSuchAlgorithmException | InvalidKeySpecException | NumberFormatException ex) { authenticated = false; }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
             //session.setAttribute("user", new User(new ObjectId("5d58b31df28d4f28c41f0908"), "Backdoor", "Backdoor", "Backdoor", "Backdoor", "Backdoor", 1));
             //Authentication Passed
             if (authenticated) {//Login success
@@ -141,9 +134,7 @@ public class LoginServlet extends HttpServlet {
             //Redirect to any page on the website depending on where the log in request came from
             if (redirect == null || redirect.equals("null")) response.sendRedirect("index.jsp");   
             else response.sendRedirect(redirect + ".jsp");
->>>>>>> 1ef0914b71f918c58fd3a42470c579c0f38c4beb
-=======
->>>>>>> 4d49f54f062c44e4256c0dbc4f2f8e38f19fd269
+
         }
         //session.setAttribute("user", new User(new ObjectId("5d58b31df28d4f28c41f0908"), "Backdoor", "Backdoor", "Backdoor", "Backdoor", "Backdoor", 1));
         //Authentication Passed

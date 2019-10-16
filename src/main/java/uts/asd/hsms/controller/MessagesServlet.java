@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +36,7 @@ public class MessagesServlet extends HttpServlet {
     private ObjectId messageID;
     private String sender, recipient, content;
     private Date date;
+    private EmailNotifier emailNotifier;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,7 +70,7 @@ public class MessagesServlet extends HttpServlet {
         session = request.getSession();
         messageDao = (MessagesDao) session.getAttribute("messageDao");
         messages = new ArrayList<String>();
-        
+        emailNotifier = new EmailNotifier();
         String action = request.getParameter("action");        
         
         if (action.equals("Send")) {
@@ -75,6 +79,12 @@ public class MessagesServlet extends HttpServlet {
             messageForm();
         } else if (action.equals("Forward")) {
             forwardMessage();
+        } else if (action.equals("ForwardEmail")) {
+            try {
+                forwardEmail();
+            } catch (MessagingException ex) {
+                Logger.getLogger(MessagesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (action.equals("Delete")) {
             deleteMessage();
         } else if (action.equals("Cancel")) {
@@ -120,6 +130,14 @@ public class MessagesServlet extends HttpServlet {
         
         response.sendRedirect("messages.jsp");
         
+    }
+    private void forwardEmail()throws MessagingException, ServletException, IOException {
+        User user = (User) session.getAttribute("user");  
+        sender = user.getEmail();
+        recipient = request.getParameter("recipient");
+        content = request.getParameter("content");
+        emailNotifier.sendEmail(recipient, sender, content);
+        response.sendRedirect("messages.jsp");
     }
     
     private void messageForm() throws ServletException, IOException {

@@ -78,6 +78,8 @@
                 <td colspan="3" align="right">              
                     <button type="button"  id="messageReplyButton<%=i%>" data-toggle="modal" data-target="#messageReplyModal<%=i%>">Reply</button>
                    <button type="button"  id="messageForwardButton<%=i%>" data-toggle="modal" data-target="#messageForwardModal<%=i%>">Forward</button>
+                   <button type="button"  id="messageForwardButton<%=i%>" data-toggle="modal" data-target="#emailForwardModal<%=i%>">Forward Email</button>
+
                    <button type="button"  data-toggle="modal" data-target="#messageDeleteModal<%=i%>">Delete</button>
                    
                    <div class="modal fade" id="messageReplyModal<%=i%>" tabindex="-1" role="dialog" aria-hidden="true">
@@ -195,7 +197,7 @@
                                                         <input type="hidden" name="messageID" value="<%=messageID%>">        
                                                         <input type="hidden" name="action" value="Forward">
                                                         <input type="hidden" name="redirect" value="message">
-                                                        <button type="submit" id="forwardConfirmButton<%=i%>">Forward</button>
+                                                        <button type="submit" id="forwardConfirmButton<%=i%>">Forward Message</button>
                                                         <button type="button"  data-dismiss="modal">Cancel</button>                                                       
                                                     </div>
                                                 </form>
@@ -203,7 +205,62 @@
                                         </div>
                                     </div>
                    </div>
-                                                        
+                   <div class="modal fade" id="emailForwardModal<%=i%>" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h2 class="modal-title">Forward Email </h2>
+                                                <button type="button" class="close" data-dismiss="modal">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="MessagesServlet" method="post">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">Forward To : </label>
+                                                        <div class="col-sm-8">
+                                                             <input type="text" size="30" name="recipient" placeholder="Recipient">
+                                                        </div>
+                                                    </div>
+                                                    <h>-------------------------------------------------------</h>
+                                                    <h4 align="left">Message Detail</h4>        
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">From : </label>
+                                                        <div class="col-sm-8"  align="left">
+                                                            <%=sender%>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">To : </label>
+                                                        <div class="col-sm-8"  align="left">
+                                                            <%=recipient%>
+                                                        </div>
+                                                    </div>
+                                                         <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">On : </label>
+                                                        <div class="col-sm-8"  align="left">
+                                                            <%=date%>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-4 col-form-label">Content :</label>
+                                                        <div class="col-sm-8"  align="left">
+                                                            <input type="text" name="content" placeholder="Content" value="<%=content%>">
+
+                                                        </div>
+                                                    </div>   
+                                                  <div class="modal-footer">
+                                                        <input type="hidden" name="messageID" value="<%=messageID%>">        
+                                                        <input type="hidden" name="action" value="ForwardEmail">
+                                                        <input type="hidden" name="redirect" value="message">
+                                                        <button type="submit" id="forwardConfirmButton<%=i%>">Forward Email</button>
+                                                        <button type="button"  data-dismiss="modal">Cancel</button>                                                       
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                   </div>                                     
                    <div class="modal fade" id="messageDeleteModal<%=i%>" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
