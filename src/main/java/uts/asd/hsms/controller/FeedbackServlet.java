@@ -70,8 +70,6 @@ public class FeedbackServlet extends HttpServlet {
         commSubject = request.getParameter("commSubjectAdd").trim();
         comment = request.getParameter("commentAdd").trim();
         commDate = new Date();
-        System.out.println(commSubject);
-        System.out.println(commDate);
         
         Feedback feedback = new Feedback(null, commentId, commSubject, comment, commDate, false, false);
         //add your validation code
