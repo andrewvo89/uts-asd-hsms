@@ -53,31 +53,26 @@
 
         <%
             CalendarController controller = new CalendarController(session);
+            ArrayList<String> message = (ArrayList<String>) session.getAttribute("message");
+            if (message == null) {
+                message = new ArrayList<String>();
+                message.add("");
+                message.add("");
+                message.add("");
+            }
             SimpleDateFormat dayMonthYearFormat = new SimpleDateFormat("dd-MM-yyyy");
             SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-            ////String dateSearch = request.getParameter("dateSearch");
-            ////Date dateSearches = controller.getDateSearch(dateSearch);
-            
-            
             String eventNameSearch = request.getParameter("eventNameSearch");
             if (eventNameSearch == null) {
                 eventNameSearch = "";
             }
-
             String eventTagSelection = request.getParameter("eventTagSearch");
             String[] eventTagSearch = controller.getEventTagSearch(eventTagSelection);
-
-            //System.out.println("***********" + dateSearch);
-
-            //System.out.println("##########" + dateSearch);
-
             Calendar[] calendars = controller.getCalendars(null, null, eventNameSearch, null, eventTagSelection, "date", 1);
-            
 
         %>
 
-        <input type="hidden" id="modalTrigger">
+        <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
             <div class="container">
                 <h2>Calendar</h2>
@@ -335,8 +330,31 @@
                         </div>
                     </div> 
                 </div>
+
+                <!-- After add, edit, delete -->
+                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"><%=message.get(0)%></h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>    
+                            </div>                            
+                            <div class="modal-body">
+                                <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div> 
+                    </div>   
+                </div> 
             </div>
         </div>
+        <%
+            session.removeAttribute("message");
+        %>
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>  
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -7,7 +7,9 @@ package uts.asd.hsms.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.validation.constraints.Pattern;
 import org.bson.types.ObjectId;
+import uts.asd.hsms.controller.validator.*;
 
 /**
  *
@@ -16,7 +18,13 @@ import org.bson.types.ObjectId;
 public class Calendar implements Serializable {
     private ObjectId calendarId;
     private Date date;
+    @Pattern(regexp = "^[A-Za-z 0-9]{1,32}$", message = "<h5 class=\"alert-heading\">Event Name Error</h5><hr>"
+            + "Cannot be blank<br>"
+            + "No more than 32 Characters<br>"
+            + "No Special Characters - Letters and Numbers Only<hr>", groups = ValidatorGroupA.class)
     private String eventName;
+    @Pattern(regexp = "^$|.{1,32}$", message = "<h5 class=\"alert-heading\">Description Error</h5><hr>"
+            + "No more than 32 Characters<br>", groups = ValidatorGroupB.class)
     private String description;
     private String eventTag;
 

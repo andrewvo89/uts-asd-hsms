@@ -75,4 +75,11 @@ public class CalendarController {
     public Calendar[] getCalendars(ObjectId calendarId, Date date, String eventName, String description, String eventTag, String sort, int order) {
         return calendarDao.getCalendar(calendarId, date, eventName, description, eventTag, sort, order);
     }
+    
+    public boolean addCalendar(Calendar calendar) {
+        return calendarDao.addCalendar(calendar);
+    }
+    public boolean editCalendar(Calendar calendar) {
+        return calendarDao.editCalendar(calendar);
+    }
 }

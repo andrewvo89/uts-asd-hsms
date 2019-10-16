@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uts.asd.hsms.controller;
+package uts.asd.hsms.controller.validator;
 
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -40,7 +40,7 @@ public class CalendarValidator {
         Validator validator = factory.getValidator();
         
         //Validate bean
-        Set<ConstraintViolation<Calendar>> constraintViolations = validator.validate(calendar);
+        Set<ConstraintViolation<Calendar>> constraintViolations = validator.validate(calendar, ValidatorSequence.class);
 
         
         if (constraintViolations.size() > 0) {
@@ -48,7 +48,7 @@ public class CalendarValidator {
             int count = 0;
             for (ConstraintViolation<Calendar> violation : constraintViolations) {
                 messages[count] = violation.getMessage();
-                count ++;
+                count++;
             }
             return messages;
         }
