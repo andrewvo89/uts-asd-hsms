@@ -171,7 +171,6 @@
                             <td><%=eventTag%></td>
                             <td>
 
-
                                 <button type="button" class="btn btn-primary" id="calendarEditButton<%=i%>" data-toggle="modal" data-target="#calendarEditModal<%=i%>">Edit</button>
                                 <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#calendarDeleteModal<%=i%>">Delete</button>
 
@@ -270,7 +269,6 @@
                 <div class="float-left">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#eventAddModal">Add Event</button>
                 </div>
-
 
                 <!--ADD-->    
                 <div class="modal fade" id="eventAddModal" tabindex="-1" role="dialog" aria-hidden="true">

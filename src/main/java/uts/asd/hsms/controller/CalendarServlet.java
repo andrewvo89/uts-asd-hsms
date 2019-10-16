@@ -94,7 +94,7 @@ public class CalendarServlet extends HttpServlet {
             message.add("success");
             session.setAttribute("message", message);//Show search results with just email to help indicate record on View
             response.sendRedirect("calendar.jsp");
-        }//Error from Try/Catch above
+        }//Error from Try/Catch
         else {
             message.add(addModalErrorMessage);
             message.add("danger");
@@ -130,13 +130,13 @@ public class CalendarServlet extends HttpServlet {
             if (calendarDao.editCalendar(newCalendar)) {
                 editSuccess = true;
             }
-        }//Add OK
+        }//Edit OK
         if (editSuccess) {
             message.add(String.format("%s edited successfully", eventName));
             message.add("success");
             session.setAttribute("message", message);//Show search results with just email to help indicate record on View
             response.sendRedirect("calendar.jsp");
-        }//Error from Try/Catch above
+        }//Error from Try/Catch
         else {
             message.add(editModalErrorMessage);
             message.add("danger");

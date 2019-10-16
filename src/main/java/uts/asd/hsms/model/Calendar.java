@@ -16,6 +16,7 @@ import uts.asd.hsms.controller.validator.*;
  * @author MatthewHellmich
  */
 public class Calendar implements Serializable {
+
     private ObjectId calendarId;
     private Date date;
     @Pattern(regexp = "^[A-Za-z 0-9]{1,32}$", message = "<h5 class=\"alert-heading\">Event Name Error</h5><hr>"
@@ -74,6 +75,5 @@ public class Calendar implements Serializable {
 
     public void setEventTag(String eventTag) {
         this.eventTag = eventTag;
-    }  
+    }
 }
-
