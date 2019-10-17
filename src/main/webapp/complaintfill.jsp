@@ -60,7 +60,7 @@
                         Remember, all your information is private. This is an <b>anonymous</b> feedback service, and the author of any comments cannot be traced.</p>
                     <div class="form-group">
                         <label><b>Subject header:</b></label>
-                        <select class="form-control" id="commSubjectAdd"  name="commSubjectAdd" placeholder="Other">
+                        <select class="form-control" id="commSubjectAdd commSubjectEdit"  name="commSubjectAdd" placeholder="Other">
                             <option value="Facilities">Facilities</option>
                             <option value="Management">Management</option>
                             <option value="Student Issues">Student Issues</option>
@@ -71,7 +71,7 @@
                     </div>
                     <div class="form-group position-relative">
                         <label><b>Comment:</b></label>
-                        <textarea name="commentAdd" class="form-control" rows="5" id="commentAdd" placeholder="Enter your comment here."></textarea>
+                        <textarea name="commentAdd" class="form-control" rows="5" id="commentAdd commentEdit" placeholder="Enter your comment here."></textarea>
                         <h6 class="rightalign position-absolute" id="count_message"></h6>
                     </div>
                     <div>
