@@ -52,9 +52,7 @@ public class Feed implements Serializable {
          this.newsId = newsId;
         this.title = title;
         this.body = body;
-   
         this.department = department;
-   
         this.postDate = postDate;
   
     }
@@ -66,17 +64,20 @@ public class Feed implements Serializable {
     public void setFeedId(ObjectId feedId) {
         this.feedId = feedId;
     }
+
+    
+    
         public int getNewsId() {
         return newsId;
     }
     public void setNewsId(int newsId) {
         this.newsId = newsId;
     }
-    /*
+
     public int getNewNewsId() {
         return newsId + 1;
     }
-*/
+
     public String getTitle() {
         return title;
     }

@@ -27,6 +27,7 @@ import static java.util.regex.Pattern.compile;
 import static java.util.regex.Pattern.quote;
 import org.bson.types.ObjectId;
 import uts.asd.hsms.model.*;
+import com.google.gson.*;
 
 /**
  *
@@ -37,6 +38,7 @@ public class FeedDao {
     private DB database;
     private DBCollection collection;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    // LinkedList<DBObject> results = new LinkedList<DBObject>();
 
     public FeedDao(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
@@ -138,41 +140,51 @@ public class FeedDao {
     */
     
     public boolean addFeed(Feed feed) {//Simple add to Mongo Database
+
         try {
+           
             BasicDBObject newRecord = new BasicDBObject();
             newRecord.put("newsId", feed.getNewsId());
             newRecord.put("title", feed.getTitle());
-            newRecord.put("description", feed.getBody());
-         //  newRecord.put("worktype", job.getWorkType());
+            newRecord.put("body", feed.getBody());
             newRecord.put("department", feed.getDepartment());
-         //   newRecord.put("status", job.getStatus());
+      
             newRecord.put("postdate", new Date());
-          //  newRecord.put("closedate", job.getCloseDate());
-        //    newRecord.put("active", true);
+        
             collection.insert(newRecord);  
-            feed.setFeedId((ObjectId)newRecord.get("_id"));
+       
+        //   feed.setFeedId((ObjectId)newRecord.get("_id"));  
+            
+            //results.add(newRecord);
         }
         catch (Exception ex) {
             return false;
         }
         return true;
     }  
-        public boolean editFeed(Feed feed) { //Edit job in database based on _id
+        public boolean editFeed(ObjectId oldFeedid , Feed newFeed) { //Edit job in database based on _id
         try {
-            BasicDBObject query = new BasicDBObject().append("_id", feed.getFeedId());
+            //*
+         //   BasicDBObject query = new BasicDBObject().append("_id", feed.getFeedId());
+          BasicDBObject query = new BasicDBObject().append("_id", oldFeedid);
+          
             BasicDBObject records = new BasicDBObject();
             BasicDBObject update = new BasicDBObject();
-            if (feed.getNewsId() != 0) records.append("newsId", feed.getNewsId());
-            if (feed.getTitle() != null) records.append("title", feed.getTitle());
-            if (feed.getBody() != null) records.append("body", feed.getBody());
+            if (newFeed.getNewsId() != 0) records.append("newsId", newFeed.getNewsId());
+            if (newFeed.getTitle() != null) records.append("title", newFeed.getTitle());
+            if (newFeed.getBody() != null) records.append("body", newFeed.getBody());
           //  if (job.getWorkType() != null) records.append("worktype", job.getWorkType());
-            if (feed.getDepartment() != null) records.append("department", feed.getDepartment());
+            if (newFeed.getDepartment() != null) records.append("department", newFeed.getDepartment());
            // if (feed.getStatus() != null) records.append("status", job.getStatus());
           //  if (feed.getCloseDate() != null) records.append("closedate", job.getCloseDate());
           //  if (feed.getActive() != null) records.append("active", job.getActive());
-            update.append("$set", records);
-            collection.update(query, update);
-            feed.setFeedId((ObjectId)query.get("_id"));
+        //   update.append("$set", records);
+           // */
+            
+            collection.update(query, records);
+         //   collection.update(query, update);
+         //   feed.setFeedId((ObjectId)query.get("_id"));
+      //      results=this.getFeeds();
         }
         catch (Exception ex) {
             return false;
@@ -180,14 +192,15 @@ public class FeedDao {
         return true;
     } 
     
-    public boolean deleteFeed(Feed feed) { //Make Job inactive, DO NOT DELTE so no references are lost
+ public boolean deleteFeed (ObjectId objId) {
+     
+     // find Feed from objID;
+     
         try {
-            BasicDBObject query = new BasicDBObject().append("_id", feed.getFeedId());
-            BasicDBObject records = new BasicDBObject();
-         //   records.append("active", false);
-          //  records.append("status", "Closed");
-            BasicDBObject update = new BasicDBObject().append("$set", records);
-            collection.update(query, update);
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", objId);
+         //   results.remove(query);
+            collection.remove(query);
         }
         catch (Exception ex) {
             return false;

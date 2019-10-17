@@ -49,34 +49,19 @@ System.out.print("last name:"+user.getLastName());
         <%
             }
 
-//*
-        FeedController controller = new FeedController(session);
+
+ FeedController controller = new FeedController(session);
  LinkedList<DBObject> feeds = controller.getFeeds();
 System.out.println("Test:"+feeds.size());
 
         uts.asd.hsms.controller.UserController userController = new uts.asd.hsms.controller.UserController(session);
         int userRole = user.getUserRole();
         String userRoleString = userController.getUserRoleString(userRole);
+  ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
 
-/*
-     //   ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
-        //Initialize notification messages for pop up Modals 1.message header 2.message body 3.message type
-  //      if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }
-        String titleSearch = request.getParameter("titleSearch"); if (titleSearch == null) titleSearch = "";
-      //  String workTypeSelection = request.getParameter("workTypeSearch");
-     //   String[] workTypeSearch = controller.getWorkTypeSearch(workTypeSelection);
-        String departmentSelection = request.getParameter("departmentSearch");
-        String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);
-        //Return search results in the form of Jobs for populating the table
-       // Feed[] feeds = controller.getFeeds(null,0, titleSearch, null, departmentSelection,null, "postdate", -1);
-    //  LinkedList<DBObject> getFeeds(){
-        LinkedList<DBObject> feeds = controller.getFeeds();
-
-//  Job[] appliedJobs = controller.getAppliedJobs(user.getUserId());
-
-*/
+ if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }
         %>
-        <input type="hidden" id="modalTrigger" value="2<%//message.get(2)%>">
+       <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
             <div class="container">
                 <h1>News Feed</h1>
@@ -167,7 +152,7 @@ System.out.println("Test:"+feeds.size());
             String title = (String)result.get("title");
             String body = (String)result.get("body");
             String department = (String)result.get("department");
-            String[] departmentEdit = controller.getDepartmentEdit(department);
+          String[] departmentEdit = controller.getDepartmentEdit(department);
             Date date = (Date)result.get("postdate");
             String dateStr=date.toString();
            // */
@@ -203,6 +188,8 @@ System.out.println("Test:"+feeds.size());
                                <div style="float: right">
                                 <button type="button" class="btn btn-primary" id="feedEditButton<%=x%>" data-toggle="modal" data-target="#FeedEditModal<%=x%>">Edit</button>
                                 <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#FeedDeleteModal<%=x%>">Delete</button>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#feedAddModal">Add Post</button>
+    
                          </div>
                                 <%
                                     }
@@ -300,14 +287,14 @@ System.out.println("Test:"+feeds.size());
                                                     <div class="form-group row">
                                                         <label class="col-sm-4 col-form-label">Main body</label>
                                                         <div class="col-sm-12">
-                                                             <textarea class="form-control" rows="5" placeholder="Body"><%=body%></textarea>
+                                                             <textarea class="form-control" rows="5" name="bodyEdit"  placeholder="Body"><%=body%></textarea>
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-4">Department</div>
-                                                        <div class="col-sm-8">
-                                                            <div class="form-check">
+                                                 <div class="form-group row">
+                                                       <div class="col-sm-4">Department</div>
+                                                      <div class="col-sm-8">
+                                                           <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="departmentEdit" value="Administration" <%=departmentEdit[0]%>>
                                                                 <label class="form-check-label">Administration</label>
                                                             </div>
@@ -329,8 +316,8 @@ System.out.println("Test:"+feeds.size());
                                                             </div>
                                                         </div>
                                                     </div>
+                                                                
                                                     <div class="modal-footer">
-                                                        
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary" id="feedEditConfirmButton<%=x%>">Confirm</button>
                                                     </div>
@@ -360,6 +347,26 @@ System.out.println("Test:"+feeds.size());
                                         </div>
                                     </div>
                                 </div>
+                  <!--MESSAGE MODAL AFTER ADD, EDIT OR DELETE ACTION-->
+                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"><%=message.get(0)%></h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>    
+                            </div>                            
+                            <div class="modal-body">
+                                <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div> 
+                    </div>   
+                </div>  
+                                                    
                 
 
                 <%

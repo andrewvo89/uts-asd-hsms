@@ -28,7 +28,7 @@ import uts.asd.hsms.model.dao.UserDao;
 
 /**
  *
- * @author Andrew
+ * @author Alvin
  */
 
 public class FeedController {
@@ -63,7 +63,7 @@ public class FeedController {
         else return days + " days ago";
     }
     
-        public String[] getDepartmentEdit(String department) {
+     public String[] getDepartmentEdit(String department) {
         String[] departmentEdit = new String[5];
         for (int x = 0; x < departmentEdit.length; x ++) { departmentEdit[x] = ""; }
         if (department.equals("Administration")) departmentEdit[0] = "checked";
@@ -90,5 +90,17 @@ public class FeedController {
     public User[] getUsers(ObjectId userId, String firstName, String lastName, String phone, String location, String email, String password, String department, int userRole, Boolean active, String sort, int order) {
         return userDao.getUsers(userId, firstName, lastName, phone, location, email, password, department, userRole, active, sort, order);
     }
+        public boolean addFeed(Feed feed) {
+        return feedDao.addFeed(feed);
+    }
+    
+    public boolean editFeed(ObjectId oldId,Feed newFeed) {
+        return feedDao.editFeed(oldId,newFeed);
+    }
+    
+    public boolean deleteFeed(ObjectId objId) {
+        return feedDao.deleteFeed(objId);
+    }
+    
     
 }
