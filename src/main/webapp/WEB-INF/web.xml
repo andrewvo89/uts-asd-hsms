@@ -49,13 +49,6 @@
         <servlet-class>uts.asd.hsms.controller.LogServlet</servlet-class>
     </servlet>
     <servlet>
-
-        <servlet-name>LoginDeniedServlet</servlet-name>
-        <servlet-class>uts.asd.hsms.controller.LoginDeniedServlet</servlet-class>
-
-        <servlet-name>MessagesServlet</servlet-name>
-        <servlet-class>uts.asd.hsms.controller.MessagesServlet</servlet-class>
-
         <servlet-name>LoginDeniedServlet</servlet-name>
         <servlet-class>uts.asd.hsms.controller.LoginDeniedServlet</servlet-class>
     </servlet>
@@ -108,13 +101,6 @@
         <url-pattern>/LogServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
-        <servlet-name>LoginDeniedServlet</servlet-name>
-        <url-pattern>/LoginDeniedServlet</url-pattern>
-
-        <servlet-name>MessagesServlet</servlet-name>
-        <url-pattern>/MessagesServlet</url-pattern>
-
         <servlet-name>LoginDeniedServlet</servlet-name>
         <url-pattern>/LoginDeniedServlet</url-pattern>
     </servlet-mapping>
