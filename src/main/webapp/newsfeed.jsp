@@ -78,7 +78,7 @@ System.out.println("Test:"+feeds.size());
                         <li class="breadcrumb-item active" aria-current="page">News Feed</li>
                     </ol>
                 </nav>
-                <div class="card">
+              <!--  <div class="card">
                     <div class="card-header">
                         <form action="newsfeed.jsp" method="post">
                             <div class="float-left">
@@ -100,7 +100,7 @@ System.out.println("Test:"+feeds.size());
                         </form>
                     </div>
                     <!--SEARCH COLLAPSIBLE CARD-->
-                    <div class="collapse" id="collapseSearch">
+                  <!--  <div class="collapse" id="collapseSearch">
                         <div class="card-body">
                             <form action="newsfeed.jsp" method="post">
                                 <div class="form-row">
@@ -148,7 +148,7 @@ System.out.println("Test:"+feeds.size());
                             </form>
                         </div>
                     </div>
-                </div>
+                </div>-->
                                                 
                 <%
                     
@@ -177,7 +177,7 @@ System.out.println("Test:"+feeds.size());
                        <div style="float: left">
                         <span class="btn-warning badge badge-pill"><%=department%></span>
                         </div>
-                        <p style="float:center">Post date:<%=dateStr%> Author:<%=firstName %><%=lastName%></p>
+                        <p style="float:center">Post date:<%=dateStr%></p>
                         
                           <%
                                     if (userRole <= 2) {
