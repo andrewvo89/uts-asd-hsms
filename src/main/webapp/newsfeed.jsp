@@ -188,8 +188,6 @@ System.out.println("Test:"+feeds.size());
                                <div style="float: right">
                                 <button type="button" class="btn btn-primary" id="feedEditButton<%=x%>" data-toggle="modal" data-target="#FeedEditModal<%=x%>">Edit</button>
                                 <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#FeedDeleteModal<%=x%>">Delete</button>
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#feedAddModal">Add Post</button>
-    
                          </div>
                                 <%
                                     }
@@ -318,6 +316,9 @@ System.out.println("Test:"+feeds.size());
                                                     </div>
                                                                 
                                                     <div class="modal-footer">
+                                                        <input type="hidden" name="feedIdEdit" value="<%=feedId.toString()%>">
+                                                        <input type="hidden" name="action" value="edit">
+                                                        <input type="hidden" name="redirect" value="newsfeed">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-primary" id="feedEditConfirmButton<%=x%>">Confirm</button>
                                                     </div>
