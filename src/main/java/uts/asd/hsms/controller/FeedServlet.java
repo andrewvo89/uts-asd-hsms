@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -11,9 +11,14 @@
 package uts.asd.hsms.controller;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
@@ -24,96 +29,123 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.bson.types.ObjectId;
 import uts.asd.hsms.controller.validator.JobApplicationValidator;
+import uts.asd.hsms.controller.validator.UserValidator;
 import uts.asd.hsms.model.Feed;
+import uts.asd.hsms.model.Feedback;
 import uts.asd.hsms.model.Job;
 import uts.asd.hsms.model.JobApplication;
 import uts.asd.hsms.model.User;
+
 /**
  *
- * @author Andrew
+ * @author Alvin
  */
 public class FeedServlet extends HttpServlet {
-  //  private JobApplication jobApplication;
-  //  private Feed feed;
+
     private User user;
     private FeedController controller;
     private ObjectId feedId, userId;
     private int newsId;
-    private String coverLetter;
+    private String title, body, department;
+    private Date postDate;
     private BasicDBObject status;
     private HttpServletRequest request;
     private HttpServletResponse response;
     private HttpSession session;
     private ArrayList<String> message;
-  //  private JobApplicationValidator jobApplicationValidator;
+    //  private JobApplicationValidator jobApplicationValidator;
     private EmailNotifier emailNotifier;
+    private LinkedList<DBObject> feeds;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.response = response;
-        this.request = request;    
+        this.request = request;
         session = request.getSession();
         message = new ArrayList<String>();
         controller = new FeedController(session);
         emailNotifier = new EmailNotifier();
-        userId = new ObjectId(request.getParameter("userId"));
-     //   feedId = new ObjectId(request.getParameter("feedId"));
-    //    coverLetter = request.getParameter("coverLetter").trim();
-    //    feed = new Feed();
-        
-     //   feed = controller.getFeeds(feedId,0, null, null, null, null, "_id", 1)[0];
+        System.out.println("Test userid:"+userId);
+         System.out.println("Test feedId:"+feedId);
+        feeds = controller.getFeeds();
         user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, null, "_id", 1)[0];
-        Date zeroDate = new Date();
-        zeroDate.setTime(0);
-     //   status = new BasicDBObject();
-      //  status.put("applied", new Date()); status.put("review", zeroDate);
-      //  status.put("rejected", zeroDate); status.put("successful", zeroDate);
-      //  applyJob();
-    //  postFeed();
+        String action = request.getParameter("action");
+        switch (action) {
+            case "add":
+                addFeed();
+                break;
+            case "edit":
+                editFeed();
+                break;
+            case "delete":
+                deleteFeed();
+                break;
+            default:
+                response.sendRedirect("newsfeed.jsp");
+                break;
+        }
+
     }
-    /*
-    public void applyJob() throws ServletException, IOException {
-        jobApplication = new JobApplication(null, jobId, userId, coverLetter, status);        
-        jobApplicationValidator = new JobApplicationValidator(jobApplication);//Server Side validations
-        String[] errorMessages = jobApplicationValidator.validateJobApplication();//If Server Side validations have errors
-        message.add("Job Apply Result");        
-        //If Errors from validation
-        if (errorMessages != null) {
-            message.add(errorMessages[0]); message.add("danger");
-        }
-        else {//If Add Success
-            if (controller.addJobApplication(jobApplication)) {
-                try {//Send email to Principal to inform of someone applying for job
-                    sendEmail();
-                } catch (MessagingException ex) {
-                    Logger.getLogger(JobBoardServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                message.add("Your Job Application has been received successfully");
-                message.add("success"); 
-            }
-            else message.add("Failed to add Job: Database issue"); message.add("danger");//If Add Failed 
-        }
-        session.setAttribute("message", message);
-        response.sendRedirect("jobboard.jsp");
+
+    public void addFeed() throws ServletException, IOException {
+        title = request.getParameter("titleAdd").trim();
+        body = request.getParameter("bodyAdd").trim();
+        department = request.getParameter("departmentAdd").trim();
+        postDate = new Date();
+        System.out.println(title);
+        System.out.println(postDate);
+
+        Feed feed = new Feed(null, 0, title, body, department, postDate);     
+        controller.addFeed(feed);
+        response.sendRedirect("newsfeed.jsp");
+    }
+
+    public void editFeed() throws ServletException, IOException {
+ 
+        Feed oldFeed = null, newFeed = null;
+        feedId = new ObjectId(request.getParameter("feedIdEdit"));  
+        title = request.getParameter("titleEdit").trim();
+        body = request.getParameter("bodyEdit").trim();
+        department = request.getParameter("departmentEdit").trim();
+        postDate = Calendar.getInstance().getTime();
+        
+        System.out.println("edit date:"+postDate.toString());
+       
+        String editModalErrorMessage = "";
+        Boolean editSuccess = false;
+        message.add("Edit Feed Result");
+
+        Date tmp = new Date();
+        
+        newFeed = new Feed(feedId, newsId, title, body, department, tmp);
+        newFeed.setPostDate(postDate);
+        
+          controller.editFeed(feedId,newFeed);
+        response.sendRedirect("newsfeed.jsp");
     }
     
-    */
-    /*
-    public void sendEmail() throws MessagingException {
-        //Send to Principal a notification
-        emailNotifier.sendEmail("uts.asd.hsms@gmail.com", "Job Application: " + feed.getTitle(), String.format("Dear Principal,\n\n"
-        + "%s %s has applied for the %s role.\n"
-        + "To review all Job Application's for this Job Post, visit https://uts-asd-hsms.herokuapp.com/jobreview.jsp?jobId=%s\n\n"              
-        + "Kind Regards,\nThe HSMS Team", user.getFirstName(), user.getLastName(), feed.getTitle(), feed.getFeedId()));
-        //Send to Teacher who just applied for a job
-        emailNotifier.sendEmail("uts.asd.hsms@gmail.com", "Job Application: " + feed.getTitle(), String.format("Dear %s,\n\n"
-        + "Your job application for the %s role has been recieved.\n"
-        + "To check your current Job Application's status, visit https://uts-asd-hsms.herokuapp.com/jobboard.jsp\n\n"              
-        + "Kind Regards,\nThe HSMS Team", user.getFirstName(), feed.getTitle()));
+    
+    public void deleteFeed() throws ServletException, IOException {
+        
+        feedId = new ObjectId(request.getParameter("feedIdDelete"));
+        
+         System.out.println("Deleting Feed..."+feedId);
+        boolean deleteSuccess = false;
+        message.add("Delete Post result"); //If the Feedback exists in database based on refCommentId
+        if (feeds.size() != 0) {
+            if (controller.deleteFeed(feedId)) {
+                message.add(String.format("%s deleted successfully", feedId));
+            }
+            message.add("success");
+            deleteSuccess = true; 
+            
+            response.sendRedirect("newsfeed.jsp");
+        }
+       
     }
-    */
+
 }

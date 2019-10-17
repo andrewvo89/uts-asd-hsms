@@ -96,6 +96,10 @@
         <servlet-name>FeedbackServlet</servlet-name>
         <url-pattern>/FeedbackServlet</url-pattern>
     </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>FeedServlet</servlet-name>
+        <url-pattern>/FeedServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogServlet</servlet-name>
         <url-pattern>/LogServlet</url-pattern>
