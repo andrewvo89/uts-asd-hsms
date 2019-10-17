@@ -13,7 +13,7 @@ package uts.asd.hsms.model;
 
 /**
  *
- * @author Andrew
+ * @author Alvin
  */
 
 import java.io.Serializable;
@@ -36,25 +36,18 @@ public class Feed implements Serializable {
         + "Cannot be blank<br>"
         + "No more than 2000 Characters<hr>", groups = ValidatorGroupB.class)
     private String body;
-  //  private String workType;
     private String department;
-   // private String status;
     @PastOrPresent(message = "<h5 class=\"alert-heading\">Post Date Error</h5><hr>"
             + "Must be present or in the past", groups = ValidatorGroupC.class)
     private Date postDate;
-  //  @FutureOrPresent(message = "<h5 class=\"alert-heading\">Close Date Error</h5><hr>"
-  //          + "Must be in the future unless in Draft mode or Closed", groups = ValidatorGroupD.class)
-  //  private Date closeDate;
-  //  private Boolean active;
+
 
     public Feed(ObjectId feedId,int newsId, String title, String body, String department, Date postDate) {
         this.feedId = feedId;
          this.newsId = newsId;
         this.title = title;
         this.body = body;
-   
         this.department = department;
-   
         this.postDate = postDate;
   
     }
@@ -66,17 +59,20 @@ public class Feed implements Serializable {
     public void setFeedId(ObjectId feedId) {
         this.feedId = feedId;
     }
+
+    
+    
         public int getNewsId() {
         return newsId;
     }
     public void setNewsId(int newsId) {
         this.newsId = newsId;
     }
-    /*
+
     public int getNewNewsId() {
         return newsId + 1;
     }
-*/
+
     public String getTitle() {
         return title;
     }
