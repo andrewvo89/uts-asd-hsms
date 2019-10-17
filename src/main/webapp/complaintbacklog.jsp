@@ -65,7 +65,7 @@
                 
                 <h1>Feedback Backlog</h1>
                 <div class="rightalignparent position-relative">
-                    <button type="button" class="rightalign btn btn-info position-absolute" data-toggle="modal" data-target="#archiveButton">View Archived Feedback</button>
+                    <button type="button" class="rightalign btn btn-warning position-absolute" data-toggle="modal" data-target="#archiveButton">View Archived Feedback</button>
                 </div>
                 <!--View Archived Modal-->
                 <div class="modal fade" id="archiveButton" tabindex="-1" role="dialog" aria-hidden="true">
@@ -115,7 +115,7 @@
                         </div>
                     </div>
                 </div>
-                
+                <!--Backlog Table of non-archived complaints-->
                 <br><div>
                     <table class="table">
                         <thead class="thead-light">
@@ -155,7 +155,7 @@
                                         <input type="hidden" name="postComment" value="<%=comment%>">
                                         <input type="hidden" name="action" value="archive">
                                         <input type="hidden" name="redirect" value="complaintbacklog">
-                                        <button type="submit" class="btn btn-info">Archive</button>
+                                        <button type="submit" class="btn btn-outline-warning">Archive</button>
                                     </form>
                                 </td>
                                 
