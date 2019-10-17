@@ -42,8 +42,8 @@ public class FeedbackFeature {
     
     @When("^U124 I change the comment subject to \"([^\"]*)\"$")
     public void U124EditSubject(String commSubject) throws Throwable {
-        Select drpSubject = new Select(driver.findElement(By.id("commSubjectAdd")));
-        drpSubject.selectByVisibleText("Harassment");
+        Select drpSubject = new Select(driver.findElement(By.name("commSubjectAdd")));
+        drpSubject.selectByValue("Harassment");
     }
     
     @And("^U124 I write my comment as \"([^\"]*)\"$")
