@@ -48,7 +48,7 @@ public class FeedbackFeature {
     
     @And("^U124 I write my comment as \"([^\"]*)\"$")
     public void U124EditComment(String comment) throws Throwable {
-        WebElement commentFill = driver.findElement(By.id("commentEdit"));
+        WebElement commentFill = driver.findElement(By.id("commentAdd"));
         commentFill.sendKeys("I am being cat called.");
     }
     

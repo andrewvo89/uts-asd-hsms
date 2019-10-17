@@ -5,11 +5,10 @@
  */
 //Upon page loading
 $(window).on("load", function () {
-    var modalTrigger = document.getElementById("modalTrigger").value;
-    if (modalTrigger != "") {
-        $("#messageModal").modal("show");
-    }
+    
     $('input[type="submit"], input[type="button"], button').disable(true);
+    
+    //$('#feedbackSuccess').modal({ show: false});
 });
 
 //Character count for textarea
@@ -32,7 +31,7 @@ $(function() {
             });
         }
     });
-    var comment = document.getElementById("commentAdd").value; 
+    var comment = document.getElementById("commentAdd").value.trim(); 
     
     $('#commentAdd').keyup(function() {
        if (comment != "") {
@@ -43,17 +42,24 @@ $(function() {
     });
 }); 
 
-
-
 //Checks if word count is over 500
-function overLimit() {
+
+
+$("#checkCount").on("click", function() {
     var comment = document.getElementById("commentAdd").value; 
     submitOk = "false";
     if (comment.length > 500){
         alert("Please keep your response to under 500 characters");
         submitOk = "false";
+    } else { 
+    //    submitOk == "true";
+        document.complaintForm.submit();
     }
     if (submitOk == "false") {
         return false;
     }
-}
+    //if (submitOk == "true") {
+    //    $('#feedbackSuccess').modal('show');
+    //    return true;
+    //}
+});
