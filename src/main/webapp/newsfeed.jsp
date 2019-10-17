@@ -60,6 +60,13 @@ System.out.println("Test:"+feeds.size());
   ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
 
  if (message == null) { message = new ArrayList<String>();  message.add(""); message.add(""); message.add(""); }
+        //Prefill Search Data variables
+        String titleSearch = request.getParameter("titleSearch"); if (titleSearch == null) titleSearch = "";
+        String bodySearch = request.getParameter("bodySearch"); if (bodySearch == null) bodySearch = "";
+        String departmentSelection = request.getParameter("departmentSearch"); 
+        String[] departmentSearch = controller.getDepartmentSearch(departmentSelection);  
+
+
         %>
        <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
@@ -99,35 +106,39 @@ System.out.println("Test:"+feeds.size());
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>Title</label>
-                                        <input type="text" class="form-control" name="titleSearch" placeholder="Title" value="test ">
+                                        <input type="text" class="form-control" name="titleSearch" placeholder="Title" value="<%=titleSearch%>">
+                                    </div>
+                                      <div class="form-group col-md-6">
+                                        <label>Body</label>
+                                        <input type="text" class="form-control" name="titleSearch" placeholder="Title" value="<%=bodySearch%>">
                                     </div>
                                 </div>
-                                <div class="form-row">title
+                                <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>Department</label>
                                         <div class="form-check">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" value="All" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch" value="All" <%=departmentSearch[0]%>>
                                                 <label class="form-check-label">All</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchAdministration" value="Administration" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchAdministration" value="Administration"<%=departmentSearch[1]%> >
                                                 <label class="form-check-label">Administration</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchEnglish" value="English" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchEnglish" value="English" <%=departmentSearch[2]%> >
                                                 <label class="form-check-label">English</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch"  id="departmentSearchMath" value="Math" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch"  id="departmentSearchMath" value="Math"<%=departmentSearch[3]%> >
                                                 <label class="form-check-label">Math</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchScience" value="Science" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchScience" value="Science"<%=departmentSearch[4]%> >
                                                 <label class="form-check-label">Science</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchArt" value="Art" >
+                                                <input class="form-check-input" type="radio" name="departmentSearch" id="departmentSearchArt" value="Art" <%=departmentSearch[5]%>>
                                                 <label class="form-check-label">Art</label>
                                             </div>
                                         </div>

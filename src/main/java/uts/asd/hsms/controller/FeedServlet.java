@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -114,23 +115,16 @@ public class FeedServlet extends HttpServlet {
     }
 
     public void editFeed() throws ServletException, IOException {
-        
-        System.out.println("Editing Feed...");
-        
+ 
         Feed oldFeed = null, newFeed = null;
-        feedId = new ObjectId(request.getParameter("editfeedId"));
-        
-         System.out.println("Editing Feed..."+newsId);
-        newsId = Integer.parseInt(request.getParameter("editnewsId"));
-        
-      //   DBObject feedObj = ;
-        
-     //   feeds.remove(newsId);//???? 
-        
+        feedId = new ObjectId(request.getParameter("feedIdEdit"));  
         title = request.getParameter("titleEdit").trim();
         body = request.getParameter("bodyEdit").trim();
         department = request.getParameter("departmentEdit").trim();
-        postDate = null;
+        postDate = Calendar.getInstance().getTime();
+        
+        System.out.println("edit date:"+postDate.toString());
+       
         String editModalErrorMessage = "";
         Boolean editSuccess = false;
      // 、、  Filters.e
@@ -138,7 +132,11 @@ public class FeedServlet extends HttpServlet {
 
         //if (controller.getFeeds(feedId, 0, null, null, null, null, "newsId", 1).length != 0) {
         //  oldFeed = controller.getFeeds(feedId, 0, null, null, null, null, "newsId", 1)[0];
-        newFeed = new Feed(feedId, newsId, title, body, department, postDate);
+        Date tmp = new Date();
+        
+        newFeed = new Feed(feedId, newsId, title, body, department, tmp);
+        
+        newFeed.setPostDate(postDate);
         
      //    DBObject newfeedObj = ;
        // feeds.add(newFeed);//???
@@ -148,7 +146,8 @@ public class FeedServlet extends HttpServlet {
         //  } else editModalErrorMessage = "Failed to edit feed: no such feed exists.";
         response.sendRedirect("newsfeed.jsp");
     }
-
+    
+    
     public void deleteFeed() throws ServletException, IOException {
         
         feedId = new ObjectId(request.getParameter("feedIdDelete"));

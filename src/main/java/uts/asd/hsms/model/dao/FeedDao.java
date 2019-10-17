@@ -175,7 +175,7 @@ public class FeedDao {
             if (newFeed.getBody() != null) records.append("body", newFeed.getBody());
           //  if (job.getWorkType() != null) records.append("worktype", job.getWorkType());
             if (newFeed.getDepartment() != null) records.append("department", newFeed.getDepartment());
-           // if (feed.getStatus() != null) records.append("status", job.getStatus());
+           if (newFeed.getPostDate() != null) records.append("postdate", newFeed.getPostDate());
           //  if (feed.getCloseDate() != null) records.append("closedate", job.getCloseDate());
           //  if (feed.getActive() != null) records.append("active", job.getActive());
         //   update.append("$set", records);
