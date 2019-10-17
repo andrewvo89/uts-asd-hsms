@@ -6,20 +6,17 @@
 package uts.asd.hsms.controller;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.bson.types.ObjectId;
+import uts.asd.hsms.controller.validator.CalendarValidator;
 import uts.asd.hsms.model.Calendar;
 import uts.asd.hsms.model.dao.CalendarDao;
 
@@ -75,10 +72,35 @@ public class CalendarServlet extends HttpServlet {
         eventName = request.getParameter("eventNameAdd");
         description = request.getParameter("descriptionAdd");
         eventTag = request.getParameter("eventTagAdd");
-        
+
         Calendar calendar = new Calendar(null, date, eventName, description, eventTag);
-        calendarDao.addCalendar(calendar);
-        response.sendRedirect("calendar.jsp");   
+
+        calendarValidator = new CalendarValidator(calendar);//Server Side validations
+        String[] errorMessages = calendarValidator.validateCalendar();//If Server Side validations have errors
+        String addModalErrorMessage = "";
+        Boolean addSuccess = false;
+        message.add("Add Calendar Result");
+
+        //If Errors
+        if (errorMessages != null) {
+            addModalErrorMessage = errorMessages[0];
+        } else { //No Errors
+            if (calendarDao.addCalendar(calendar)) {
+                addSuccess = true;
+            }
+        }//Add OK
+        if (addSuccess) {
+            message.add(String.format("%s added successfully", eventName));
+            message.add("success");
+            session.setAttribute("message", message);//Show search results with just email to help indicate record on View
+            response.sendRedirect("calendar.jsp");
+        }//Error from Try/Catch
+        else {
+            message.add(addModalErrorMessage);
+            message.add("danger");
+            session.setAttribute("message", message);
+            response.sendRedirect("calendar.jsp");
+        }
     }
 
     private void editCalendar() throws ServletException, IOException {
@@ -92,10 +114,35 @@ public class CalendarServlet extends HttpServlet {
         eventName = request.getParameter("eventNameEdit");
         description = request.getParameter("descriptionEdit");
         eventTag = request.getParameter("eventTagEdit");
-        
+
         newCalendar = new Calendar(calendarId, date, eventName, description, eventTag);
-        calendarDao.editCalendar(newCalendar);
-        response.sendRedirect("calendar.jsp");
+
+        calendarValidator = new CalendarValidator(newCalendar);
+        String[] errorMessages = calendarValidator.validateCalendar();//If Server Side validations have errors
+        String editModalErrorMessage = "";
+        Boolean editSuccess = false;
+        message.add("Edit User Result");
+
+        //If Errors
+        if (errorMessages != null) {
+            editModalErrorMessage = errorMessages[0];
+        } else { //No Errors
+            if (calendarDao.editCalendar(newCalendar)) {
+                editSuccess = true;
+            }
+        }//Edit OK
+        if (editSuccess) {
+            message.add(String.format("%s edited successfully", eventName));
+            message.add("success");
+            session.setAttribute("message", message);//Show search results with just email to help indicate record on View
+            response.sendRedirect("calendar.jsp");
+        }//Error from Try/Catch
+        else {
+            message.add(editModalErrorMessage);
+            message.add("danger");
+            session.setAttribute("message", message);
+            response.sendRedirect("calendar.jsp");
+        }
     }
 
     private void deleteCalendar() throws ServletException, IOException {
