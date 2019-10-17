@@ -42,19 +42,19 @@ public class FeedbackFeature {
     
     @When("^U124 I change the comment subject to \"([^\"]*)\"$")
     public void U124EditSubject(String commSubject) throws Throwable {
-        Select drpSubject = new Select(driver.findElement(By.id("commSubjectEdit")));
-        drpSubject.selectByVisibleText("Harassment");
+        Select drpSubject = new Select(driver.findElement(By.name("commSubjectAdd")));
+        drpSubject.selectByValue("Harassment");
     }
     
     @And("^U124 I write my comment as \"([^\"]*)\"$")
     public void U124EditComment(String comment) throws Throwable {
-        WebElement commentFill = driver.findElement(By.id("commentEdit"));
+        WebElement commentFill = driver.findElement(By.id("commentAdd"));
         commentFill.sendKeys("I am being cat called.");
     }
     
     @Then("^U124 I should get a message indicating \"([^\"]*)\"$")
     public void U124GetResult(String expectedResult) throws Throwable {
-        String actualResult = driver.findElement(By.id("modalTrigger")).getAttribute("value");
+        String actualResult = driver.findElement(By.id("feedbackSuccess")).getAttribute("value");
         assertEquals(expectedResult, actualResult);
         driver.close();
     }
