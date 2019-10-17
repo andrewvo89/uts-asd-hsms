@@ -54,7 +54,7 @@ public class FeedbackFeature {
     
     @Then("^U124 I should get a message indicating \"([^\"]*)\"$")
     public void U124GetResult(String expectedResult) throws Throwable {
-        String actualResult = driver.findElement(By.id("modalTrigger")).getAttribute("value");
+        String actualResult = driver.findElement(By.id("feedbackSuccess")).getAttribute("value");
         assertEquals(expectedResult, actualResult);
         driver.close();
     }

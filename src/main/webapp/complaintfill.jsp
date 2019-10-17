@@ -80,7 +80,7 @@
         </div>
         
         <!--MESSAGE MODAL for Success Feedback-->
-                <div class="modal fade" id="feedbackSuccess" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal fade" id="feedbackSuccess" value="success" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-md" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
