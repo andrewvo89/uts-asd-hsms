@@ -31,14 +31,14 @@ import com.google.gson.*;
 
 /**
  *
- * @author Andrew
+ * @author Alvin
  */
 public class FeedDao {
     private MongoClient mongoClient;
     private DB database;
     private DBCollection collection;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    // LinkedList<DBObject> results = new LinkedList<DBObject>();
+
 
     public FeedDao(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
@@ -58,18 +58,10 @@ public class FeedDao {
       
       cursor = collection.find(); // select * from collection;   
          
-      //   DBCursor cursor = collection.find( query );
+
      while( cursor.hasNext() ){
      
          DBObject result = cursor.next();
-         /*
-            ObjectId feedIdResult = (ObjectId)result.get("_id");
-            int newsIdResult = (int)result.get("newsId");
-            String titleResult = (String)result.get("title");
-            String bodyResult = (String)result.get("body");
-            String departmentResult = (String)result.get("department");
-            Date postDateResult = (Date)result.get("postdate");
-            */
          
          results.add(result);
             
@@ -80,64 +72,6 @@ public class FeedDao {
         
     }
     
-    /*
-    public Feed[] getFeeds(ObjectId feedId, int newsId, String title, String body,  String department,Date postDate) {  
-        List<BasicDBObject> conditions = new ArrayList<>();
-        BasicDBObject query = new BasicDBObject();
-        DBCursor cursor;//If the parameter fields are NULL, do not include them in query
-        if (feedId != null) {
-            conditions.add(new BasicDBObject("_id", feedId));
-        }
-        if (newsId != 0) {
-            conditions.add(new BasicDBObject("newsId", newsId));
-        }
-        if (title != null) {
-            if (!title.isEmpty()) conditions.add(new BasicDBObject("title", compile(quote(title), CASE_INSENSITIVE)));
-        }
-        if (body != null) {
-            if (!body.isEmpty()) conditions.add(new BasicDBObject("body", compile(quote(body), CASE_INSENSITIVE)));
-        }
-       
-        if (department != null) {
-            if (!department.isEmpty()) {
-                if (!department.equals("All")) conditions.add(new BasicDBObject("department", compile(quote(department), CASE_INSENSITIVE)));
-            }
-        }
-        
-        if (postDate != null) {
-            if (!postDate.toString().isEmpty()) conditions.add(new BasicDBObject("postdate", compile(quote(dateFormat.format(postDate)), CASE_INSENSITIVE)));
-        }
-       
-        if (conditions.size() == 0) {
-            cursor = collection.find();            
-        }
-        else {
-            query.put("$and", conditions);
-            cursor = collection.find(query);
-        }    
-      //  cursor.sort(new BasicDBObject(sort, order));
-        Feed[] feeds = new Feed[cursor.count()];//Initialize a User array, the size of the results returned
-
-        int count = 0;
-        while (cursor.hasNext()) {
-            DBObject result = cursor.next();
-            ObjectId feedIdResult = (ObjectId)result.get("_id");
-            int newsIdResult = (int)result.get("newsId");
-            String titleResult = (String)result.get("title");
-            String bodyResult = (String)result.get("body");
-           // String workTypeResult = (String)result.get("worktype");
-            String departmentResult = (String)result.get("department");
-          //  String statusResult = (String)result.get("status");
-            Date postDateResult = (Date)result.get("postdate");
-          //  Date closeDateResult = (Date)result.get("closedate");
-          //  Boolean activeResult = (Boolean)result.get("active");
-            feeds[count] = new Feed(feedIdResult,newsIdResult, titleResult, bodyResult, departmentResult, postDateResult);
-            count ++;
-        }
-        return feeds;
-    }
-    
-    */
     
     public boolean addFeed(Feed feed) {//Simple add to Mongo Database
 
@@ -153,9 +87,9 @@ public class FeedDao {
         
             collection.insert(newRecord);  
        
-        //   feed.setFeedId((ObjectId)newRecord.get("_id"));  
+       
             
-            //results.add(newRecord);
+
         }
         catch (Exception ex) {
             return false;
@@ -164,8 +98,7 @@ public class FeedDao {
     }  
         public boolean editFeed(ObjectId oldFeedid , Feed newFeed) { //Edit job in database based on _id
         try {
-            //*
-         //   BasicDBObject query = new BasicDBObject().append("_id", feed.getFeedId());
+
           BasicDBObject query = new BasicDBObject().append("_id", oldFeedid);
           
             BasicDBObject records = new BasicDBObject();
@@ -173,18 +106,10 @@ public class FeedDao {
             if (newFeed.getNewsId() != 0) records.append("newsId", newFeed.getNewsId());
             if (newFeed.getTitle() != null) records.append("title", newFeed.getTitle());
             if (newFeed.getBody() != null) records.append("body", newFeed.getBody());
-          //  if (job.getWorkType() != null) records.append("worktype", job.getWorkType());
+
             if (newFeed.getDepartment() != null) records.append("department", newFeed.getDepartment());
-           if (newFeed.getPostDate() != null) records.append("postdate", newFeed.getPostDate());
-          //  if (feed.getCloseDate() != null) records.append("closedate", job.getCloseDate());
-          //  if (feed.getActive() != null) records.append("active", job.getActive());
-        //   update.append("$set", records);
-           // */
-            
+           if (newFeed.getPostDate() != null) records.append("postdate", newFeed.getPostDate());   
             collection.update(query, records);
-         //   collection.update(query, update);
-         //   feed.setFeedId((ObjectId)query.get("_id"));
-      //      results=this.getFeeds();
         }
         catch (Exception ex) {
             return false;

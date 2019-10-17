@@ -154,36 +154,22 @@ System.out.println("Test:"+feeds.size());
                     
                     //Loop through results of MongoDB search result and place them in a table
                     for (int x = 0; x < feeds.size(); x++) {
-                        //*
                         
-                        DBObject result = feeds.get(x);
-         //*
+             DBObject result = feeds.get(x);
             ObjectId feedId = (ObjectId)result.get("_id");
-     //       int newsId = (int)result.get("newsId");
             String title = (String)result.get("title");
             String body = (String)result.get("body");
             String department = (String)result.get("department");
           String[] departmentEdit = controller.getDepartmentEdit(department);
             Date date = (Date)result.get("postdate");
             String dateStr=date.toString();
-           // */
-                     
-                        /*
-                        ObjectId feedId = currentFeed.getFeedId();
-                        int newsId = currentFeed.getNewsId();
-                        String title = currentFeed.getTitle();
-                        String body = currentFeed.getBody();
-                     //   String workType = currentJob.getWorkType();
-                        String department = currentFeed.getDepartment();
-                        String date = currentFeed.getPostDate().toString();
-                        */
+
                         ObjectId userId = user.getUserId();
                         String firstName = user.getFirstName();
                         String lastName = user.getLastName();
                         String email = user.getEmail();
                         String phone = user.getPhone();
                         String footerLabel = controller.getFooterLabel(date);
-                       // */
                 %>
                 <br>
                 <div class="card">

@@ -38,7 +38,6 @@ public class FeedController {
     private SimpleDateFormat longDate = new SimpleDateFormat("d MMMM"); 
     
     public FeedController(HttpSession session) {
-      //  feedApplicationDao = (FeedApplicationDao)session.getAttribute("jobApplicationDao");
         feedDao = (FeedDao)session.getAttribute("feedDao");
         userDao = (UserDao)session.getAttribute("userDao");
     }
@@ -74,11 +73,6 @@ public class FeedController {
         return departmentEdit;
     }
     
-   /*
-    public Feed[] getFeeds(ObjectId feedId, int newsId, String title, String body,  String department,Date postDate) {
-        return feedDao.getFeeds(feedId, newsId, title, body, department, postDate);
-    } 
-    */
     
     
     public LinkedList<DBObject> getFeeds(){

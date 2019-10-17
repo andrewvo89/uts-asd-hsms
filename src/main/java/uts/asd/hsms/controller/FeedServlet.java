@@ -38,11 +38,9 @@ import uts.asd.hsms.model.User;
 
 /**
  *
- * @author Andrew
+ * @author Alvin
  */
 public class FeedServlet extends HttpServlet {
-    //  private JobApplication jobApplication;
-    //  private Feed feed;
 
     private User user;
     private FeedController controller;
@@ -73,10 +71,7 @@ public class FeedServlet extends HttpServlet {
         emailNotifier = new EmailNotifier();
         System.out.println("Test userid:"+userId);
          System.out.println("Test feedId:"+feedId);
-     //  userId = new ObjectId(request.getParameter("userId"));
-      // feedId = new ObjectId(request.getParameter("feedId"));
         feeds = controller.getFeeds();
-        //    Feed = controller.getFeeds(feedId,0, null, null, null, null, "_id", 1)[0];
         user = controller.getUsers(userId, null, null, null, null, null, null, null, 0, null, "_id", 1)[0];
         String action = request.getParameter("action");
         switch (action) {
@@ -97,7 +92,6 @@ public class FeedServlet extends HttpServlet {
     }
 
     public void addFeed() throws ServletException, IOException {
-    //    LinkedList<DBObject> Feed = controller.getFeeds();
         title = request.getParameter("titleAdd").trim();
         body = request.getParameter("bodyAdd").trim();
         department = request.getParameter("departmentAdd").trim();
@@ -105,11 +99,7 @@ public class FeedServlet extends HttpServlet {
         System.out.println(title);
         System.out.println(postDate);
 
-        Feed feed = new Feed(null, 0, title, body, department, postDate);
-        
-     //   DBObject feedObj = ;
-        
-        //add your validation code
+        Feed feed = new Feed(null, 0, title, body, department, postDate);     
         controller.addFeed(feed);
         response.sendRedirect("newsfeed.jsp");
     }
@@ -127,23 +117,14 @@ public class FeedServlet extends HttpServlet {
        
         String editModalErrorMessage = "";
         Boolean editSuccess = false;
-     // 、、  Filters.e
         message.add("Edit Feed Result");
 
-        //if (controller.getFeeds(feedId, 0, null, null, null, null, "newsId", 1).length != 0) {
-        //  oldFeed = controller.getFeeds(feedId, 0, null, null, null, null, "newsId", 1)[0];
         Date tmp = new Date();
         
         newFeed = new Feed(feedId, newsId, title, body, department, tmp);
-        
         newFeed.setPostDate(postDate);
         
-     //    DBObject newfeedObj = ;
-       // feeds.add(newFeed);//???
-        
           controller.editFeed(feedId,newFeed);
-        //       response.sendRedirect("newsfeed.jsp");
-        //  } else editModalErrorMessage = "Failed to edit feed: no such feed exists.";
         response.sendRedirect("newsfeed.jsp");
     }
     
@@ -153,14 +134,9 @@ public class FeedServlet extends HttpServlet {
         feedId = new ObjectId(request.getParameter("feedIdDelete"));
         
          System.out.println("Deleting Feed..."+feedId);
-         
-     //      DBObject feedObj = ;
-     //      controller.
-        
         boolean deleteSuccess = false;
         message.add("Delete Post result"); //If the Feedback exists in database based on refCommentId
         if (feeds.size() != 0) {
-            //  Feed feed = controller.getFeeds(feedId,0, null, null, null, null, "_id", 1)[0];
             if (controller.deleteFeed(feedId)) {
                 message.add(String.format("%s deleted successfully", feedId));
             }
