@@ -45,7 +45,7 @@
         <%
             }
             FeedbackController controllerc = new FeedbackController(session);
-            SimpleDateFormat dayDateFormat = new SimpleDateFormat("MM-yyyy");
+            SimpleDateFormat dayDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
             //Initialise notification messages for pop up Modals 1.message ehader 2.message body 3.message type
             if (message == null) { message = new ArrayList<String>(); message.add(""); message.add(""); message.add(""); }
@@ -65,7 +65,7 @@
                 
                 <h1>Feedback Backlog</h1>
                 <div class="rightalignparent position-relative">
-                    <button type="button" class="rightalign btn btn-info position-absolute" data-toggle="modal" data-target="#archiveButton">View Archived Feedback</button>
+                    <button type="button" class="rightalign btn btn-warning position-absolute" data-toggle="modal" data-target="#archiveButton">View Archived Feedback</button>
                 </div>
                 <!--View Archived Modal-->
                 <div class="modal fade" id="archiveButton" tabindex="-1" role="dialog" aria-hidden="true">
@@ -77,7 +77,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                        
+                        <div class="modal-body">
                             <table class="table">
                                 <thead class="thead-light">
                                     <tr>
@@ -110,18 +110,19 @@
                                         }
                                     %>
                                 </tbody>
-                            </table>    
+                            </table>   
+                        </div>
                         </div>
                     </div>
                 </div>
-                
+                <!--Backlog Table of non-archived complaints-->
                 <br><div>
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Comment ID</th>
                                 <th scope="col">Subject</th>
-                                <th scope="col">Comment</th>
+                                <th style="width: 50%" scope="col">Comment</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Escalated</th>
                                 <th scope="col">Action</th>
@@ -154,7 +155,7 @@
                                         <input type="hidden" name="postComment" value="<%=comment%>">
                                         <input type="hidden" name="action" value="archive">
                                         <input type="hidden" name="redirect" value="complaintbacklog">
-                                        <button type="submit" class="btn btn-outline-info">Archive</button>
+                                        <button type="submit" class="btn btn-outline-warning">Archive</button>
                                     </form>
                                 </td>
                                 

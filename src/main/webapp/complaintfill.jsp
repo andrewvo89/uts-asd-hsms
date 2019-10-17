@@ -44,19 +44,23 @@
         <%
             }
             FeedbackController controller = new FeedbackController(session);
+            ArrayList<String> message = (ArrayList<String>)session.getAttribute("message");
+            //Initialise notification messages for pop up Modals 1.message ehader 2.message body 3.message type
+            if (message == null) { message = new ArrayList<String>(); message.add(""); message.add(""); message.add(""); }
             
         %> 
+        <input type="hidden" id="modalTrigger" value="<%=message.get(2)%>">
         <div class="main">
             <div class="container">
                 <h1>Submit Feedback</h1><br>
-                <form action="FeedbackServlet" method="post">
+                <form action="FeedbackServlet" method="post"  onsubmit="return overLimit()">
                     <p>Here at High School Management High School, we are dedicated to ensuring the happiness of both our students and our staff. For this reason, we are always looking
                         for ways to improve all aspects of the school.<br>
                         If you have any issues, feedback, information, or thoughts that you feel can help better, please leave a comment below, and Susan in the admin office will escalate the comment appropriately. <br>
                         Remember, all your information is private. This is an <b>anonymous</b> feedback service, and the author of any comments cannot be traced.</p>
                     <div class="form-group">
                         <label><b>Subject header:</b></label>
-                        <select class="form-control" id="commSubjectAdd"  name="commSubjectAdd" placeholder="Other">
+                        <select class="form-control" id="commSubjectAdd commSubjectEdit"  name="commSubjectAdd" placeholder="Other">
                             <option value="Facilities">Facilities</option>
                             <option value="Management">Management</option>
                             <option value="Student Issues">Student Issues</option>
@@ -65,17 +69,43 @@
                             <option value="Other">Other</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group position-relative">
                         <label><b>Comment:</b></label>
-                        <textarea name="commentAdd" class="form-control" rows="5" id="commentAdd" placeholder="Enter your comment here."></textarea>
+                        <textarea name="commentAdd" class="form-control" rows="5" id="commentAdd commentEdit" placeholder="Enter your comment here."></textarea>
+                        <h6 class="rightalign position-absolute" id="count_message"></h6>
                     </div>
                     <div>
                         <input type="hidden" name="action" value="add">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="checkCount" type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
+        
+        <!--MESSAGE MODAL AFTER ADD, EDIT OR DELETE ACTION-->
+                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"><%=message.get(0)%></h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>    
+                            </div>                            
+                            <div class="modal-body">
+                                <div class="alert alert-<%=message.get(2)%> mr-auto" role="alert" style="text-align: center"><%=message.get(1)%></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div> 
+                    </div>   
+                </div> 
+                            
+        <%
+            //Clear error message from Session
+            session.removeAttribute("message");
+        %>
         
         <%@ include file="/WEB-INF/jspf/footer.jspf" %>  
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

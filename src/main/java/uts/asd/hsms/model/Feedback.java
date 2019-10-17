@@ -8,7 +8,8 @@ package uts.asd.hsms.model;
 import java.io.Serializable;
 import java.util.Date;
 import org.bson.types.ObjectId;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Pattern;
+import uts.asd.hsms.controller.validator.*;
 /**
  *
  * @author Griffin
