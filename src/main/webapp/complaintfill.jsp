@@ -57,7 +57,7 @@
                         Remember, all your information is private. This is an <b>anonymous</b> feedback service, and the author of any comments cannot be traced.</p>
                     <div class="form-group">
                         <label><b>Subject header:</b></label>
-                        <select class="form-control" id="commSubjectAdd commSubjectEdit"  name="commSubjectAdd" placeholder="Other">
+                        <select class="form-control" id="commSubjectAdd"  name="commSubjectAdd" placeholder="Other">
                             <option value="Facilities">Facilities</option>
                             <option value="Management">Management</option>
                             <option value="Student Issues">Student Issues</option>
