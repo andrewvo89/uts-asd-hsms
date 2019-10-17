@@ -24,9 +24,19 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/main.css">
         <title>Log</title>
+<<<<<<< HEAD
+<<<<<<< HEAD
     </head>
     <body>
         <%//Check if there is a valid user in the session
+=======
+        <%-- //Check if there is a valid user in the session
+>>>>>>> 1ef0914b71f918c58fd3a42470c579c0f38c4beb
+=======
+    </head>
+    <body>
+        <%//Check if there is a valid user in the session
+>>>>>>> 4d49f54f062c44e4256c0dbc4f2f8e38f19fd269
             User user = (User)session.getAttribute("user");
             if (user == null) {
                 session.setAttribute("redirect", "log");
@@ -39,6 +49,18 @@
                 <%@ include file="/WEB-INF/jspf/header.jspf"%>
         <%
             }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        --%> 
+    </head>
+    <body>
+        
+        
+         <%
+>>>>>>> 1ef0914b71f918c58fd3a42470c579c0f38c4beb
+=======
+>>>>>>> 4d49f54f062c44e4256c0dbc4f2f8e38f19fd269
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss"); 
         %>
